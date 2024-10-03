@@ -1,0 +1,38 @@
+{
+  "outDir": "src/types",
+  "specVersions": "https://v2.archive.subsquid.io/metadata/hydradx",
+  "pallets": {
+    "Balances": {
+      "events": ["Transfer"],
+      "calls": [],
+      "storage": [],
+      "constants": []
+    },
+    "Tokens": {
+      "events": ["Transfer"],
+      "storage": ["Accounts"]
+    },
+    "ParachainSystem": {
+      "calls": ["set_validation_data"]
+    },
+    "XYK": {
+      "events": ["PoolUpdated", "PoolCreated", "PoolDestroyed", "SellExecuted", "BuyExecuted"],
+      "calls": ["create_pool"]
+    },
+    "Omnipool": {
+      "events": ["PoolUpdated", "PoolCreated", "PoolDestroyed", "SellExecuted", "BuyExecuted"],
+      "calls": ["create_pool"]
+    },
+    "Stableswap": {
+      "events": ["PoolUpdated", "PoolCreated", "SellExecuted", "BuyExecuted"],
+      "calls": ["create_pool"]
+    },
+    "LBP": {
+      "events": ["PoolUpdated", "PoolCreated", "SellExecuted", "BuyExecuted"],
+      "calls": ["create_pool"]
+    },
+    "System": {
+      "storage": ["Account"]
+    }
+  }
+}
