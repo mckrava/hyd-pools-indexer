@@ -1,4 +1,4 @@
-import { HistoricalVolume, Swap, Pool, HistoricalAssetVolume } from "./model";
+import { LbpPoolHistoricalVolume, LbpPoolOperation, LbpPool, HistoricalAssetVolume } from "../model";
 import type * as base from "@subsquid/substrate-data";
 
 interface TransferEvent {
@@ -39,7 +39,7 @@ interface ProcessorBlockData {
   timestamp: Date | null;
   paraChainBlockHeight: number;
   relayChainBlockHeight: number | null;
-  swaps: Swap[];
+  swaps: LbpPoolOperation[];
 }
 
 interface FullExtrinsic extends base.Extrinsic {

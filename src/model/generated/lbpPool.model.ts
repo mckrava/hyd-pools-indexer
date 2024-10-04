@@ -1,12 +1,12 @@
-import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, ManyToOne as ManyToOne_, Index as Index_, IntColumn as IntColumn_, BigIntColumn as BigIntColumn_, DateTimeColumn as DateTimeColumn_, OneToMany as OneToMany_} from "@subsquid/typeorm-store"
+import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, ManyToOne as ManyToOne_, Index as Index_, IntColumn as IntColumn_, BigIntColumn as BigIntColumn_, DateTimeColumn as DateTimeColumn_, BooleanColumn as BooleanColumn_, OneToMany as OneToMany_} from "@subsquid/typeorm-store"
 import {Account} from "./account.model"
-import {HistoricalBlockPrice} from "./historicalBlockPrice.model"
-import {HistoricalVolume} from "./historicalVolume.model"
-import {Swap} from "./swap.model"
+import {LbpPoolHistoricalPrice} from "./lbpPoolHistoricalPrice.model"
+import {LbpPoolHistoricalVolume} from "./lbpPoolHistoricalVolume.model"
+import {LbpPoolOperation} from "./lbpPoolOperation.model"
 
 @Entity_()
-export class Pool {
-    constructor(props?: Partial<Pool>) {
+export class LbpPool {
+    constructor(props?: Partial<LbpPool>) {
         Object.assign(this, props)
     }
 
@@ -35,6 +35,12 @@ export class Pool {
     @IntColumn_({nullable: false})
     createdAtParaBlock!: number
 
+    @BooleanColumn_({nullable: true})
+    isDestroyed!: boolean | undefined | null
+
+    @IntColumn_({nullable: true})
+    destroyedAtParaBlock!: number | undefined | null
+
     @IntColumn_({nullable: true})
     startBlockNumber!: number | undefined | null
 
@@ -61,12 +67,12 @@ export class Pool {
     @ManyToOne_(() => Account, {nullable: true})
     owner!: Account | undefined | null
 
-    @OneToMany_(() => HistoricalBlockPrice, e => e.pool)
-    historicalBlockPrices!: HistoricalBlockPrice[]
+    @OneToMany_(() => LbpPoolHistoricalPrice, e => e.pool)
+    historicalBlockPrices!: LbpPoolHistoricalPrice[]
 
-    @OneToMany_(() => HistoricalVolume, e => e.pool)
-    historicalVolume!: HistoricalVolume[]
+    @OneToMany_(() => LbpPoolHistoricalVolume, e => e.pool)
+    historicalVolume!: LbpPoolHistoricalVolume[]
 
-    @OneToMany_(() => Swap, e => e.pool)
-    swaps!: Swap[]
+    @OneToMany_(() => LbpPoolOperation, e => e.pool)
+    operations!: LbpPoolOperation[]
 }

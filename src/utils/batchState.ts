@@ -1,11 +1,11 @@
-import { Account, Pool, Transfer } from '../model';
-import { LBPPoolDataUpdate, PoolCreatedEvent } from '../types';
+import { Account, LbpPool, Transfer } from '../model';
+import { LBPPoolDataUpdate, PoolCreatedEvent } from './types';
 
 export type BatchStatePayload = {
   accounts: Map<string, Account>;
   transfers: Map<string, Transfer>;
   newPools: PoolCreatedEvent[];
-  existingPools: Pool[];
+  existingPools: LbpPool[];
   updatedPools: Map<string, LBPPoolDataUpdate>;
 };
 

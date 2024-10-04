@@ -1,11 +1,11 @@
 import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, ManyToOne as ManyToOne_, Index as Index_, StringColumn as StringColumn_, IntColumn as IntColumn_, BigIntColumn as BigIntColumn_, FloatColumn as FloatColumn_} from "@subsquid/typeorm-store"
 import {Account} from "./account.model"
-import {Pool} from "./pool.model"
-import {SwapType} from "./_swapType"
+import {XykPool} from "./xykPool.model"
+import {PoolOperationType} from "./_poolOperationType"
 
 @Entity_()
-export class Swap {
-    constructor(props?: Partial<Swap>) {
+export class XykPoolOperation {
+    constructor(props?: Partial<XykPoolOperation>) {
         Object.assign(this, props)
     }
 
@@ -45,11 +45,11 @@ export class Swap {
     swapPrice!: number
 
     @Index_()
-    @ManyToOne_(() => Pool, {nullable: true})
-    pool!: Pool
+    @ManyToOne_(() => XykPool, {nullable: true})
+    pool!: XykPool
 
     @Column_("varchar", {length: 4, nullable: false})
-    type!: SwapType
+    type!: PoolOperationType
 
     @IntColumn_({nullable: false})
     relayChainBlockHeight!: number

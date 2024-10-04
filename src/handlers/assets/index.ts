@@ -1,9 +1,9 @@
 import { BlockHeader } from '@subsquid/substrate-processor';
-import { events, storage, calls } from '../types/';
-import { ProcessorContext } from '../processor';
+import { ProcessorContext } from '../../processor';
 import { Store } from '@subsquid/typeorm-store';
-import { HistoricalAssetVolume, Swap } from '../model';
-import { getLastAssetVolumeFromCache } from '../main';
+import { HistoricalAssetVolume, LbpPoolOperation } from '../../model';
+import parsers from '../../parsers';
+import { getLastAssetVolumeFromCache } from './volume';
 
 export async function getAssetBalance(
   block: BlockHeader,
@@ -11,14 +11,14 @@ export async function getAssetBalance(
   account: string
 ): Promise<bigint> {
   if (assetId === 0) {
-    return storage.system.account.v100
-      .get(block, account)
+    return parsers.storage.lbp
+      .getSystemAccount(account, block)
       .then((accountInfo) => {
         return accountInfo?.data.free || BigInt(0);
       });
   } else {
-    return storage.tokens.accounts.v108
-      .get(block, account, assetId)
+    return parsers.storage.lbp
+      .getTokensAccountsAssetBalances(account, assetId, block)
       .then((accountInfo) => {
         return accountInfo?.free || BigInt(0);
       });
@@ -28,7 +28,7 @@ export async function getAssetBalance(
 export async function getNewAssetVolume(
   ctx: ProcessorContext<Store>,
   volume: Map<string, HistoricalAssetVolume>,
-  swap: Swap
+  swap: LbpPoolOperation
 ) {
   // Find current block volume
   const currentAssetInVolume = volume.get(

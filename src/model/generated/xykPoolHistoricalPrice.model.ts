@@ -1,9 +1,9 @@
 import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, ManyToOne as ManyToOne_, Index as Index_, IntColumn as IntColumn_, BigIntColumn as BigIntColumn_} from "@subsquid/typeorm-store"
-import {Pool} from "./pool.model"
+import {XykPool} from "./xykPool.model"
 
 @Entity_()
-export class HistoricalBlockPrice {
-    constructor(props?: Partial<HistoricalBlockPrice>) {
+export class XykPoolHistoricalPrice {
+    constructor(props?: Partial<XykPoolHistoricalPrice>) {
         Object.assign(this, props)
     }
 
@@ -14,8 +14,8 @@ export class HistoricalBlockPrice {
     id!: string
 
     @Index_()
-    @ManyToOne_(() => Pool, {nullable: true})
-    pool!: Pool
+    @ManyToOne_(() => XykPool, {nullable: true})
+    pool!: XykPool
 
     @IntColumn_({nullable: false})
     assetAId!: number

@@ -1,5 +1,5 @@
-import { Account } from '../model';
-import { ProcessorContext } from '../processor';
+import { Account } from '../../model';
+import { ProcessorContext } from '../../processor';
 import { Store } from '@subsquid/typeorm-store';
 
 export async function getAccount(

@@ -1,6 +1,11 @@
 import { Event } from '@subsquid/substrate-processor';
-import { Account, Pool, Swap, SwapType } from '../model';
-import { ProcessorBlockData } from '../types';
+import {
+  Account,
+  LbpPool,
+  LbpPoolOperation,
+  PoolOperationType,
+} from '../../model';
+import { ProcessorBlockData } from '../../utils/types';
 import { BigNumber } from 'bignumber.js';
 
 export function initSwap(
@@ -13,11 +18,11 @@ export function initSwap(
   amountOut: bigint,
   feeAsset: number,
   feeAmount: bigint,
-  swapType: SwapType,
-  pool: Pool,
+  operationType: PoolOperationType,
+  pool: LbpPool,
   blockData: ProcessorBlockData
 ) {
-  return new Swap({
+  return new LbpPoolOperation({
     id: event.id,
     account: account,
     extrinsicHash: hash,
@@ -33,6 +38,6 @@ export function initSwap(
     pool: pool,
     relayChainBlockHeight: blockData.relayChainBlockHeight || 0,
     paraChainBlockHeight: blockData.paraChainBlockHeight,
-    type: swapType,
+    type: operationType,
   });
 }

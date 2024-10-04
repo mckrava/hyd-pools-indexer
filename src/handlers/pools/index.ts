@@ -1,25 +1,24 @@
-import { ProcessorContext } from '../processor';
+import { ProcessorContext } from '../../processor';
 import { Store } from '@subsquid/typeorm-store';
 import {
   LBPPoolDataUpdate,
   PoolCreatedEvent,
   ProcessorBlockData,
-} from '../types';
-import parsers from '../parsers';
+} from '../../utils/types';
+import parsers from '../../parsers';
 import {
-  Account,
   HistoricalAssetVolume,
-  HistoricalBlockPrice,
-  HistoricalVolume,
-  Pool,
-  SwapType,
-} from '../model';
-import { events, storage, calls } from '../types/';
-import { getAssetBalance } from './assets';
-import { getAccount } from './accounts';
-import { isNotNullOrUndefined } from '../helpers';
-import { handleVolumeUpdates } from '../main';
-import { initSwap } from './swaps';
+  LbpPoolHistoricalPrice,
+  LbpPoolHistoricalVolume,
+  LbpPool,
+  PoolOperationType,
+} from '../../model';
+import { getAssetBalance } from '../assets';
+import { getAccount } from '../accounts';
+import { isNotNullOrUndefined } from '../../helpers';
+import { initSwap } from '../poolOperations';
+import { calls, events } from '../../types';
+import { handleVolumeUpdates } from './volume';
 
 export async function handlePools(ctx: ProcessorContext<Store>) {
   console.time('getPools');
@@ -32,10 +31,10 @@ export async function handlePools(ctx: ProcessorContext<Store>) {
   console.log('Found ' + Object.keys(lbpPoolsUpdates).length + ' pool updates');
   console.timeEnd('getLBPPoolUpdates');
 
-  const existingPools = await ctx.store.find(Pool);
+  const existingPools = await ctx.store.find(LbpPool);
   console.log('Got ' + existingPools.length + ' pools from database');
 
-  const newPools: Pool[] = [];
+  const newPools: LbpPool[] = [];
 
   for (let p of newPoolsData) {
     let {
@@ -57,7 +56,7 @@ export async function handlePools(ctx: ProcessorContext<Store>) {
 
     if (lbpPoolData) {
       newPools.push(
-        new Pool({
+        new LbpPool({
           id: id,
           account: await getAccount(ctx, id),
           assetAId,
@@ -108,9 +107,9 @@ export async function handlePools(ctx: ProcessorContext<Store>) {
     ${poolPriceData.volume.length} volume data`
   );
 
-  const poolPrices: HistoricalBlockPrice[] = [];
+  const poolPrices: LbpPoolHistoricalPrice[] = [];
   for (let p of poolPriceData.poolPrices) {
-    poolPrices.push(new HistoricalBlockPrice(p));
+    poolPrices.push(new LbpPoolHistoricalPrice(p));
   }
 
   await ctx.store.save([...existingPools, ...newPools]);
@@ -221,12 +220,12 @@ async function getLBPPoolUpdates(ctx: ProcessorContext<Store>) {
 
 async function getPoolPriceData(
   ctx: ProcessorContext<Store>,
-  pools: Pool[]
+  pools: LbpPool[]
   // accounts: Map<string, Account>
 ) {
-  let poolPrices: Promise<HistoricalBlockPrice | null>[][] = [];
+  let poolPrices: Promise<LbpPoolHistoricalPrice | null>[][] = [];
   let blocksData: ProcessorBlockData[] = [];
-  let volume = new Map<string, HistoricalVolume>();
+  let volume = new Map<string, LbpPoolHistoricalVolume>();
   let assetVolume = new Map<string, HistoricalAssetVolume>();
 
   for (let block of ctx.blocks) {
@@ -275,7 +274,7 @@ async function getPoolPriceData(
           buyEvent.buyPrice,
           buyEvent.feeAsset,
           buyEvent.feeAmount,
-          SwapType.BUY,
+          PoolOperationType.BUY,
           swapPool,
           blockData
         );
@@ -312,7 +311,7 @@ async function getPoolPriceData(
           sellEvent.salePrice,
           sellEvent.feeAsset,
           sellEvent.feeAmount,
-          SwapType.SELL,
+          PoolOperationType.SELL,
           swapPool,
           blockData
         );
@@ -326,7 +325,7 @@ async function getPoolPriceData(
     poolPrices.push(
       pools.map(
         async (p) =>
-          new Promise<HistoricalBlockPrice | null>((resolve) => {
+          new Promise<LbpPoolHistoricalPrice | null>((resolve) => {
             if (p.createdAtParaBlock > blockData.paraChainBlockHeight) {
               resolve(null);
               return;

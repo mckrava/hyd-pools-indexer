@@ -1,15 +1,13 @@
-import { ProcessorContext } from '../processor';
+import { ProcessorContext } from '../../processor';
 import { Store } from '@subsquid/typeorm-store';
-import { Pool, Transfer } from '../model';
-import { TransferEvent } from '../types';
-import { events, storage, calls } from '../types/';
-import { getAccount } from './accounts';
+import { Transfer } from '../../model';
+import { TransferEvent } from '../../utils/types';
+import { events } from '../../types';
+import { getAccount } from '../accounts';
 
 export async function handleTransfers(ctx: ProcessorContext<Store>) {
-  console.time('getTransfers');
   const transfersData = getTransfers(ctx);
   console.log('Found ' + transfersData.length + ' transfers');
-  console.timeEnd('getTransfers');
 
   let transfers: Transfer[] = [];
 
@@ -34,7 +32,6 @@ export async function handleTransfers(ctx: ProcessorContext<Store>) {
   }
 
   await ctx.store.save(transfers);
-
 }
 
 function getTransfers(ctx: ProcessorContext<Store>): TransferEvent[] {

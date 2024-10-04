@@ -1,4 +1,4 @@
-export enum SwapType {
+export enum PoolOperationType {
     BUY = "BUY",
     SELL = "SELL",
 }

@@ -1,9 +1,9 @@
 import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, ManyToOne as ManyToOne_, Index as Index_, IntColumn as IntColumn_, FloatColumn as FloatColumn_, BigIntColumn as BigIntColumn_} from "@subsquid/typeorm-store"
-import {Pool} from "./pool.model"
+import {LbpPool} from "./lbpPool.model"
 
 @Entity_()
-export class HistoricalVolume {
-    constructor(props?: Partial<HistoricalVolume>) {
+export class LbpPoolHistoricalVolume {
+    constructor(props?: Partial<LbpPoolHistoricalVolume>) {
         Object.assign(this, props)
     }
 
@@ -14,8 +14,8 @@ export class HistoricalVolume {
     id!: string
 
     @Index_()
-    @ManyToOne_(() => Pool, {nullable: true})
-    pool!: Pool
+    @ManyToOne_(() => LbpPool, {nullable: true})
+    pool!: LbpPool
 
     @IntColumn_({nullable: false})
     assetAId!: number
