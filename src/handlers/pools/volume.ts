@@ -1,4 +1,8 @@
-import { HistoricalAssetVolume, LbpPoolHistoricalVolume, LbpPoolOperation } from '../../model';
+import {
+  HistoricalAssetVolume,
+  LbpPoolHistoricalVolume,
+  LbpPoolOperation,
+} from '../../model';
 import { ProcessorContext } from '../../processor';
 import { Store } from '@subsquid/typeorm-store';
 import { getNewAssetVolume } from '../assets';
@@ -82,39 +86,29 @@ export function updateVolume(
   return newVolume;
 }
 
-export async function handleVolumeUpdates(
+export async function handleLbpPoolVolumeUpdates(
   ctx: ProcessorContext<Store>,
-  volume: Map<string, LbpPoolHistoricalVolume>,
-  assetVolume: Map<string, HistoricalAssetVolume>,
-  swap: LbpPoolOperation
+  poolOperation: LbpPoolOperation
+  // volume: Map<string, LbpPoolHistoricalVolume>,
+  // assetVolume: Map<string, HistoricalAssetVolume>,
 ) {
-  const currentVolume = volume.get(
-    swap.pool.id + '-' + swap.paraChainBlockHeight
+  const lbpPoolVolumes = ctx.batchState.state.lbpPoolVolumes;
+  const currentVolume = lbpPoolVolumes.get(
+    poolOperation.pool.id + '-' + poolOperation.paraChainBlockHeight
   );
 
   const oldVolume =
     currentVolume ||
-    getLastVolumeFromCache(volume, swap) ||
-    (await getOldVolume(ctx, swap));
+    getLastVolumeFromCache(
+      ctx.batchState.state.lbpPoolVolumes,
+      poolOperation
+    ) ||
+    (await getOldVolume(ctx, poolOperation));
 
-  const newVolume = updateVolume(swap, currentVolume, oldVolume);
+  const newVolume = updateVolume(poolOperation, currentVolume, oldVolume);
 
-  volume.set(swap.pool.id + '-' + swap.paraChainBlockHeight, newVolume);
-
-  const [assetInVolume, assetOutVolume] = await getNewAssetVolume(
-    ctx,
-    assetVolume,
-    swap
-  );
-
-  assetVolume.set(
-    assetInVolume.assetId + '-' + swap.paraChainBlockHeight,
-    assetInVolume
-  );
-  assetVolume.set(
-    assetOutVolume.assetId + '-' + swap.paraChainBlockHeight,
-    assetOutVolume
-  );
+  lbpPoolVolumes.set(newVolume.id, newVolume);
+  ctx.batchState.state = { lbpPoolVolumes: lbpPoolVolumes };
 }
 
 export async function getOldVolume(
@@ -133,12 +127,12 @@ export async function getOldVolume(
 
 export function getLastVolumeFromCache(
   volume: Map<string, LbpPoolHistoricalVolume>,
-  swap: LbpPoolOperation
+  poolOperation: LbpPoolOperation
 ) {
   return volume.get(
     Array.from(volume.keys())
       .filter((k) => {
-        return k.startsWith(swap.pool.id + '-');
+        return k.startsWith(poolOperation.pool.id + '-');
       })
       .sort((a, b) => {
         return parseInt(b.split('-')[1]) - parseInt(a.split('-')[1]);

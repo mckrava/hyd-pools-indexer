@@ -27,76 +27,85 @@ export async function getAssetBalance(
 
 export async function getNewAssetVolume(
   ctx: ProcessorContext<Store>,
-  volume: Map<string, HistoricalAssetVolume>,
-  swap: LbpPoolOperation
+  operation: LbpPoolOperation
 ) {
-  // Find current block volume
-  const currentAssetInVolume = volume.get(
-    swap.assetInId + '-' + swap.paraChainBlockHeight
-  );
-
-  const currentAssetOutVolume = volume.get(
-    swap.assetOutId + '-' + swap.paraChainBlockHeight
-  );
-
-  // If not found find last volume in cache
-  const cachedVolumeIn = getLastAssetVolumeFromCache(volume, swap.assetInId);
-  const cachedVolumeOut = getLastAssetVolumeFromCache(volume, swap.assetOutId);
-
-  // Last known volume for total volume
-  const oldAssetInVolume =
-    currentAssetInVolume ||
-    cachedVolumeIn ||
-    (await ctx.store.findOne(HistoricalAssetVolume, {
-      where: {
-        assetId: swap.assetInId,
-      },
-      order: {
-        paraChainBlockHeight: 'DESC',
-      },
-    }));
-
-  // Last known volume for total volume
-  const oldAssetOutVolume =
-    currentAssetOutVolume ||
-    cachedVolumeOut ||
-    (await ctx.store.findOne(HistoricalAssetVolume, {
-      where: {
-        assetId: swap.assetOutId,
-      },
-      order: {
-        paraChainBlockHeight: 'DESC',
-      },
-    }));
-
-  // Create new entry
-  const assetInVolume = initAssetVolume(
-    swap.assetInId,
-    swap.paraChainBlockHeight,
-    swap.relayChainBlockHeight,
-    currentAssetInVolume?.volumeIn || BigInt(0),
-    BigInt(0),
-    oldAssetInVolume?.totalVolumeIn || BigInt(0),
-    BigInt(0)
-  );
-
-  const assetOutVolume = initAssetVolume(
-    swap.assetOutId,
-    swap.paraChainBlockHeight,
-    swap.relayChainBlockHeight,
-    BigInt(0),
-    currentAssetOutVolume?.volumeOut || BigInt(0),
-    BigInt(0),
-    oldAssetOutVolume?.totalVolumeOut || BigInt(0)
-  );
-
-  // Update new entry
-  assetInVolume.volumeIn += swap.assetInAmount;
-  assetInVolume.totalVolumeIn += swap.assetInAmount;
-  assetOutVolume.volumeOut += swap.assetOutAmount;
-  assetOutVolume.totalVolumeOut += swap.assetOutAmount;
-
-  return [assetInVolume, assetOutVolume];
+  // const assetVolumesState = ctx.batchState.state.assetVolumes;
+  //
+  // // Find current block volume
+  // const currentAssetInVolume = assetVolumesState.get(
+  //   operation.assetInId + '-' + operation.paraChainBlockHeight
+  // );
+  // const currentAssetOutVolume = assetVolumesState.get(
+  //   operation.assetOutId + '-' + operation.paraChainBlockHeight
+  // );
+  //
+  // // If not found find last volume in cache
+  // const cachedVolumeIn = getLastAssetVolumeFromCache(
+  //   assetVolumesState,
+  //   operation.assetInId
+  // );
+  // const cachedVolumeOut = getLastAssetVolumeFromCache(
+  //   assetVolumesState,
+  //   operation.assetOutId
+  // );
+  //
+  // // Last known volume for total volume
+  // const oldAssetInVolume =
+  //   currentAssetInVolume ||
+  //   cachedVolumeIn ||
+  //   (await ctx.store.findOne(HistoricalAssetVolume, {
+  //     where: {
+  //       assetId: operation.assetInId,
+  //     },
+  //     order: {
+  //       paraChainBlockHeight: 'DESC',
+  //     },
+  //   }));
+  //
+  // // Last known volume for total volume
+  // const oldAssetOutVolume =
+  //   currentAssetOutVolume ||
+  //   cachedVolumeOut ||
+  //   (await ctx.store.findOne(HistoricalAssetVolume, {
+  //     where: {
+  //       assetId: operation.assetOutId,
+  //     },
+  //     order: {
+  //       paraChainBlockHeight: 'DESC',
+  //     },
+  //   }));
+  //
+  // // Create new entry
+  // const assetInVolume = initAssetVolume(
+  //   operation.assetInId,
+  //   operation.paraChainBlockHeight,
+  //   operation.relayChainBlockHeight,
+  //   currentAssetInVolume?.volumeIn || BigInt(0),
+  //   BigInt(0),
+  //   oldAssetInVolume?.totalVolumeIn || BigInt(0),
+  //   BigInt(0)
+  // );
+  //
+  // const assetOutVolume = initAssetVolume(
+  //   operation.assetOutId,
+  //   operation.paraChainBlockHeight,
+  //   operation.relayChainBlockHeight,
+  //   BigInt(0),
+  //   currentAssetOutVolume?.volumeOut || BigInt(0),
+  //   BigInt(0),
+  //   oldAssetOutVolume?.totalVolumeOut || BigInt(0)
+  // );
+  //
+  // // Update new entry
+  // assetInVolume.volumeIn += operation.assetInAmount;
+  // assetInVolume.totalVolumeIn += operation.assetInAmount;
+  // assetOutVolume.volumeOut += operation.assetOutAmount;
+  // assetOutVolume.totalVolumeOut += operation.assetOutAmount;
+  //
+  // assetVolumesState.set(assetInVolume.id, assetInVolume);
+  // assetVolumesState.set(assetOutVolume.id, assetOutVolume);
+  //
+  // ctx.batchState.state.assetVolumes = assetVolumesState;
 }
 
 export function initAssetVolume(

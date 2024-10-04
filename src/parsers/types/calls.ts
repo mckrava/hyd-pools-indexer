@@ -11,3 +11,7 @@ export type LbpCreatePoolCallArgs = {
   feeCollector: string;
   repayTarget: bigint;
 };
+
+export type RelaySystemSetValidationDataCallArgs = {
+  relayParentNumber: number;
+};

@@ -40,8 +40,8 @@ function getTransfers(ctx: ProcessorContext<Store>): TransferEvent[] {
   const batchState = ctx.batchState.state;
 
   const pools = [
-    ...batchState.newPools.map((p) => p.id),
-    ...batchState.existingPools.map((p) => p.id),
+    ...batchState.lbpNewPools.map((p) => p.id),
+    ...batchState.lbpExistingPools.keys(),
   ];
 
   for (let block of ctx.blocks) {

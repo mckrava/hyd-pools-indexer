@@ -1,43 +1,33 @@
-import { Event } from '@subsquid/substrate-processor';
-import {
-  Account,
-  LbpPool,
-  LbpPoolOperation,
-  PoolOperationType,
-} from '../../model';
-import { ProcessorBlockData } from '../../utils/types';
-import { BigNumber } from 'bignumber.js';
+import { ProcessorContext } from '../../processor';
+import { Store } from '@subsquid/typeorm-store';
+import { BatchBlocksParsedDataManager } from '../../parsers/batchBlocksParser';
+import { EventName } from '../../parsers/types/events';
+import { getOrderedListByBlockNumber } from '../../utils/helpers';
+import { lpbBuyExecuted, lpbSellExecuted } from './common';
 
-export function initSwap(
-  event: Event,
-  hash: string,
-  account: Account,
-  assetIn: number,
-  assetOut: number,
-  amountIn: bigint,
-  amountOut: bigint,
-  feeAsset: number,
-  feeAmount: bigint,
-  operationType: PoolOperationType,
-  pool: LbpPool,
-  blockData: ProcessorBlockData
+export async function handlePoolOperations(
+  ctx: ProcessorContext<Store>,
+  parsedEvents: BatchBlocksParsedDataManager
 ) {
-  return new LbpPoolOperation({
-    id: event.id,
-    account: account,
-    extrinsicHash: hash,
-    assetInId: assetIn,
-    assetInAmount: amountIn,
-    assetInFee: feeAsset === assetIn ? feeAmount : BigInt(0),
-    assetOutId: assetOut,
-    assetOutAmount: amountOut,
-    assetOutFee: feeAsset === assetOut ? feeAmount : BigInt(0),
-    swapPrice: new BigNumber(amountIn.toString())
-      .div(amountOut.toString())
-      .toNumber(),
-    pool: pool,
-    relayChainBlockHeight: blockData.relayChainBlockHeight || 0,
-    paraChainBlockHeight: blockData.paraChainBlockHeight,
-    type: operationType,
-  });
+  const lbpPoolBuyExecutedEvents = [
+    ...parsedEvents.getSectionByEventName(EventName.LBP_BuyExecuted).values(),
+  ];
+  const lbpPoolSellExecutedEvents = [
+    ...parsedEvents.getSectionByEventName(EventName.LBP_SellExecuted).values(),
+  ];
+
+  for (const eventData of getOrderedListByBlockNumber(
+    lbpPoolBuyExecutedEvents
+  )) {
+    await lpbBuyExecuted(ctx, eventData);
+  }
+
+  for (const eventData of getOrderedListByBlockNumber(
+    lbpPoolSellExecutedEvents
+  )) {
+    await lpbSellExecuted(ctx, eventData);
+  }
+
+  await ctx.store.save([...ctx.batchState.state.assetVolumes.values()]);
+  await ctx.store.save([...ctx.batchState.state.lbpPoolVolumes.values()]);
 }
