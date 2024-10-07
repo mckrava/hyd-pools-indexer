@@ -16,11 +16,17 @@
       "calls": ["set_validation_data"]
     },
     "XYK": {
-      "events": ["PoolUpdated", "PoolCreated", "PoolDestroyed", "SellExecuted", "BuyExecuted"],
+      "events": ["PoolCreated", "PoolDestroyed", "SellExecuted", "BuyExecuted"],
       "calls": ["create_pool"]
     },
     "Omnipool": {
-      "events": ["PoolUpdated", "PoolCreated", "PoolDestroyed", "SellExecuted", "BuyExecuted"],
+      "events": [
+        "PoolUpdated",
+        "PoolCreated",
+        "PoolDestroyed",
+        "SellExecuted",
+        "BuyExecuted"
+      ],
       "calls": ["create_pool"]
     },
     "Stableswap": {

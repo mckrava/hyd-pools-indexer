@@ -9,15 +9,16 @@ import {
   Extrinsic as _Extrinsic,
 } from '@subsquid/substrate-processor';
 
-import { events, calls } from './types/';
 import { BatchState } from './utils/batchState';
+import { AppConfig } from './utils/appConfigsManager';
+const appConfig = AppConfig.getInstance();
 
 export const processor = new SubstrateBatchProcessor()
   // Lookup archive by the network name in Subsquid registry
   // See https://docs.subsquid.io/substrate-indexing/supported-networks/
   .setGateway(
     assertNotNull(
-      process.env.GATEWAY_HYDRATION_HTTPS,
+      appConfig.GATEWAY_HYDRATION_HTTPS,
       'No gateway endpoint supplied'
     )
   )
@@ -26,10 +27,7 @@ export const processor = new SubstrateBatchProcessor()
     // https://docs.subsquid.io/deploy-squid/env-variables/
 
     // See https://docs.subsquid.io/substrate-indexing/setup/general/#set-data-source
-    url: assertNotNull(
-      process.env.RPC_HYDRATION_HTTPS,
-      'No RPC endpoint supplied'
-    ),
+    url: assertNotNull(appConfig.RPC_HYDRATION_URL, 'No RPC endpoint supplied'),
     capacity: 1000,
     rateLimit: 1000,
     maxBatchCallSize: 1000,
@@ -37,22 +35,12 @@ export const processor = new SubstrateBatchProcessor()
     // More RPC connection options at https://docs.subsquid.io/substrate-indexing/setup/general/#set-data-source
   })
   .addEvent({
-    name: [
-      events.balances.transfer.name,
-      events.tokens.transfer.name,
-      events.lbp.poolCreated.name,
-      events.lbp.poolUpdated.name,
-      events.lbp.buyExecuted.name,
-      events.lbp.sellExecuted.name,
-    ],
+    name: appConfig.getEventsToListen(),
     call: true,
     extrinsic: true,
   })
   .addCall({
-    name: [
-      calls.parachainSystem.setValidationData.name,
-      calls.lbp.createPool.name,
-    ],
+    name: appConfig.getCallsToListen(),
   })
   .setFields({
     event: {
