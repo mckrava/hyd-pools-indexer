@@ -2,6 +2,9 @@ import {
   LbpPoolHistoricalPrice,
   LbpPoolHistoricalVolume,
   LbpPoolOperation,
+  XykPoolHistoricalPrice,
+  XykPoolHistoricalVolume,
+  XykPoolOperation,
 } from '../../model';
 import { BigNumber } from 'bignumber.js';
 import { ProcessorContext } from '../../processor';
@@ -9,7 +12,7 @@ import { Store } from '@subsquid/typeorm-store';
 import { getAssetBalance } from '../assets';
 import { isNotNullOrUndefined } from '../../utils/helpers';
 
-export async function handleLbpPoolPrices(ctx: ProcessorContext<Store>) {
+export async function handleXykPoolPrices(ctx: ProcessorContext<Store>) {
   const poolPricesRaw = [];
 
   for (let block of ctx.blocks) {
@@ -20,12 +23,9 @@ export async function handleLbpPoolPrices(ctx: ProcessorContext<Store>) {
     if (!currentBlockRelayChainInfo) continue;
 
     poolPricesRaw.push(
-      [
-        ...ctx.batchState.state.lbpExistingPools.values(),
-        ...ctx.batchState.state.lbpNewPools,
-      ].map(
+      [...ctx.batchState.state.xykAllBatchPools.values()].map(
         async (p) =>
-          new Promise<LbpPoolHistoricalPrice | null>((resolve) => {
+          new Promise<XykPoolHistoricalPrice | null>((resolve) => {
             if (p.createdAtParaBlock > block.header.height) {
               resolve(null);
               return;
@@ -36,7 +36,7 @@ export async function handleLbpPoolPrices(ctx: ProcessorContext<Store>) {
               getAssetBalance(block.header, p.assetBId, p.id), // TODO must be optimized
             ]).then(([assetABalance, assetBBalance]) => {
               resolve(
-                new LbpPoolHistoricalPrice({
+                new XykPoolHistoricalPrice({
                   id: p.id + '-' + block.header.height,
                   assetAId: p.assetAId,
                   assetBId: p.assetBId,
@@ -53,39 +53,9 @@ export async function handleLbpPoolPrices(ctx: ProcessorContext<Store>) {
       )
     );
   }
-  const poolPrices: LbpPoolHistoricalPrice[] = (
+  const poolPrices: XykPoolHistoricalPrice[] = (
     await Promise.all(poolPricesRaw.flat())
   ).filter(isNotNullOrUndefined);
 
   await ctx.store.save(poolPrices);
-}
-
-export function calculateAveragePrice(
-  swap: LbpPoolOperation,
-  newVolume: LbpPoolHistoricalVolume,
-  currentVolume?: LbpPoolHistoricalVolume,
-  oldVolume?: LbpPoolHistoricalVolume
-) {
-  const totalVolume = oldVolume
-    ? oldVolume.assetATotalVolumeIn + oldVolume.assetATotalVolumeOut
-    : currentVolume
-      ? currentVolume.assetATotalVolumeIn + currentVolume.assetATotalVolumeOut
-      : BigInt(0);
-
-  const volume = newVolume.assetAVolumeIn + newVolume.assetAVolumeOut;
-
-  const price =
-    swap.assetInId === swap.pool.assetAId ? swap.swapPrice : 1 / swap.swapPrice;
-
-  const oldPrice = currentVolume?.averagePrice || oldVolume?.averagePrice || 0;
-
-  return oldPrice
-    ? new BigNumber(totalVolume.toString())
-        .multipliedBy(oldPrice)
-        .plus(new BigNumber(volume.toString()).multipliedBy(price))
-        .dividedBy(
-          new BigNumber(totalVolume.toString()).plus(volume.toString())
-        )
-        .toNumber()
-    : price;
 }

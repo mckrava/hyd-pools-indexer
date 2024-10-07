@@ -23,11 +23,17 @@ export class XykPool {
     @IntColumn_({nullable: false})
     assetBId!: number
 
+    @IntColumn_({nullable: false})
+    shareTokenId!: number
+
     @BigIntColumn_({nullable: false})
     assetABalance!: bigint
 
     @BigIntColumn_({nullable: false})
     assetBBalance!: bigint
+
+    @BigIntColumn_({nullable: false})
+    initialSharesAmount!: bigint
 
     @DateTimeColumn_({nullable: false})
     createdAt!: Date
@@ -40,32 +46,6 @@ export class XykPool {
 
     @IntColumn_({nullable: true})
     destroyedAtParaBlock!: number | undefined | null
-
-    @IntColumn_({nullable: true})
-    startBlockNumber!: number | undefined | null
-
-    @IntColumn_({nullable: true})
-    endBlockNumber!: number | undefined | null
-
-    @IntColumn_({array: true, nullable: true})
-    fee!: (number | undefined | null)[] | undefined | null
-
-    @Index_()
-    @ManyToOne_(() => Account, {nullable: true})
-    feeCollector!: Account | undefined | null
-
-    @BigIntColumn_({nullable: true})
-    repayTarget!: bigint | undefined | null
-
-    @IntColumn_({nullable: true})
-    initialWeight!: number | undefined | null
-
-    @IntColumn_({nullable: true})
-    finalWeight!: number | undefined | null
-
-    @Index_()
-    @ManyToOne_(() => Account, {nullable: true})
-    owner!: Account | undefined | null
 
     @OneToMany_(() => XykPoolHistoricalPrice, e => e.pool)
     historicalBlockPrices!: XykPoolHistoricalPrice[]

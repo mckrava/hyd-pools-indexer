@@ -68,12 +68,11 @@ export class AppConfig {
         ...[
           events.xyk.poolCreated.name,
           events.xyk.poolDestroyed.name,
-          events.lbp.buyExecuted.name,
-          events.lbp.sellExecuted.name,
+          events.xyk.buyExecuted.name,
+          events.xyk.sellExecuted.name,
         ]
       );
     }
-
     return eventsToListen;
   }
 

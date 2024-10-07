@@ -1,20 +1,23 @@
 import { PoolData } from './common';
 import { events } from '../../types';
-import { sts } from '../../types/support';
-import * as v108 from '../../types/v108';
-import * as v176 from '../../types/v176';
 
 export const EventNameConst = {
   [events.lbp.poolCreated.name]: events.lbp.poolCreated.name,
 };
 
 export enum EventName {
-  'LBP_PoolCreated' = 'LBP.PoolCreated',
-  'LBP_PoolUpdated' = 'LBP.PoolUpdated',
   'Balances_Transfer' = 'Balances.Transfer',
   'Tokens_Transfer' = 'Tokens.Transfer',
+
+  'LBP_PoolCreated' = 'LBP.PoolCreated',
+  'LBP_PoolUpdated' = 'LBP.PoolUpdated',
   'LBP_BuyExecuted' = 'LBP.BuyExecuted',
   'LBP_SellExecuted' = 'LBP.SellExecuted',
+
+  'XYK_PoolCreated' = 'XYK.PoolCreated',
+  'XYK_PoolDestroyed' = 'XYK.Destroyed',
+  'XYK_BuyExecuted' = 'XYK.BuyExecuted',
+  'XYK_SellExecuted' = 'XYK.SellExecuted',
 }
 
 export type RelayChainInfo = {
@@ -59,6 +62,45 @@ export type LbpSellExecutedEventParams = {
   who: string;
   assetOut: number;
   assetIn: number;
+  amount: bigint;
+  salePrice: bigint;
+  feeAsset: number;
+  feeAmount: bigint;
+};
+
+export type XykPoolCreatedEventParams = {
+  pool: string;
+  who: string;
+  assetA: number;
+  assetB: number;
+  initialSharesAmount: bigint;
+  shareToken: number;
+};
+
+export type XykPoolDestroyedEventParams = {
+  pool: string;
+  who: string;
+  assetA: number;
+  assetB: number;
+  shareToken: number;
+};
+
+export type XykBuyExecutedEventParams = {
+  pool: string;
+  who: string;
+  assetOut: number;
+  assetIn: number;
+  amount: bigint;
+  buyPrice: bigint;
+  feeAsset: number;
+  feeAmount: bigint;
+};
+
+export type XykSellExecutedEventParams = {
+  pool: string;
+  who: string;
+  assetIn: number;
+  assetOut: number;
   amount: bigint;
   salePrice: bigint;
   feeAsset: number;

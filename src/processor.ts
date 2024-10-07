@@ -62,7 +62,10 @@ export const processor = new SubstrateBatchProcessor()
       error: true,
     },
   })
-  .setBlockRange({ from: 3681000 });
+  .setBlockRange({ from: 3934551 }); // XYK.create_pool
+  // .setBlockRange({ from: 3934590 }); // XYK.buy
+  // .setBlockRange({ from: 3681000 });
+  // .setBlockRange({ from: 3680000 });
 
 export type Fields = SubstrateBatchProcessorFields<typeof processor>;
 export type Block = BlockHeader<Fields>;
@@ -71,4 +74,5 @@ export type Call = _Call<Fields>;
 export type Extrinsic = _Extrinsic<Fields>;
 export type ProcessorContext<Store> = DataHandlerContext<Store, Fields> & {
   batchState: BatchState;
+  appConfig: AppConfig;
 };

@@ -1,5 +1,5 @@
-module.exports = class Data1728295173927 {
-    name = 'Data1728295173927'
+module.exports = class Data1728319046956 {
+    name = 'Data1728319046956'
 
     async up(db) {
         await db.query(`CREATE TABLE "transfer" ("id" character varying NOT NULL, "para_chain_block_height" integer NOT NULL, "asset_id" integer NOT NULL, "extrinsic_hash" text, "amount" numeric NOT NULL, "tx_fee" numeric NOT NULL, "from_id" character varying, "to_id" character varying, CONSTRAINT "PK_fd9ddbdd49a17afcbe014401295" PRIMARY KEY ("id"))`)
@@ -28,10 +28,8 @@ module.exports = class Data1728295173927 {
         await db.query(`CREATE INDEX "IDX_54433ffd5fc19dba5538c8807d" ON "xyk_pool_operation" ("account_id") `)
         await db.query(`CREATE INDEX "IDX_0beb51f99c72caff35c17cfd42" ON "xyk_pool_operation" ("extrinsic_hash") `)
         await db.query(`CREATE INDEX "IDX_df066a441f1097d50dd2c1ca49" ON "xyk_pool_operation" ("pool_id") `)
-        await db.query(`CREATE TABLE "xyk_pool" ("id" character varying NOT NULL, "asset_a_id" integer NOT NULL, "asset_b_id" integer NOT NULL, "asset_a_balance" numeric NOT NULL, "asset_b_balance" numeric NOT NULL, "created_at" TIMESTAMP WITH TIME ZONE NOT NULL, "created_at_para_block" integer NOT NULL, "is_destroyed" boolean, "destroyed_at_para_block" integer, "start_block_number" integer, "end_block_number" integer, "fee" integer array, "repay_target" numeric, "initial_weight" integer, "final_weight" integer, "account_id" character varying, "fee_collector_id" character varying, "owner_id" character varying, CONSTRAINT "PK_f85fcc3780ea2a35656e221df0e" PRIMARY KEY ("id"))`)
+        await db.query(`CREATE TABLE "xyk_pool" ("id" character varying NOT NULL, "asset_a_id" integer NOT NULL, "asset_b_id" integer NOT NULL, "share_token_id" integer NOT NULL, "asset_a_balance" numeric NOT NULL, "asset_b_balance" numeric NOT NULL, "initial_shares_amount" numeric NOT NULL, "created_at" TIMESTAMP WITH TIME ZONE NOT NULL, "created_at_para_block" integer NOT NULL, "is_destroyed" boolean, "destroyed_at_para_block" integer, "account_id" character varying, CONSTRAINT "PK_f85fcc3780ea2a35656e221df0e" PRIMARY KEY ("id"))`)
         await db.query(`CREATE INDEX "IDX_e062d23c69ef1ecf67f56ae6aa" ON "xyk_pool" ("account_id") `)
-        await db.query(`CREATE INDEX "IDX_0bc159715ee8c54ba216d01e4f" ON "xyk_pool" ("fee_collector_id") `)
-        await db.query(`CREATE INDEX "IDX_e9f6d5edb7f458e2ed400a80a4" ON "xyk_pool" ("owner_id") `)
         await db.query(`CREATE TABLE "historical_asset_volume" ("id" character varying NOT NULL, "asset_id" integer NOT NULL, "volume_in" numeric NOT NULL, "volume_out" numeric NOT NULL, "total_volume_in" numeric NOT NULL, "total_volume_out" numeric NOT NULL, "relay_chain_block_height" integer NOT NULL, "para_chain_block_height" integer NOT NULL, CONSTRAINT "PK_0d17cca83941d6abc9a889092c8" PRIMARY KEY ("id"))`)
         await db.query(`ALTER TABLE "transfer" ADD CONSTRAINT "FK_76bdfed1a7eb27c6d8ecbb73496" FOREIGN KEY ("from_id") REFERENCES "account"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`)
         await db.query(`ALTER TABLE "transfer" ADD CONSTRAINT "FK_0751309c66e97eac9ef11493623" FOREIGN KEY ("to_id") REFERENCES "account"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`)
@@ -47,8 +45,6 @@ module.exports = class Data1728295173927 {
         await db.query(`ALTER TABLE "xyk_pool_operation" ADD CONSTRAINT "FK_54433ffd5fc19dba5538c8807d2" FOREIGN KEY ("account_id") REFERENCES "account"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`)
         await db.query(`ALTER TABLE "xyk_pool_operation" ADD CONSTRAINT "FK_df066a441f1097d50dd2c1ca498" FOREIGN KEY ("pool_id") REFERENCES "xyk_pool"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`)
         await db.query(`ALTER TABLE "xyk_pool" ADD CONSTRAINT "FK_e062d23c69ef1ecf67f56ae6aad" FOREIGN KEY ("account_id") REFERENCES "account"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`)
-        await db.query(`ALTER TABLE "xyk_pool" ADD CONSTRAINT "FK_0bc159715ee8c54ba216d01e4f2" FOREIGN KEY ("fee_collector_id") REFERENCES "account"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`)
-        await db.query(`ALTER TABLE "xyk_pool" ADD CONSTRAINT "FK_e9f6d5edb7f458e2ed400a80a4d" FOREIGN KEY ("owner_id") REFERENCES "account"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`)
     }
 
     async down(db) {
@@ -80,8 +76,6 @@ module.exports = class Data1728295173927 {
         await db.query(`DROP INDEX "public"."IDX_df066a441f1097d50dd2c1ca49"`)
         await db.query(`DROP TABLE "xyk_pool"`)
         await db.query(`DROP INDEX "public"."IDX_e062d23c69ef1ecf67f56ae6aa"`)
-        await db.query(`DROP INDEX "public"."IDX_0bc159715ee8c54ba216d01e4f"`)
-        await db.query(`DROP INDEX "public"."IDX_e9f6d5edb7f458e2ed400a80a4"`)
         await db.query(`DROP TABLE "historical_asset_volume"`)
         await db.query(`ALTER TABLE "transfer" DROP CONSTRAINT "FK_76bdfed1a7eb27c6d8ecbb73496"`)
         await db.query(`ALTER TABLE "transfer" DROP CONSTRAINT "FK_0751309c66e97eac9ef11493623"`)
@@ -97,7 +91,5 @@ module.exports = class Data1728295173927 {
         await db.query(`ALTER TABLE "xyk_pool_operation" DROP CONSTRAINT "FK_54433ffd5fc19dba5538c8807d2"`)
         await db.query(`ALTER TABLE "xyk_pool_operation" DROP CONSTRAINT "FK_df066a441f1097d50dd2c1ca498"`)
         await db.query(`ALTER TABLE "xyk_pool" DROP CONSTRAINT "FK_e062d23c69ef1ecf67f56ae6aad"`)
-        await db.query(`ALTER TABLE "xyk_pool" DROP CONSTRAINT "FK_0bc159715ee8c54ba216d01e4f2"`)
-        await db.query(`ALTER TABLE "xyk_pool" DROP CONSTRAINT "FK_e9f6d5edb7f458e2ed400a80a4d"`)
     }
 }

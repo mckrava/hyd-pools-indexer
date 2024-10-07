@@ -31,12 +31,12 @@ export async function lpbPoolCreated(
     !newPoolsAssetBalances.assetBBalance
   ) {
     newPoolsAssetBalances.assetABalance = await getAssetBalance(
-      eventMetadata.block,
+      eventMetadata.blockHeader,
       eventParams.data.assets[0],
       eventParams.pool
     );
     newPoolsAssetBalances.assetBBalance = await getAssetBalance(
-      eventMetadata.block,
+      eventMetadata.blockHeader,
       eventParams.data.assets[1],
       eventParams.pool
     );
@@ -49,8 +49,8 @@ export async function lpbPoolCreated(
     assetBId: eventParams.data.assets[1],
     assetABalance: newPoolsAssetBalances.assetABalance,
     assetBBalance: newPoolsAssetBalances.assetBBalance,
-    createdAt: new Date(eventMetadata.block.timestamp ?? Date.now()),
-    createdAtParaBlock: eventMetadata.block.height,
+    createdAt: new Date(eventMetadata.blockHeader.timestamp ?? Date.now()),
+    createdAtParaBlock: eventMetadata.blockHeader.height,
     owner: await getAccount(ctx, eventParams.data.owner),
     startBlockNumber: eventParams.data.start,
     endBlockNumber: eventParams.data.end,
@@ -58,12 +58,15 @@ export async function lpbPoolCreated(
     fee: eventParams.data.fee,
     initialWeight: eventParams.data.initialWeight,
     finalWeight: eventParams.data.finalWeight,
+    isDestroyed: false,
   });
 
   await ctx.store.save(newPool);
 
+  const lbpAllBatchPools = ctx.batchState.state.lbpAllBatchPools;
+  lbpAllBatchPools.set(newPool.id, newPool);
   ctx.batchState.state = {
-    lbpNewPools: [...ctx.batchState.state.lbpNewPools, newPool],
+    lbpAllBatchPools,
   };
 }
 
@@ -75,9 +78,9 @@ export async function lpbPoolUpdated(
     eventData: { params: eventParams, metadata: eventMetadata },
   } = eventCallData;
 
-  const existingPools = ctx.batchState.state.lbpExistingPools;
+  const allPools = ctx.batchState.state.lbpAllBatchPools;
 
-  const existingPoolData = existingPools.get(eventParams.pool);
+  const existingPoolData = allPools.get(eventParams.pool);
 
   if (!existingPoolData) return;
 
@@ -94,6 +97,6 @@ export async function lpbPoolUpdated(
 
   await ctx.store.save(existingPoolData);
 
-  existingPools.set(eventParams.pool, existingPoolData);
-  ctx.batchState.state = { lbpExistingPools: existingPools };
+  allPools.set(eventParams.pool, existingPoolData);
+  ctx.batchState.state = { lbpAllBatchPools: allPools };
 }

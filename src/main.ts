@@ -6,11 +6,17 @@ import { handlePools } from './handlers/pools';
 import { handleTransfers } from './handlers/transfers';
 import { getParsedEventsData } from './parsers/batchBlocksParser';
 import { handlePoolOperations } from './handlers/poolOperations';
-import { handleLbpPoolPrices } from './handlers/pools/price';
+import { AppConfig } from './utils/appConfigsManager';
+import { handlePoolPrices } from './handlers/prices';
 
 processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
-  const ctxWithBatchState: Omit<ProcessorContext<Store>, 'batchState'> = ctx;
+  const ctxWithBatchState: Omit<
+    ProcessorContext<Store>,
+    'batchState' | 'appConfig'
+  > = ctx;
   (ctxWithBatchState as ProcessorContext<Store>).batchState = new BatchState();
+  (ctxWithBatchState as ProcessorContext<Store>).appConfig =
+    AppConfig.getInstance();
 
   const parsedData = getParsedEventsData(
     ctxWithBatchState as ProcessorContext<Store>
@@ -23,9 +29,12 @@ processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
     parsedData
   );
 
-  await handleLbpPoolPrices(ctxWithBatchState as ProcessorContext<Store>);
+  await handlePoolPrices(ctxWithBatchState as ProcessorContext<Store>);
 
-  await handleTransfers(ctxWithBatchState as ProcessorContext<Store>);
+  await handleTransfers(
+    ctxWithBatchState as ProcessorContext<Store>,
+    parsedData
+  );
 
   console.log('Batch complete');
 });

@@ -46,3 +46,10 @@ interface FullExtrinsic extends base.Extrinsic {
   success: boolean;
   hash: base.Bytes;
 }
+
+export enum PoolType {
+  XYK = "Xyk",
+  LBP = "Lbp",
+  Stable = "Stableswap",
+  Omni = "Omnipool"
+}

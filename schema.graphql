@@ -56,20 +56,14 @@ type XykPool @entity {
   account: Account!
   assetAId: Int!
   assetBId: Int!
+  shareTokenId: Int!
   assetABalance: BigInt!
   assetBBalance: BigInt!
+  initialSharesAmount: BigInt!
   createdAt: DateTime!
   createdAtParaBlock: Int!
   isDestroyed: Boolean
   destroyedAtParaBlock: Int
-  startBlockNumber: Int
-  endBlockNumber: Int
-  fee: [Int]
-  feeCollector: Account
-  repayTarget: BigInt
-  initialWeight: Int
-  finalWeight: Int
-  owner: Account
   historicalBlockPrices: [XykPoolHistoricalPrice!]! @derivedFrom(field: "pool")
   historicalVolume: [XykPoolHistoricalVolume!]! @derivedFrom(field: "pool")
   operations: [XykPoolOperation!]! @derivedFrom(field: "pool")

@@ -1,92 +1,41 @@
 import { ProcessorContext } from '../../processor';
 import { Store } from '@subsquid/typeorm-store';
-import { Transfer } from '../../model';
-import { TransferEvent } from '../../utils/types';
-import { events } from '../../types';
-import { getAccount } from '../accounts';
+import { EventName } from '../../parsers/types/events';
+import { getOrderedListByBlockNumber } from '../../utils/helpers';
+import { BatchBlocksParsedDataManager } from '../../parsers/batchBlocksParser';
+import { handleBalancesTransfer } from './balancesTransfer';
+import { handleTokensTransfer } from './tokensTransfer';
+import { isPoolTransfer } from './utils';
 
-export async function handleTransfers(ctx: ProcessorContext<Store>) {
-  const transfersData = getTransfers(ctx);
-  console.log('Found ' + transfersData.length + ' transfers');
-
-  let transfers: Transfer[] = [];
-
-  for (let t of transfersData) {
-    let { id, assetId, extrinsicHash, amount, fee, blockNumber } = t;
-
-    let from = await getAccount(ctx, t.from);
-    let to = await getAccount(ctx, t.to);
-
-    transfers.push(
-      new Transfer({
-        id,
-        paraChainBlockHeight: blockNumber,
-        assetId,
-        extrinsicHash,
-        from,
-        to,
-        amount,
-        txFee: fee,
-      })
-    );
-  }
-
-  await ctx.store.save(transfers);
-}
-
-function getTransfers(ctx: ProcessorContext<Store>): TransferEvent[] {
-  let transfers: TransferEvent[] = [];
-
-  const batchState = ctx.batchState.state;
-
-  const pools = [
-    ...batchState.lbpNewPools.map((p) => p.id),
-    ...batchState.lbpExistingPools.keys(),
+export async function handleTransfers(
+  ctx: ProcessorContext<Store>,
+  parsedEvents: BatchBlocksParsedDataManager
+) {
+  const balancesTransferEvents = [
+    ...parsedEvents.getSectionByEventName(EventName.Balances_Transfer).values(),
+  ];
+  const tokensTransferEvents = [
+    ...parsedEvents.getSectionByEventName(EventName.Tokens_Transfer).values(),
   ];
 
-  for (let block of ctx.blocks) {
-    for (let event of block.events) {
-      if (event.name == events.balances.transfer.name) {
-        const { from, to, amount } =
-          events.balances.transfer.v104.decode(event);
-        if (isPoolTransfer(pools, from, to)) {
-          transfers.push({
-            id: event.id,
-            assetId: 0,
-            blockNumber: block.header.height,
-            timestamp: new Date(block.header.timestamp || 0),
-            extrinsicHash: event.extrinsic?.hash,
-            from: from,
-            to: to,
-            amount: amount,
-            fee: event.extrinsic?.fee || BigInt(0),
-          });
-        }
-      } else if (event.name == events.tokens.transfer.name) {
-        const { from, to, currencyId, amount } =
-          events.tokens.transfer.v108.decode(event);
-        if (isPoolTransfer(pools, from, to)) {
-          transfers.push({
-            id: event.id,
-            assetId: currencyId,
-            blockNumber: block.header.height,
-            timestamp: new Date(block.header.timestamp || 0),
-            extrinsicHash: event.extrinsic?.hash,
-            from: from,
-            to: to,
-            amount: amount,
-            fee: event.extrinsic?.fee || BigInt(0),
-          });
-        }
-      }
-    }
-  }
-  return transfers;
-}
+  const allPoolsIds = [
+    ...ctx.batchState.state.lbpAllBatchPools.keys(),
+    ...ctx.batchState.state.xykAllBatchPools.keys(),
+  ];
 
-function isPoolTransfer(pools: string[], from: string, to: string): boolean {
-  for (let p of pools) {
-    if (p == from || p == to) return true;
+  for (const eventData of getOrderedListByBlockNumber(
+    balancesTransferEvents
+  ).filter((e) =>
+    isPoolTransfer(allPoolsIds, e.eventData.params.from, e.eventData.params.to)
+  )) {
+    await handleBalancesTransfer(ctx, eventData);
   }
-  return false;
+
+  for (const eventData of getOrderedListByBlockNumber(
+    tokensTransferEvents
+  ).filter((e) =>
+    isPoolTransfer(allPoolsIds, e.eventData.params.from, e.eventData.params.to)
+  )) {
+    await handleTokensTransfer(ctx, eventData);
+  }
 }

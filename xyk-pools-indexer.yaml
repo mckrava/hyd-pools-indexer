@@ -1,0 +1,23 @@
+manifestVersion: subsquid.io/v0.1
+name: hydration-xyk-pools-indexer
+version: 1
+description: Substrate squid template
+build:
+deploy:
+  addons:
+    postgres:
+  processor:
+    env:
+      RPC_HYDRATION_URL: wss://archive.rpc.hydration.cloud
+      GATEWAY_HYDRATION_HTTPS: https://v2.archive.subsquid.io/network/hydradx
+      PROCESS_LBP_POOLS: false
+      PROCESS_XYK_POOLS: true
+    cmd:
+      - sqd
+      - process:prod
+  api:
+    cmd:
+      - sqd
+      - serve:prod
+scale:
+  dedicated: false

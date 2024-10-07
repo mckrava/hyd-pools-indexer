@@ -8,6 +8,11 @@ import {
   LbpPoolUpdatedData,
   ParsedEventsCallsData,
   TokensTransferData,
+  XykPoolCreatedData,
+  XykPoolDestroyedData,
+  XykBuyExecutedData,
+  XykSellExecutedData,
+  BalancesTransferData,
 } from './types';
 import { EventName, RelayChainInfo } from '../types/events';
 import { Block, Event, ProcessorContext } from '../../processor';
@@ -15,19 +20,27 @@ import { Store } from '@subsquid/typeorm-store';
 import parsers from '../';
 import { calls, events } from '../../types';
 
-type EventDataType<T> = T extends EventName.LBP_PoolCreated
-  ? LbpPoolCreatedData
-  : T extends EventName.LBP_PoolUpdated
-    ? LbpPoolUpdatedData
-    : T extends EventName.Tokens_Transfer
-      ? TokensTransferData
-      : T extends EventName.Balances_Transfer
-        ? TokensTransferData
+type EventDataType<T> = T extends EventName.Tokens_Transfer
+  ? TokensTransferData
+  : T extends EventName.Balances_Transfer
+    ? BalancesTransferData
+    : T extends EventName.LBP_PoolCreated
+      ? LbpPoolCreatedData
+      : T extends EventName.LBP_PoolUpdated
+        ? LbpPoolUpdatedData
         : T extends EventName.LBP_BuyExecuted
           ? LbpBuyExecutedData
           : T extends EventName.LBP_SellExecuted
             ? LbpSellExecutedData
-            : never;
+            : T extends EventName.XYK_PoolCreated
+              ? XykPoolCreatedData
+              : T extends EventName.XYK_PoolDestroyed
+                ? XykPoolDestroyedData
+                : T extends EventName.XYK_BuyExecuted
+                  ? XykBuyExecutedData
+                  : T extends EventName.XYK_SellExecuted
+                    ? XykSellExecutedData
+                    : never;
 
 export class BatchBlocksParsedDataManager {
   private scope: BatchBlocksParsedDataScope;
@@ -75,12 +88,12 @@ export class BatchBlocksParsedDataManager {
   }
 }
 
-function getEventMetadata(block: Block, event: Event): EventMetadata {
+function getEventMetadata(blockHeader: Block, event: Event): EventMetadata {
   return {
     id: event.id,
     indexInBlock: event.index,
     name: event.name,
-    block: block,
+    blockHeader: blockHeader,
   };
 }
 
@@ -129,12 +142,14 @@ export function getParsedEventsData(
       };
 
       switch (event.name) {
+        /**
+         * ==== LBP pools ====
+         */
         case events.lbp.poolCreated.name: {
           const callArgs = call
             ? parsers.calls.lbp.parseCreatePoolArgs(call)
             : undefined;
           const eventParams = parsers.events.lbp.parsePoolCreatedParams(event);
-          // @ts-ignore
           const eventMetadata = getEventMetadata(block.header, event);
 
           parsedDataManager.set(EventName.LBP_PoolCreated, {
@@ -155,7 +170,6 @@ export function getParsedEventsData(
         }
         case events.lbp.poolUpdated.name: {
           const eventParams = parsers.events.lbp.parsePoolUpdatedParams(event);
-          // @ts-ignore
           const eventMetadata = getEventMetadata(block.header, event);
 
           parsedDataManager.set(EventName.LBP_PoolUpdated, {
@@ -175,7 +189,6 @@ export function getParsedEventsData(
         }
         case events.lbp.buyExecuted.name: {
           const eventParams = parsers.events.lbp.parseBuyExecutedParams(event);
-          // @ts-ignore
           const eventMetadata = getEventMetadata(block.header, event);
 
           parsedDataManager.set(EventName.LBP_BuyExecuted, {
@@ -195,7 +208,6 @@ export function getParsedEventsData(
         }
         case events.lbp.sellExecuted.name: {
           const eventParams = parsers.events.lbp.parseSellExecutedParams(event);
-          // @ts-ignore
           const eventMetadata = getEventMetadata(block.header, event);
 
           parsedDataManager.set(EventName.LBP_SellExecuted, {
@@ -213,12 +225,40 @@ export function getParsedEventsData(
           totalEventsNumber++;
           break;
         }
-        case events.tokens.transfer.name: {
-          const eventParams = parsers.events.tokens.parseTransferParams(event);
-          // @ts-ignore
+
+        /**
+         * ==== XYK pools ====
+         */
+
+        case events.xyk.poolCreated.name: {
+          const callArgs = call
+            ? parsers.calls.xyk.parseCreatePoolArgs(call)
+            : undefined;
+          const eventParams = parsers.events.xyk.parsePoolCreatedParams(event);
           const eventMetadata = getEventMetadata(block.header, event);
 
-          parsedDataManager.set(EventName.Tokens_Transfer, {
+          parsedDataManager.set(EventName.XYK_PoolCreated, {
+            relayChainInfo,
+            id: eventMetadata.id,
+            eventData: {
+              name: eventMetadata.name,
+              metadata: eventMetadata,
+              params: eventParams,
+            },
+            callData: {
+              ...callMetadata,
+              args: callArgs,
+            },
+          });
+          totalEventsNumber++;
+          break;
+        }
+        case events.xyk.poolDestroyed.name: {
+          const eventParams =
+            parsers.events.xyk.parsePoolDestroyedParams(event);
+          const eventMetadata = getEventMetadata(block.header, event);
+
+          parsedDataManager.set(EventName.XYK_PoolDestroyed, {
             relayChainInfo,
             id: eventMetadata.id,
             eventData: {
@@ -233,10 +273,70 @@ export function getParsedEventsData(
           totalEventsNumber++;
           break;
         }
+        case events.xyk.buyExecuted.name: {
+          const eventParams = parsers.events.xyk.parseBuyExecutedParams(event);
+          const eventMetadata = getEventMetadata(block.header, event);
+
+          parsedDataManager.set(EventName.XYK_BuyExecuted, {
+            relayChainInfo,
+            id: eventMetadata.id,
+            eventData: {
+              name: eventMetadata.name,
+              metadata: eventMetadata,
+              params: eventParams,
+            },
+            callData: {
+              ...callMetadata,
+            },
+          });
+          totalEventsNumber++;
+          break;
+        }
+        case events.xyk.sellExecuted.name: {
+          const eventParams = parsers.events.xyk.parseSellExecutedParams(event);
+          const eventMetadata = getEventMetadata(block.header, event);
+
+          parsedDataManager.set(EventName.XYK_SellExecuted, {
+            relayChainInfo,
+            id: eventMetadata.id,
+            eventData: {
+              name: eventMetadata.name,
+              metadata: eventMetadata,
+              params: eventParams,
+            },
+            callData: {
+              ...callMetadata,
+            },
+          });
+          totalEventsNumber++;
+          break;
+        }
+
+        /**
+         * ==== Common ====
+         */
+        case events.tokens.transfer.name: {
+          const eventParams = parsers.events.tokens.parseTransferParams(event);
+          const eventMetadata = getEventMetadata(block.header, event);
+
+          parsedDataManager.set(EventName.Tokens_Transfer, {
+            relayChainInfo,
+            id: eventMetadata.id,
+            eventData: {
+              name: eventMetadata.name,
+              metadata: { ...eventMetadata, extrinsic: event.extrinsic },
+              params: eventParams,
+            },
+            callData: {
+              ...callMetadata,
+            },
+          });
+          totalEventsNumber++;
+          break;
+        }
         case events.balances.transfer.name: {
           const eventParams =
             parsers.events.balances.parseTransferParams(event);
-          // @ts-ignore
           const eventMetadata = getEventMetadata(block.header, event);
 
           parsedDataManager.set(EventName.Balances_Transfer, {
@@ -244,7 +344,7 @@ export function getParsedEventsData(
             id: eventMetadata.id,
             eventData: {
               name: eventMetadata.name,
-              metadata: eventMetadata,
+              metadata: { ...eventMetadata, extrinsic: event.extrinsic },
               params: eventParams,
             },
             callData: {
