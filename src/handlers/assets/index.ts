@@ -3,7 +3,6 @@ import { ProcessorContext } from '../../processor';
 import { Store } from '@subsquid/typeorm-store';
 import { HistoricalAssetVolume, LbpPoolOperation } from '../../model';
 import parsers from '../../parsers';
-import { getLastAssetVolumeFromCache } from './volume';
 
 export async function getAssetBalance(
   block: BlockHeader,
@@ -11,13 +10,13 @@ export async function getAssetBalance(
   account: string
 ): Promise<bigint> {
   if (assetId === 0) {
-    return parsers.storage.lbp
+    return parsers.storage.system
       .getSystemAccount(account, block)
       .then((accountInfo) => {
         return accountInfo?.data.free || BigInt(0);
       });
   } else {
-    return parsers.storage.lbp
+    return parsers.storage.tokens
       .getTokensAccountsAssetBalances(account, assetId, block)
       .then((accountInfo) => {
         return accountInfo?.free || BigInt(0);

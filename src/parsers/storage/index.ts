@@ -1,5 +1,7 @@
-import lbp from './lbp';
+import system from './system';
+import tokens from './tokens';
 
 export default {
-  lbp,
+  system,
+  tokens,
 };

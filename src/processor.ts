@@ -45,6 +45,7 @@ export const processor = new SubstrateBatchProcessor()
       events.lbp.buyExecuted.name,
       events.lbp.sellExecuted.name,
     ],
+    call: true,
     extrinsic: true,
   })
   .addCall({
@@ -56,6 +57,7 @@ export const processor = new SubstrateBatchProcessor()
   .setFields({
     event: {
       args: true,
+      name: true,
     },
     extrinsic: {
       hash: true,

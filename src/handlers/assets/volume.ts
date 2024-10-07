@@ -1,7 +1,7 @@
 import { HistoricalAssetVolume, LbpPoolOperation } from '../../model';
 import { ProcessorContext } from '../../processor';
 import { Store } from '@subsquid/typeorm-store';
-import { getNewAssetVolume, initAssetVolume } from './index';
+import { initAssetVolume } from './index';
 
 export async function handleAssetVolumeUpdates(
   ctx: ProcessorContext<Store>,

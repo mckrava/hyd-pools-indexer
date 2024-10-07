@@ -1,7 +1,13 @@
-module.exports = class Data1728041911908 {
-    name = 'Data1728041911908'
+module.exports = class Data1728295173927 {
+    name = 'Data1728295173927'
 
     async up(db) {
+        await db.query(`CREATE TABLE "transfer" ("id" character varying NOT NULL, "para_chain_block_height" integer NOT NULL, "asset_id" integer NOT NULL, "extrinsic_hash" text, "amount" numeric NOT NULL, "tx_fee" numeric NOT NULL, "from_id" character varying, "to_id" character varying, CONSTRAINT "PK_fd9ddbdd49a17afcbe014401295" PRIMARY KEY ("id"))`)
+        await db.query(`CREATE INDEX "IDX_e818cd083f48ed773afe017f7c" ON "transfer" ("asset_id") `)
+        await db.query(`CREATE INDEX "IDX_070c555a86b0b41a534a55a659" ON "transfer" ("extrinsic_hash") `)
+        await db.query(`CREATE INDEX "IDX_76bdfed1a7eb27c6d8ecbb7349" ON "transfer" ("from_id") `)
+        await db.query(`CREATE INDEX "IDX_0751309c66e97eac9ef1149362" ON "transfer" ("to_id") `)
+        await db.query(`CREATE TABLE "account" ("id" character varying NOT NULL, CONSTRAINT "PK_54115ee388cdb6d86bb4bf5b2ea" PRIMARY KEY ("id"))`)
         await db.query(`CREATE TABLE "lbp_pool_historical_price" ("id" character varying NOT NULL, "asset_a_id" integer NOT NULL, "asset_b_id" integer NOT NULL, "asset_a_balance" numeric NOT NULL, "asset_b_balance" numeric NOT NULL, "relay_chain_block_height" integer NOT NULL, "para_chain_block_height" integer NOT NULL, "pool_id" character varying, CONSTRAINT "PK_56742aff22b17d24532247771df" PRIMARY KEY ("id"))`)
         await db.query(`CREATE INDEX "IDX_948be5d2180de9400ecaa21d03" ON "lbp_pool_historical_price" ("pool_id") `)
         await db.query(`CREATE TABLE "lbp_pool_historical_volume" ("id" character varying NOT NULL, "asset_a_id" integer NOT NULL, "asset_b_id" integer NOT NULL, "average_price" numeric NOT NULL, "asset_a_volume_in" numeric NOT NULL, "asset_a_volume_out" numeric NOT NULL, "asset_a_total_volume_in" numeric NOT NULL, "asset_a_total_volume_out" numeric NOT NULL, "asset_a_fee" numeric NOT NULL, "asset_b_fee" numeric NOT NULL, "asset_a_total_fees" numeric NOT NULL, "asset_b_total_fees" numeric NOT NULL, "asset_b_volume_in" numeric NOT NULL, "asset_b_volume_out" numeric NOT NULL, "asset_b_total_volume_in" numeric NOT NULL, "asset_b_total_volume_out" numeric NOT NULL, "relay_chain_block_height" integer NOT NULL, "para_chain_block_height" integer NOT NULL, "pool_id" character varying, CONSTRAINT "PK_3967e839ad64989c6be0143a71e" PRIMARY KEY ("id"))`)
@@ -26,6 +32,9 @@ module.exports = class Data1728041911908 {
         await db.query(`CREATE INDEX "IDX_e062d23c69ef1ecf67f56ae6aa" ON "xyk_pool" ("account_id") `)
         await db.query(`CREATE INDEX "IDX_0bc159715ee8c54ba216d01e4f" ON "xyk_pool" ("fee_collector_id") `)
         await db.query(`CREATE INDEX "IDX_e9f6d5edb7f458e2ed400a80a4" ON "xyk_pool" ("owner_id") `)
+        await db.query(`CREATE TABLE "historical_asset_volume" ("id" character varying NOT NULL, "asset_id" integer NOT NULL, "volume_in" numeric NOT NULL, "volume_out" numeric NOT NULL, "total_volume_in" numeric NOT NULL, "total_volume_out" numeric NOT NULL, "relay_chain_block_height" integer NOT NULL, "para_chain_block_height" integer NOT NULL, CONSTRAINT "PK_0d17cca83941d6abc9a889092c8" PRIMARY KEY ("id"))`)
+        await db.query(`ALTER TABLE "transfer" ADD CONSTRAINT "FK_76bdfed1a7eb27c6d8ecbb73496" FOREIGN KEY ("from_id") REFERENCES "account"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`)
+        await db.query(`ALTER TABLE "transfer" ADD CONSTRAINT "FK_0751309c66e97eac9ef11493623" FOREIGN KEY ("to_id") REFERENCES "account"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`)
         await db.query(`ALTER TABLE "lbp_pool_historical_price" ADD CONSTRAINT "FK_948be5d2180de9400ecaa21d036" FOREIGN KEY ("pool_id") REFERENCES "lbp_pool"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`)
         await db.query(`ALTER TABLE "lbp_pool_historical_volume" ADD CONSTRAINT "FK_6e132e8c863e2ede04ab8832f44" FOREIGN KEY ("pool_id") REFERENCES "lbp_pool"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`)
         await db.query(`ALTER TABLE "lbp_pool_operation" ADD CONSTRAINT "FK_f7c03e3ff57aae8636fa3015e66" FOREIGN KEY ("account_id") REFERENCES "account"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`)
@@ -43,6 +52,12 @@ module.exports = class Data1728041911908 {
     }
 
     async down(db) {
+        await db.query(`DROP TABLE "transfer"`)
+        await db.query(`DROP INDEX "public"."IDX_e818cd083f48ed773afe017f7c"`)
+        await db.query(`DROP INDEX "public"."IDX_070c555a86b0b41a534a55a659"`)
+        await db.query(`DROP INDEX "public"."IDX_76bdfed1a7eb27c6d8ecbb7349"`)
+        await db.query(`DROP INDEX "public"."IDX_0751309c66e97eac9ef1149362"`)
+        await db.query(`DROP TABLE "account"`)
         await db.query(`DROP TABLE "lbp_pool_historical_price"`)
         await db.query(`DROP INDEX "public"."IDX_948be5d2180de9400ecaa21d03"`)
         await db.query(`DROP TABLE "lbp_pool_historical_volume"`)
@@ -67,6 +82,9 @@ module.exports = class Data1728041911908 {
         await db.query(`DROP INDEX "public"."IDX_e062d23c69ef1ecf67f56ae6aa"`)
         await db.query(`DROP INDEX "public"."IDX_0bc159715ee8c54ba216d01e4f"`)
         await db.query(`DROP INDEX "public"."IDX_e9f6d5edb7f458e2ed400a80a4"`)
+        await db.query(`DROP TABLE "historical_asset_volume"`)
+        await db.query(`ALTER TABLE "transfer" DROP CONSTRAINT "FK_76bdfed1a7eb27c6d8ecbb73496"`)
+        await db.query(`ALTER TABLE "transfer" DROP CONSTRAINT "FK_0751309c66e97eac9ef11493623"`)
         await db.query(`ALTER TABLE "lbp_pool_historical_price" DROP CONSTRAINT "FK_948be5d2180de9400ecaa21d036"`)
         await db.query(`ALTER TABLE "lbp_pool_historical_volume" DROP CONSTRAINT "FK_6e132e8c863e2ede04ab8832f44"`)
         await db.query(`ALTER TABLE "lbp_pool_operation" DROP CONSTRAINT "FK_f7c03e3ff57aae8636fa3015e66"`)

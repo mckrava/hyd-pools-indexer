@@ -118,18 +118,24 @@ export function getParsedEventsData(
     };
 
     for (let event of block.events) {
+      let call = null;
+
+      try {
+        call = event.getCall();
+      } catch (e) {}
+
       const callMetadata = {
-        name: event.getCall().name,
+        name: call?.name ?? '_system',
       };
 
       switch (event.name) {
         case events.lbp.poolCreated.name: {
-          const callArgs = parsers.calls.lbp.parseCreatePoolArgs(
-            event.getCall()
-          );
+          const callArgs = call
+            ? parsers.calls.lbp.parseCreatePoolArgs(call)
+            : undefined;
           const eventParams = parsers.events.lbp.parsePoolCreatedParams(event);
           // @ts-ignore
-          const eventMetadata = getEventMetadata(block, event);
+          const eventMetadata = getEventMetadata(block.header, event);
 
           parsedDataManager.set(EventName.LBP_PoolCreated, {
             relayChainInfo,
@@ -150,7 +156,7 @@ export function getParsedEventsData(
         case events.lbp.poolUpdated.name: {
           const eventParams = parsers.events.lbp.parsePoolUpdatedParams(event);
           // @ts-ignore
-          const eventMetadata = getEventMetadata(block, event);
+          const eventMetadata = getEventMetadata(block.header, event);
 
           parsedDataManager.set(EventName.LBP_PoolUpdated, {
             relayChainInfo,
@@ -170,7 +176,7 @@ export function getParsedEventsData(
         case events.lbp.buyExecuted.name: {
           const eventParams = parsers.events.lbp.parseBuyExecutedParams(event);
           // @ts-ignore
-          const eventMetadata = getEventMetadata(block, event);
+          const eventMetadata = getEventMetadata(block.header, event);
 
           parsedDataManager.set(EventName.LBP_BuyExecuted, {
             relayChainInfo,
@@ -190,7 +196,7 @@ export function getParsedEventsData(
         case events.lbp.sellExecuted.name: {
           const eventParams = parsers.events.lbp.parseSellExecutedParams(event);
           // @ts-ignore
-          const eventMetadata = getEventMetadata(block, event);
+          const eventMetadata = getEventMetadata(block.header, event);
 
           parsedDataManager.set(EventName.LBP_SellExecuted, {
             relayChainInfo,
@@ -210,7 +216,7 @@ export function getParsedEventsData(
         case events.tokens.transfer.name: {
           const eventParams = parsers.events.tokens.parseTransferParams(event);
           // @ts-ignore
-          const eventMetadata = getEventMetadata(block, event);
+          const eventMetadata = getEventMetadata(block.header, event);
 
           parsedDataManager.set(EventName.Tokens_Transfer, {
             relayChainInfo,
@@ -231,7 +237,7 @@ export function getParsedEventsData(
           const eventParams =
             parsers.events.balances.parseTransferParams(event);
           // @ts-ignore
-          const eventMetadata = getEventMetadata(block, event);
+          const eventMetadata = getEventMetadata(block.header, event);
 
           parsedDataManager.set(EventName.Balances_Transfer, {
             relayChainInfo,
@@ -253,6 +259,8 @@ export function getParsedEventsData(
     }
   }
 
-  ctx.log.info(`Total number of events for processing - ${totalEventsNumber}`);
+  ctx.log.info(
+    `Parsed ${totalEventsNumber} events from ${ctx.blocks.length} blocks [${ctx.blocks[0].header.height} / ${ctx.blocks[ctx.blocks.length - 1].header.height}].`
+  );
   return parsedDataManager;
 }

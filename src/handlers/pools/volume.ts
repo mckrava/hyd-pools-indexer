@@ -1,11 +1,6 @@
-import {
-  HistoricalAssetVolume,
-  LbpPoolHistoricalVolume,
-  LbpPoolOperation,
-} from '../../model';
+import { LbpPoolHistoricalVolume, LbpPoolOperation } from '../../model';
 import { ProcessorContext } from '../../processor';
 import { Store } from '@subsquid/typeorm-store';
-import { getNewAssetVolume } from '../assets';
 import { calculateAveragePrice } from './price';
 
 export function updateVolume(

@@ -1,11 +1,9 @@
-import { Event } from '@subsquid/substrate-processor';
 import {
   Account,
   LbpPool,
   LbpPoolOperation,
   PoolOperationType,
 } from '../../model';
-import { ProcessorBlockData } from '../../utils/types';
 import { BigNumber } from 'bignumber.js';
 import { ProcessorContext } from '../../processor';
 import { Store } from '@subsquid/typeorm-store';

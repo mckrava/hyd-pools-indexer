@@ -1,11 +1,8 @@
 import { ProcessorContext } from '../../processor';
 import { Store } from '@subsquid/typeorm-store';
-import { LBPPoolDataUpdate, PoolCreatedEvent } from '../../utils/types';
-import parsers from '../../parsers';
-import { LbpPoolHistoricalPrice, LbpPool } from '../../model';
+import { LbpPool } from '../../model';
 import { getAssetBalance } from '../assets';
 import { getAccount } from '../accounts';
-import { calls, events } from '../../types';
 import {
   LbpPoolCreatedData,
   LbpPoolUpdatedData,
