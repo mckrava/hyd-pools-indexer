@@ -48,7 +48,7 @@ export async function lpbBuyExecuted(
     paraChainBlockHeight: eventMetadata.blockHeader.height,
   });
 
-  await ctx.store.save(operationInstance);
+  // await ctx.store.save(operationInstance);
 
   ctx.batchState.state = {
     lbpPoolOperations: [
@@ -100,7 +100,7 @@ export async function lpbSellExecuted(
     paraChainBlockHeight: eventMetadata.blockHeader.height,
   });
 
-  await ctx.store.save(operationInstance);
+  // await ctx.store.save(operationInstance);
 
   ctx.batchState.state = {
     lbpPoolOperations: [

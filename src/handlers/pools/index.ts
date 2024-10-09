@@ -36,6 +36,12 @@ export async function handleLbpPools(
   ])) {
     await lpbPoolUpdated(ctx, eventData);
   }
+
+  await ctx.store.save(
+    [...ctx.batchState.state.lbpAllBatchPools.values()].filter((pool) =>
+      ctx.batchState.state.lbpPoolsToSave.has(pool.id)
+    )
+  );
 }
 
 export async function handleXykPools(
@@ -61,4 +67,10 @@ export async function handleXykPools(
   // for (const eventData of getOrderedListByBlockNumber(lbpPoolDestroyedEvents)) {
   //   await lpbPoolUpdated(ctx, eventData);
   // }
+
+  await ctx.store.save(
+    [...ctx.batchState.state.xykAllBatchPools.values()].filter((pool) =>
+      ctx.batchState.state.xykPoolsToSave.has(pool.id)
+    )
+  );
 }

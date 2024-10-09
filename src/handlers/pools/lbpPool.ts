@@ -61,7 +61,11 @@ export async function lpbPoolCreated(
     isDestroyed: false,
   });
 
-  await ctx.store.save(newPool);
+  // await ctx.store.save(newPool);
+
+  const poolsToSave = ctx.batchState.state.lbpPoolsToSave;
+  poolsToSave.add(newPool.id);
+  ctx.batchState.state = { lbpPoolsToSave: poolsToSave };
 
   const lbpAllBatchPools = ctx.batchState.state.lbpAllBatchPools;
   lbpAllBatchPools.set(newPool.id, newPool);
@@ -95,7 +99,11 @@ export async function lpbPoolUpdated(
   existingPoolData.startBlockNumber = eventParams.data.start;
   existingPoolData.endBlockNumber = eventParams.data.end;
 
-  await ctx.store.save(existingPoolData);
+  // await ctx.store.save(existingPoolData);
+
+  const poolsToSave = ctx.batchState.state.lbpPoolsToSave;
+  poolsToSave.add(existingPoolData.id);
+  ctx.batchState.state = { lbpPoolsToSave: poolsToSave };
 
   allPools.set(eventParams.pool, existingPoolData);
   ctx.batchState.state = { lbpAllBatchPools: allPools };

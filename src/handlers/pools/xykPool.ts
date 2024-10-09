@@ -53,7 +53,11 @@ export async function xykPoolCreated(
     isDestroyed: false,
   });
 
-  await ctx.store.save(newPool);
+  // await ctx.store.save(newPool);
+
+  const poolsToSave = ctx.batchState.state.xykPoolsToSave;
+  poolsToSave.add(newPool.id);
+  ctx.batchState.state = { xykPoolsToSave: poolsToSave };
 
   const xykAllBatchPools = ctx.batchState.state.xykAllBatchPools;
   xykAllBatchPools.set(newPool.id, newPool);

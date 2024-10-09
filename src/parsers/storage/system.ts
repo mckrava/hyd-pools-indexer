@@ -9,7 +9,39 @@ async function getSystemAccount(
 ): Promise<SystemAccountInfo | null> {
   if (storage.system.account.v100.is(block)) {
     const resp = await storage.system.account.v100.get(block, account);
-    return resp ?? null;
+    if (!resp) return null;
+
+    return {
+      nonce: resp.nonce,
+      consumers: resp.consumers,
+      providers: resp.providers,
+      sufficients: resp.sufficients,
+      data: {
+        free: resp.data.free,
+        reserved: resp.data.reserved,
+        miscFrozen: resp.data.miscFrozen,
+        feeFrozen: resp.data.feeFrozen,
+        flags: BigInt(0),
+      },
+    };
+  }
+  if (storage.system.account.v205.is(block)) {
+    const resp = await storage.system.account.v205.get(block, account);
+    if (!resp) return null;
+
+    return {
+      nonce: resp.nonce,
+      consumers: resp.consumers,
+      providers: resp.providers,
+      sufficients: resp.sufficients,
+      data: {
+        free: resp.data.free,
+        reserved: resp.data.reserved,
+        miscFrozen: BigInt(0),
+        feeFrozen: BigInt(0),
+        flags: resp.data.flags,
+      },
+    };
   }
 
   throw new UnknownVersionError('storage.system.account');

@@ -49,5 +49,14 @@ export async function handleLbpPoolPrices(ctx: ProcessorContext<Store>) {
     await Promise.all(poolPricesRaw.flat())
   ).filter(isNotNullOrUndefined);
 
-  await ctx.store.save(poolPrices);
+  // await ctx.store.save(poolPrices);
+
+  const lbpPoolHistoricalPrices = ctx.batchState.state.lbpPoolHistoricalPrices;
+  for (const priceItem of poolPrices) {
+    lbpPoolHistoricalPrices.set(priceItem.id, priceItem);
+  }
+
+  ctx.batchState.state = {
+    lbpPoolHistoricalPrices,
+  };
 }

@@ -10,7 +10,7 @@ import {
 } from '@subsquid/substrate-processor';
 
 import { BatchState } from './utils/batchState';
-import { AppConfig } from './utils/appConfigsManager';
+import { AppConfig } from './utils/appConfig';
 const appConfig = AppConfig.getInstance();
 
 export const processor = new SubstrateBatchProcessor()
@@ -25,7 +25,6 @@ export const processor = new SubstrateBatchProcessor()
   .setRpcEndpoint({
     // Set via .env for local runs or via secrets when deploying to Subsquid Cloud
     // https://docs.subsquid.io/deploy-squid/env-variables/
-
     // See https://docs.subsquid.io/substrate-indexing/setup/general/#set-data-source
     url: assertNotNull(appConfig.RPC_HYDRATION_URL, 'No RPC endpoint supplied'),
     capacity: 1000,
@@ -62,10 +61,10 @@ export const processor = new SubstrateBatchProcessor()
       error: true,
     },
   })
-  .setBlockRange({ from: 3934551 }); // XYK.create_pool
+  // .setBlockRange({ from: 3934551 }); // XYK.create_pool
   // .setBlockRange({ from: 3934590 }); // XYK.buy
   // .setBlockRange({ from: 3681000 });
-  // .setBlockRange({ from: 3680000 });
+  // .setBlockRange({ from: 4960727 });
 
 export type Fields = SubstrateBatchProcessorFields<typeof processor>;
 export type Block = BlockHeader<Fields>;

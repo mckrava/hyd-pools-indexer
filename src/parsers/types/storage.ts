@@ -1,10 +1,12 @@
 import { sts } from '../../types/support';
+import { ExtraFlags } from '../../types/v205';
 
 export interface AccountData {
   free: bigint;
   reserved: bigint;
   miscFrozen: bigint;
   feeFrozen: bigint;
+  flags: bigint;
 }
 
 export interface SystemAccountInfo {

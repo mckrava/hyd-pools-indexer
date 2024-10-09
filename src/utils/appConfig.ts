@@ -11,6 +11,29 @@ dotenv.config();
 export class AppConfig {
   private static instance: AppConfig;
 
+  @Transform(({ value }: { value: string }) => +value)
+  @IsNotEmpty()
+  readonly GQL_PORT: number = 4350;
+
+  // @IsNotEmpty()
+  readonly BASE_API_PATH?: string;
+
+  @IsNotEmpty()
+  readonly DB_HOST: string = 'localhost';
+
+  @IsNotEmpty()
+  readonly DB_NAME: string = 'postgres';
+
+  @IsNotEmpty()
+  readonly DB_USER: string = 'postgres';
+
+  @IsNotEmpty()
+  readonly DB_PASS: string = 'postgres';
+
+  @Transform(({ value }: { value: string }) => +value)
+  @IsNotEmpty()
+  readonly DB_PORT: number = 5432;
+
   @IsNotEmpty()
   readonly RPC_HYDRATION_URL!: string;
 
@@ -34,7 +57,6 @@ export class AppConfig {
         validator: { stopAtFirstError: true },
       });
     } catch (errors) {
-      // const logger = new Logger('ConfigModule');
       if (Array.isArray(errors) && errors[0] instanceof ValidationError) {
         errors.forEach((error: ValidationError) => {
           // @ts-ignore

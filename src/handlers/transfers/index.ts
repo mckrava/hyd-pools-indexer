@@ -11,31 +11,29 @@ export async function handleTransfers(
   ctx: ProcessorContext<Store>,
   parsedEvents: BatchBlocksParsedDataManager
 ) {
-  const balancesTransferEvents = [
-    ...parsedEvents.getSectionByEventName(EventName.Balances_Transfer).values(),
-  ];
-  const tokensTransferEvents = [
-    ...parsedEvents.getSectionByEventName(EventName.Tokens_Transfer).values(),
-  ];
-
   const allPoolsIds = [
     ...ctx.batchState.state.lbpAllBatchPools.keys(),
     ...ctx.batchState.state.xykAllBatchPools.keys(),
   ];
 
-  for (const eventData of getOrderedListByBlockNumber(
-    balancesTransferEvents
-  ).filter((e) =>
+  const balancesTransferEvents = [
+    ...parsedEvents.getSectionByEventName(EventName.Balances_Transfer).values(),
+  ].filter((e) =>
     isPoolTransfer(allPoolsIds, e.eventData.params.from, e.eventData.params.to)
-  )) {
+  );
+  const tokensTransferEvents = [
+    ...parsedEvents.getSectionByEventName(EventName.Tokens_Transfer).values(),
+  ].filter((e) =>
+    isPoolTransfer(allPoolsIds, e.eventData.params.from, e.eventData.params.to)
+  );
+
+  for (const eventData of getOrderedListByBlockNumber(balancesTransferEvents)) {
     await handleBalancesTransfer(ctx, eventData);
   }
 
-  for (const eventData of getOrderedListByBlockNumber(
-    tokensTransferEvents
-  ).filter((e) =>
-    isPoolTransfer(allPoolsIds, e.eventData.params.from, e.eventData.params.to)
-  )) {
+  for (const eventData of getOrderedListByBlockNumber(tokensTransferEvents)) {
     await handleTokensTransfer(ctx, eventData);
   }
+
+  await ctx.store.save([...ctx.batchState.state.transfers.values()]);
 }

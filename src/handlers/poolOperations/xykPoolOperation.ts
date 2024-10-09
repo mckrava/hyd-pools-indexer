@@ -51,8 +51,6 @@ export async function xykBuyExecuted(
     paraChainBlockHeight: eventMetadata.blockHeader.height,
   });
 
-  await ctx.store.save(operationInstance);
-
   ctx.batchState.state = {
     xykPoolOperations: [
       ...ctx.batchState.state.xykPoolOperations,
@@ -99,8 +97,6 @@ export async function xykSellExecuted(
     relayChainBlockHeight: eventCallData.relayChainInfo.relaychainBlockNumber,
     paraChainBlockHeight: eventMetadata.blockHeader.height,
   });
-
-  await ctx.store.save(operationInstance);
 
   ctx.batchState.state = {
     xykPoolOperations: [

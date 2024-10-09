@@ -57,5 +57,13 @@ export async function handleXykPoolPrices(ctx: ProcessorContext<Store>) {
     await Promise.all(poolPricesRaw.flat())
   ).filter(isNotNullOrUndefined);
 
-  await ctx.store.save(poolPrices);
+  // await ctx.store.save(poolPrices);
+  const xykPoolHistoricalPrices = ctx.batchState.state.xykPoolHistoricalPrices;
+  for (const priceItem of poolPrices) {
+    xykPoolHistoricalPrices.set(priceItem.id, priceItem);
+  }
+
+  ctx.batchState.state = {
+    xykPoolHistoricalPrices,
+  };
 }

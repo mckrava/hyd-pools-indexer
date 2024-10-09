@@ -6,7 +6,7 @@ import { handlePools } from './handlers/pools';
 import { handleTransfers } from './handlers/transfers';
 import { getParsedEventsData } from './parsers/batchBlocksParser';
 import { handlePoolOperations } from './handlers/poolOperations';
-import { AppConfig } from './utils/appConfigsManager';
+import { AppConfig } from './utils/appConfig';
 import { handlePoolPrices } from './handlers/prices';
 
 processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
@@ -29,7 +29,7 @@ processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
     parsedData
   );
 
-  await handlePoolPrices(ctxWithBatchState as ProcessorContext<Store>);
+  // await handlePoolPrices(ctxWithBatchState as ProcessorContext<Store>);
 
   await handleTransfers(
     ctxWithBatchState as ProcessorContext<Store>,

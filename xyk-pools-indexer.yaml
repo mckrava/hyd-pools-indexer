@@ -1,11 +1,14 @@
 manifestVersion: subsquid.io/v0.1
 name: hydration-xyk-pools-indexer
-version: 1
+version: 400
 description: Substrate squid template
 build:
 deploy:
   addons:
     postgres:
+      config:
+        statement_timeout: 360000
+        log_min_duration_statement: 60000
   processor:
     env:
       RPC_HYDRATION_URL: wss://archive.rpc.hydration.cloud
@@ -18,6 +21,11 @@ deploy:
   api:
     cmd:
       - sqd
-      - serve:prod
+      - api:prod
 scale:
   dedicated: false
+  addons:
+    postgres:
+      profile: large
+  processor:
+    profile: large
