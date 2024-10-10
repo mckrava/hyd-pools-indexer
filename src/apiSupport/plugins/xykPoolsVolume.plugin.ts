@@ -21,6 +21,20 @@ type XykPoolVolumesByPeriodResponse = {
   totalCount: number;
 };
 
+type XykPoolHistoricalVolumeRaw = {
+  id: string;
+  pool_id: string;
+  asset_a_volume_in: number;
+  asset_a_total_volume_in: number;
+  asset_a_volume_out: number;
+  asset_a_total_volume_out: number;
+  asset_b_volume_in: number;
+  asset_b_total_volume_in: number;
+  asset_b_volume_out: number;
+  asset_b_total_volume_out: number;
+  para_chain_block_height: number;
+};
+
 export const XykPoolsVolumePlugin: Plugin = makeExtendSchemaPlugin(
   (build, options) => {
     const schemas: string[] = options.stateSchemas || ['squid_processor'];
@@ -60,6 +74,12 @@ export const XykPoolsVolumePlugin: Plugin = makeExtendSchemaPlugin(
             info
           ): Promise<XykPoolVolumesByPeriodResponse> => {
             const pgClient: pg.Client = context.pgClient;
+
+            pgClient.setTypeParser(1700, function (val) {
+              console.log('parser --- 1700 ', val);
+              return val;
+            });
+
             const {
               filter: { poolIds, startBlockNumber, endBlockNumber },
             } = args;
@@ -75,41 +95,54 @@ export const XykPoolsVolumePlugin: Plugin = makeExtendSchemaPlugin(
             const decoratedNodes = new Map<string, XykPoolVolumeAggregated>(
               groupedResult.rows
                 .map((item) => item.grouped_result.flat())
-                .map(
-                  (
-                    group: Array<{
-                      pool_id: string;
-                      asset_a_total_volume_in: number;
-                      asset_a_total_volume_out: number;
-                      asset_b_total_volume_in: number;
-                      asset_b_total_volume_out: number;
-                    }>
-                  ) => {
-                    const resp: XykPoolVolumeAggregated = {
-                      poolId: group[0].pool_id,
-                      totalVolume: BigInt(0),
-                      assetAVolume: BigInt(0),
-                      assetBVolume: BigInt(0),
-                    };
-                    if (group.length === 1) return resp;
-                    resp.assetAVolume = BigInt(
-                      BigNumber(group[1].asset_a_total_volume_in)
-                        .plus(group[1].asset_a_total_volume_out)
-                        .minus(group[0].asset_a_total_volume_in)
-                        .minus(group[0].asset_a_total_volume_out)
-                        .toFixed()
-                    );
-                    resp.assetBVolume = BigInt(
-                      BigNumber(group[1].asset_b_total_volume_in)
-                        .plus(group[1].asset_b_total_volume_out)
-                        .minus(group[0].asset_b_total_volume_in)
-                        .minus(group[0].asset_b_total_volume_out)
-                        .toFixed()
-                    );
+                .map((group: Array<XykPoolHistoricalVolumeRaw>) => {
+                  const resp: XykPoolVolumeAggregated = {
+                    poolId: group[0].pool_id,
+                    totalVolume: BigInt(0),
+                    assetAVolume: BigInt(0),
+                    assetBVolume: BigInt(0),
+                  };
+                  //
+                  // console.log(
+                  //   'group[0].asset_a_volume_in - ',
+                  //   group[0].pool_id,
+                  //   group[0].para_chain_block_height,
+                  //   group[0].asset_b_volume_out,
+                  //   typeof group[0].asset_b_volume_out,
+                  //   BigInt(group[0].asset_b_volume_out).toString()
+                  // );
+
+                  if (group.length === 1) return resp;
+
+                  if (
+                    group[0].para_chain_block_height ===
+                    group[1].para_chain_block_height
+                  ) {
+                    resp.assetAVolume =
+                      BigInt(group[0].asset_a_volume_in) +
+                      BigInt(group[0].asset_a_volume_out);
+                    resp.assetBVolume =
+                      BigInt(group[0].asset_b_volume_in) +
+                      BigInt(group[0].asset_b_volume_out);
+
                     resp.totalVolume = resp.assetAVolume + resp.assetBVolume;
                     return resp;
                   }
-                )
+
+                  resp.assetAVolume =
+                    BigInt(group[1].asset_a_total_volume_in) +
+                    BigInt(group[1].asset_a_total_volume_out) -
+                    BigInt(group[0].asset_a_total_volume_in) -
+                    BigInt(group[0].asset_a_total_volume_out);
+
+                  resp.assetBVolume =
+                    BigInt(group[1].asset_b_total_volume_in) +
+                    BigInt(group[1].asset_b_total_volume_out) -
+                    BigInt(group[0].asset_b_total_volume_in) -
+                    BigInt(group[0].asset_b_total_volume_out);
+                  resp.totalVolume = resp.assetAVolume + resp.assetBVolume;
+                  return resp;
+                })
                 .map((r: XykPoolVolumeAggregated) => [r.poolId, r])
             );
 

@@ -12,8 +12,6 @@
     "emitDecoratorMetadata": true,
     "skipLibCheck": true
   },
-  "include": ["src"],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["src", "schema.graphql"],
+  "exclude": ["node_modules"]
 }

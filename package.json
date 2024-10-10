@@ -10,6 +10,7 @@
   "dependencies": {
     "@graphile-contrib/pg-simplify-inflector": "^6.1.0",
     "@graphile/pg-aggregates": "^0.1.1",
+    "@graphile/pg-pubsub": "^4.13.0",
     "@polkadot/api": "^14.0.1",
     "@subsquid/graphql-server": "^4.5.1",
     "@subsquid/ss58": "^2.0.2",

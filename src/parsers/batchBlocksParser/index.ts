@@ -231,9 +231,10 @@ export function getParsedEventsData(
          */
 
         case events.xyk.poolCreated.name: {
-          const callArgs = call
-            ? parsers.calls.xyk.parseCreatePoolArgs(call)
-            : undefined;
+          const callArgs =
+            call && call.name === calls.xyk.createPool.name
+              ? parsers.calls.xyk.parseCreatePoolArgs(call)
+              : undefined;
           const eventParams = parsers.events.xyk.parsePoolCreatedParams(event);
           const eventMetadata = getEventMetadata(block.header, event);
 
@@ -364,3 +365,8 @@ export function getParsedEventsData(
   );
   return parsedDataManager;
 }
+
+31344583517047399750
+31344583517047399750
+
+234026871167506281
