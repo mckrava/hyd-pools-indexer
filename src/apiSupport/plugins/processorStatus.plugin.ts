@@ -1,7 +1,5 @@
 import { gql, makeExtendSchemaPlugin, Plugin } from 'postgraphile';
 import type * as pg from 'pg';
-import { getTypeormConnection } from '../utils/typeorm';
-import { XykPool } from '../../model';
 
 export const ProcessorStatusPlugin: Plugin = makeExtendSchemaPlugin(
   (build, options) => {

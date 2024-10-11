@@ -15,7 +15,9 @@ import { AppConfig } from './utils/appConfig';
 import { XykPoolsVolumePlugin } from './apiSupport/plugins/xykPoolsVolume.plugin';
 import PgPubsub from '@graphile/pg-pubsub';
 import TypeOverrides from 'pg/lib/type-overrides';
-import { createClass } from '@polkadot/api/submittable/createClass';
+import { Client } from 'pg';
+import { runMigrations } from './apiSupport/apiMigrations/runMigrations';
+import { XykPoolsVolumeSubscriptionsPlugin } from './apiSupport/plugins/xykPoolsVolumeSubscriptions.plugin';
 
 const pgTypes = new TypeOverrides();
 pgTypes.setTypeParser(1700, function (val) {
@@ -25,7 +27,11 @@ pgTypes.setTypeParser(1700, function (val) {
 const app = express();
 const appConfig = AppConfig.getInstance();
 
-console.log('appConfig.BASE_PATH - ', appConfig.BASE_PATH);
+runMigrations()
+  .then()
+  .catch((e) => {
+    console.log(e);
+  });
 
 app.use(
   postgraphile(
@@ -40,6 +46,7 @@ app.use(
     'public',
     {
       graphiql: true,
+      watchPg: true,
       showErrorStack: false,
       enhanceGraphiql: true,
       dynamicJson: true,
@@ -47,12 +54,13 @@ app.use(
       skipPlugins: [NodePlugin],
       subscriptions: true,
       pluginHook: makePluginHook([PgPubsub]),
+      prependPlugins: [ProcessorStatusPlugin],
       appendPlugins: [
         AggregatesPluggin,
         FilterPlugin,
         SimplifyInflectorPlugin,
-        ProcessorStatusPlugin,
         XykPoolsVolumePlugin,
+        XykPoolsVolumeSubscriptionsPlugin,
       ],
       externalUrlBase: appConfig.BASE_PATH,
       graphileBuildOptions: {

@@ -8,7 +8,7 @@
     "build": {
       "description": "Build the squid project",
       "deps": ["clean"],
-      "cmd": ["tsc"]
+      "cmd": ["npm", "run", "build"]
     },
     "up": {
       "description": "Start a PG database",

@@ -16,6 +16,7 @@ deploy:
       PROCESS_LBP_POOLS: false
       PROCESS_XYK_POOLS: true
       GQL_PORT: 8080
+      NODE_ENV: production
     cmd:
       - sqd
       - process:prod
@@ -26,6 +27,7 @@ deploy:
       PROCESS_LBP_POOLS: false
       PROCESS_XYK_POOLS: true
       GQL_PORT: 8080
+      NODE_ENV: production
     cmd:
       - sqd
       - api:prod

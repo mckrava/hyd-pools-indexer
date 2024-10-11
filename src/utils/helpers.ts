@@ -1,5 +1,10 @@
-// OMG Typescript...
 import { ParsedEventsCallsData } from '../parsers/batchBlocksParser/types';
+import lodashCamelCase from 'lodash.camelcase';
+import { AppConfig } from './appConfig';
+import { NodeEnv } from './types';
+import { join } from 'path';
+
+const appConfig = AppConfig.getInstance();
 
 export function isNotNullOrUndefined<T extends Object>(
   input: null | undefined | T
@@ -32,4 +37,25 @@ export function getOrderedListByBlockNumber<T extends ParsedEventsCallsData>(
           : 0;
     }
   });
+}
+
+export function convertObjectPropsSnakeCaseToCamelCase<
+  R extends Record<string, any>,
+>(src: Record<string, any>): R {
+  if (!src || typeof src !== 'object') return src;
+
+  const decoratedResult: Record<string, any> = {};
+
+  for (const propName in src) {
+    decoratedResult[lodashCamelCase(propName)] = src[propName];
+  }
+  // TODO fix types
+  // @ts-ignore
+  return decoratedResult;
+}
+
+export function getEnvPath(subPath: string): string {
+  return appConfig.NODE_ENV === NodeEnv.DEV
+    ? join(process.cwd(), 'src/', subPath)
+    : join(process.cwd(), 'lib/', subPath);
 }

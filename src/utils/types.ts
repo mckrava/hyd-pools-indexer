@@ -1,7 +1,12 @@
-import { LbpPoolHistoricalVolume, LbpPoolOperation, LbpPool, HistoricalAssetVolume } from "../model";
-import type * as base from "@subsquid/substrate-data";
+import {
+  LbpPoolHistoricalVolume,
+  LbpPoolOperation,
+  LbpPool,
+  HistoricalAssetVolume,
+} from '../model';
+import type * as base from '@subsquid/substrate-data';
 
-interface TransferEvent {
+export interface TransferEvent {
   id: string;
   assetId: number;
   blockNumber: number;
@@ -13,7 +18,7 @@ interface TransferEvent {
   fee?: bigint;
 }
 
-interface LBPPoolDataUpdate {
+export interface LBPPoolDataUpdate {
   owner: string;
   feeCollector: string;
   initialWeight: number;
@@ -24,7 +29,7 @@ interface LBPPoolDataUpdate {
   repayTarget?: bigint;
 }
 
-interface PoolCreatedEvent {
+export interface PoolCreatedEvent {
   id: string;
   assetAId: number;
   assetBId: number;
@@ -35,21 +40,26 @@ interface PoolCreatedEvent {
   lbpPoolData?: LBPPoolDataUpdate;
 }
 
-interface ProcessorBlockData {
+export interface ProcessorBlockData {
   timestamp: Date | null;
   paraChainBlockHeight: number;
   relayChainBlockHeight: number | null;
   swaps: LbpPoolOperation[];
 }
 
-interface FullExtrinsic extends base.Extrinsic {
+export interface FullExtrinsic extends base.Extrinsic {
   success: boolean;
   hash: base.Bytes;
 }
 
 export enum PoolType {
-  XYK = "Xyk",
-  LBP = "Lbp",
-  Stable = "Stableswap",
-  Omni = "Omnipool"
+  XYK = 'Xyk',
+  LBP = 'Lbp',
+  Stable = 'Stableswap',
+  Omni = 'Omnipool',
+}
+
+export enum NodeEnv {
+  DEV = 'development',
+  PROD = 'production',
 }

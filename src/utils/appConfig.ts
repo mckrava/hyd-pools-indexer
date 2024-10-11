@@ -5,11 +5,15 @@ import { IsNotEmpty, ValidationError } from 'class-validator';
 import dotenv from 'dotenv';
 
 import { events, calls } from '../types/';
+import { NodeEnv } from './types';
 
 dotenv.config();
 
 export class AppConfig {
   private static instance: AppConfig;
+
+  @IsNotEmpty()
+  readonly NODE_ENV!: NodeEnv;
 
   @Transform(({ value }: { value: string }) => +value)
   @IsNotEmpty()

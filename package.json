@@ -5,7 +5,9 @@
     "node": ">=16"
   },
   "scripts": {
-    "build": "rm -rf lib && tsc"
+    "build": "rm -rf lib && tsc",
+    "node-pg-migrate": "node-pg-migrate",
+    "postbuild": "cpx 'src/**/*.sql' lib"
   },
   "dependencies": {
     "@graphile-contrib/pg-simplify-inflector": "^6.1.0",
@@ -21,9 +23,12 @@
     "class-transformer": "^0.5.1",
     "class-transformer-validator": "^0.9.1",
     "class-validator": "^0.14.1",
+    "cpx2": "^8.0.0",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "graphile-build": "^4.13.0",
+    "lodash.camelcase": "^4.3.0",
+    "node-pg-migrate": "^7.7.1",
     "pg": "^8.11.5",
     "postgraphile": "^4.13.0",
     "postgraphile-plugin-connection-filter": "^2.3.0",
@@ -33,6 +38,7 @@
     "@subsquid/substrate-metadata-explorer": "^3.1.2",
     "@subsquid/substrate-typegen": "^8.1.0",
     "@subsquid/typeorm-codegen": "^2.0.0",
+    "@types/lodash.camelcase": "^4.3.9",
     "@types/node": "^20.12.7",
     "@typescript-eslint/eslint-plugin": "^8.8.0",
     "@typescript-eslint/parser": "^8.8.0",
