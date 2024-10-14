@@ -3,10 +3,12 @@ export const aggregateXykPoolVolumesByBlocksRange = `
         SELECT 
             id,
             pool_id,
+            asset_a_id,
             asset_a_volume_in,
             asset_a_total_volume_in,
             asset_a_volume_out,
             asset_a_total_volume_out,
+            asset_b_id,
             asset_b_volume_in,
             asset_b_total_volume_in,
             asset_b_volume_out,
@@ -26,10 +28,12 @@ export const aggregateXykPoolVolumesByBlocksRange = `
         SELECT 
             id,
             pool_id,
+            asset_a_id,
             asset_a_volume_in,
             asset_a_total_volume_in,
             asset_a_volume_out,
             asset_a_total_volume_out,
+            asset_b_id,
             asset_b_volume_in,
             asset_b_total_volume_in,
             asset_b_volume_out,
@@ -60,4 +64,15 @@ export const aggregateXykPoolVolumesByBlocksRange = `
     ) AS grouped_data
     GROUP BY 
         pool_id;
+`;
+
+export const getAssetIdsByPoolIds = `
+  SELECT 
+      id, 
+      asset_a_id, 
+      asset_b_id 
+  FROM 
+      xyk_pool 
+  WHERE 
+      id = ANY($1);
 `;

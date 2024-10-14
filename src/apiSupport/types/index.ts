@@ -3,8 +3,8 @@ import { Client } from 'pg';
 export type XykPoolHistoricalVolumeRaw = {
   id: string;
   pool_id: string;
-  asset_a_id: string;
-  asset_b_id: string;
+  asset_a_id: number;
+  asset_b_id: number;
   asset_a_volume_in: number;
   asset_a_total_volume_in: number;
   asset_a_volume_out: number;
@@ -24,8 +24,8 @@ export type XykPoolHistoricalVolumeRaw = {
 export type XykPoolHistoricalVolumeGqlResponse = {
   id: string;
   poolId: string;
-  assetAId: string;
-  assetBId: string;
+  assetAId: number;
+  assetBId: number;
   assetAVolumeIn: bigint;
   assetATotalVolumeIn: bigint;
   assetAVolumeOut: bigint;

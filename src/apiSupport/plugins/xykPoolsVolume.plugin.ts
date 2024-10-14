@@ -1,6 +1,9 @@
 import { gql, makeExtendSchemaPlugin, Plugin, embed } from 'postgraphile';
 import type * as pg from 'pg';
-import { aggregateXykPoolVolumesByBlocksRange } from './sql/xykPoolsVolume.sql';
+import {
+  aggregateXykPoolVolumesByBlocksRange,
+  getAssetIdsByPoolIds,
+} from './sql/xykPoolsVolume.sql';
 import { QueryResolverContext, XykPoolHistoricalVolumeRaw } from '../types';
 import { GraphQLResolveInfo } from 'graphql/type/definition';
 import { GraphileHelpers } from 'graphile-utils/node8plus/fieldHelpers';
@@ -13,8 +16,9 @@ type XykPoolVolumesByPeriodFilter = {
 
 type XykPoolVolumeAggregated = {
   poolId: string;
-  totalVolume: bigint;
+  assetAId: number;
   assetAVolume: bigint;
+  assetBId: number;
   assetBVolume: bigint;
 };
 
@@ -38,6 +42,7 @@ export async function handleQueryXykPoolHistoricalVolumesByPeriod(
   const {
     filter: { poolIds, startBlockNumber, endBlockNumber },
   } = args;
+
   const squidStatus = (
     await pgClient.query(`SELECT height FROM squid_processor.status`)
   ).rows[0];
@@ -53,8 +58,9 @@ export async function handleQueryXykPoolHistoricalVolumesByPeriod(
       .map((group: Array<XykPoolHistoricalVolumeRaw>) => {
         const resp: XykPoolVolumeAggregated = {
           poolId: group[0].pool_id,
-          totalVolume: BigInt(0),
+          assetAId: group[0].asset_a_id,
           assetAVolume: BigInt(0),
+          assetBId: group[0].asset_b_id,
           assetBVolume: BigInt(0),
         };
 
@@ -70,7 +76,6 @@ export async function handleQueryXykPoolHistoricalVolumesByPeriod(
             BigInt(group[0].asset_b_volume_in) +
             BigInt(group[0].asset_b_volume_out);
 
-          resp.totalVolume = resp.assetAVolume + resp.assetBVolume;
           return resp;
         }
 
@@ -85,17 +90,20 @@ export async function handleQueryXykPoolHistoricalVolumesByPeriod(
           BigInt(group[1].asset_b_total_volume_out) -
           BigInt(group[0].asset_b_total_volume_in) -
           BigInt(group[0].asset_b_total_volume_out);
-        resp.totalVolume = resp.assetAVolume + resp.assetBVolume;
         return resp;
       })
       .map((r: XykPoolVolumeAggregated) => [r.poolId, r])
   );
 
-  for (const requestedPoolId of poolIds) {
-    if (decoratedNodes.has(requestedPoolId)) continue;
-    decoratedNodes.set(requestedPoolId, {
-      poolId: requestedPoolId,
-      totalVolume: BigInt(0),
+  const assetsData = await pgClient.query(getAssetIdsByPoolIds, [
+    poolIds.filter((id) => !decoratedNodes.has(id)),
+  ]);
+
+  for (const poolWithAssetsData of assetsData.rows) {
+    decoratedNodes.set(poolWithAssetsData.id, {
+      poolId: poolWithAssetsData.id,
+      assetAId: poolWithAssetsData.asset_a_id,
+      assetBId: poolWithAssetsData.asset_b_id,
       assetAVolume: BigInt(0),
       assetBVolume: BigInt(0),
     });
@@ -121,7 +129,8 @@ export const XykPoolsVolumePlugin: Plugin = makeExtendSchemaPlugin(
 
         type XykPoolVolumeAggregated {
           poolId: String!
-          totalVolume: BigFloat!
+          assetAId: Int!
+          assetBId: Int!
           assetAVolume: BigFloat!
           assetBVolume: BigFloat!
         }
