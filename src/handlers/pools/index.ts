@@ -42,6 +42,7 @@ export async function handleLbpPools(
       ctx.batchState.state.lbpPoolsToSave.has(pool.id)
     )
   );
+  ctx.batchState.state = { lbpPoolsToSave: new Set() };
 }
 
 export async function handleXykPools(
@@ -73,4 +74,6 @@ export async function handleXykPools(
       ctx.batchState.state.xykPoolsToSave.has(pool.id)
     )
   );
+
+  ctx.batchState.state = { xykPoolsToSave: new Set() };
 }

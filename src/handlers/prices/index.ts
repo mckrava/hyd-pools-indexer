@@ -1,6 +1,5 @@
 import { ProcessorContext } from '../../processor';
 import { Store } from '@subsquid/typeorm-store';
-import { BatchBlocksParsedDataManager } from '../../parsers/batchBlocksParser';
 import { handleLbpPoolPrices } from './lbpPoolPrice';
 import { handleXykPoolPrices } from './xykPoolPrice';
 
@@ -14,4 +13,16 @@ export async function handlePoolPrices(ctx: ProcessorContext<Store>) {
   await ctx.store.save([
     ...ctx.batchState.state.xykPoolHistoricalPrices.values(),
   ]);
+
+  await ctx.store.save(
+    [...ctx.batchState.state.xykAllBatchPools.values()].filter((pool) =>
+      ctx.batchState.state.xykPoolsToSave.has(pool.id)
+    )
+  );
+
+  await ctx.store.save(
+    [...ctx.batchState.state.lbpAllBatchPools.values()].filter((pool) =>
+      ctx.batchState.state.lbpPoolsToSave.has(pool.id)
+    )
+  );
 }

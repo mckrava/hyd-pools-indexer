@@ -14,6 +14,7 @@ import { isNotNullOrUndefined } from '../../utils/helpers';
 
 export async function handleXykPoolPrices(ctx: ProcessorContext<Store>) {
   const poolPricesRaw = [];
+  const xykAllBatchPools = ctx.batchState.state.xykAllBatchPools;
 
   for (let block of ctx.blocks) {
     const currentBlockRelayChainInfo = ctx.batchState.state.relayChainInfo.get(
@@ -23,7 +24,7 @@ export async function handleXykPoolPrices(ctx: ProcessorContext<Store>) {
     if (!currentBlockRelayChainInfo) continue;
 
     poolPricesRaw.push(
-      [...ctx.batchState.state.xykAllBatchPools.values()].map(
+      [...xykAllBatchPools.values()].map(
         async (p) =>
           new Promise<XykPoolHistoricalPrice | null>((resolve) => {
             if (p.createdAtParaBlock > block.header.height) {
@@ -57,13 +58,22 @@ export async function handleXykPoolPrices(ctx: ProcessorContext<Store>) {
     await Promise.all(poolPricesRaw.flat())
   ).filter(isNotNullOrUndefined);
 
-  // await ctx.store.save(poolPrices);
   const xykPoolHistoricalPrices = ctx.batchState.state.xykPoolHistoricalPrices;
+  const xykPoolsToSave = ctx.batchState.state.xykPoolsToSave;
+
   for (const priceItem of poolPrices) {
     xykPoolHistoricalPrices.set(priceItem.id, priceItem);
+    const pool = xykAllBatchPools.get(priceItem.pool.id);
+    if (!pool) continue;
+    pool.assetABalance = priceItem.assetABalance;
+    pool.assetBBalance = priceItem.assetBBalance;
+    xykAllBatchPools.set(priceItem.pool.id, pool);
+    xykPoolsToSave.add(priceItem.pool.id);
   }
 
   ctx.batchState.state = {
     xykPoolHistoricalPrices,
+    xykAllBatchPools,
+    xykPoolsToSave,
   };
 }

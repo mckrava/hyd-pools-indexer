@@ -6,6 +6,7 @@ import { isNotNullOrUndefined } from '../../utils/helpers';
 
 export async function handleLbpPoolPrices(ctx: ProcessorContext<Store>) {
   const poolPricesRaw = [];
+  const lbpAllBatchPools = ctx.batchState.state.lbpAllBatchPools;
 
   for (let block of ctx.blocks) {
     const currentBlockRelayChainInfo = ctx.batchState.state.relayChainInfo.get(
@@ -15,7 +16,7 @@ export async function handleLbpPoolPrices(ctx: ProcessorContext<Store>) {
     if (!currentBlockRelayChainInfo) continue;
 
     poolPricesRaw.push(
-      [...ctx.batchState.state.lbpAllBatchPools.values()].map(
+      [...lbpAllBatchPools.values()].map(
         async (p) =>
           new Promise<LbpPoolHistoricalPrice | null>((resolve) => {
             if (p.createdAtParaBlock > block.header.height) {
@@ -49,14 +50,23 @@ export async function handleLbpPoolPrices(ctx: ProcessorContext<Store>) {
     await Promise.all(poolPricesRaw.flat())
   ).filter(isNotNullOrUndefined);
 
-  // await ctx.store.save(poolPrices);
-
   const lbpPoolHistoricalPrices = ctx.batchState.state.lbpPoolHistoricalPrices;
+  const lbpPoolsToSave = ctx.batchState.state.lbpPoolsToSave;
+
   for (const priceItem of poolPrices) {
     lbpPoolHistoricalPrices.set(priceItem.id, priceItem);
+
+    const pool = lbpAllBatchPools.get(priceItem.pool.id);
+    if (!pool) continue;
+    pool.assetABalance = priceItem.assetABalance;
+    pool.assetBBalance = priceItem.assetBBalance;
+    lbpAllBatchPools.set(priceItem.pool.id, pool);
+    lbpPoolsToSave.add(priceItem.pool.id);
   }
 
   ctx.batchState.state = {
     lbpPoolHistoricalPrices,
+    lbpAllBatchPools,
+    lbpPoolsToSave,
   };
 }

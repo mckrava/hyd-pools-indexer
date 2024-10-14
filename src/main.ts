@@ -29,7 +29,8 @@ processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
     parsedData
   );
 
-  // await handlePoolPrices(ctxWithBatchState as ProcessorContext<Store>);
+  if (ctx.isHead)
+    await handlePoolPrices(ctxWithBatchState as ProcessorContext<Store>);
 
   await handleTransfers(
     ctxWithBatchState as ProcessorContext<Store>,
