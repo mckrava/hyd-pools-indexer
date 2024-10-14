@@ -1,4 +1,4 @@
-import { calls } from '../../types/';
+import { calls } from '../../typegenTypes/';
 import { Call } from '../../processor';
 import {
   LbpCreatePoolCallArgs,

@@ -1,4 +1,4 @@
-import { events, calls } from '../../types/';
+import { events, calls } from '../../typegenTypes/';
 import { Event } from '../../processor';
 import { UnknownVersionError } from '../../utils/errors';
 import {

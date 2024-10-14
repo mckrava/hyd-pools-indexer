@@ -18,7 +18,7 @@ import { EventName, RelayChainInfo } from '../types/events';
 import { Block, Event, ProcessorContext } from '../../processor';
 import { Store } from '@subsquid/typeorm-store';
 import parsers from '../';
-import { calls, events } from '../../types';
+import { calls, events } from '../../typegenTypes';
 
 type EventDataType<T> = T extends EventName.Tokens_Transfer
   ? TokensTransferData

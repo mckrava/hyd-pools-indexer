@@ -54,11 +54,11 @@ app.use(
       skipPlugins: [NodePlugin],
       subscriptions: true,
       pluginHook: makePluginHook([PgPubsub]),
-      prependPlugins: [ProcessorStatusPlugin],
       appendPlugins: [
         AggregatesPluggin,
         FilterPlugin,
         SimplifyInflectorPlugin,
+        ProcessorStatusPlugin,
         XykPoolsVolumePlugin,
         XykPoolsVolumeSubscriptionsPlugin,
       ],

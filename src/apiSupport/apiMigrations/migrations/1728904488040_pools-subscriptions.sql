@@ -19,6 +19,7 @@ END
 $$ VOLATILE
 LANGUAGE plpgsql;
 
+
 CREATE TRIGGER _500_gql_update_xyk_pool_historical_volume
   AFTER INSERT OR UPDATE OR DELETE ON public.xyk_pool_historical_volume
   FOR EACH ROW

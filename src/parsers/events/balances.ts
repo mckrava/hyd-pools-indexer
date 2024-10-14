@@ -1,4 +1,4 @@
-import { events } from '../../types/';
+import { events } from '../../typegenTypes/';
 import { Event } from '../../processor';
 import { UnknownVersionError } from '../../utils/errors';
 import { BalancesTransferEventParams } from '../types/events';

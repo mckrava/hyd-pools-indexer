@@ -1,5 +1,5 @@
 import { PoolData } from './common';
-import { events } from '../../types';
+import { events } from '../../typegenTypes';
 
 export const EventNameConst = {
   [events.lbp.poolCreated.name]: events.lbp.poolCreated.name,

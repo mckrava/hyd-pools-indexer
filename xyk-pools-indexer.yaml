@@ -1,6 +1,6 @@
 manifestVersion: subsquid.io/v0.1
 name: hydration-xyk-pools-indexer
-version: 401
+version: 500
 description: Substrate squid template
 build:
 deploy:

@@ -1,5 +1,5 @@
-import { sts } from '../../types/support';
-import { ExtraFlags } from '../../types/v205';
+import { sts } from '../../typegenTypes/support';
+import { ExtraFlags } from '../../typegenTypes/v205';
 
 export interface AccountData {
   free: bigint;

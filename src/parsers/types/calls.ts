@@ -1,4 +1,4 @@
-import { sts } from '../../types/support';
+import { sts } from '../../typegenTypes/support';
 
 export type LbpCreatePoolCallArgs = {
   poolOwner: string;

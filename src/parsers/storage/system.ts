@@ -1,7 +1,7 @@
 import { BlockHeader } from '@subsquid/substrate-processor';
 import { SystemAccountInfo } from '../types/storage';
 import { UnknownVersionError } from '../../utils/errors';
-import { storage } from '../../types/';
+import { storage } from '../../typegenTypes/';
 
 async function getSystemAccount(
   account: string,

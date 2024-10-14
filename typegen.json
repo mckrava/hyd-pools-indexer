@@ -1,5 +1,5 @@
 {
-  "outDir": "src/types",
+  "outDir": "src/typegenTypes",
   "specVersions": "https://v2.archive.subsquid.io/metadata/hydradx",
   "pallets": {
     "Balances": {

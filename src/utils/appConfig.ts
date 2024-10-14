@@ -4,7 +4,7 @@ import { Transform } from 'class-transformer';
 import { IsNotEmpty, ValidationError } from 'class-validator';
 import dotenv from 'dotenv';
 
-import { events, calls } from '../types/';
+import { events, calls } from '../typegenTypes/';
 import { NodeEnv } from './types';
 
 dotenv.config();
