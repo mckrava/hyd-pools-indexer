@@ -36,5 +36,6 @@ scale:
   addons:
     postgres:
       profile: large
+      storage: 30G
   processor:
     profile: large

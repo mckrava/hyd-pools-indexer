@@ -1,13 +1,9 @@
 import { gql, makeExtendSchemaPlugin, Plugin } from 'postgraphile';
 import type * as pg from 'pg';
-import {
-  QueryResolverContext,
-  XykPoolHistoricalVolumeGqlResponse,
-} from '../types';
+import { QueryResolverContext } from '../types';
 import { GraphQLResolveInfo } from 'graphql/type/definition';
 import { GraphileHelpers } from 'graphile-utils/node8plus/fieldHelpers';
 import type { QueryBuilder, SQL } from 'graphile-build-pg';
-import { convertObjectPropsSnakeCaseToCamelCase } from '../../utils/helpers';
 import type { Build } from 'graphile-build';
 
 export const ProcessorStatusPlugin: Plugin = makeExtendSchemaPlugin(
@@ -54,8 +50,8 @@ export const ProcessorStatusPlugin: Plugin = makeExtendSchemaPlugin(
             return rows || [];
           },
         },
-        SquidStatusSubscriptionPayload: {
-          node: async (
+        Subscription: {
+          squidStatus: async (
             event: any,
             _args: any,
             _context: QueryResolverContext,
@@ -77,13 +73,45 @@ export const ProcessorStatusPlugin: Plugin = makeExtendSchemaPlugin(
               );
 
             return {
-              name: 'squid_processor', // TODO add real value
-              height: rows[0].height,
-              hash: rows[0].hash,
+              node: {
+                name: 'squid_processor', // TODO add real value
+                height: rows[0].height,
+                hash: rows[0].hash,
+              },
+              event: event.__node__[0],
             };
           },
-          event: (event: any) => event.__node__[0],
         },
+        // SquidStatusSubscriptionPayload: {
+        //   node: async (
+        //     event: any,
+        //     _args: any,
+        //     _context: QueryResolverContext,
+        //     resolveInfo: GraphQLResolveInfo & { graphile: GraphileHelpers<any> }
+        //   ) => {
+        //     const rows =
+        //       await resolveInfo.graphile.selectGraphQLResultFromTable(
+        //         sql.fragment`squid_processor.status`,
+        //         (tableAlias: SQL, sqlBuilder: QueryBuilder) => {
+        //           sqlBuilder.where(
+        //             sql.fragment`${tableAlias}.id = ${sql.value(event.__node__[2])}`
+        //           );
+        //           sqlBuilder.select(
+        //             sql.fragment`${tableAlias}.height`,
+        //             'height'
+        //           );
+        //           sqlBuilder.select(sql.fragment`${tableAlias}.hash`, 'hash');
+        //         }
+        //       );
+        //
+        //     return {
+        //       name: 'squid_processor', // TODO add real value
+        //       height: rows[0].height,
+        //       hash: rows[0].hash,
+        //     };
+        //   },
+        //   event: (event: any) => event.__node__[0],
+        // },
       },
     };
   }

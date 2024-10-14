@@ -84,8 +84,28 @@ export const XykPoolsVolumeSubscriptionsPlugin: Plugin = makeExtendSchemaPlugin(
     const schemas: string[] = options.stateSchemas || ['squid_processor'];
     const { pgSql: sql } = build;
 
+    const xykPoolHistoricalVolumeSubscriptionFilter = (
+      event: any,
+      args: any
+    ) => {
+      if (
+        !args ||
+        !args.filter ||
+        !args.filter.poolIds ||
+        !Array.isArray(args.filter.poolIds) ||
+        args.filter.poolIds.length === 0
+      )
+        return true;
+
+      return new Set(args.filter.poolIds).has(event.__node__[2].split('-')[0]);
+    };
+
     return {
       typeDefs: gql`
+        input XykPoolHistoricalVolumeSubscriptionFilter {
+          poolIds: [String!]
+        }
+
         type XykPoolHistoricalVolumeSubscriptionPayload {
           node: XykPoolHistoricalVolumeEntity
           event: String
@@ -113,15 +133,18 @@ export const XykPoolsVolumeSubscriptionsPlugin: Plugin = makeExtendSchemaPlugin(
         }
 
         extend type Subscription {
-          xykPoolHistoricalVolume: XykPoolHistoricalVolumeSubscriptionPayload
+          xykPoolHistoricalVolume(
+            filter: XykPoolHistoricalVolumeSubscriptionFilter
+          ): XykPoolHistoricalVolumeSubscriptionPayload
             @pgSubscription(
               topic: "postgraphile:state_changed:xyk_pool_historical_volume"
+              filter: ${embed(xykPoolHistoricalVolumeSubscriptionFilter)}
             )
         }
       `,
       resolvers: {
-        XykPoolHistoricalVolumeSubscriptionPayload: {
-          node: async (
+        Subscription: {
+          xykPoolHistoricalVolume: async (
             event: any,
             _args: any,
             _context: QueryResolverContext,
@@ -145,28 +168,30 @@ export const XykPoolsVolumeSubscriptionsPlugin: Plugin = makeExtendSchemaPlugin(
             );
 
             return {
-              id: decoratedRow.id,
-              poolId: decoratedRow.poolId,
-              assetAId: decoratedRow.assetAId,
-              assetBId: decoratedRow.assetBId,
-              assetAVolumeIn: BigInt(decoratedRow.assetAVolumeIn),
-              assetATotalVolumeIn: BigInt(decoratedRow.assetATotalVolumeIn),
-              assetAVolumeOut: BigInt(decoratedRow.assetAVolumeOut),
-              assetATotalVolumeOut: BigInt(decoratedRow.assetATotalVolumeOut),
-              assetBVolumeIn: BigInt(decoratedRow.assetBVolumeIn),
-              assetBTotalVolumeIn: BigInt(decoratedRow.assetBTotalVolumeIn),
-              assetBVolumeOut: BigInt(decoratedRow.assetBVolumeOut),
-              assetBTotalVolumeOut: BigInt(decoratedRow.assetBTotalVolumeOut),
-              assetAFee: BigInt(decoratedRow.assetAFee),
-              assetBFee: BigInt(decoratedRow.assetBFee),
-              assetATotalFees: BigInt(decoratedRow.assetATotalFees),
-              assetBTotalFees: BigInt(decoratedRow.assetBTotalFees),
-              averagePrice: decoratedRow.averagePrice,
-              relayChainBlockHeight: decoratedRow.relayChainBlockHeight,
-              paraChainBlockHeight: decoratedRow.paraChainBlockHeight,
-            } as XykPoolHistoricalVolumeGqlResponse;
+              node: {
+                id: decoratedRow.id,
+                poolId: decoratedRow.poolId,
+                assetAId: decoratedRow.assetAId,
+                assetBId: decoratedRow.assetBId,
+                assetAVolumeIn: BigInt(decoratedRow.assetAVolumeIn),
+                assetATotalVolumeIn: BigInt(decoratedRow.assetATotalVolumeIn),
+                assetAVolumeOut: BigInt(decoratedRow.assetAVolumeOut),
+                assetATotalVolumeOut: BigInt(decoratedRow.assetATotalVolumeOut),
+                assetBVolumeIn: BigInt(decoratedRow.assetBVolumeIn),
+                assetBTotalVolumeIn: BigInt(decoratedRow.assetBTotalVolumeIn),
+                assetBVolumeOut: BigInt(decoratedRow.assetBVolumeOut),
+                assetBTotalVolumeOut: BigInt(decoratedRow.assetBTotalVolumeOut),
+                assetAFee: BigInt(decoratedRow.assetAFee),
+                assetBFee: BigInt(decoratedRow.assetBFee),
+                assetATotalFees: BigInt(decoratedRow.assetATotalFees),
+                assetBTotalFees: BigInt(decoratedRow.assetBTotalFees),
+                averagePrice: decoratedRow.averagePrice,
+                relayChainBlockHeight: decoratedRow.relayChainBlockHeight,
+                paraChainBlockHeight: decoratedRow.paraChainBlockHeight,
+              } as XykPoolHistoricalVolumeGqlResponse,
+              event: event.__node__[0],
+            };
           },
-          event: (event: any) => event.__node__[0],
         },
       },
     };
