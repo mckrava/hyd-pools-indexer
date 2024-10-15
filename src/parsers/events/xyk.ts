@@ -2,10 +2,6 @@ import { events, calls } from '../../typegenTypes/';
 import { Event } from '../../processor';
 import { UnknownVersionError } from '../../utils/errors';
 import {
-  LbpBuyExecutedEventParams,
-  LbpPoolCreatedEventParams,
-  LbpPoolUpdatedEventParams,
-  LbpSellExecutedEventParams,
   XykBuyExecutedEventParams,
   XykPoolCreatedEventParams,
   XykPoolDestroyedEventParams,

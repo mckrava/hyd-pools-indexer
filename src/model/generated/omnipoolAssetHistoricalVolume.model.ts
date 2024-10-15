@@ -1,30 +1,27 @@
-import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, ManyToOne as ManyToOne_, Index as Index_, IntColumn as IntColumn_, FloatColumn as FloatColumn_, BigIntColumn as BigIntColumn_} from "@subsquid/typeorm-store"
-import {LbpPool} from "./lbpPool.model"
+import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, ManyToOne as ManyToOne_, Index as Index_, IntColumn as IntColumn_, BigIntColumn as BigIntColumn_} from "@subsquid/typeorm-store"
+import {OmnipoolAsset} from "./omnipoolAsset.model"
 
 @Entity_()
-export class LbpPoolHistoricalVolume {
-    constructor(props?: Partial<LbpPoolHistoricalVolume>) {
+export class OmnipoolAssetHistoricalVolume {
+    constructor(props?: Partial<OmnipoolAssetHistoricalVolume>) {
         Object.assign(this, props)
     }
 
     /**
-     * PoolId-paraChainBlockHeight
+     * OmnipoolAssetId-paraChainBlockHeight
      */
     @PrimaryColumn_()
     id!: string
 
     @Index_()
-    @ManyToOne_(() => LbpPool, {nullable: true})
-    pool!: LbpPool
+    @ManyToOne_(() => OmnipoolAsset, {nullable: true})
+    omnipoolAsset!: OmnipoolAsset
 
     @IntColumn_({nullable: false})
     assetAId!: number
 
     @IntColumn_({nullable: false})
     assetBId!: number
-
-    @FloatColumn_({nullable: false})
-    averagePrice!: number
 
     @BigIntColumn_({nullable: false})
     assetAVolumeIn!: bigint

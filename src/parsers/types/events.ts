@@ -1,5 +1,8 @@
 import { PoolData } from './common';
 import { events } from '../../typegenTypes';
+import { sts } from '../../typegenTypes/support';
+import * as v115 from '../../typegenTypes/v115';
+import * as v201 from '../../typegenTypes/v201';
 
 export const EventNameConst = {
   [events.lbp.poolCreated.name]: events.lbp.poolCreated.name,
@@ -18,6 +21,11 @@ export enum EventName {
   'XYK_PoolDestroyed' = 'XYK.Destroyed',
   'XYK_BuyExecuted' = 'XYK.BuyExecuted',
   'XYK_SellExecuted' = 'XYK.SellExecuted',
+
+  'Omnipool_TokenAdded' = 'Omnipool.TokenAdded',
+  'Omnipool_TokenRemoved' = 'Omnipool.TokenRemoved',
+  'Omnipool_BuyExecuted' = 'Omnipool.BuyExecuted',
+  'Omnipool_SellExecuted' = 'Omnipool.SellExecuted',
 }
 
 export type RelayChainInfo = {
@@ -105,4 +113,40 @@ export type XykSellExecutedEventParams = {
   salePrice: bigint;
   feeAsset: number;
   feeAmount: bigint;
+};
+
+export type OmnipoolTokenAddedEventParams = {
+  assetId: number;
+  initialAmount: bigint;
+  initialPrice: bigint;
+};
+
+export type OmnipoolTokenRemovedEventParams = {
+  assetId: number;
+  amount: bigint;
+  hubWithdrawn: bigint;
+};
+
+export type OmnipoolBuyExecutedEventParams = {
+  who: string;
+  assetIn: number;
+  assetOut: number;
+  amountIn: bigint;
+  amountOut: bigint;
+  hubAmountIn: bigint;
+  hubAmountOut: bigint;
+  assetFeeAmount: bigint;
+  protocolFeeAmount: bigint;
+};
+
+export type OmnipoolSellExecutedEventParams = {
+  who: string;
+  assetIn: number;
+  assetOut: number;
+  amountIn: bigint;
+  amountOut: bigint;
+  hubAmountIn: bigint;
+  hubAmountOut: bigint;
+  assetFeeAmount: bigint;
+  protocolFeeAmount: bigint;
 };

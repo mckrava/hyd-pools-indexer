@@ -18,6 +18,10 @@
       "description": "Drop a PG database",
       "cmd": ["docker", "compose", "down"]
     },
+    "migration:create": {
+      "description": "Generate a DB migration matching the TypeORM entities",
+      "cmd": ["squid-typeorm-migration", "generate"]
+    },
     "migration:apply": {
       "description": "Apply the DB migrations",
       "cmd": ["squid-typeorm-migration", "apply"]

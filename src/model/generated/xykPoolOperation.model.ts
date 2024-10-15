@@ -54,6 +54,7 @@ export class XykPoolOperation {
     @IntColumn_({nullable: false})
     relayChainBlockHeight!: number
 
+    @Index_()
     @IntColumn_({nullable: false})
     paraChainBlockHeight!: number
 }

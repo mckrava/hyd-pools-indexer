@@ -1,5 +1,6 @@
 import { sts } from '../../typegenTypes/support';
 import { ExtraFlags } from '../../typegenTypes/v205';
+import { Tradability } from '../../typegenTypes/v115';
 
 export interface AccountData {
   free: bigint;
@@ -21,4 +22,16 @@ export interface TokensAccountsAssetBalances {
   free: bigint;
   reserved: bigint;
   frozen: bigint;
+}
+
+export type OmnipoolAssetTradability = {
+  bits: number;
+};
+
+export interface OmnipoolAssetData {
+  hubReserve: bigint;
+  shares: bigint;
+  protocolShares: bigint;
+  cap: bigint;
+  tradable: OmnipoolAssetTradability;
 }

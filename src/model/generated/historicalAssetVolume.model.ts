@@ -1,4 +1,4 @@
-import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, IntColumn as IntColumn_, BigIntColumn as BigIntColumn_} from "@subsquid/typeorm-store"
+import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, IntColumn as IntColumn_, Index as Index_, BigIntColumn as BigIntColumn_} from "@subsquid/typeorm-store"
 
 @Entity_()
 export class HistoricalAssetVolume {
@@ -12,6 +12,7 @@ export class HistoricalAssetVolume {
     @PrimaryColumn_()
     id!: string
 
+    @Index_()
     @IntColumn_({nullable: false})
     assetId!: number
 
@@ -30,6 +31,7 @@ export class HistoricalAssetVolume {
     @IntColumn_({nullable: false})
     relayChainBlockHeight!: number
 
+    @Index_()
     @IntColumn_({nullable: false})
     paraChainBlockHeight!: number
 }

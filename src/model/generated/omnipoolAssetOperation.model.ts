@@ -1,11 +1,11 @@
-import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, ManyToOne as ManyToOne_, Index as Index_, StringColumn as StringColumn_, IntColumn as IntColumn_, BigIntColumn as BigIntColumn_, FloatColumn as FloatColumn_} from "@subsquid/typeorm-store"
+import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, ManyToOne as ManyToOne_, Index as Index_, StringColumn as StringColumn_, IntColumn as IntColumn_, BigIntColumn as BigIntColumn_} from "@subsquid/typeorm-store"
 import {Account} from "./account.model"
-import {LbpPool} from "./lbpPool.model"
+import {OmnipoolAsset} from "./omnipoolAsset.model"
 import {PoolOperationType} from "./_poolOperationType"
 
 @Entity_()
-export class LbpPoolOperation {
-    constructor(props?: Partial<LbpPoolOperation>) {
+export class OmnipoolAssetOperation {
+    constructor(props?: Partial<OmnipoolAssetOperation>) {
         Object.assign(this, props)
     }
 
@@ -41,12 +41,12 @@ export class LbpPoolOperation {
     @BigIntColumn_({nullable: false})
     assetOutFee!: bigint
 
-    @FloatColumn_({nullable: false})
-    swapPrice!: number
+    @BigIntColumn_({nullable: false})
+    protocolFee!: bigint
 
     @Index_()
-    @ManyToOne_(() => LbpPool, {nullable: true})
-    pool!: LbpPool
+    @ManyToOne_(() => OmnipoolAsset, {nullable: true})
+    omnipoolAsset!: OmnipoolAsset
 
     @Column_("varchar", {length: 4, nullable: false})
     type!: PoolOperationType

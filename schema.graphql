@@ -30,8 +30,8 @@ type Transfer @entity {
 type LbpPool @entity {
   id: ID!
   account: Account!
-  assetAId: Int!
-  assetBId: Int!
+  assetAId: Int! @index
+  assetBId: Int! @index
   assetABalance: BigInt!
   assetBBalance: BigInt!
   createdAt: DateTime!
@@ -54,8 +54,8 @@ type LbpPool @entity {
 type XykPool @entity {
   id: ID!
   account: Account!
-  assetAId: Int!
-  assetBId: Int!
+  assetAId: Int! @index
+  assetBId: Int! @index
   shareTokenId: Int!
   assetABalance: BigInt!
   assetBBalance: BigInt!
@@ -69,16 +69,39 @@ type XykPool @entity {
   operations: [XykPoolOperation!]! @derivedFrom(field: "pool")
 }
 
+type Omnipool @entity {
+  id: ID!
+  account: Account!
+  createdAt: DateTime!
+  createdAtParaBlock: Int!
+  isDestroyed: Boolean
+  destroyedAtParaBlock: Int
+  assets: [OmnipoolAsset!]! @derivedFrom(field: "pool")
+}
+
+type OmnipoolAsset @entity {
+  "OmnipoolId-AssetId"
+  id: ID!
+  assetId: Int! @index
+  pool: Omnipool!
+  createdAt: DateTime!
+  createdAtParaBlock: Int!
+  isRemoved: Boolean
+  removedAtParaBlock: Int
+  historicalVolume: [OmnipoolAssetHistoricalVolume!]! @derivedFrom(field: "omnipoolAsset")
+  operations: [OmnipoolAssetOperation!]! @derivedFrom(field: "omnipoolAsset")
+}
+
 type HistoricalAssetVolume @entity {
   "AssetId-paraChainBlockHeight"
   id: ID!
-  assetId: Int!
+  assetId: Int! @index
   volumeIn: BigInt!
   volumeOut: BigInt!
   totalVolumeIn: BigInt!
   totalVolumeOut: BigInt!
   relayChainBlockHeight: Int!
-  paraChainBlockHeight: Int!
+  paraChainBlockHeight: Int! @index
 }
 
 type LbpPoolHistoricalPrice @entity {
@@ -90,7 +113,7 @@ type LbpPoolHistoricalPrice @entity {
   assetABalance: BigInt!
   assetBBalance: BigInt!
   relayChainBlockHeight: Int!
-  paraChainBlockHeight: Int!
+  paraChainBlockHeight: Int! @index
 }
 
 type XykPoolHistoricalPrice @entity {
@@ -102,7 +125,7 @@ type XykPoolHistoricalPrice @entity {
   assetABalance: BigInt!
   assetBBalance: BigInt!
   relayChainBlockHeight: Int!
-  paraChainBlockHeight: Int!
+  paraChainBlockHeight: Int! @index
 }
 
 type LbpPoolHistoricalVolume @entity {
@@ -125,7 +148,7 @@ type LbpPoolHistoricalVolume @entity {
   assetBTotalVolumeIn: BigInt!
   assetBTotalVolumeOut: BigInt!
   relayChainBlockHeight: Int!
-  paraChainBlockHeight: Int!
+  paraChainBlockHeight: Int! @index
 }
 
 type XykPoolHistoricalVolume @entity {
@@ -148,32 +171,8 @@ type XykPoolHistoricalVolume @entity {
   assetBTotalVolumeIn: BigInt!
   assetBTotalVolumeOut: BigInt!
   relayChainBlockHeight: Int!
-  paraChainBlockHeight: Int!
+  paraChainBlockHeight: Int! @index
 }
-
-type OmniPoolHistoricalVolume @entity {
-  "PoolId-paraChainBlockHeight"
-  id: ID!
-  pool: XykPool!
-  assetAId: Int!
-  assetBId: Int!
-  averagePrice: Float!
-  assetAVolumeIn: BigInt!
-  assetAVolumeOut: BigInt!
-  assetATotalVolumeIn: BigInt!
-  assetATotalVolumeOut: BigInt!
-  assetAFee: BigInt!
-  assetBFee: BigInt!
-  assetATotalFees: BigInt!
-  assetBTotalFees: BigInt!
-  assetBVolumeIn: BigInt!
-  assetBVolumeOut: BigInt!
-  assetBTotalVolumeIn: BigInt!
-  assetBTotalVolumeOut: BigInt!
-  relayChainBlockHeight: Int!
-  paraChainBlockHeight: Int!
-}
-
 
 type LbpPoolOperation @entity {
   "TxId"
@@ -190,7 +189,7 @@ type LbpPoolOperation @entity {
   pool: LbpPool!
   type: PoolOperationType!
   relayChainBlockHeight: Int!
-  paraChainBlockHeight: Int!
+  paraChainBlockHeight: Int! @index
 }
 
 type XykPoolOperation @entity {
@@ -208,7 +207,58 @@ type XykPoolOperation @entity {
   pool: XykPool!
   type: PoolOperationType!
   relayChainBlockHeight: Int!
-  paraChainBlockHeight: Int!
+  paraChainBlockHeight: Int! @index
 }
 
+type OmnipoolAssetOperation @entity {
+  "TxId"
+  id: ID!
+  account: Account!
+  extrinsicHash: String @index
+  assetInId: Int!
+  assetInAmount: BigInt!
+  assetInFee: BigInt!
+  assetOutId: Int!
+  assetOutAmount: BigInt!
+  assetOutFee: BigInt!
+  protocolFee: BigInt!
+  omnipoolAsset: OmnipoolAsset!
+  type: PoolOperationType!
+  relayChainBlockHeight: Int!
+  paraChainBlockHeight: Int! @index
+}
 
+type OmnipoolAssetHistoricalVolume @entity {
+  "OmnipoolAssetId-paraChainBlockHeight"
+  id: ID!
+  omnipoolAsset: OmnipoolAsset!
+  assetAId: Int!
+  assetBId: Int!
+  assetAVolumeIn: BigInt!
+  assetAVolumeOut: BigInt!
+  assetATotalVolumeIn: BigInt!
+  assetATotalVolumeOut: BigInt!
+  assetAFee: BigInt!
+  assetBFee: BigInt!
+  assetATotalFees: BigInt!
+  assetBTotalFees: BigInt!
+  assetBVolumeIn: BigInt!
+  assetBVolumeOut: BigInt!
+  assetBTotalVolumeIn: BigInt!
+  assetBTotalVolumeOut: BigInt!
+  relayChainBlockHeight: Int!
+  paraChainBlockHeight: Int! @index
+}
+
+type OmnipoolAssetHistoricalData @entity {
+  "OmnipoolAssetId-paraChainBlockHeight"
+  id: ID!
+  omnipoolAsset: OmnipoolAsset!
+  assetId: Int! @index
+  assetBalance: BigInt!
+  nativeAssetBalance: BigInt!
+  hubReserveBalance: BigInt!
+  sharesBalance: BigInt!
+  relayChainBlockHeight: Int!
+  paraChainBlockHeight: Int! @index
+}

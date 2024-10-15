@@ -17,6 +17,23 @@ export const poolCreated =  {
     ),
 }
 
+export const liquidityRemoved =  {
+    name: 'Stableswap.LiquidityRemoved',
+    /**
+     * Liquidity removed.
+     */
+    v183: new EventType(
+        'Stableswap.LiquidityRemoved',
+        sts.struct({
+            poolId: sts.number(),
+            who: v183.AccountId32,
+            shares: sts.bigint(),
+            amounts: sts.array(() => v183.AssetAmount),
+            fee: sts.bigint(),
+        })
+    ),
+}
+
 export const sellExecuted =  {
     name: 'Stableswap.SellExecuted',
     /**

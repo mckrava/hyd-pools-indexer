@@ -365,8 +365,3 @@ export function getParsedEventsData(
   );
   return parsedDataManager;
 }
-
-31344583517047399750
-31344583517047399750
-
-234026871167506281

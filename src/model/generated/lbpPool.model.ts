@@ -17,9 +17,11 @@ export class LbpPool {
     @ManyToOne_(() => Account, {nullable: true})
     account!: Account
 
+    @Index_()
     @IntColumn_({nullable: false})
     assetAId!: number
 
+    @Index_()
     @IntColumn_({nullable: false})
     assetBId!: number
 

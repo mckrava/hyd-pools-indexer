@@ -1,33 +1,37 @@
 import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, ManyToOne as ManyToOne_, Index as Index_, IntColumn as IntColumn_, BigIntColumn as BigIntColumn_} from "@subsquid/typeorm-store"
-import {XykPool} from "./xykPool.model"
+import {OmnipoolAsset} from "./omnipoolAsset.model"
 
 @Entity_()
-export class XykPoolHistoricalPrice {
-    constructor(props?: Partial<XykPoolHistoricalPrice>) {
+export class OmnipoolAssetHistoricalData {
+    constructor(props?: Partial<OmnipoolAssetHistoricalData>) {
         Object.assign(this, props)
     }
 
     /**
-     * PoolId-paraChainBlockHeight
+     * OmnipoolAssetId-paraChainBlockHeight
      */
     @PrimaryColumn_()
     id!: string
 
     @Index_()
-    @ManyToOne_(() => XykPool, {nullable: true})
-    pool!: XykPool
+    @ManyToOne_(() => OmnipoolAsset, {nullable: true})
+    omnipoolAsset!: OmnipoolAsset
 
+    @Index_()
     @IntColumn_({nullable: false})
-    assetAId!: number
-
-    @IntColumn_({nullable: false})
-    assetBId!: number
+    assetId!: number
 
     @BigIntColumn_({nullable: false})
-    assetABalance!: bigint
+    assetBalance!: bigint
 
     @BigIntColumn_({nullable: false})
-    assetBBalance!: bigint
+    nativeAssetBalance!: bigint
+
+    @BigIntColumn_({nullable: false})
+    hubReserveBalance!: bigint
+
+    @BigIntColumn_({nullable: false})
+    sharesBalance!: bigint
 
     @IntColumn_({nullable: false})
     relayChainBlockHeight!: number
