@@ -3,6 +3,21 @@ import * as v115 from '../v115'
 import * as v170 from '../v170'
 import * as v201 from '../v201'
 
+export const tokenAdded =  {
+    name: 'Omnipool.TokenAdded',
+    /**
+     * An asset was added to Omnipool
+     */
+    v115: new EventType(
+        'Omnipool.TokenAdded',
+        sts.struct({
+            assetId: sts.number(),
+            initialAmount: sts.bigint(),
+            initialPrice: v115.FixedU128,
+        })
+    ),
+}
+
 export const sellExecuted =  {
     name: 'Omnipool.SellExecuted',
     /**
@@ -97,6 +112,21 @@ export const buyExecuted =  {
             hubAmountOut: sts.bigint(),
             assetFeeAmount: sts.bigint(),
             protocolFeeAmount: sts.bigint(),
+        })
+    ),
+}
+
+export const tokenRemoved =  {
+    name: 'Omnipool.TokenRemoved',
+    /**
+     * An asset was removed from Omnipool
+     */
+    v185: new EventType(
+        'Omnipool.TokenRemoved',
+        sts.struct({
+            assetId: sts.number(),
+            amount: sts.bigint(),
+            hubWithdrawn: sts.bigint(),
         })
     ),
 }

@@ -1,6 +1,6 @@
 manifestVersion: subsquid.io/v0.1
 name: hydration-xyk-pools-indexer
-version: 500
+version: 401
 description: Substrate squid template
 build:
 deploy:
@@ -36,6 +36,6 @@ scale:
   addons:
     postgres:
       profile: large
-      storage: 30G
+      storage: 60G
   processor:
     profile: large

@@ -18,6 +18,7 @@ import TypeOverrides from 'pg/lib/type-overrides';
 import { Client } from 'pg';
 import { runMigrations } from './apiSupport/apiMigrations/runMigrations';
 import { XykPoolsVolumeSubscriptionsPlugin } from './apiSupport/plugins/xykPoolsVolumeSubscriptions.plugin';
+import { getEnvPath } from './utils/helpers';
 
 const pgTypes = new TypeOverrides();
 pgTypes.setTypeParser(1700, function (val) {
@@ -67,7 +68,7 @@ app.use(
         stateSchemas: ['squid_processor'],
       },
       allowExplain: true,
-      // exportGqlSchemaPath: `${__dirname}/../schema.graphql`,
+      exportGqlSchemaPath: getEnvPath('apiSupport/schema.graphql'),
     }
   )
 );

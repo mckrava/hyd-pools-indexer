@@ -20,14 +20,8 @@
       "calls": ["create_pool"]
     },
     "Omnipool": {
-      "events": [
-        "PoolUpdated",
-        "PoolCreated",
-        "PoolDestroyed",
-        "SellExecuted",
-        "BuyExecuted"
-      ],
-      "calls": ["create_pool"]
+      "events": ["TokenAdded", "TokenRemoved", "SellExecuted", "BuyExecuted"],
+      "calls": true
     },
     "Stableswap": {
       "events": ["PoolUpdated", "PoolCreated", "SellExecuted", "BuyExecuted"],
