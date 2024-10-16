@@ -248,6 +248,182 @@ type Query {
     filter: MigrationFilter
   ): MigrationsConnection
 
+  """Reads and enables pagination through a set of `Omnipool`."""
+  omnipools(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Omnipool`."""
+    orderBy: [OmnipoolsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: OmnipoolCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: OmnipoolFilter
+  ): OmnipoolsConnection
+
+  """Reads and enables pagination through a set of `OmnipoolAsset`."""
+  omnipoolAssets(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `OmnipoolAsset`."""
+    orderBy: [OmnipoolAssetsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: OmnipoolAssetCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: OmnipoolAssetFilter
+  ): OmnipoolAssetsConnection
+
+  """
+  Reads and enables pagination through a set of `OmnipoolAssetHistoricalDatum`.
+  """
+  omnipoolAssetHistoricalData(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `OmnipoolAssetHistoricalDatum`."""
+    orderBy: [OmnipoolAssetHistoricalDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: OmnipoolAssetHistoricalDatumCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: OmnipoolAssetHistoricalDatumFilter
+  ): OmnipoolAssetHistoricalDataConnection
+
+  """
+  Reads and enables pagination through a set of `OmnipoolAssetHistoricalVolume`.
+  """
+  omnipoolAssetHistoricalVolumes(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `OmnipoolAssetHistoricalVolume`."""
+    orderBy: [OmnipoolAssetHistoricalVolumesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: OmnipoolAssetHistoricalVolumeCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: OmnipoolAssetHistoricalVolumeFilter
+  ): OmnipoolAssetHistoricalVolumesConnection
+
+  """
+  Reads and enables pagination through a set of `OmnipoolAssetOperation`.
+  """
+  omnipoolAssetOperations(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `OmnipoolAssetOperation`."""
+    orderBy: [OmnipoolAssetOperationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: OmnipoolAssetOperationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: OmnipoolAssetOperationFilter
+  ): OmnipoolAssetOperationsConnection
+
   """Reads and enables pagination through a set of `Transfer`."""
   transfers(
     """Only read the first `n` values of the set."""
@@ -428,6 +604,11 @@ type Query {
   lbpPoolHistoricalVolume(id: String!): LbpPoolHistoricalVolume
   lbpPoolOperation(id: String!): LbpPoolOperation
   migration(id: Int!): Migration
+  omnipool(id: String!): Omnipool
+  omnipoolAsset(id: String!): OmnipoolAsset
+  omnipoolAssetHistoricalDatum(id: String!): OmnipoolAssetHistoricalDatum
+  omnipoolAssetHistoricalVolume(id: String!): OmnipoolAssetHistoricalVolume
+  omnipoolAssetOperation(id: String!): OmnipoolAssetOperation
   transfer(id: String!): Transfer
   xykPool(id: String!): XykPool
   xykPoolHistoricalPrice(id: String!): XykPoolHistoricalPrice
@@ -733,6 +914,76 @@ type Account {
     """
     filter: XykPoolFilter
   ): XykPoolsConnection!
+
+  """
+  Reads and enables pagination through a set of `OmnipoolAssetOperation`.
+  """
+  omnipoolAssetOperations(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `OmnipoolAssetOperation`."""
+    orderBy: [OmnipoolAssetOperationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: OmnipoolAssetOperationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: OmnipoolAssetOperationFilter
+  ): OmnipoolAssetOperationsConnection!
+
+  """Reads and enables pagination through a set of `Omnipool`."""
+  omnipools(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Omnipool`."""
+    orderBy: [OmnipoolsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: OmnipoolCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: OmnipoolFilter
+  ): OmnipoolsConnection!
 }
 
 """A connection to a list of `Transfer` values."""
@@ -9404,6 +9655,4097 @@ input XykPoolFilter {
   not: XykPoolFilter
 }
 
+"""A connection to a list of `OmnipoolAssetOperation` values."""
+type OmnipoolAssetOperationsConnection {
+  """A list of `OmnipoolAssetOperation` objects."""
+  nodes: [OmnipoolAssetOperation]!
+
+  """
+  A list of edges which contains the `OmnipoolAssetOperation` and cursor to aid in pagination.
+  """
+  edges: [OmnipoolAssetOperationsEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """
+  The count of *all* `OmnipoolAssetOperation` you could get from the connection.
+  """
+  totalCount: Int!
+
+  """
+  Aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  aggregates: OmnipoolAssetOperationAggregates
+
+  """
+  Grouped aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  groupedAggregates(
+    """
+    The method to use when grouping `OmnipoolAssetOperation` for these aggregates.
+    """
+    groupBy: [OmnipoolAssetOperationGroupBy!]!
+
+    """Conditions on the grouped aggregates."""
+    having: OmnipoolAssetOperationHavingInput
+  ): [OmnipoolAssetOperationAggregates!]
+}
+
+type OmnipoolAssetOperation {
+  id: String!
+  extrinsicHash: String
+  assetInId: Int!
+  assetInAmount: BigFloat!
+  assetInFee: BigFloat!
+  assetOutId: Int!
+  assetOutAmount: BigFloat!
+  assetOutFee: BigFloat!
+  protocolFee: BigFloat!
+  type: String!
+  relayChainBlockHeight: Int!
+  paraChainBlockHeight: Int!
+  accountId: String
+  omnipoolAssetId: String
+
+  """
+  Reads a single `Account` that is related to this `OmnipoolAssetOperation`.
+  """
+  account: Account
+
+  """
+  Reads a single `OmnipoolAsset` that is related to this `OmnipoolAssetOperation`.
+  """
+  omnipoolAsset: OmnipoolAsset
+}
+
+type OmnipoolAsset {
+  id: String!
+  assetId: Int!
+  createdAt: Datetime!
+  createdAtParaBlock: Int!
+  isRemoved: Boolean
+  removedAtParaBlock: Int
+  poolId: String
+
+  """Reads a single `Omnipool` that is related to this `OmnipoolAsset`."""
+  pool: Omnipool
+
+  """
+  Reads and enables pagination through a set of `OmnipoolAssetHistoricalVolume`.
+  """
+  omnipoolAssetHistoricalVolumes(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `OmnipoolAssetHistoricalVolume`."""
+    orderBy: [OmnipoolAssetHistoricalVolumesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: OmnipoolAssetHistoricalVolumeCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: OmnipoolAssetHistoricalVolumeFilter
+  ): OmnipoolAssetHistoricalVolumesConnection!
+
+  """
+  Reads and enables pagination through a set of `OmnipoolAssetOperation`.
+  """
+  omnipoolAssetOperations(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `OmnipoolAssetOperation`."""
+    orderBy: [OmnipoolAssetOperationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: OmnipoolAssetOperationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: OmnipoolAssetOperationFilter
+  ): OmnipoolAssetOperationsConnection!
+
+  """
+  Reads and enables pagination through a set of `OmnipoolAssetHistoricalDatum`.
+  """
+  omnipoolAssetHistoricalData(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `OmnipoolAssetHistoricalDatum`."""
+    orderBy: [OmnipoolAssetHistoricalDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: OmnipoolAssetHistoricalDatumCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: OmnipoolAssetHistoricalDatumFilter
+  ): OmnipoolAssetHistoricalDataConnection!
+}
+
+type Omnipool {
+  id: String!
+  createdAt: Datetime!
+  createdAtParaBlock: Int!
+  isDestroyed: Boolean
+  destroyedAtParaBlock: Int
+  accountId: String
+
+  """Reads a single `Account` that is related to this `Omnipool`."""
+  account: Account
+
+  """Reads and enables pagination through a set of `OmnipoolAsset`."""
+  omnipoolAssetsByPoolId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `OmnipoolAsset`."""
+    orderBy: [OmnipoolAssetsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: OmnipoolAssetCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: OmnipoolAssetFilter
+  ): OmnipoolAssetsConnection!
+}
+
+"""A connection to a list of `OmnipoolAsset` values."""
+type OmnipoolAssetsConnection {
+  """A list of `OmnipoolAsset` objects."""
+  nodes: [OmnipoolAsset]!
+
+  """
+  A list of edges which contains the `OmnipoolAsset` and cursor to aid in pagination.
+  """
+  edges: [OmnipoolAssetsEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `OmnipoolAsset` you could get from the connection."""
+  totalCount: Int!
+
+  """
+  Aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  aggregates: OmnipoolAssetAggregates
+
+  """
+  Grouped aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  groupedAggregates(
+    """The method to use when grouping `OmnipoolAsset` for these aggregates."""
+    groupBy: [OmnipoolAssetGroupBy!]!
+
+    """Conditions on the grouped aggregates."""
+    having: OmnipoolAssetHavingInput
+  ): [OmnipoolAssetAggregates!]
+}
+
+"""A `OmnipoolAsset` edge in the connection."""
+type OmnipoolAssetsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `OmnipoolAsset` at the end of the edge."""
+  node: OmnipoolAsset
+}
+
+type OmnipoolAssetAggregates {
+  keys: [String!]
+
+  """
+  Sum aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  sum: OmnipoolAssetSumAggregates
+
+  """
+  Distinct count aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  distinctCount: OmnipoolAssetDistinctCountAggregates
+
+  """
+  Minimum aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  min: OmnipoolAssetMinAggregates
+
+  """
+  Maximum aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  max: OmnipoolAssetMaxAggregates
+
+  """
+  Mean average aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  average: OmnipoolAssetAverageAggregates
+
+  """
+  Sample standard deviation aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  stddevSample: OmnipoolAssetStddevSampleAggregates
+
+  """
+  Population standard deviation aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  stddevPopulation: OmnipoolAssetStddevPopulationAggregates
+
+  """
+  Sample variance aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  varianceSample: OmnipoolAssetVarianceSampleAggregates
+
+  """
+  Population variance aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  variancePopulation: OmnipoolAssetVariancePopulationAggregates
+}
+
+type OmnipoolAssetSumAggregates {
+  """Sum of assetId across the matching connection"""
+  assetId: BigInt!
+
+  """Sum of createdAtParaBlock across the matching connection"""
+  createdAtParaBlock: BigInt!
+
+  """Sum of removedAtParaBlock across the matching connection"""
+  removedAtParaBlock: BigInt!
+}
+
+type OmnipoolAssetDistinctCountAggregates {
+  """Distinct count of id across the matching connection"""
+  id: BigInt
+
+  """Distinct count of assetId across the matching connection"""
+  assetId: BigInt
+
+  """Distinct count of createdAt across the matching connection"""
+  createdAt: BigInt
+
+  """Distinct count of createdAtParaBlock across the matching connection"""
+  createdAtParaBlock: BigInt
+
+  """Distinct count of isRemoved across the matching connection"""
+  isRemoved: BigInt
+
+  """Distinct count of removedAtParaBlock across the matching connection"""
+  removedAtParaBlock: BigInt
+
+  """Distinct count of poolId across the matching connection"""
+  poolId: BigInt
+}
+
+type OmnipoolAssetMinAggregates {
+  """Minimum of assetId across the matching connection"""
+  assetId: Int
+
+  """Minimum of createdAtParaBlock across the matching connection"""
+  createdAtParaBlock: Int
+
+  """Minimum of removedAtParaBlock across the matching connection"""
+  removedAtParaBlock: Int
+}
+
+type OmnipoolAssetMaxAggregates {
+  """Maximum of assetId across the matching connection"""
+  assetId: Int
+
+  """Maximum of createdAtParaBlock across the matching connection"""
+  createdAtParaBlock: Int
+
+  """Maximum of removedAtParaBlock across the matching connection"""
+  removedAtParaBlock: Int
+}
+
+type OmnipoolAssetAverageAggregates {
+  """Mean average of assetId across the matching connection"""
+  assetId: BigFloat
+
+  """Mean average of createdAtParaBlock across the matching connection"""
+  createdAtParaBlock: BigFloat
+
+  """Mean average of removedAtParaBlock across the matching connection"""
+  removedAtParaBlock: BigFloat
+}
+
+type OmnipoolAssetStddevSampleAggregates {
+  """Sample standard deviation of assetId across the matching connection"""
+  assetId: BigFloat
+
+  """
+  Sample standard deviation of createdAtParaBlock across the matching connection
+  """
+  createdAtParaBlock: BigFloat
+
+  """
+  Sample standard deviation of removedAtParaBlock across the matching connection
+  """
+  removedAtParaBlock: BigFloat
+}
+
+type OmnipoolAssetStddevPopulationAggregates {
+  """
+  Population standard deviation of assetId across the matching connection
+  """
+  assetId: BigFloat
+
+  """
+  Population standard deviation of createdAtParaBlock across the matching connection
+  """
+  createdAtParaBlock: BigFloat
+
+  """
+  Population standard deviation of removedAtParaBlock across the matching connection
+  """
+  removedAtParaBlock: BigFloat
+}
+
+type OmnipoolAssetVarianceSampleAggregates {
+  """Sample variance of assetId across the matching connection"""
+  assetId: BigFloat
+
+  """Sample variance of createdAtParaBlock across the matching connection"""
+  createdAtParaBlock: BigFloat
+
+  """Sample variance of removedAtParaBlock across the matching connection"""
+  removedAtParaBlock: BigFloat
+}
+
+type OmnipoolAssetVariancePopulationAggregates {
+  """Population variance of assetId across the matching connection"""
+  assetId: BigFloat
+
+  """
+  Population variance of createdAtParaBlock across the matching connection
+  """
+  createdAtParaBlock: BigFloat
+
+  """
+  Population variance of removedAtParaBlock across the matching connection
+  """
+  removedAtParaBlock: BigFloat
+}
+
+"""Grouping methods for `OmnipoolAsset` for usage during aggregation."""
+enum OmnipoolAssetGroupBy {
+  ASSET_ID
+  CREATED_AT
+  CREATED_AT_TRUNCATED_TO_HOUR
+  CREATED_AT_TRUNCATED_TO_DAY
+  CREATED_AT_PARA_BLOCK
+  IS_REMOVED
+  REMOVED_AT_PARA_BLOCK
+  POOL_ID
+}
+
+"""Conditions for `OmnipoolAsset` aggregates."""
+input OmnipoolAssetHavingInput {
+  AND: [OmnipoolAssetHavingInput!]
+  OR: [OmnipoolAssetHavingInput!]
+  sum: OmnipoolAssetHavingSumInput
+  distinctCount: OmnipoolAssetHavingDistinctCountInput
+  min: OmnipoolAssetHavingMinInput
+  max: OmnipoolAssetHavingMaxInput
+  average: OmnipoolAssetHavingAverageInput
+  stddevSample: OmnipoolAssetHavingStddevSampleInput
+  stddevPopulation: OmnipoolAssetHavingStddevPopulationInput
+  varianceSample: OmnipoolAssetHavingVarianceSampleInput
+  variancePopulation: OmnipoolAssetHavingVariancePopulationInput
+}
+
+input OmnipoolAssetHavingSumInput {
+  assetId: HavingIntFilter
+  createdAt: HavingDatetimeFilter
+  createdAtParaBlock: HavingIntFilter
+  removedAtParaBlock: HavingIntFilter
+}
+
+input OmnipoolAssetHavingDistinctCountInput {
+  assetId: HavingIntFilter
+  createdAt: HavingDatetimeFilter
+  createdAtParaBlock: HavingIntFilter
+  removedAtParaBlock: HavingIntFilter
+}
+
+input OmnipoolAssetHavingMinInput {
+  assetId: HavingIntFilter
+  createdAt: HavingDatetimeFilter
+  createdAtParaBlock: HavingIntFilter
+  removedAtParaBlock: HavingIntFilter
+}
+
+input OmnipoolAssetHavingMaxInput {
+  assetId: HavingIntFilter
+  createdAt: HavingDatetimeFilter
+  createdAtParaBlock: HavingIntFilter
+  removedAtParaBlock: HavingIntFilter
+}
+
+input OmnipoolAssetHavingAverageInput {
+  assetId: HavingIntFilter
+  createdAt: HavingDatetimeFilter
+  createdAtParaBlock: HavingIntFilter
+  removedAtParaBlock: HavingIntFilter
+}
+
+input OmnipoolAssetHavingStddevSampleInput {
+  assetId: HavingIntFilter
+  createdAt: HavingDatetimeFilter
+  createdAtParaBlock: HavingIntFilter
+  removedAtParaBlock: HavingIntFilter
+}
+
+input OmnipoolAssetHavingStddevPopulationInput {
+  assetId: HavingIntFilter
+  createdAt: HavingDatetimeFilter
+  createdAtParaBlock: HavingIntFilter
+  removedAtParaBlock: HavingIntFilter
+}
+
+input OmnipoolAssetHavingVarianceSampleInput {
+  assetId: HavingIntFilter
+  createdAt: HavingDatetimeFilter
+  createdAtParaBlock: HavingIntFilter
+  removedAtParaBlock: HavingIntFilter
+}
+
+input OmnipoolAssetHavingVariancePopulationInput {
+  assetId: HavingIntFilter
+  createdAt: HavingDatetimeFilter
+  createdAtParaBlock: HavingIntFilter
+  removedAtParaBlock: HavingIntFilter
+}
+
+"""Methods to use when ordering `OmnipoolAsset`."""
+enum OmnipoolAssetsOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  ASSET_ID_ASC
+  ASSET_ID_DESC
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  CREATED_AT_PARA_BLOCK_ASC
+  CREATED_AT_PARA_BLOCK_DESC
+  IS_REMOVED_ASC
+  IS_REMOVED_DESC
+  REMOVED_AT_PARA_BLOCK_ASC
+  REMOVED_AT_PARA_BLOCK_DESC
+  POOL_ID_ASC
+  POOL_ID_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_COUNT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_COUNT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_SUM_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_SUM_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_SUM_ASSET_A_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_SUM_ASSET_A_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_SUM_ASSET_B_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_SUM_ASSET_B_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_SUM_ASSET_A_VOLUME_IN_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_SUM_ASSET_A_VOLUME_IN_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_SUM_ASSET_A_VOLUME_OUT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_SUM_ASSET_A_VOLUME_OUT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_SUM_ASSET_A_TOTAL_VOLUME_IN_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_SUM_ASSET_A_TOTAL_VOLUME_IN_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_SUM_ASSET_A_TOTAL_VOLUME_OUT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_SUM_ASSET_A_TOTAL_VOLUME_OUT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_SUM_ASSET_A_FEE_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_SUM_ASSET_A_FEE_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_SUM_ASSET_B_FEE_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_SUM_ASSET_B_FEE_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_SUM_ASSET_A_TOTAL_FEES_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_SUM_ASSET_A_TOTAL_FEES_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_SUM_ASSET_B_TOTAL_FEES_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_SUM_ASSET_B_TOTAL_FEES_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_SUM_ASSET_B_VOLUME_IN_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_SUM_ASSET_B_VOLUME_IN_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_SUM_ASSET_B_VOLUME_OUT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_SUM_ASSET_B_VOLUME_OUT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_SUM_ASSET_B_TOTAL_VOLUME_IN_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_SUM_ASSET_B_TOTAL_VOLUME_IN_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_SUM_ASSET_B_TOTAL_VOLUME_OUT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_SUM_ASSET_B_TOTAL_VOLUME_OUT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_SUM_RELAY_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_SUM_RELAY_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_SUM_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_SUM_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_SUM_OMNIPOOL_ASSET_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_SUM_OMNIPOOL_ASSET_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_ASSET_A_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_ASSET_A_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_ASSET_B_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_ASSET_B_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_ASSET_A_VOLUME_IN_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_ASSET_A_VOLUME_IN_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_ASSET_A_VOLUME_OUT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_ASSET_A_VOLUME_OUT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_ASSET_A_TOTAL_VOLUME_IN_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_ASSET_A_TOTAL_VOLUME_IN_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_ASSET_A_TOTAL_VOLUME_OUT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_ASSET_A_TOTAL_VOLUME_OUT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_ASSET_A_FEE_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_ASSET_A_FEE_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_ASSET_B_FEE_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_ASSET_B_FEE_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_ASSET_A_TOTAL_FEES_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_ASSET_A_TOTAL_FEES_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_ASSET_B_TOTAL_FEES_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_ASSET_B_TOTAL_FEES_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_ASSET_B_VOLUME_IN_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_ASSET_B_VOLUME_IN_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_ASSET_B_VOLUME_OUT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_ASSET_B_VOLUME_OUT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_ASSET_B_TOTAL_VOLUME_IN_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_ASSET_B_TOTAL_VOLUME_IN_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_ASSET_B_TOTAL_VOLUME_OUT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_ASSET_B_TOTAL_VOLUME_OUT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_RELAY_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_RELAY_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_OMNIPOOL_ASSET_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_OMNIPOOL_ASSET_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MIN_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MIN_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MIN_ASSET_A_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MIN_ASSET_A_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MIN_ASSET_B_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MIN_ASSET_B_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MIN_ASSET_A_VOLUME_IN_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MIN_ASSET_A_VOLUME_IN_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MIN_ASSET_A_VOLUME_OUT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MIN_ASSET_A_VOLUME_OUT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MIN_ASSET_A_TOTAL_VOLUME_IN_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MIN_ASSET_A_TOTAL_VOLUME_IN_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MIN_ASSET_A_TOTAL_VOLUME_OUT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MIN_ASSET_A_TOTAL_VOLUME_OUT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MIN_ASSET_A_FEE_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MIN_ASSET_A_FEE_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MIN_ASSET_B_FEE_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MIN_ASSET_B_FEE_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MIN_ASSET_A_TOTAL_FEES_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MIN_ASSET_A_TOTAL_FEES_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MIN_ASSET_B_TOTAL_FEES_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MIN_ASSET_B_TOTAL_FEES_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MIN_ASSET_B_VOLUME_IN_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MIN_ASSET_B_VOLUME_IN_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MIN_ASSET_B_VOLUME_OUT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MIN_ASSET_B_VOLUME_OUT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MIN_ASSET_B_TOTAL_VOLUME_IN_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MIN_ASSET_B_TOTAL_VOLUME_IN_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MIN_ASSET_B_TOTAL_VOLUME_OUT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MIN_ASSET_B_TOTAL_VOLUME_OUT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MIN_RELAY_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MIN_RELAY_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MIN_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MIN_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MIN_OMNIPOOL_ASSET_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MIN_OMNIPOOL_ASSET_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MAX_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MAX_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MAX_ASSET_A_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MAX_ASSET_A_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MAX_ASSET_B_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MAX_ASSET_B_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MAX_ASSET_A_VOLUME_IN_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MAX_ASSET_A_VOLUME_IN_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MAX_ASSET_A_VOLUME_OUT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MAX_ASSET_A_VOLUME_OUT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MAX_ASSET_A_TOTAL_VOLUME_IN_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MAX_ASSET_A_TOTAL_VOLUME_IN_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MAX_ASSET_A_TOTAL_VOLUME_OUT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MAX_ASSET_A_TOTAL_VOLUME_OUT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MAX_ASSET_A_FEE_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MAX_ASSET_A_FEE_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MAX_ASSET_B_FEE_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MAX_ASSET_B_FEE_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MAX_ASSET_A_TOTAL_FEES_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MAX_ASSET_A_TOTAL_FEES_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MAX_ASSET_B_TOTAL_FEES_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MAX_ASSET_B_TOTAL_FEES_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MAX_ASSET_B_VOLUME_IN_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MAX_ASSET_B_VOLUME_IN_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MAX_ASSET_B_VOLUME_OUT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MAX_ASSET_B_VOLUME_OUT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MAX_ASSET_B_TOTAL_VOLUME_IN_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MAX_ASSET_B_TOTAL_VOLUME_IN_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MAX_ASSET_B_TOTAL_VOLUME_OUT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MAX_ASSET_B_TOTAL_VOLUME_OUT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MAX_RELAY_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MAX_RELAY_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MAX_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MAX_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MAX_OMNIPOOL_ASSET_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_MAX_OMNIPOOL_ASSET_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_ASSET_A_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_ASSET_A_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_ASSET_B_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_ASSET_B_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_ASSET_A_VOLUME_IN_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_ASSET_A_VOLUME_IN_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_ASSET_A_VOLUME_OUT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_ASSET_A_VOLUME_OUT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_ASSET_A_TOTAL_VOLUME_IN_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_ASSET_A_TOTAL_VOLUME_IN_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_ASSET_A_TOTAL_VOLUME_OUT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_ASSET_A_TOTAL_VOLUME_OUT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_ASSET_A_FEE_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_ASSET_A_FEE_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_ASSET_B_FEE_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_ASSET_B_FEE_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_ASSET_A_TOTAL_FEES_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_ASSET_A_TOTAL_FEES_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_ASSET_B_TOTAL_FEES_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_ASSET_B_TOTAL_FEES_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_ASSET_B_VOLUME_IN_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_ASSET_B_VOLUME_IN_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_ASSET_B_VOLUME_OUT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_ASSET_B_VOLUME_OUT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_ASSET_B_TOTAL_VOLUME_IN_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_ASSET_B_TOTAL_VOLUME_IN_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_ASSET_B_TOTAL_VOLUME_OUT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_ASSET_B_TOTAL_VOLUME_OUT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_RELAY_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_RELAY_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_OMNIPOOL_ASSET_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_OMNIPOOL_ASSET_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_ASSET_A_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_ASSET_A_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_ASSET_B_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_ASSET_B_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_ASSET_A_VOLUME_IN_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_ASSET_A_VOLUME_IN_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_ASSET_A_VOLUME_OUT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_ASSET_A_VOLUME_OUT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_ASSET_A_TOTAL_VOLUME_IN_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_ASSET_A_TOTAL_VOLUME_IN_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_ASSET_A_TOTAL_VOLUME_OUT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_ASSET_A_TOTAL_VOLUME_OUT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_ASSET_A_FEE_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_ASSET_A_FEE_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_ASSET_B_FEE_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_ASSET_B_FEE_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_ASSET_A_TOTAL_FEES_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_ASSET_A_TOTAL_FEES_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_ASSET_B_TOTAL_FEES_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_ASSET_B_TOTAL_FEES_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_ASSET_B_VOLUME_IN_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_ASSET_B_VOLUME_IN_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_ASSET_B_VOLUME_OUT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_ASSET_B_VOLUME_OUT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_ASSET_B_TOTAL_VOLUME_IN_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_ASSET_B_TOTAL_VOLUME_IN_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_ASSET_B_TOTAL_VOLUME_OUT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_ASSET_B_TOTAL_VOLUME_OUT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_RELAY_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_RELAY_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_OMNIPOOL_ASSET_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_OMNIPOOL_ASSET_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_ASSET_A_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_ASSET_A_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_ASSET_B_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_ASSET_B_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_ASSET_A_VOLUME_IN_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_ASSET_A_VOLUME_IN_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_ASSET_A_VOLUME_OUT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_ASSET_A_VOLUME_OUT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_ASSET_A_TOTAL_VOLUME_IN_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_ASSET_A_TOTAL_VOLUME_IN_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_ASSET_A_TOTAL_VOLUME_OUT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_ASSET_A_TOTAL_VOLUME_OUT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_ASSET_A_FEE_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_ASSET_A_FEE_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_ASSET_B_FEE_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_ASSET_B_FEE_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_ASSET_A_TOTAL_FEES_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_ASSET_A_TOTAL_FEES_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_ASSET_B_TOTAL_FEES_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_ASSET_B_TOTAL_FEES_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_ASSET_B_VOLUME_IN_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_ASSET_B_VOLUME_IN_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_ASSET_B_VOLUME_OUT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_ASSET_B_VOLUME_OUT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_ASSET_B_TOTAL_VOLUME_IN_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_ASSET_B_TOTAL_VOLUME_IN_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_ASSET_B_TOTAL_VOLUME_OUT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_ASSET_B_TOTAL_VOLUME_OUT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_RELAY_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_RELAY_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_OMNIPOOL_ASSET_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_OMNIPOOL_ASSET_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_ASSET_A_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_ASSET_A_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_ASSET_B_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_ASSET_B_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_ASSET_A_VOLUME_IN_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_ASSET_A_VOLUME_IN_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_ASSET_A_VOLUME_OUT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_ASSET_A_VOLUME_OUT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_ASSET_A_TOTAL_VOLUME_IN_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_ASSET_A_TOTAL_VOLUME_IN_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_ASSET_A_TOTAL_VOLUME_OUT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_ASSET_A_TOTAL_VOLUME_OUT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_ASSET_A_FEE_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_ASSET_A_FEE_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_ASSET_B_FEE_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_ASSET_B_FEE_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_ASSET_A_TOTAL_FEES_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_ASSET_A_TOTAL_FEES_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_ASSET_B_TOTAL_FEES_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_ASSET_B_TOTAL_FEES_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_ASSET_B_VOLUME_IN_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_ASSET_B_VOLUME_IN_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_ASSET_B_VOLUME_OUT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_ASSET_B_VOLUME_OUT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_ASSET_B_TOTAL_VOLUME_IN_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_ASSET_B_TOTAL_VOLUME_IN_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_ASSET_B_TOTAL_VOLUME_OUT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_ASSET_B_TOTAL_VOLUME_OUT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_RELAY_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_RELAY_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_OMNIPOOL_ASSET_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_OMNIPOOL_ASSET_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_ASSET_A_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_ASSET_A_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_ASSET_B_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_ASSET_B_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_ASSET_A_VOLUME_IN_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_ASSET_A_VOLUME_IN_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_ASSET_A_VOLUME_OUT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_ASSET_A_VOLUME_OUT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_ASSET_A_TOTAL_VOLUME_IN_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_ASSET_A_TOTAL_VOLUME_IN_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_ASSET_A_TOTAL_VOLUME_OUT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_ASSET_A_TOTAL_VOLUME_OUT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_ASSET_A_FEE_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_ASSET_A_FEE_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_ASSET_B_FEE_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_ASSET_B_FEE_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_ASSET_A_TOTAL_FEES_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_ASSET_A_TOTAL_FEES_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_ASSET_B_TOTAL_FEES_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_ASSET_B_TOTAL_FEES_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_ASSET_B_VOLUME_IN_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_ASSET_B_VOLUME_IN_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_ASSET_B_VOLUME_OUT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_ASSET_B_VOLUME_OUT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_ASSET_B_TOTAL_VOLUME_IN_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_ASSET_B_TOTAL_VOLUME_IN_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_ASSET_B_TOTAL_VOLUME_OUT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_ASSET_B_TOTAL_VOLUME_OUT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_RELAY_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_RELAY_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_OMNIPOOL_ASSET_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_OMNIPOOL_ASSET_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_COUNT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_COUNT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_SUM_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_SUM_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_SUM_EXTRINSIC_HASH_ASC
+  OMNIPOOL_ASSET_OPERATIONS_SUM_EXTRINSIC_HASH_DESC
+  OMNIPOOL_ASSET_OPERATIONS_SUM_ASSET_IN_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_SUM_ASSET_IN_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_SUM_ASSET_IN_AMOUNT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_SUM_ASSET_IN_AMOUNT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_SUM_ASSET_IN_FEE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_SUM_ASSET_IN_FEE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_SUM_ASSET_OUT_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_SUM_ASSET_OUT_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_SUM_ASSET_OUT_AMOUNT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_SUM_ASSET_OUT_AMOUNT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_SUM_ASSET_OUT_FEE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_SUM_ASSET_OUT_FEE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_SUM_PROTOCOL_FEE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_SUM_PROTOCOL_FEE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_SUM_TYPE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_SUM_TYPE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_SUM_RELAY_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_SUM_RELAY_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_SUM_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_SUM_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_SUM_ACCOUNT_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_SUM_ACCOUNT_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_SUM_OMNIPOOL_ASSET_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_SUM_OMNIPOOL_ASSET_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_DISTINCT_COUNT_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_DISTINCT_COUNT_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_DISTINCT_COUNT_EXTRINSIC_HASH_ASC
+  OMNIPOOL_ASSET_OPERATIONS_DISTINCT_COUNT_EXTRINSIC_HASH_DESC
+  OMNIPOOL_ASSET_OPERATIONS_DISTINCT_COUNT_ASSET_IN_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_DISTINCT_COUNT_ASSET_IN_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_DISTINCT_COUNT_ASSET_IN_AMOUNT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_DISTINCT_COUNT_ASSET_IN_AMOUNT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_DISTINCT_COUNT_ASSET_IN_FEE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_DISTINCT_COUNT_ASSET_IN_FEE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_DISTINCT_COUNT_ASSET_OUT_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_DISTINCT_COUNT_ASSET_OUT_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_DISTINCT_COUNT_ASSET_OUT_AMOUNT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_DISTINCT_COUNT_ASSET_OUT_AMOUNT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_DISTINCT_COUNT_ASSET_OUT_FEE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_DISTINCT_COUNT_ASSET_OUT_FEE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_DISTINCT_COUNT_PROTOCOL_FEE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_DISTINCT_COUNT_PROTOCOL_FEE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_DISTINCT_COUNT_TYPE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_DISTINCT_COUNT_TYPE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_DISTINCT_COUNT_RELAY_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_DISTINCT_COUNT_RELAY_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_DISTINCT_COUNT_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_DISTINCT_COUNT_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_DISTINCT_COUNT_ACCOUNT_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_DISTINCT_COUNT_ACCOUNT_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_DISTINCT_COUNT_OMNIPOOL_ASSET_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_DISTINCT_COUNT_OMNIPOOL_ASSET_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_MIN_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_MIN_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_MIN_EXTRINSIC_HASH_ASC
+  OMNIPOOL_ASSET_OPERATIONS_MIN_EXTRINSIC_HASH_DESC
+  OMNIPOOL_ASSET_OPERATIONS_MIN_ASSET_IN_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_MIN_ASSET_IN_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_MIN_ASSET_IN_AMOUNT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_MIN_ASSET_IN_AMOUNT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_MIN_ASSET_IN_FEE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_MIN_ASSET_IN_FEE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_MIN_ASSET_OUT_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_MIN_ASSET_OUT_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_MIN_ASSET_OUT_AMOUNT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_MIN_ASSET_OUT_AMOUNT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_MIN_ASSET_OUT_FEE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_MIN_ASSET_OUT_FEE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_MIN_PROTOCOL_FEE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_MIN_PROTOCOL_FEE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_MIN_TYPE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_MIN_TYPE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_MIN_RELAY_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_MIN_RELAY_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_MIN_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_MIN_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_MIN_ACCOUNT_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_MIN_ACCOUNT_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_MIN_OMNIPOOL_ASSET_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_MIN_OMNIPOOL_ASSET_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_MAX_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_MAX_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_MAX_EXTRINSIC_HASH_ASC
+  OMNIPOOL_ASSET_OPERATIONS_MAX_EXTRINSIC_HASH_DESC
+  OMNIPOOL_ASSET_OPERATIONS_MAX_ASSET_IN_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_MAX_ASSET_IN_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_MAX_ASSET_IN_AMOUNT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_MAX_ASSET_IN_AMOUNT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_MAX_ASSET_IN_FEE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_MAX_ASSET_IN_FEE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_MAX_ASSET_OUT_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_MAX_ASSET_OUT_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_MAX_ASSET_OUT_AMOUNT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_MAX_ASSET_OUT_AMOUNT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_MAX_ASSET_OUT_FEE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_MAX_ASSET_OUT_FEE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_MAX_PROTOCOL_FEE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_MAX_PROTOCOL_FEE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_MAX_TYPE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_MAX_TYPE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_MAX_RELAY_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_MAX_RELAY_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_MAX_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_MAX_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_MAX_ACCOUNT_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_MAX_ACCOUNT_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_MAX_OMNIPOOL_ASSET_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_MAX_OMNIPOOL_ASSET_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_AVERAGE_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_AVERAGE_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_AVERAGE_EXTRINSIC_HASH_ASC
+  OMNIPOOL_ASSET_OPERATIONS_AVERAGE_EXTRINSIC_HASH_DESC
+  OMNIPOOL_ASSET_OPERATIONS_AVERAGE_ASSET_IN_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_AVERAGE_ASSET_IN_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_AVERAGE_ASSET_IN_AMOUNT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_AVERAGE_ASSET_IN_AMOUNT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_AVERAGE_ASSET_IN_FEE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_AVERAGE_ASSET_IN_FEE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_AVERAGE_ASSET_OUT_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_AVERAGE_ASSET_OUT_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_AVERAGE_ASSET_OUT_AMOUNT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_AVERAGE_ASSET_OUT_AMOUNT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_AVERAGE_ASSET_OUT_FEE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_AVERAGE_ASSET_OUT_FEE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_AVERAGE_PROTOCOL_FEE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_AVERAGE_PROTOCOL_FEE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_AVERAGE_TYPE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_AVERAGE_TYPE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_AVERAGE_RELAY_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_AVERAGE_RELAY_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_AVERAGE_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_AVERAGE_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_AVERAGE_ACCOUNT_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_AVERAGE_ACCOUNT_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_AVERAGE_OMNIPOOL_ASSET_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_AVERAGE_OMNIPOOL_ASSET_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_SAMPLE_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_SAMPLE_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_SAMPLE_EXTRINSIC_HASH_ASC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_SAMPLE_EXTRINSIC_HASH_DESC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_SAMPLE_ASSET_IN_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_SAMPLE_ASSET_IN_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_SAMPLE_ASSET_IN_AMOUNT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_SAMPLE_ASSET_IN_AMOUNT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_SAMPLE_ASSET_IN_FEE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_SAMPLE_ASSET_IN_FEE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_SAMPLE_ASSET_OUT_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_SAMPLE_ASSET_OUT_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_SAMPLE_ASSET_OUT_AMOUNT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_SAMPLE_ASSET_OUT_AMOUNT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_SAMPLE_ASSET_OUT_FEE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_SAMPLE_ASSET_OUT_FEE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_SAMPLE_PROTOCOL_FEE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_SAMPLE_PROTOCOL_FEE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_SAMPLE_TYPE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_SAMPLE_TYPE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_SAMPLE_RELAY_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_SAMPLE_RELAY_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_SAMPLE_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_SAMPLE_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_SAMPLE_ACCOUNT_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_SAMPLE_ACCOUNT_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_SAMPLE_OMNIPOOL_ASSET_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_SAMPLE_OMNIPOOL_ASSET_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_POPULATION_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_POPULATION_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_POPULATION_EXTRINSIC_HASH_ASC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_POPULATION_EXTRINSIC_HASH_DESC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_POPULATION_ASSET_IN_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_POPULATION_ASSET_IN_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_POPULATION_ASSET_IN_AMOUNT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_POPULATION_ASSET_IN_AMOUNT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_POPULATION_ASSET_IN_FEE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_POPULATION_ASSET_IN_FEE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_POPULATION_ASSET_OUT_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_POPULATION_ASSET_OUT_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_POPULATION_ASSET_OUT_AMOUNT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_POPULATION_ASSET_OUT_AMOUNT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_POPULATION_ASSET_OUT_FEE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_POPULATION_ASSET_OUT_FEE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_POPULATION_PROTOCOL_FEE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_POPULATION_PROTOCOL_FEE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_POPULATION_TYPE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_POPULATION_TYPE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_POPULATION_RELAY_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_POPULATION_RELAY_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_POPULATION_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_POPULATION_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_POPULATION_ACCOUNT_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_POPULATION_ACCOUNT_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_POPULATION_OMNIPOOL_ASSET_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_POPULATION_OMNIPOOL_ASSET_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_SAMPLE_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_SAMPLE_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_SAMPLE_EXTRINSIC_HASH_ASC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_SAMPLE_EXTRINSIC_HASH_DESC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_SAMPLE_ASSET_IN_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_SAMPLE_ASSET_IN_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_SAMPLE_ASSET_IN_AMOUNT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_SAMPLE_ASSET_IN_AMOUNT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_SAMPLE_ASSET_IN_FEE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_SAMPLE_ASSET_IN_FEE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_SAMPLE_ASSET_OUT_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_SAMPLE_ASSET_OUT_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_SAMPLE_ASSET_OUT_AMOUNT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_SAMPLE_ASSET_OUT_AMOUNT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_SAMPLE_ASSET_OUT_FEE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_SAMPLE_ASSET_OUT_FEE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_SAMPLE_PROTOCOL_FEE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_SAMPLE_PROTOCOL_FEE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_SAMPLE_TYPE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_SAMPLE_TYPE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_SAMPLE_RELAY_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_SAMPLE_RELAY_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_SAMPLE_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_SAMPLE_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_SAMPLE_ACCOUNT_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_SAMPLE_ACCOUNT_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_SAMPLE_OMNIPOOL_ASSET_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_SAMPLE_OMNIPOOL_ASSET_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_POPULATION_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_POPULATION_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_POPULATION_EXTRINSIC_HASH_ASC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_POPULATION_EXTRINSIC_HASH_DESC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_POPULATION_ASSET_IN_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_POPULATION_ASSET_IN_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_POPULATION_ASSET_IN_AMOUNT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_POPULATION_ASSET_IN_AMOUNT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_POPULATION_ASSET_IN_FEE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_POPULATION_ASSET_IN_FEE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_POPULATION_ASSET_OUT_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_POPULATION_ASSET_OUT_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_POPULATION_ASSET_OUT_AMOUNT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_POPULATION_ASSET_OUT_AMOUNT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_POPULATION_ASSET_OUT_FEE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_POPULATION_ASSET_OUT_FEE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_POPULATION_PROTOCOL_FEE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_POPULATION_PROTOCOL_FEE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_POPULATION_TYPE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_POPULATION_TYPE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_POPULATION_RELAY_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_POPULATION_RELAY_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_POPULATION_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_POPULATION_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_POPULATION_ACCOUNT_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_POPULATION_ACCOUNT_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_POPULATION_OMNIPOOL_ASSET_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_POPULATION_OMNIPOOL_ASSET_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_COUNT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_COUNT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_SUM_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_SUM_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_SUM_ASSET_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_SUM_ASSET_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_SUM_ASSET_BALANCE_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_SUM_ASSET_BALANCE_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_SUM_NATIVE_ASSET_BALANCE_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_SUM_NATIVE_ASSET_BALANCE_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_SUM_HUB_RESERVE_BALANCE_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_SUM_HUB_RESERVE_BALANCE_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_SUM_SHARES_BALANCE_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_SUM_SHARES_BALANCE_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_SUM_RELAY_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_SUM_RELAY_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_SUM_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_SUM_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_SUM_OMNIPOOL_ASSET_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_SUM_OMNIPOOL_ASSET_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_DISTINCT_COUNT_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_DISTINCT_COUNT_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_DISTINCT_COUNT_ASSET_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_DISTINCT_COUNT_ASSET_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_DISTINCT_COUNT_ASSET_BALANCE_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_DISTINCT_COUNT_ASSET_BALANCE_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_DISTINCT_COUNT_NATIVE_ASSET_BALANCE_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_DISTINCT_COUNT_NATIVE_ASSET_BALANCE_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_DISTINCT_COUNT_HUB_RESERVE_BALANCE_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_DISTINCT_COUNT_HUB_RESERVE_BALANCE_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_DISTINCT_COUNT_SHARES_BALANCE_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_DISTINCT_COUNT_SHARES_BALANCE_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_DISTINCT_COUNT_RELAY_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_DISTINCT_COUNT_RELAY_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_DISTINCT_COUNT_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_DISTINCT_COUNT_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_DISTINCT_COUNT_OMNIPOOL_ASSET_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_DISTINCT_COUNT_OMNIPOOL_ASSET_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_MIN_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_MIN_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_MIN_ASSET_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_MIN_ASSET_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_MIN_ASSET_BALANCE_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_MIN_ASSET_BALANCE_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_MIN_NATIVE_ASSET_BALANCE_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_MIN_NATIVE_ASSET_BALANCE_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_MIN_HUB_RESERVE_BALANCE_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_MIN_HUB_RESERVE_BALANCE_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_MIN_SHARES_BALANCE_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_MIN_SHARES_BALANCE_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_MIN_RELAY_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_MIN_RELAY_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_MIN_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_MIN_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_MIN_OMNIPOOL_ASSET_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_MIN_OMNIPOOL_ASSET_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_MAX_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_MAX_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_MAX_ASSET_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_MAX_ASSET_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_MAX_ASSET_BALANCE_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_MAX_ASSET_BALANCE_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_MAX_NATIVE_ASSET_BALANCE_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_MAX_NATIVE_ASSET_BALANCE_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_MAX_HUB_RESERVE_BALANCE_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_MAX_HUB_RESERVE_BALANCE_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_MAX_SHARES_BALANCE_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_MAX_SHARES_BALANCE_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_MAX_RELAY_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_MAX_RELAY_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_MAX_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_MAX_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_MAX_OMNIPOOL_ASSET_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_MAX_OMNIPOOL_ASSET_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_AVERAGE_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_AVERAGE_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_AVERAGE_ASSET_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_AVERAGE_ASSET_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_AVERAGE_ASSET_BALANCE_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_AVERAGE_ASSET_BALANCE_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_AVERAGE_NATIVE_ASSET_BALANCE_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_AVERAGE_NATIVE_ASSET_BALANCE_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_AVERAGE_HUB_RESERVE_BALANCE_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_AVERAGE_HUB_RESERVE_BALANCE_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_AVERAGE_SHARES_BALANCE_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_AVERAGE_SHARES_BALANCE_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_AVERAGE_RELAY_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_AVERAGE_RELAY_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_AVERAGE_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_AVERAGE_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_AVERAGE_OMNIPOOL_ASSET_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_AVERAGE_OMNIPOOL_ASSET_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_STDDEV_SAMPLE_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_STDDEV_SAMPLE_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_STDDEV_SAMPLE_ASSET_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_STDDEV_SAMPLE_ASSET_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_STDDEV_SAMPLE_ASSET_BALANCE_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_STDDEV_SAMPLE_ASSET_BALANCE_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_STDDEV_SAMPLE_NATIVE_ASSET_BALANCE_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_STDDEV_SAMPLE_NATIVE_ASSET_BALANCE_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_STDDEV_SAMPLE_HUB_RESERVE_BALANCE_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_STDDEV_SAMPLE_HUB_RESERVE_BALANCE_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_STDDEV_SAMPLE_SHARES_BALANCE_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_STDDEV_SAMPLE_SHARES_BALANCE_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_STDDEV_SAMPLE_RELAY_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_STDDEV_SAMPLE_RELAY_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_STDDEV_SAMPLE_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_STDDEV_SAMPLE_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_STDDEV_SAMPLE_OMNIPOOL_ASSET_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_STDDEV_SAMPLE_OMNIPOOL_ASSET_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_STDDEV_POPULATION_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_STDDEV_POPULATION_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_STDDEV_POPULATION_ASSET_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_STDDEV_POPULATION_ASSET_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_STDDEV_POPULATION_ASSET_BALANCE_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_STDDEV_POPULATION_ASSET_BALANCE_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_STDDEV_POPULATION_NATIVE_ASSET_BALANCE_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_STDDEV_POPULATION_NATIVE_ASSET_BALANCE_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_STDDEV_POPULATION_HUB_RESERVE_BALANCE_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_STDDEV_POPULATION_HUB_RESERVE_BALANCE_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_STDDEV_POPULATION_SHARES_BALANCE_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_STDDEV_POPULATION_SHARES_BALANCE_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_STDDEV_POPULATION_RELAY_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_STDDEV_POPULATION_RELAY_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_STDDEV_POPULATION_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_STDDEV_POPULATION_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_STDDEV_POPULATION_OMNIPOOL_ASSET_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_STDDEV_POPULATION_OMNIPOOL_ASSET_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_VARIANCE_SAMPLE_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_VARIANCE_SAMPLE_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_VARIANCE_SAMPLE_ASSET_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_VARIANCE_SAMPLE_ASSET_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_VARIANCE_SAMPLE_ASSET_BALANCE_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_VARIANCE_SAMPLE_ASSET_BALANCE_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_VARIANCE_SAMPLE_NATIVE_ASSET_BALANCE_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_VARIANCE_SAMPLE_NATIVE_ASSET_BALANCE_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_VARIANCE_SAMPLE_HUB_RESERVE_BALANCE_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_VARIANCE_SAMPLE_HUB_RESERVE_BALANCE_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_VARIANCE_SAMPLE_SHARES_BALANCE_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_VARIANCE_SAMPLE_SHARES_BALANCE_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_VARIANCE_SAMPLE_RELAY_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_VARIANCE_SAMPLE_RELAY_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_VARIANCE_SAMPLE_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_VARIANCE_SAMPLE_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_VARIANCE_SAMPLE_OMNIPOOL_ASSET_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_VARIANCE_SAMPLE_OMNIPOOL_ASSET_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_VARIANCE_POPULATION_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_VARIANCE_POPULATION_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_VARIANCE_POPULATION_ASSET_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_VARIANCE_POPULATION_ASSET_ID_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_VARIANCE_POPULATION_ASSET_BALANCE_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_VARIANCE_POPULATION_ASSET_BALANCE_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_VARIANCE_POPULATION_NATIVE_ASSET_BALANCE_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_VARIANCE_POPULATION_NATIVE_ASSET_BALANCE_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_VARIANCE_POPULATION_HUB_RESERVE_BALANCE_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_VARIANCE_POPULATION_HUB_RESERVE_BALANCE_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_VARIANCE_POPULATION_SHARES_BALANCE_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_VARIANCE_POPULATION_SHARES_BALANCE_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_VARIANCE_POPULATION_RELAY_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_VARIANCE_POPULATION_RELAY_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_VARIANCE_POPULATION_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_VARIANCE_POPULATION_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_VARIANCE_POPULATION_OMNIPOOL_ASSET_ID_ASC
+  OMNIPOOL_ASSET_HISTORICAL_DATA_VARIANCE_POPULATION_OMNIPOOL_ASSET_ID_DESC
+}
+
+"""
+A condition to be used against `OmnipoolAsset` object types. All fields are
+tested for equality and combined with a logical ‘and.’
+"""
+input OmnipoolAssetCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: String
+
+  """Checks for equality with the object’s `assetId` field."""
+  assetId: Int
+
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `createdAtParaBlock` field."""
+  createdAtParaBlock: Int
+
+  """Checks for equality with the object’s `isRemoved` field."""
+  isRemoved: Boolean
+
+  """Checks for equality with the object’s `removedAtParaBlock` field."""
+  removedAtParaBlock: Int
+
+  """Checks for equality with the object’s `poolId` field."""
+  poolId: String
+}
+
+"""
+A filter to be used against `OmnipoolAsset` object types. All fields are combined with a logical ‘and.’
+"""
+input OmnipoolAssetFilter {
+  """Filter by the object’s `id` field."""
+  id: StringFilter
+
+  """Filter by the object’s `assetId` field."""
+  assetId: IntFilter
+
+  """Filter by the object’s `createdAt` field."""
+  createdAt: DatetimeFilter
+
+  """Filter by the object’s `createdAtParaBlock` field."""
+  createdAtParaBlock: IntFilter
+
+  """Filter by the object’s `isRemoved` field."""
+  isRemoved: BooleanFilter
+
+  """Filter by the object’s `removedAtParaBlock` field."""
+  removedAtParaBlock: IntFilter
+
+  """Filter by the object’s `poolId` field."""
+  poolId: StringFilter
+
+  """Checks for all expressions in this list."""
+  and: [OmnipoolAssetFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [OmnipoolAssetFilter!]
+
+  """Negates the expression."""
+  not: OmnipoolAssetFilter
+}
+
+"""A connection to a list of `OmnipoolAssetHistoricalVolume` values."""
+type OmnipoolAssetHistoricalVolumesConnection {
+  """A list of `OmnipoolAssetHistoricalVolume` objects."""
+  nodes: [OmnipoolAssetHistoricalVolume]!
+
+  """
+  A list of edges which contains the `OmnipoolAssetHistoricalVolume` and cursor to aid in pagination.
+  """
+  edges: [OmnipoolAssetHistoricalVolumesEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """
+  The count of *all* `OmnipoolAssetHistoricalVolume` you could get from the connection.
+  """
+  totalCount: Int!
+
+  """
+  Aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  aggregates: OmnipoolAssetHistoricalVolumeAggregates
+
+  """
+  Grouped aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  groupedAggregates(
+    """
+    The method to use when grouping `OmnipoolAssetHistoricalVolume` for these aggregates.
+    """
+    groupBy: [OmnipoolAssetHistoricalVolumeGroupBy!]!
+
+    """Conditions on the grouped aggregates."""
+    having: OmnipoolAssetHistoricalVolumeHavingInput
+  ): [OmnipoolAssetHistoricalVolumeAggregates!]
+}
+
+type OmnipoolAssetHistoricalVolume {
+  id: String!
+  assetAId: Int!
+  assetBId: Int!
+  assetAVolumeIn: BigFloat!
+  assetAVolumeOut: BigFloat!
+  assetATotalVolumeIn: BigFloat!
+  assetATotalVolumeOut: BigFloat!
+  assetAFee: BigFloat!
+  assetBFee: BigFloat!
+  assetATotalFees: BigFloat!
+  assetBTotalFees: BigFloat!
+  assetBVolumeIn: BigFloat!
+  assetBVolumeOut: BigFloat!
+  assetBTotalVolumeIn: BigFloat!
+  assetBTotalVolumeOut: BigFloat!
+  relayChainBlockHeight: Int!
+  paraChainBlockHeight: Int!
+  omnipoolAssetId: String
+
+  """
+  Reads a single `OmnipoolAsset` that is related to this `OmnipoolAssetHistoricalVolume`.
+  """
+  omnipoolAsset: OmnipoolAsset
+}
+
+"""A `OmnipoolAssetHistoricalVolume` edge in the connection."""
+type OmnipoolAssetHistoricalVolumesEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `OmnipoolAssetHistoricalVolume` at the end of the edge."""
+  node: OmnipoolAssetHistoricalVolume
+}
+
+type OmnipoolAssetHistoricalVolumeAggregates {
+  keys: [String!]
+
+  """
+  Sum aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  sum: OmnipoolAssetHistoricalVolumeSumAggregates
+
+  """
+  Distinct count aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  distinctCount: OmnipoolAssetHistoricalVolumeDistinctCountAggregates
+
+  """
+  Minimum aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  min: OmnipoolAssetHistoricalVolumeMinAggregates
+
+  """
+  Maximum aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  max: OmnipoolAssetHistoricalVolumeMaxAggregates
+
+  """
+  Mean average aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  average: OmnipoolAssetHistoricalVolumeAverageAggregates
+
+  """
+  Sample standard deviation aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  stddevSample: OmnipoolAssetHistoricalVolumeStddevSampleAggregates
+
+  """
+  Population standard deviation aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  stddevPopulation: OmnipoolAssetHistoricalVolumeStddevPopulationAggregates
+
+  """
+  Sample variance aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  varianceSample: OmnipoolAssetHistoricalVolumeVarianceSampleAggregates
+
+  """
+  Population variance aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  variancePopulation: OmnipoolAssetHistoricalVolumeVariancePopulationAggregates
+}
+
+type OmnipoolAssetHistoricalVolumeSumAggregates {
+  """Sum of assetAId across the matching connection"""
+  assetAId: BigInt!
+
+  """Sum of assetBId across the matching connection"""
+  assetBId: BigInt!
+
+  """Sum of assetAVolumeIn across the matching connection"""
+  assetAVolumeIn: BigFloat!
+
+  """Sum of assetAVolumeOut across the matching connection"""
+  assetAVolumeOut: BigFloat!
+
+  """Sum of assetATotalVolumeIn across the matching connection"""
+  assetATotalVolumeIn: BigFloat!
+
+  """Sum of assetATotalVolumeOut across the matching connection"""
+  assetATotalVolumeOut: BigFloat!
+
+  """Sum of assetAFee across the matching connection"""
+  assetAFee: BigFloat!
+
+  """Sum of assetBFee across the matching connection"""
+  assetBFee: BigFloat!
+
+  """Sum of assetATotalFees across the matching connection"""
+  assetATotalFees: BigFloat!
+
+  """Sum of assetBTotalFees across the matching connection"""
+  assetBTotalFees: BigFloat!
+
+  """Sum of assetBVolumeIn across the matching connection"""
+  assetBVolumeIn: BigFloat!
+
+  """Sum of assetBVolumeOut across the matching connection"""
+  assetBVolumeOut: BigFloat!
+
+  """Sum of assetBTotalVolumeIn across the matching connection"""
+  assetBTotalVolumeIn: BigFloat!
+
+  """Sum of assetBTotalVolumeOut across the matching connection"""
+  assetBTotalVolumeOut: BigFloat!
+
+  """Sum of relayChainBlockHeight across the matching connection"""
+  relayChainBlockHeight: BigInt!
+
+  """Sum of paraChainBlockHeight across the matching connection"""
+  paraChainBlockHeight: BigInt!
+}
+
+type OmnipoolAssetHistoricalVolumeDistinctCountAggregates {
+  """Distinct count of id across the matching connection"""
+  id: BigInt
+
+  """Distinct count of assetAId across the matching connection"""
+  assetAId: BigInt
+
+  """Distinct count of assetBId across the matching connection"""
+  assetBId: BigInt
+
+  """Distinct count of assetAVolumeIn across the matching connection"""
+  assetAVolumeIn: BigInt
+
+  """Distinct count of assetAVolumeOut across the matching connection"""
+  assetAVolumeOut: BigInt
+
+  """Distinct count of assetATotalVolumeIn across the matching connection"""
+  assetATotalVolumeIn: BigInt
+
+  """Distinct count of assetATotalVolumeOut across the matching connection"""
+  assetATotalVolumeOut: BigInt
+
+  """Distinct count of assetAFee across the matching connection"""
+  assetAFee: BigInt
+
+  """Distinct count of assetBFee across the matching connection"""
+  assetBFee: BigInt
+
+  """Distinct count of assetATotalFees across the matching connection"""
+  assetATotalFees: BigInt
+
+  """Distinct count of assetBTotalFees across the matching connection"""
+  assetBTotalFees: BigInt
+
+  """Distinct count of assetBVolumeIn across the matching connection"""
+  assetBVolumeIn: BigInt
+
+  """Distinct count of assetBVolumeOut across the matching connection"""
+  assetBVolumeOut: BigInt
+
+  """Distinct count of assetBTotalVolumeIn across the matching connection"""
+  assetBTotalVolumeIn: BigInt
+
+  """Distinct count of assetBTotalVolumeOut across the matching connection"""
+  assetBTotalVolumeOut: BigInt
+
+  """Distinct count of relayChainBlockHeight across the matching connection"""
+  relayChainBlockHeight: BigInt
+
+  """Distinct count of paraChainBlockHeight across the matching connection"""
+  paraChainBlockHeight: BigInt
+
+  """Distinct count of omnipoolAssetId across the matching connection"""
+  omnipoolAssetId: BigInt
+}
+
+type OmnipoolAssetHistoricalVolumeMinAggregates {
+  """Minimum of assetAId across the matching connection"""
+  assetAId: Int
+
+  """Minimum of assetBId across the matching connection"""
+  assetBId: Int
+
+  """Minimum of assetAVolumeIn across the matching connection"""
+  assetAVolumeIn: BigFloat
+
+  """Minimum of assetAVolumeOut across the matching connection"""
+  assetAVolumeOut: BigFloat
+
+  """Minimum of assetATotalVolumeIn across the matching connection"""
+  assetATotalVolumeIn: BigFloat
+
+  """Minimum of assetATotalVolumeOut across the matching connection"""
+  assetATotalVolumeOut: BigFloat
+
+  """Minimum of assetAFee across the matching connection"""
+  assetAFee: BigFloat
+
+  """Minimum of assetBFee across the matching connection"""
+  assetBFee: BigFloat
+
+  """Minimum of assetATotalFees across the matching connection"""
+  assetATotalFees: BigFloat
+
+  """Minimum of assetBTotalFees across the matching connection"""
+  assetBTotalFees: BigFloat
+
+  """Minimum of assetBVolumeIn across the matching connection"""
+  assetBVolumeIn: BigFloat
+
+  """Minimum of assetBVolumeOut across the matching connection"""
+  assetBVolumeOut: BigFloat
+
+  """Minimum of assetBTotalVolumeIn across the matching connection"""
+  assetBTotalVolumeIn: BigFloat
+
+  """Minimum of assetBTotalVolumeOut across the matching connection"""
+  assetBTotalVolumeOut: BigFloat
+
+  """Minimum of relayChainBlockHeight across the matching connection"""
+  relayChainBlockHeight: Int
+
+  """Minimum of paraChainBlockHeight across the matching connection"""
+  paraChainBlockHeight: Int
+}
+
+type OmnipoolAssetHistoricalVolumeMaxAggregates {
+  """Maximum of assetAId across the matching connection"""
+  assetAId: Int
+
+  """Maximum of assetBId across the matching connection"""
+  assetBId: Int
+
+  """Maximum of assetAVolumeIn across the matching connection"""
+  assetAVolumeIn: BigFloat
+
+  """Maximum of assetAVolumeOut across the matching connection"""
+  assetAVolumeOut: BigFloat
+
+  """Maximum of assetATotalVolumeIn across the matching connection"""
+  assetATotalVolumeIn: BigFloat
+
+  """Maximum of assetATotalVolumeOut across the matching connection"""
+  assetATotalVolumeOut: BigFloat
+
+  """Maximum of assetAFee across the matching connection"""
+  assetAFee: BigFloat
+
+  """Maximum of assetBFee across the matching connection"""
+  assetBFee: BigFloat
+
+  """Maximum of assetATotalFees across the matching connection"""
+  assetATotalFees: BigFloat
+
+  """Maximum of assetBTotalFees across the matching connection"""
+  assetBTotalFees: BigFloat
+
+  """Maximum of assetBVolumeIn across the matching connection"""
+  assetBVolumeIn: BigFloat
+
+  """Maximum of assetBVolumeOut across the matching connection"""
+  assetBVolumeOut: BigFloat
+
+  """Maximum of assetBTotalVolumeIn across the matching connection"""
+  assetBTotalVolumeIn: BigFloat
+
+  """Maximum of assetBTotalVolumeOut across the matching connection"""
+  assetBTotalVolumeOut: BigFloat
+
+  """Maximum of relayChainBlockHeight across the matching connection"""
+  relayChainBlockHeight: Int
+
+  """Maximum of paraChainBlockHeight across the matching connection"""
+  paraChainBlockHeight: Int
+}
+
+type OmnipoolAssetHistoricalVolumeAverageAggregates {
+  """Mean average of assetAId across the matching connection"""
+  assetAId: BigFloat
+
+  """Mean average of assetBId across the matching connection"""
+  assetBId: BigFloat
+
+  """Mean average of assetAVolumeIn across the matching connection"""
+  assetAVolumeIn: BigFloat
+
+  """Mean average of assetAVolumeOut across the matching connection"""
+  assetAVolumeOut: BigFloat
+
+  """Mean average of assetATotalVolumeIn across the matching connection"""
+  assetATotalVolumeIn: BigFloat
+
+  """Mean average of assetATotalVolumeOut across the matching connection"""
+  assetATotalVolumeOut: BigFloat
+
+  """Mean average of assetAFee across the matching connection"""
+  assetAFee: BigFloat
+
+  """Mean average of assetBFee across the matching connection"""
+  assetBFee: BigFloat
+
+  """Mean average of assetATotalFees across the matching connection"""
+  assetATotalFees: BigFloat
+
+  """Mean average of assetBTotalFees across the matching connection"""
+  assetBTotalFees: BigFloat
+
+  """Mean average of assetBVolumeIn across the matching connection"""
+  assetBVolumeIn: BigFloat
+
+  """Mean average of assetBVolumeOut across the matching connection"""
+  assetBVolumeOut: BigFloat
+
+  """Mean average of assetBTotalVolumeIn across the matching connection"""
+  assetBTotalVolumeIn: BigFloat
+
+  """Mean average of assetBTotalVolumeOut across the matching connection"""
+  assetBTotalVolumeOut: BigFloat
+
+  """Mean average of relayChainBlockHeight across the matching connection"""
+  relayChainBlockHeight: BigFloat
+
+  """Mean average of paraChainBlockHeight across the matching connection"""
+  paraChainBlockHeight: BigFloat
+}
+
+type OmnipoolAssetHistoricalVolumeStddevSampleAggregates {
+  """Sample standard deviation of assetAId across the matching connection"""
+  assetAId: BigFloat
+
+  """Sample standard deviation of assetBId across the matching connection"""
+  assetBId: BigFloat
+
+  """
+  Sample standard deviation of assetAVolumeIn across the matching connection
+  """
+  assetAVolumeIn: BigFloat
+
+  """
+  Sample standard deviation of assetAVolumeOut across the matching connection
+  """
+  assetAVolumeOut: BigFloat
+
+  """
+  Sample standard deviation of assetATotalVolumeIn across the matching connection
+  """
+  assetATotalVolumeIn: BigFloat
+
+  """
+  Sample standard deviation of assetATotalVolumeOut across the matching connection
+  """
+  assetATotalVolumeOut: BigFloat
+
+  """Sample standard deviation of assetAFee across the matching connection"""
+  assetAFee: BigFloat
+
+  """Sample standard deviation of assetBFee across the matching connection"""
+  assetBFee: BigFloat
+
+  """
+  Sample standard deviation of assetATotalFees across the matching connection
+  """
+  assetATotalFees: BigFloat
+
+  """
+  Sample standard deviation of assetBTotalFees across the matching connection
+  """
+  assetBTotalFees: BigFloat
+
+  """
+  Sample standard deviation of assetBVolumeIn across the matching connection
+  """
+  assetBVolumeIn: BigFloat
+
+  """
+  Sample standard deviation of assetBVolumeOut across the matching connection
+  """
+  assetBVolumeOut: BigFloat
+
+  """
+  Sample standard deviation of assetBTotalVolumeIn across the matching connection
+  """
+  assetBTotalVolumeIn: BigFloat
+
+  """
+  Sample standard deviation of assetBTotalVolumeOut across the matching connection
+  """
+  assetBTotalVolumeOut: BigFloat
+
+  """
+  Sample standard deviation of relayChainBlockHeight across the matching connection
+  """
+  relayChainBlockHeight: BigFloat
+
+  """
+  Sample standard deviation of paraChainBlockHeight across the matching connection
+  """
+  paraChainBlockHeight: BigFloat
+}
+
+type OmnipoolAssetHistoricalVolumeStddevPopulationAggregates {
+  """
+  Population standard deviation of assetAId across the matching connection
+  """
+  assetAId: BigFloat
+
+  """
+  Population standard deviation of assetBId across the matching connection
+  """
+  assetBId: BigFloat
+
+  """
+  Population standard deviation of assetAVolumeIn across the matching connection
+  """
+  assetAVolumeIn: BigFloat
+
+  """
+  Population standard deviation of assetAVolumeOut across the matching connection
+  """
+  assetAVolumeOut: BigFloat
+
+  """
+  Population standard deviation of assetATotalVolumeIn across the matching connection
+  """
+  assetATotalVolumeIn: BigFloat
+
+  """
+  Population standard deviation of assetATotalVolumeOut across the matching connection
+  """
+  assetATotalVolumeOut: BigFloat
+
+  """
+  Population standard deviation of assetAFee across the matching connection
+  """
+  assetAFee: BigFloat
+
+  """
+  Population standard deviation of assetBFee across the matching connection
+  """
+  assetBFee: BigFloat
+
+  """
+  Population standard deviation of assetATotalFees across the matching connection
+  """
+  assetATotalFees: BigFloat
+
+  """
+  Population standard deviation of assetBTotalFees across the matching connection
+  """
+  assetBTotalFees: BigFloat
+
+  """
+  Population standard deviation of assetBVolumeIn across the matching connection
+  """
+  assetBVolumeIn: BigFloat
+
+  """
+  Population standard deviation of assetBVolumeOut across the matching connection
+  """
+  assetBVolumeOut: BigFloat
+
+  """
+  Population standard deviation of assetBTotalVolumeIn across the matching connection
+  """
+  assetBTotalVolumeIn: BigFloat
+
+  """
+  Population standard deviation of assetBTotalVolumeOut across the matching connection
+  """
+  assetBTotalVolumeOut: BigFloat
+
+  """
+  Population standard deviation of relayChainBlockHeight across the matching connection
+  """
+  relayChainBlockHeight: BigFloat
+
+  """
+  Population standard deviation of paraChainBlockHeight across the matching connection
+  """
+  paraChainBlockHeight: BigFloat
+}
+
+type OmnipoolAssetHistoricalVolumeVarianceSampleAggregates {
+  """Sample variance of assetAId across the matching connection"""
+  assetAId: BigFloat
+
+  """Sample variance of assetBId across the matching connection"""
+  assetBId: BigFloat
+
+  """Sample variance of assetAVolumeIn across the matching connection"""
+  assetAVolumeIn: BigFloat
+
+  """Sample variance of assetAVolumeOut across the matching connection"""
+  assetAVolumeOut: BigFloat
+
+  """Sample variance of assetATotalVolumeIn across the matching connection"""
+  assetATotalVolumeIn: BigFloat
+
+  """Sample variance of assetATotalVolumeOut across the matching connection"""
+  assetATotalVolumeOut: BigFloat
+
+  """Sample variance of assetAFee across the matching connection"""
+  assetAFee: BigFloat
+
+  """Sample variance of assetBFee across the matching connection"""
+  assetBFee: BigFloat
+
+  """Sample variance of assetATotalFees across the matching connection"""
+  assetATotalFees: BigFloat
+
+  """Sample variance of assetBTotalFees across the matching connection"""
+  assetBTotalFees: BigFloat
+
+  """Sample variance of assetBVolumeIn across the matching connection"""
+  assetBVolumeIn: BigFloat
+
+  """Sample variance of assetBVolumeOut across the matching connection"""
+  assetBVolumeOut: BigFloat
+
+  """Sample variance of assetBTotalVolumeIn across the matching connection"""
+  assetBTotalVolumeIn: BigFloat
+
+  """Sample variance of assetBTotalVolumeOut across the matching connection"""
+  assetBTotalVolumeOut: BigFloat
+
+  """
+  Sample variance of relayChainBlockHeight across the matching connection
+  """
+  relayChainBlockHeight: BigFloat
+
+  """Sample variance of paraChainBlockHeight across the matching connection"""
+  paraChainBlockHeight: BigFloat
+}
+
+type OmnipoolAssetHistoricalVolumeVariancePopulationAggregates {
+  """Population variance of assetAId across the matching connection"""
+  assetAId: BigFloat
+
+  """Population variance of assetBId across the matching connection"""
+  assetBId: BigFloat
+
+  """Population variance of assetAVolumeIn across the matching connection"""
+  assetAVolumeIn: BigFloat
+
+  """Population variance of assetAVolumeOut across the matching connection"""
+  assetAVolumeOut: BigFloat
+
+  """
+  Population variance of assetATotalVolumeIn across the matching connection
+  """
+  assetATotalVolumeIn: BigFloat
+
+  """
+  Population variance of assetATotalVolumeOut across the matching connection
+  """
+  assetATotalVolumeOut: BigFloat
+
+  """Population variance of assetAFee across the matching connection"""
+  assetAFee: BigFloat
+
+  """Population variance of assetBFee across the matching connection"""
+  assetBFee: BigFloat
+
+  """Population variance of assetATotalFees across the matching connection"""
+  assetATotalFees: BigFloat
+
+  """Population variance of assetBTotalFees across the matching connection"""
+  assetBTotalFees: BigFloat
+
+  """Population variance of assetBVolumeIn across the matching connection"""
+  assetBVolumeIn: BigFloat
+
+  """Population variance of assetBVolumeOut across the matching connection"""
+  assetBVolumeOut: BigFloat
+
+  """
+  Population variance of assetBTotalVolumeIn across the matching connection
+  """
+  assetBTotalVolumeIn: BigFloat
+
+  """
+  Population variance of assetBTotalVolumeOut across the matching connection
+  """
+  assetBTotalVolumeOut: BigFloat
+
+  """
+  Population variance of relayChainBlockHeight across the matching connection
+  """
+  relayChainBlockHeight: BigFloat
+
+  """
+  Population variance of paraChainBlockHeight across the matching connection
+  """
+  paraChainBlockHeight: BigFloat
+}
+
+"""
+Grouping methods for `OmnipoolAssetHistoricalVolume` for usage during aggregation.
+"""
+enum OmnipoolAssetHistoricalVolumeGroupBy {
+  ASSET_A_ID
+  ASSET_B_ID
+  ASSET_A_VOLUME_IN
+  ASSET_A_VOLUME_OUT
+  ASSET_A_TOTAL_VOLUME_IN
+  ASSET_A_TOTAL_VOLUME_OUT
+  ASSET_A_FEE
+  ASSET_B_FEE
+  ASSET_A_TOTAL_FEES
+  ASSET_B_TOTAL_FEES
+  ASSET_B_VOLUME_IN
+  ASSET_B_VOLUME_OUT
+  ASSET_B_TOTAL_VOLUME_IN
+  ASSET_B_TOTAL_VOLUME_OUT
+  RELAY_CHAIN_BLOCK_HEIGHT
+  PARA_CHAIN_BLOCK_HEIGHT
+  OMNIPOOL_ASSET_ID
+}
+
+"""Conditions for `OmnipoolAssetHistoricalVolume` aggregates."""
+input OmnipoolAssetHistoricalVolumeHavingInput {
+  AND: [OmnipoolAssetHistoricalVolumeHavingInput!]
+  OR: [OmnipoolAssetHistoricalVolumeHavingInput!]
+  sum: OmnipoolAssetHistoricalVolumeHavingSumInput
+  distinctCount: OmnipoolAssetHistoricalVolumeHavingDistinctCountInput
+  min: OmnipoolAssetHistoricalVolumeHavingMinInput
+  max: OmnipoolAssetHistoricalVolumeHavingMaxInput
+  average: OmnipoolAssetHistoricalVolumeHavingAverageInput
+  stddevSample: OmnipoolAssetHistoricalVolumeHavingStddevSampleInput
+  stddevPopulation: OmnipoolAssetHistoricalVolumeHavingStddevPopulationInput
+  varianceSample: OmnipoolAssetHistoricalVolumeHavingVarianceSampleInput
+  variancePopulation: OmnipoolAssetHistoricalVolumeHavingVariancePopulationInput
+}
+
+input OmnipoolAssetHistoricalVolumeHavingSumInput {
+  assetAId: HavingIntFilter
+  assetBId: HavingIntFilter
+  assetAVolumeIn: HavingBigfloatFilter
+  assetAVolumeOut: HavingBigfloatFilter
+  assetATotalVolumeIn: HavingBigfloatFilter
+  assetATotalVolumeOut: HavingBigfloatFilter
+  assetAFee: HavingBigfloatFilter
+  assetBFee: HavingBigfloatFilter
+  assetATotalFees: HavingBigfloatFilter
+  assetBTotalFees: HavingBigfloatFilter
+  assetBVolumeIn: HavingBigfloatFilter
+  assetBVolumeOut: HavingBigfloatFilter
+  assetBTotalVolumeIn: HavingBigfloatFilter
+  assetBTotalVolumeOut: HavingBigfloatFilter
+  relayChainBlockHeight: HavingIntFilter
+  paraChainBlockHeight: HavingIntFilter
+}
+
+input OmnipoolAssetHistoricalVolumeHavingDistinctCountInput {
+  assetAId: HavingIntFilter
+  assetBId: HavingIntFilter
+  assetAVolumeIn: HavingBigfloatFilter
+  assetAVolumeOut: HavingBigfloatFilter
+  assetATotalVolumeIn: HavingBigfloatFilter
+  assetATotalVolumeOut: HavingBigfloatFilter
+  assetAFee: HavingBigfloatFilter
+  assetBFee: HavingBigfloatFilter
+  assetATotalFees: HavingBigfloatFilter
+  assetBTotalFees: HavingBigfloatFilter
+  assetBVolumeIn: HavingBigfloatFilter
+  assetBVolumeOut: HavingBigfloatFilter
+  assetBTotalVolumeIn: HavingBigfloatFilter
+  assetBTotalVolumeOut: HavingBigfloatFilter
+  relayChainBlockHeight: HavingIntFilter
+  paraChainBlockHeight: HavingIntFilter
+}
+
+input OmnipoolAssetHistoricalVolumeHavingMinInput {
+  assetAId: HavingIntFilter
+  assetBId: HavingIntFilter
+  assetAVolumeIn: HavingBigfloatFilter
+  assetAVolumeOut: HavingBigfloatFilter
+  assetATotalVolumeIn: HavingBigfloatFilter
+  assetATotalVolumeOut: HavingBigfloatFilter
+  assetAFee: HavingBigfloatFilter
+  assetBFee: HavingBigfloatFilter
+  assetATotalFees: HavingBigfloatFilter
+  assetBTotalFees: HavingBigfloatFilter
+  assetBVolumeIn: HavingBigfloatFilter
+  assetBVolumeOut: HavingBigfloatFilter
+  assetBTotalVolumeIn: HavingBigfloatFilter
+  assetBTotalVolumeOut: HavingBigfloatFilter
+  relayChainBlockHeight: HavingIntFilter
+  paraChainBlockHeight: HavingIntFilter
+}
+
+input OmnipoolAssetHistoricalVolumeHavingMaxInput {
+  assetAId: HavingIntFilter
+  assetBId: HavingIntFilter
+  assetAVolumeIn: HavingBigfloatFilter
+  assetAVolumeOut: HavingBigfloatFilter
+  assetATotalVolumeIn: HavingBigfloatFilter
+  assetATotalVolumeOut: HavingBigfloatFilter
+  assetAFee: HavingBigfloatFilter
+  assetBFee: HavingBigfloatFilter
+  assetATotalFees: HavingBigfloatFilter
+  assetBTotalFees: HavingBigfloatFilter
+  assetBVolumeIn: HavingBigfloatFilter
+  assetBVolumeOut: HavingBigfloatFilter
+  assetBTotalVolumeIn: HavingBigfloatFilter
+  assetBTotalVolumeOut: HavingBigfloatFilter
+  relayChainBlockHeight: HavingIntFilter
+  paraChainBlockHeight: HavingIntFilter
+}
+
+input OmnipoolAssetHistoricalVolumeHavingAverageInput {
+  assetAId: HavingIntFilter
+  assetBId: HavingIntFilter
+  assetAVolumeIn: HavingBigfloatFilter
+  assetAVolumeOut: HavingBigfloatFilter
+  assetATotalVolumeIn: HavingBigfloatFilter
+  assetATotalVolumeOut: HavingBigfloatFilter
+  assetAFee: HavingBigfloatFilter
+  assetBFee: HavingBigfloatFilter
+  assetATotalFees: HavingBigfloatFilter
+  assetBTotalFees: HavingBigfloatFilter
+  assetBVolumeIn: HavingBigfloatFilter
+  assetBVolumeOut: HavingBigfloatFilter
+  assetBTotalVolumeIn: HavingBigfloatFilter
+  assetBTotalVolumeOut: HavingBigfloatFilter
+  relayChainBlockHeight: HavingIntFilter
+  paraChainBlockHeight: HavingIntFilter
+}
+
+input OmnipoolAssetHistoricalVolumeHavingStddevSampleInput {
+  assetAId: HavingIntFilter
+  assetBId: HavingIntFilter
+  assetAVolumeIn: HavingBigfloatFilter
+  assetAVolumeOut: HavingBigfloatFilter
+  assetATotalVolumeIn: HavingBigfloatFilter
+  assetATotalVolumeOut: HavingBigfloatFilter
+  assetAFee: HavingBigfloatFilter
+  assetBFee: HavingBigfloatFilter
+  assetATotalFees: HavingBigfloatFilter
+  assetBTotalFees: HavingBigfloatFilter
+  assetBVolumeIn: HavingBigfloatFilter
+  assetBVolumeOut: HavingBigfloatFilter
+  assetBTotalVolumeIn: HavingBigfloatFilter
+  assetBTotalVolumeOut: HavingBigfloatFilter
+  relayChainBlockHeight: HavingIntFilter
+  paraChainBlockHeight: HavingIntFilter
+}
+
+input OmnipoolAssetHistoricalVolumeHavingStddevPopulationInput {
+  assetAId: HavingIntFilter
+  assetBId: HavingIntFilter
+  assetAVolumeIn: HavingBigfloatFilter
+  assetAVolumeOut: HavingBigfloatFilter
+  assetATotalVolumeIn: HavingBigfloatFilter
+  assetATotalVolumeOut: HavingBigfloatFilter
+  assetAFee: HavingBigfloatFilter
+  assetBFee: HavingBigfloatFilter
+  assetATotalFees: HavingBigfloatFilter
+  assetBTotalFees: HavingBigfloatFilter
+  assetBVolumeIn: HavingBigfloatFilter
+  assetBVolumeOut: HavingBigfloatFilter
+  assetBTotalVolumeIn: HavingBigfloatFilter
+  assetBTotalVolumeOut: HavingBigfloatFilter
+  relayChainBlockHeight: HavingIntFilter
+  paraChainBlockHeight: HavingIntFilter
+}
+
+input OmnipoolAssetHistoricalVolumeHavingVarianceSampleInput {
+  assetAId: HavingIntFilter
+  assetBId: HavingIntFilter
+  assetAVolumeIn: HavingBigfloatFilter
+  assetAVolumeOut: HavingBigfloatFilter
+  assetATotalVolumeIn: HavingBigfloatFilter
+  assetATotalVolumeOut: HavingBigfloatFilter
+  assetAFee: HavingBigfloatFilter
+  assetBFee: HavingBigfloatFilter
+  assetATotalFees: HavingBigfloatFilter
+  assetBTotalFees: HavingBigfloatFilter
+  assetBVolumeIn: HavingBigfloatFilter
+  assetBVolumeOut: HavingBigfloatFilter
+  assetBTotalVolumeIn: HavingBigfloatFilter
+  assetBTotalVolumeOut: HavingBigfloatFilter
+  relayChainBlockHeight: HavingIntFilter
+  paraChainBlockHeight: HavingIntFilter
+}
+
+input OmnipoolAssetHistoricalVolumeHavingVariancePopulationInput {
+  assetAId: HavingIntFilter
+  assetBId: HavingIntFilter
+  assetAVolumeIn: HavingBigfloatFilter
+  assetAVolumeOut: HavingBigfloatFilter
+  assetATotalVolumeIn: HavingBigfloatFilter
+  assetATotalVolumeOut: HavingBigfloatFilter
+  assetAFee: HavingBigfloatFilter
+  assetBFee: HavingBigfloatFilter
+  assetATotalFees: HavingBigfloatFilter
+  assetBTotalFees: HavingBigfloatFilter
+  assetBVolumeIn: HavingBigfloatFilter
+  assetBVolumeOut: HavingBigfloatFilter
+  assetBTotalVolumeIn: HavingBigfloatFilter
+  assetBTotalVolumeOut: HavingBigfloatFilter
+  relayChainBlockHeight: HavingIntFilter
+  paraChainBlockHeight: HavingIntFilter
+}
+
+"""Methods to use when ordering `OmnipoolAssetHistoricalVolume`."""
+enum OmnipoolAssetHistoricalVolumesOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  ASSET_A_ID_ASC
+  ASSET_A_ID_DESC
+  ASSET_B_ID_ASC
+  ASSET_B_ID_DESC
+  ASSET_A_VOLUME_IN_ASC
+  ASSET_A_VOLUME_IN_DESC
+  ASSET_A_VOLUME_OUT_ASC
+  ASSET_A_VOLUME_OUT_DESC
+  ASSET_A_TOTAL_VOLUME_IN_ASC
+  ASSET_A_TOTAL_VOLUME_IN_DESC
+  ASSET_A_TOTAL_VOLUME_OUT_ASC
+  ASSET_A_TOTAL_VOLUME_OUT_DESC
+  ASSET_A_FEE_ASC
+  ASSET_A_FEE_DESC
+  ASSET_B_FEE_ASC
+  ASSET_B_FEE_DESC
+  ASSET_A_TOTAL_FEES_ASC
+  ASSET_A_TOTAL_FEES_DESC
+  ASSET_B_TOTAL_FEES_ASC
+  ASSET_B_TOTAL_FEES_DESC
+  ASSET_B_VOLUME_IN_ASC
+  ASSET_B_VOLUME_IN_DESC
+  ASSET_B_VOLUME_OUT_ASC
+  ASSET_B_VOLUME_OUT_DESC
+  ASSET_B_TOTAL_VOLUME_IN_ASC
+  ASSET_B_TOTAL_VOLUME_IN_DESC
+  ASSET_B_TOTAL_VOLUME_OUT_ASC
+  ASSET_B_TOTAL_VOLUME_OUT_DESC
+  RELAY_CHAIN_BLOCK_HEIGHT_ASC
+  RELAY_CHAIN_BLOCK_HEIGHT_DESC
+  PARA_CHAIN_BLOCK_HEIGHT_ASC
+  PARA_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_ID_ASC
+  OMNIPOOL_ASSET_ID_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `OmnipoolAssetHistoricalVolume` object types. All
+fields are tested for equality and combined with a logical ‘and.’
+"""
+input OmnipoolAssetHistoricalVolumeCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: String
+
+  """Checks for equality with the object’s `assetAId` field."""
+  assetAId: Int
+
+  """Checks for equality with the object’s `assetBId` field."""
+  assetBId: Int
+
+  """Checks for equality with the object’s `assetAVolumeIn` field."""
+  assetAVolumeIn: BigFloat
+
+  """Checks for equality with the object’s `assetAVolumeOut` field."""
+  assetAVolumeOut: BigFloat
+
+  """Checks for equality with the object’s `assetATotalVolumeIn` field."""
+  assetATotalVolumeIn: BigFloat
+
+  """Checks for equality with the object’s `assetATotalVolumeOut` field."""
+  assetATotalVolumeOut: BigFloat
+
+  """Checks for equality with the object’s `assetAFee` field."""
+  assetAFee: BigFloat
+
+  """Checks for equality with the object’s `assetBFee` field."""
+  assetBFee: BigFloat
+
+  """Checks for equality with the object’s `assetATotalFees` field."""
+  assetATotalFees: BigFloat
+
+  """Checks for equality with the object’s `assetBTotalFees` field."""
+  assetBTotalFees: BigFloat
+
+  """Checks for equality with the object’s `assetBVolumeIn` field."""
+  assetBVolumeIn: BigFloat
+
+  """Checks for equality with the object’s `assetBVolumeOut` field."""
+  assetBVolumeOut: BigFloat
+
+  """Checks for equality with the object’s `assetBTotalVolumeIn` field."""
+  assetBTotalVolumeIn: BigFloat
+
+  """Checks for equality with the object’s `assetBTotalVolumeOut` field."""
+  assetBTotalVolumeOut: BigFloat
+
+  """Checks for equality with the object’s `relayChainBlockHeight` field."""
+  relayChainBlockHeight: Int
+
+  """Checks for equality with the object’s `paraChainBlockHeight` field."""
+  paraChainBlockHeight: Int
+
+  """Checks for equality with the object’s `omnipoolAssetId` field."""
+  omnipoolAssetId: String
+}
+
+"""
+A filter to be used against `OmnipoolAssetHistoricalVolume` object types. All fields are combined with a logical ‘and.’
+"""
+input OmnipoolAssetHistoricalVolumeFilter {
+  """Filter by the object’s `id` field."""
+  id: StringFilter
+
+  """Filter by the object’s `assetAId` field."""
+  assetAId: IntFilter
+
+  """Filter by the object’s `assetBId` field."""
+  assetBId: IntFilter
+
+  """Filter by the object’s `assetAVolumeIn` field."""
+  assetAVolumeIn: BigFloatFilter
+
+  """Filter by the object’s `assetAVolumeOut` field."""
+  assetAVolumeOut: BigFloatFilter
+
+  """Filter by the object’s `assetATotalVolumeIn` field."""
+  assetATotalVolumeIn: BigFloatFilter
+
+  """Filter by the object’s `assetATotalVolumeOut` field."""
+  assetATotalVolumeOut: BigFloatFilter
+
+  """Filter by the object’s `assetAFee` field."""
+  assetAFee: BigFloatFilter
+
+  """Filter by the object’s `assetBFee` field."""
+  assetBFee: BigFloatFilter
+
+  """Filter by the object’s `assetATotalFees` field."""
+  assetATotalFees: BigFloatFilter
+
+  """Filter by the object’s `assetBTotalFees` field."""
+  assetBTotalFees: BigFloatFilter
+
+  """Filter by the object’s `assetBVolumeIn` field."""
+  assetBVolumeIn: BigFloatFilter
+
+  """Filter by the object’s `assetBVolumeOut` field."""
+  assetBVolumeOut: BigFloatFilter
+
+  """Filter by the object’s `assetBTotalVolumeIn` field."""
+  assetBTotalVolumeIn: BigFloatFilter
+
+  """Filter by the object’s `assetBTotalVolumeOut` field."""
+  assetBTotalVolumeOut: BigFloatFilter
+
+  """Filter by the object’s `relayChainBlockHeight` field."""
+  relayChainBlockHeight: IntFilter
+
+  """Filter by the object’s `paraChainBlockHeight` field."""
+  paraChainBlockHeight: IntFilter
+
+  """Filter by the object’s `omnipoolAssetId` field."""
+  omnipoolAssetId: StringFilter
+
+  """Checks for all expressions in this list."""
+  and: [OmnipoolAssetHistoricalVolumeFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [OmnipoolAssetHistoricalVolumeFilter!]
+
+  """Negates the expression."""
+  not: OmnipoolAssetHistoricalVolumeFilter
+}
+
+"""Methods to use when ordering `OmnipoolAssetOperation`."""
+enum OmnipoolAssetOperationsOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  EXTRINSIC_HASH_ASC
+  EXTRINSIC_HASH_DESC
+  ASSET_IN_ID_ASC
+  ASSET_IN_ID_DESC
+  ASSET_IN_AMOUNT_ASC
+  ASSET_IN_AMOUNT_DESC
+  ASSET_IN_FEE_ASC
+  ASSET_IN_FEE_DESC
+  ASSET_OUT_ID_ASC
+  ASSET_OUT_ID_DESC
+  ASSET_OUT_AMOUNT_ASC
+  ASSET_OUT_AMOUNT_DESC
+  ASSET_OUT_FEE_ASC
+  ASSET_OUT_FEE_DESC
+  PROTOCOL_FEE_ASC
+  PROTOCOL_FEE_DESC
+  TYPE_ASC
+  TYPE_DESC
+  RELAY_CHAIN_BLOCK_HEIGHT_ASC
+  RELAY_CHAIN_BLOCK_HEIGHT_DESC
+  PARA_CHAIN_BLOCK_HEIGHT_ASC
+  PARA_CHAIN_BLOCK_HEIGHT_DESC
+  ACCOUNT_ID_ASC
+  ACCOUNT_ID_DESC
+  OMNIPOOL_ASSET_ID_ASC
+  OMNIPOOL_ASSET_ID_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `OmnipoolAssetOperation` object types. All fields
+are tested for equality and combined with a logical ‘and.’
+"""
+input OmnipoolAssetOperationCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: String
+
+  """Checks for equality with the object’s `extrinsicHash` field."""
+  extrinsicHash: String
+
+  """Checks for equality with the object’s `assetInId` field."""
+  assetInId: Int
+
+  """Checks for equality with the object’s `assetInAmount` field."""
+  assetInAmount: BigFloat
+
+  """Checks for equality with the object’s `assetInFee` field."""
+  assetInFee: BigFloat
+
+  """Checks for equality with the object’s `assetOutId` field."""
+  assetOutId: Int
+
+  """Checks for equality with the object’s `assetOutAmount` field."""
+  assetOutAmount: BigFloat
+
+  """Checks for equality with the object’s `assetOutFee` field."""
+  assetOutFee: BigFloat
+
+  """Checks for equality with the object’s `protocolFee` field."""
+  protocolFee: BigFloat
+
+  """Checks for equality with the object’s `type` field."""
+  type: String
+
+  """Checks for equality with the object’s `relayChainBlockHeight` field."""
+  relayChainBlockHeight: Int
+
+  """Checks for equality with the object’s `paraChainBlockHeight` field."""
+  paraChainBlockHeight: Int
+
+  """Checks for equality with the object’s `accountId` field."""
+  accountId: String
+
+  """Checks for equality with the object’s `omnipoolAssetId` field."""
+  omnipoolAssetId: String
+}
+
+"""
+A filter to be used against `OmnipoolAssetOperation` object types. All fields are combined with a logical ‘and.’
+"""
+input OmnipoolAssetOperationFilter {
+  """Filter by the object’s `id` field."""
+  id: StringFilter
+
+  """Filter by the object’s `extrinsicHash` field."""
+  extrinsicHash: StringFilter
+
+  """Filter by the object’s `assetInId` field."""
+  assetInId: IntFilter
+
+  """Filter by the object’s `assetInAmount` field."""
+  assetInAmount: BigFloatFilter
+
+  """Filter by the object’s `assetInFee` field."""
+  assetInFee: BigFloatFilter
+
+  """Filter by the object’s `assetOutId` field."""
+  assetOutId: IntFilter
+
+  """Filter by the object’s `assetOutAmount` field."""
+  assetOutAmount: BigFloatFilter
+
+  """Filter by the object’s `assetOutFee` field."""
+  assetOutFee: BigFloatFilter
+
+  """Filter by the object’s `protocolFee` field."""
+  protocolFee: BigFloatFilter
+
+  """Filter by the object’s `type` field."""
+  type: StringFilter
+
+  """Filter by the object’s `relayChainBlockHeight` field."""
+  relayChainBlockHeight: IntFilter
+
+  """Filter by the object’s `paraChainBlockHeight` field."""
+  paraChainBlockHeight: IntFilter
+
+  """Filter by the object’s `accountId` field."""
+  accountId: StringFilter
+
+  """Filter by the object’s `omnipoolAssetId` field."""
+  omnipoolAssetId: StringFilter
+
+  """Checks for all expressions in this list."""
+  and: [OmnipoolAssetOperationFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [OmnipoolAssetOperationFilter!]
+
+  """Negates the expression."""
+  not: OmnipoolAssetOperationFilter
+}
+
+"""A connection to a list of `OmnipoolAssetHistoricalDatum` values."""
+type OmnipoolAssetHistoricalDataConnection {
+  """A list of `OmnipoolAssetHistoricalDatum` objects."""
+  nodes: [OmnipoolAssetHistoricalDatum]!
+
+  """
+  A list of edges which contains the `OmnipoolAssetHistoricalDatum` and cursor to aid in pagination.
+  """
+  edges: [OmnipoolAssetHistoricalDataEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """
+  The count of *all* `OmnipoolAssetHistoricalDatum` you could get from the connection.
+  """
+  totalCount: Int!
+
+  """
+  Aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  aggregates: OmnipoolAssetHistoricalDatumAggregates
+
+  """
+  Grouped aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  groupedAggregates(
+    """
+    The method to use when grouping `OmnipoolAssetHistoricalDatum` for these aggregates.
+    """
+    groupBy: [OmnipoolAssetHistoricalDataGroupBy!]!
+
+    """Conditions on the grouped aggregates."""
+    having: OmnipoolAssetHistoricalDataHavingInput
+  ): [OmnipoolAssetHistoricalDatumAggregates!]
+}
+
+type OmnipoolAssetHistoricalDatum {
+  id: String!
+  assetId: Int!
+  assetBalance: BigFloat!
+  nativeAssetBalance: BigFloat!
+  hubReserveBalance: BigFloat!
+  sharesBalance: BigFloat!
+  relayChainBlockHeight: Int!
+  paraChainBlockHeight: Int!
+  omnipoolAssetId: String
+
+  """
+  Reads a single `OmnipoolAsset` that is related to this `OmnipoolAssetHistoricalDatum`.
+  """
+  omnipoolAsset: OmnipoolAsset
+}
+
+"""A `OmnipoolAssetHistoricalDatum` edge in the connection."""
+type OmnipoolAssetHistoricalDataEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `OmnipoolAssetHistoricalDatum` at the end of the edge."""
+  node: OmnipoolAssetHistoricalDatum
+}
+
+type OmnipoolAssetHistoricalDatumAggregates {
+  keys: [String!]
+
+  """
+  Sum aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  sum: OmnipoolAssetHistoricalDatumSumAggregates
+
+  """
+  Distinct count aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  distinctCount: OmnipoolAssetHistoricalDatumDistinctCountAggregates
+
+  """
+  Minimum aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  min: OmnipoolAssetHistoricalDatumMinAggregates
+
+  """
+  Maximum aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  max: OmnipoolAssetHistoricalDatumMaxAggregates
+
+  """
+  Mean average aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  average: OmnipoolAssetHistoricalDatumAverageAggregates
+
+  """
+  Sample standard deviation aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  stddevSample: OmnipoolAssetHistoricalDatumStddevSampleAggregates
+
+  """
+  Population standard deviation aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  stddevPopulation: OmnipoolAssetHistoricalDatumStddevPopulationAggregates
+
+  """
+  Sample variance aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  varianceSample: OmnipoolAssetHistoricalDatumVarianceSampleAggregates
+
+  """
+  Population variance aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  variancePopulation: OmnipoolAssetHistoricalDatumVariancePopulationAggregates
+}
+
+type OmnipoolAssetHistoricalDatumSumAggregates {
+  """Sum of assetId across the matching connection"""
+  assetId: BigInt!
+
+  """Sum of assetBalance across the matching connection"""
+  assetBalance: BigFloat!
+
+  """Sum of nativeAssetBalance across the matching connection"""
+  nativeAssetBalance: BigFloat!
+
+  """Sum of hubReserveBalance across the matching connection"""
+  hubReserveBalance: BigFloat!
+
+  """Sum of sharesBalance across the matching connection"""
+  sharesBalance: BigFloat!
+
+  """Sum of relayChainBlockHeight across the matching connection"""
+  relayChainBlockHeight: BigInt!
+
+  """Sum of paraChainBlockHeight across the matching connection"""
+  paraChainBlockHeight: BigInt!
+}
+
+type OmnipoolAssetHistoricalDatumDistinctCountAggregates {
+  """Distinct count of id across the matching connection"""
+  id: BigInt
+
+  """Distinct count of assetId across the matching connection"""
+  assetId: BigInt
+
+  """Distinct count of assetBalance across the matching connection"""
+  assetBalance: BigInt
+
+  """Distinct count of nativeAssetBalance across the matching connection"""
+  nativeAssetBalance: BigInt
+
+  """Distinct count of hubReserveBalance across the matching connection"""
+  hubReserveBalance: BigInt
+
+  """Distinct count of sharesBalance across the matching connection"""
+  sharesBalance: BigInt
+
+  """Distinct count of relayChainBlockHeight across the matching connection"""
+  relayChainBlockHeight: BigInt
+
+  """Distinct count of paraChainBlockHeight across the matching connection"""
+  paraChainBlockHeight: BigInt
+
+  """Distinct count of omnipoolAssetId across the matching connection"""
+  omnipoolAssetId: BigInt
+}
+
+type OmnipoolAssetHistoricalDatumMinAggregates {
+  """Minimum of assetId across the matching connection"""
+  assetId: Int
+
+  """Minimum of assetBalance across the matching connection"""
+  assetBalance: BigFloat
+
+  """Minimum of nativeAssetBalance across the matching connection"""
+  nativeAssetBalance: BigFloat
+
+  """Minimum of hubReserveBalance across the matching connection"""
+  hubReserveBalance: BigFloat
+
+  """Minimum of sharesBalance across the matching connection"""
+  sharesBalance: BigFloat
+
+  """Minimum of relayChainBlockHeight across the matching connection"""
+  relayChainBlockHeight: Int
+
+  """Minimum of paraChainBlockHeight across the matching connection"""
+  paraChainBlockHeight: Int
+}
+
+type OmnipoolAssetHistoricalDatumMaxAggregates {
+  """Maximum of assetId across the matching connection"""
+  assetId: Int
+
+  """Maximum of assetBalance across the matching connection"""
+  assetBalance: BigFloat
+
+  """Maximum of nativeAssetBalance across the matching connection"""
+  nativeAssetBalance: BigFloat
+
+  """Maximum of hubReserveBalance across the matching connection"""
+  hubReserveBalance: BigFloat
+
+  """Maximum of sharesBalance across the matching connection"""
+  sharesBalance: BigFloat
+
+  """Maximum of relayChainBlockHeight across the matching connection"""
+  relayChainBlockHeight: Int
+
+  """Maximum of paraChainBlockHeight across the matching connection"""
+  paraChainBlockHeight: Int
+}
+
+type OmnipoolAssetHistoricalDatumAverageAggregates {
+  """Mean average of assetId across the matching connection"""
+  assetId: BigFloat
+
+  """Mean average of assetBalance across the matching connection"""
+  assetBalance: BigFloat
+
+  """Mean average of nativeAssetBalance across the matching connection"""
+  nativeAssetBalance: BigFloat
+
+  """Mean average of hubReserveBalance across the matching connection"""
+  hubReserveBalance: BigFloat
+
+  """Mean average of sharesBalance across the matching connection"""
+  sharesBalance: BigFloat
+
+  """Mean average of relayChainBlockHeight across the matching connection"""
+  relayChainBlockHeight: BigFloat
+
+  """Mean average of paraChainBlockHeight across the matching connection"""
+  paraChainBlockHeight: BigFloat
+}
+
+type OmnipoolAssetHistoricalDatumStddevSampleAggregates {
+  """Sample standard deviation of assetId across the matching connection"""
+  assetId: BigFloat
+
+  """
+  Sample standard deviation of assetBalance across the matching connection
+  """
+  assetBalance: BigFloat
+
+  """
+  Sample standard deviation of nativeAssetBalance across the matching connection
+  """
+  nativeAssetBalance: BigFloat
+
+  """
+  Sample standard deviation of hubReserveBalance across the matching connection
+  """
+  hubReserveBalance: BigFloat
+
+  """
+  Sample standard deviation of sharesBalance across the matching connection
+  """
+  sharesBalance: BigFloat
+
+  """
+  Sample standard deviation of relayChainBlockHeight across the matching connection
+  """
+  relayChainBlockHeight: BigFloat
+
+  """
+  Sample standard deviation of paraChainBlockHeight across the matching connection
+  """
+  paraChainBlockHeight: BigFloat
+}
+
+type OmnipoolAssetHistoricalDatumStddevPopulationAggregates {
+  """
+  Population standard deviation of assetId across the matching connection
+  """
+  assetId: BigFloat
+
+  """
+  Population standard deviation of assetBalance across the matching connection
+  """
+  assetBalance: BigFloat
+
+  """
+  Population standard deviation of nativeAssetBalance across the matching connection
+  """
+  nativeAssetBalance: BigFloat
+
+  """
+  Population standard deviation of hubReserveBalance across the matching connection
+  """
+  hubReserveBalance: BigFloat
+
+  """
+  Population standard deviation of sharesBalance across the matching connection
+  """
+  sharesBalance: BigFloat
+
+  """
+  Population standard deviation of relayChainBlockHeight across the matching connection
+  """
+  relayChainBlockHeight: BigFloat
+
+  """
+  Population standard deviation of paraChainBlockHeight across the matching connection
+  """
+  paraChainBlockHeight: BigFloat
+}
+
+type OmnipoolAssetHistoricalDatumVarianceSampleAggregates {
+  """Sample variance of assetId across the matching connection"""
+  assetId: BigFloat
+
+  """Sample variance of assetBalance across the matching connection"""
+  assetBalance: BigFloat
+
+  """Sample variance of nativeAssetBalance across the matching connection"""
+  nativeAssetBalance: BigFloat
+
+  """Sample variance of hubReserveBalance across the matching connection"""
+  hubReserveBalance: BigFloat
+
+  """Sample variance of sharesBalance across the matching connection"""
+  sharesBalance: BigFloat
+
+  """
+  Sample variance of relayChainBlockHeight across the matching connection
+  """
+  relayChainBlockHeight: BigFloat
+
+  """Sample variance of paraChainBlockHeight across the matching connection"""
+  paraChainBlockHeight: BigFloat
+}
+
+type OmnipoolAssetHistoricalDatumVariancePopulationAggregates {
+  """Population variance of assetId across the matching connection"""
+  assetId: BigFloat
+
+  """Population variance of assetBalance across the matching connection"""
+  assetBalance: BigFloat
+
+  """
+  Population variance of nativeAssetBalance across the matching connection
+  """
+  nativeAssetBalance: BigFloat
+
+  """
+  Population variance of hubReserveBalance across the matching connection
+  """
+  hubReserveBalance: BigFloat
+
+  """Population variance of sharesBalance across the matching connection"""
+  sharesBalance: BigFloat
+
+  """
+  Population variance of relayChainBlockHeight across the matching connection
+  """
+  relayChainBlockHeight: BigFloat
+
+  """
+  Population variance of paraChainBlockHeight across the matching connection
+  """
+  paraChainBlockHeight: BigFloat
+}
+
+"""
+Grouping methods for `OmnipoolAssetHistoricalDatum` for usage during aggregation.
+"""
+enum OmnipoolAssetHistoricalDataGroupBy {
+  ASSET_ID
+  ASSET_BALANCE
+  NATIVE_ASSET_BALANCE
+  HUB_RESERVE_BALANCE
+  SHARES_BALANCE
+  RELAY_CHAIN_BLOCK_HEIGHT
+  PARA_CHAIN_BLOCK_HEIGHT
+  OMNIPOOL_ASSET_ID
+}
+
+"""Conditions for `OmnipoolAssetHistoricalDatum` aggregates."""
+input OmnipoolAssetHistoricalDataHavingInput {
+  AND: [OmnipoolAssetHistoricalDataHavingInput!]
+  OR: [OmnipoolAssetHistoricalDataHavingInput!]
+  sum: OmnipoolAssetHistoricalDataHavingSumInput
+  distinctCount: OmnipoolAssetHistoricalDataHavingDistinctCountInput
+  min: OmnipoolAssetHistoricalDataHavingMinInput
+  max: OmnipoolAssetHistoricalDataHavingMaxInput
+  average: OmnipoolAssetHistoricalDataHavingAverageInput
+  stddevSample: OmnipoolAssetHistoricalDataHavingStddevSampleInput
+  stddevPopulation: OmnipoolAssetHistoricalDataHavingStddevPopulationInput
+  varianceSample: OmnipoolAssetHistoricalDataHavingVarianceSampleInput
+  variancePopulation: OmnipoolAssetHistoricalDataHavingVariancePopulationInput
+}
+
+input OmnipoolAssetHistoricalDataHavingSumInput {
+  assetId: HavingIntFilter
+  assetBalance: HavingBigfloatFilter
+  nativeAssetBalance: HavingBigfloatFilter
+  hubReserveBalance: HavingBigfloatFilter
+  sharesBalance: HavingBigfloatFilter
+  relayChainBlockHeight: HavingIntFilter
+  paraChainBlockHeight: HavingIntFilter
+}
+
+input OmnipoolAssetHistoricalDataHavingDistinctCountInput {
+  assetId: HavingIntFilter
+  assetBalance: HavingBigfloatFilter
+  nativeAssetBalance: HavingBigfloatFilter
+  hubReserveBalance: HavingBigfloatFilter
+  sharesBalance: HavingBigfloatFilter
+  relayChainBlockHeight: HavingIntFilter
+  paraChainBlockHeight: HavingIntFilter
+}
+
+input OmnipoolAssetHistoricalDataHavingMinInput {
+  assetId: HavingIntFilter
+  assetBalance: HavingBigfloatFilter
+  nativeAssetBalance: HavingBigfloatFilter
+  hubReserveBalance: HavingBigfloatFilter
+  sharesBalance: HavingBigfloatFilter
+  relayChainBlockHeight: HavingIntFilter
+  paraChainBlockHeight: HavingIntFilter
+}
+
+input OmnipoolAssetHistoricalDataHavingMaxInput {
+  assetId: HavingIntFilter
+  assetBalance: HavingBigfloatFilter
+  nativeAssetBalance: HavingBigfloatFilter
+  hubReserveBalance: HavingBigfloatFilter
+  sharesBalance: HavingBigfloatFilter
+  relayChainBlockHeight: HavingIntFilter
+  paraChainBlockHeight: HavingIntFilter
+}
+
+input OmnipoolAssetHistoricalDataHavingAverageInput {
+  assetId: HavingIntFilter
+  assetBalance: HavingBigfloatFilter
+  nativeAssetBalance: HavingBigfloatFilter
+  hubReserveBalance: HavingBigfloatFilter
+  sharesBalance: HavingBigfloatFilter
+  relayChainBlockHeight: HavingIntFilter
+  paraChainBlockHeight: HavingIntFilter
+}
+
+input OmnipoolAssetHistoricalDataHavingStddevSampleInput {
+  assetId: HavingIntFilter
+  assetBalance: HavingBigfloatFilter
+  nativeAssetBalance: HavingBigfloatFilter
+  hubReserveBalance: HavingBigfloatFilter
+  sharesBalance: HavingBigfloatFilter
+  relayChainBlockHeight: HavingIntFilter
+  paraChainBlockHeight: HavingIntFilter
+}
+
+input OmnipoolAssetHistoricalDataHavingStddevPopulationInput {
+  assetId: HavingIntFilter
+  assetBalance: HavingBigfloatFilter
+  nativeAssetBalance: HavingBigfloatFilter
+  hubReserveBalance: HavingBigfloatFilter
+  sharesBalance: HavingBigfloatFilter
+  relayChainBlockHeight: HavingIntFilter
+  paraChainBlockHeight: HavingIntFilter
+}
+
+input OmnipoolAssetHistoricalDataHavingVarianceSampleInput {
+  assetId: HavingIntFilter
+  assetBalance: HavingBigfloatFilter
+  nativeAssetBalance: HavingBigfloatFilter
+  hubReserveBalance: HavingBigfloatFilter
+  sharesBalance: HavingBigfloatFilter
+  relayChainBlockHeight: HavingIntFilter
+  paraChainBlockHeight: HavingIntFilter
+}
+
+input OmnipoolAssetHistoricalDataHavingVariancePopulationInput {
+  assetId: HavingIntFilter
+  assetBalance: HavingBigfloatFilter
+  nativeAssetBalance: HavingBigfloatFilter
+  hubReserveBalance: HavingBigfloatFilter
+  sharesBalance: HavingBigfloatFilter
+  relayChainBlockHeight: HavingIntFilter
+  paraChainBlockHeight: HavingIntFilter
+}
+
+"""Methods to use when ordering `OmnipoolAssetHistoricalDatum`."""
+enum OmnipoolAssetHistoricalDataOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  ASSET_ID_ASC
+  ASSET_ID_DESC
+  ASSET_BALANCE_ASC
+  ASSET_BALANCE_DESC
+  NATIVE_ASSET_BALANCE_ASC
+  NATIVE_ASSET_BALANCE_DESC
+  HUB_RESERVE_BALANCE_ASC
+  HUB_RESERVE_BALANCE_DESC
+  SHARES_BALANCE_ASC
+  SHARES_BALANCE_DESC
+  RELAY_CHAIN_BLOCK_HEIGHT_ASC
+  RELAY_CHAIN_BLOCK_HEIGHT_DESC
+  PARA_CHAIN_BLOCK_HEIGHT_ASC
+  PARA_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_ID_ASC
+  OMNIPOOL_ASSET_ID_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `OmnipoolAssetHistoricalDatum` object types. All
+fields are tested for equality and combined with a logical ‘and.’
+"""
+input OmnipoolAssetHistoricalDatumCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: String
+
+  """Checks for equality with the object’s `assetId` field."""
+  assetId: Int
+
+  """Checks for equality with the object’s `assetBalance` field."""
+  assetBalance: BigFloat
+
+  """Checks for equality with the object’s `nativeAssetBalance` field."""
+  nativeAssetBalance: BigFloat
+
+  """Checks for equality with the object’s `hubReserveBalance` field."""
+  hubReserveBalance: BigFloat
+
+  """Checks for equality with the object’s `sharesBalance` field."""
+  sharesBalance: BigFloat
+
+  """Checks for equality with the object’s `relayChainBlockHeight` field."""
+  relayChainBlockHeight: Int
+
+  """Checks for equality with the object’s `paraChainBlockHeight` field."""
+  paraChainBlockHeight: Int
+
+  """Checks for equality with the object’s `omnipoolAssetId` field."""
+  omnipoolAssetId: String
+}
+
+"""
+A filter to be used against `OmnipoolAssetHistoricalDatum` object types. All fields are combined with a logical ‘and.’
+"""
+input OmnipoolAssetHistoricalDatumFilter {
+  """Filter by the object’s `id` field."""
+  id: StringFilter
+
+  """Filter by the object’s `assetId` field."""
+  assetId: IntFilter
+
+  """Filter by the object’s `assetBalance` field."""
+  assetBalance: BigFloatFilter
+
+  """Filter by the object’s `nativeAssetBalance` field."""
+  nativeAssetBalance: BigFloatFilter
+
+  """Filter by the object’s `hubReserveBalance` field."""
+  hubReserveBalance: BigFloatFilter
+
+  """Filter by the object’s `sharesBalance` field."""
+  sharesBalance: BigFloatFilter
+
+  """Filter by the object’s `relayChainBlockHeight` field."""
+  relayChainBlockHeight: IntFilter
+
+  """Filter by the object’s `paraChainBlockHeight` field."""
+  paraChainBlockHeight: IntFilter
+
+  """Filter by the object’s `omnipoolAssetId` field."""
+  omnipoolAssetId: StringFilter
+
+  """Checks for all expressions in this list."""
+  and: [OmnipoolAssetHistoricalDatumFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [OmnipoolAssetHistoricalDatumFilter!]
+
+  """Negates the expression."""
+  not: OmnipoolAssetHistoricalDatumFilter
+}
+
+"""A `OmnipoolAssetOperation` edge in the connection."""
+type OmnipoolAssetOperationsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `OmnipoolAssetOperation` at the end of the edge."""
+  node: OmnipoolAssetOperation
+}
+
+type OmnipoolAssetOperationAggregates {
+  keys: [String!]
+
+  """
+  Sum aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  sum: OmnipoolAssetOperationSumAggregates
+
+  """
+  Distinct count aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  distinctCount: OmnipoolAssetOperationDistinctCountAggregates
+
+  """
+  Minimum aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  min: OmnipoolAssetOperationMinAggregates
+
+  """
+  Maximum aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  max: OmnipoolAssetOperationMaxAggregates
+
+  """
+  Mean average aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  average: OmnipoolAssetOperationAverageAggregates
+
+  """
+  Sample standard deviation aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  stddevSample: OmnipoolAssetOperationStddevSampleAggregates
+
+  """
+  Population standard deviation aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  stddevPopulation: OmnipoolAssetOperationStddevPopulationAggregates
+
+  """
+  Sample variance aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  varianceSample: OmnipoolAssetOperationVarianceSampleAggregates
+
+  """
+  Population variance aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  variancePopulation: OmnipoolAssetOperationVariancePopulationAggregates
+}
+
+type OmnipoolAssetOperationSumAggregates {
+  """Sum of assetInId across the matching connection"""
+  assetInId: BigInt!
+
+  """Sum of assetInAmount across the matching connection"""
+  assetInAmount: BigFloat!
+
+  """Sum of assetInFee across the matching connection"""
+  assetInFee: BigFloat!
+
+  """Sum of assetOutId across the matching connection"""
+  assetOutId: BigInt!
+
+  """Sum of assetOutAmount across the matching connection"""
+  assetOutAmount: BigFloat!
+
+  """Sum of assetOutFee across the matching connection"""
+  assetOutFee: BigFloat!
+
+  """Sum of protocolFee across the matching connection"""
+  protocolFee: BigFloat!
+
+  """Sum of relayChainBlockHeight across the matching connection"""
+  relayChainBlockHeight: BigInt!
+
+  """Sum of paraChainBlockHeight across the matching connection"""
+  paraChainBlockHeight: BigInt!
+}
+
+type OmnipoolAssetOperationDistinctCountAggregates {
+  """Distinct count of id across the matching connection"""
+  id: BigInt
+
+  """Distinct count of extrinsicHash across the matching connection"""
+  extrinsicHash: BigInt
+
+  """Distinct count of assetInId across the matching connection"""
+  assetInId: BigInt
+
+  """Distinct count of assetInAmount across the matching connection"""
+  assetInAmount: BigInt
+
+  """Distinct count of assetInFee across the matching connection"""
+  assetInFee: BigInt
+
+  """Distinct count of assetOutId across the matching connection"""
+  assetOutId: BigInt
+
+  """Distinct count of assetOutAmount across the matching connection"""
+  assetOutAmount: BigInt
+
+  """Distinct count of assetOutFee across the matching connection"""
+  assetOutFee: BigInt
+
+  """Distinct count of protocolFee across the matching connection"""
+  protocolFee: BigInt
+
+  """Distinct count of type across the matching connection"""
+  type: BigInt
+
+  """Distinct count of relayChainBlockHeight across the matching connection"""
+  relayChainBlockHeight: BigInt
+
+  """Distinct count of paraChainBlockHeight across the matching connection"""
+  paraChainBlockHeight: BigInt
+
+  """Distinct count of accountId across the matching connection"""
+  accountId: BigInt
+
+  """Distinct count of omnipoolAssetId across the matching connection"""
+  omnipoolAssetId: BigInt
+}
+
+type OmnipoolAssetOperationMinAggregates {
+  """Minimum of assetInId across the matching connection"""
+  assetInId: Int
+
+  """Minimum of assetInAmount across the matching connection"""
+  assetInAmount: BigFloat
+
+  """Minimum of assetInFee across the matching connection"""
+  assetInFee: BigFloat
+
+  """Minimum of assetOutId across the matching connection"""
+  assetOutId: Int
+
+  """Minimum of assetOutAmount across the matching connection"""
+  assetOutAmount: BigFloat
+
+  """Minimum of assetOutFee across the matching connection"""
+  assetOutFee: BigFloat
+
+  """Minimum of protocolFee across the matching connection"""
+  protocolFee: BigFloat
+
+  """Minimum of relayChainBlockHeight across the matching connection"""
+  relayChainBlockHeight: Int
+
+  """Minimum of paraChainBlockHeight across the matching connection"""
+  paraChainBlockHeight: Int
+}
+
+type OmnipoolAssetOperationMaxAggregates {
+  """Maximum of assetInId across the matching connection"""
+  assetInId: Int
+
+  """Maximum of assetInAmount across the matching connection"""
+  assetInAmount: BigFloat
+
+  """Maximum of assetInFee across the matching connection"""
+  assetInFee: BigFloat
+
+  """Maximum of assetOutId across the matching connection"""
+  assetOutId: Int
+
+  """Maximum of assetOutAmount across the matching connection"""
+  assetOutAmount: BigFloat
+
+  """Maximum of assetOutFee across the matching connection"""
+  assetOutFee: BigFloat
+
+  """Maximum of protocolFee across the matching connection"""
+  protocolFee: BigFloat
+
+  """Maximum of relayChainBlockHeight across the matching connection"""
+  relayChainBlockHeight: Int
+
+  """Maximum of paraChainBlockHeight across the matching connection"""
+  paraChainBlockHeight: Int
+}
+
+type OmnipoolAssetOperationAverageAggregates {
+  """Mean average of assetInId across the matching connection"""
+  assetInId: BigFloat
+
+  """Mean average of assetInAmount across the matching connection"""
+  assetInAmount: BigFloat
+
+  """Mean average of assetInFee across the matching connection"""
+  assetInFee: BigFloat
+
+  """Mean average of assetOutId across the matching connection"""
+  assetOutId: BigFloat
+
+  """Mean average of assetOutAmount across the matching connection"""
+  assetOutAmount: BigFloat
+
+  """Mean average of assetOutFee across the matching connection"""
+  assetOutFee: BigFloat
+
+  """Mean average of protocolFee across the matching connection"""
+  protocolFee: BigFloat
+
+  """Mean average of relayChainBlockHeight across the matching connection"""
+  relayChainBlockHeight: BigFloat
+
+  """Mean average of paraChainBlockHeight across the matching connection"""
+  paraChainBlockHeight: BigFloat
+}
+
+type OmnipoolAssetOperationStddevSampleAggregates {
+  """Sample standard deviation of assetInId across the matching connection"""
+  assetInId: BigFloat
+
+  """
+  Sample standard deviation of assetInAmount across the matching connection
+  """
+  assetInAmount: BigFloat
+
+  """Sample standard deviation of assetInFee across the matching connection"""
+  assetInFee: BigFloat
+
+  """Sample standard deviation of assetOutId across the matching connection"""
+  assetOutId: BigFloat
+
+  """
+  Sample standard deviation of assetOutAmount across the matching connection
+  """
+  assetOutAmount: BigFloat
+
+  """
+  Sample standard deviation of assetOutFee across the matching connection
+  """
+  assetOutFee: BigFloat
+
+  """
+  Sample standard deviation of protocolFee across the matching connection
+  """
+  protocolFee: BigFloat
+
+  """
+  Sample standard deviation of relayChainBlockHeight across the matching connection
+  """
+  relayChainBlockHeight: BigFloat
+
+  """
+  Sample standard deviation of paraChainBlockHeight across the matching connection
+  """
+  paraChainBlockHeight: BigFloat
+}
+
+type OmnipoolAssetOperationStddevPopulationAggregates {
+  """
+  Population standard deviation of assetInId across the matching connection
+  """
+  assetInId: BigFloat
+
+  """
+  Population standard deviation of assetInAmount across the matching connection
+  """
+  assetInAmount: BigFloat
+
+  """
+  Population standard deviation of assetInFee across the matching connection
+  """
+  assetInFee: BigFloat
+
+  """
+  Population standard deviation of assetOutId across the matching connection
+  """
+  assetOutId: BigFloat
+
+  """
+  Population standard deviation of assetOutAmount across the matching connection
+  """
+  assetOutAmount: BigFloat
+
+  """
+  Population standard deviation of assetOutFee across the matching connection
+  """
+  assetOutFee: BigFloat
+
+  """
+  Population standard deviation of protocolFee across the matching connection
+  """
+  protocolFee: BigFloat
+
+  """
+  Population standard deviation of relayChainBlockHeight across the matching connection
+  """
+  relayChainBlockHeight: BigFloat
+
+  """
+  Population standard deviation of paraChainBlockHeight across the matching connection
+  """
+  paraChainBlockHeight: BigFloat
+}
+
+type OmnipoolAssetOperationVarianceSampleAggregates {
+  """Sample variance of assetInId across the matching connection"""
+  assetInId: BigFloat
+
+  """Sample variance of assetInAmount across the matching connection"""
+  assetInAmount: BigFloat
+
+  """Sample variance of assetInFee across the matching connection"""
+  assetInFee: BigFloat
+
+  """Sample variance of assetOutId across the matching connection"""
+  assetOutId: BigFloat
+
+  """Sample variance of assetOutAmount across the matching connection"""
+  assetOutAmount: BigFloat
+
+  """Sample variance of assetOutFee across the matching connection"""
+  assetOutFee: BigFloat
+
+  """Sample variance of protocolFee across the matching connection"""
+  protocolFee: BigFloat
+
+  """
+  Sample variance of relayChainBlockHeight across the matching connection
+  """
+  relayChainBlockHeight: BigFloat
+
+  """Sample variance of paraChainBlockHeight across the matching connection"""
+  paraChainBlockHeight: BigFloat
+}
+
+type OmnipoolAssetOperationVariancePopulationAggregates {
+  """Population variance of assetInId across the matching connection"""
+  assetInId: BigFloat
+
+  """Population variance of assetInAmount across the matching connection"""
+  assetInAmount: BigFloat
+
+  """Population variance of assetInFee across the matching connection"""
+  assetInFee: BigFloat
+
+  """Population variance of assetOutId across the matching connection"""
+  assetOutId: BigFloat
+
+  """Population variance of assetOutAmount across the matching connection"""
+  assetOutAmount: BigFloat
+
+  """Population variance of assetOutFee across the matching connection"""
+  assetOutFee: BigFloat
+
+  """Population variance of protocolFee across the matching connection"""
+  protocolFee: BigFloat
+
+  """
+  Population variance of relayChainBlockHeight across the matching connection
+  """
+  relayChainBlockHeight: BigFloat
+
+  """
+  Population variance of paraChainBlockHeight across the matching connection
+  """
+  paraChainBlockHeight: BigFloat
+}
+
+"""
+Grouping methods for `OmnipoolAssetOperation` for usage during aggregation.
+"""
+enum OmnipoolAssetOperationGroupBy {
+  EXTRINSIC_HASH
+  ASSET_IN_ID
+  ASSET_IN_AMOUNT
+  ASSET_IN_FEE
+  ASSET_OUT_ID
+  ASSET_OUT_AMOUNT
+  ASSET_OUT_FEE
+  PROTOCOL_FEE
+  TYPE
+  RELAY_CHAIN_BLOCK_HEIGHT
+  PARA_CHAIN_BLOCK_HEIGHT
+  ACCOUNT_ID
+  OMNIPOOL_ASSET_ID
+}
+
+"""Conditions for `OmnipoolAssetOperation` aggregates."""
+input OmnipoolAssetOperationHavingInput {
+  AND: [OmnipoolAssetOperationHavingInput!]
+  OR: [OmnipoolAssetOperationHavingInput!]
+  sum: OmnipoolAssetOperationHavingSumInput
+  distinctCount: OmnipoolAssetOperationHavingDistinctCountInput
+  min: OmnipoolAssetOperationHavingMinInput
+  max: OmnipoolAssetOperationHavingMaxInput
+  average: OmnipoolAssetOperationHavingAverageInput
+  stddevSample: OmnipoolAssetOperationHavingStddevSampleInput
+  stddevPopulation: OmnipoolAssetOperationHavingStddevPopulationInput
+  varianceSample: OmnipoolAssetOperationHavingVarianceSampleInput
+  variancePopulation: OmnipoolAssetOperationHavingVariancePopulationInput
+}
+
+input OmnipoolAssetOperationHavingSumInput {
+  assetInId: HavingIntFilter
+  assetInAmount: HavingBigfloatFilter
+  assetInFee: HavingBigfloatFilter
+  assetOutId: HavingIntFilter
+  assetOutAmount: HavingBigfloatFilter
+  assetOutFee: HavingBigfloatFilter
+  protocolFee: HavingBigfloatFilter
+  relayChainBlockHeight: HavingIntFilter
+  paraChainBlockHeight: HavingIntFilter
+}
+
+input OmnipoolAssetOperationHavingDistinctCountInput {
+  assetInId: HavingIntFilter
+  assetInAmount: HavingBigfloatFilter
+  assetInFee: HavingBigfloatFilter
+  assetOutId: HavingIntFilter
+  assetOutAmount: HavingBigfloatFilter
+  assetOutFee: HavingBigfloatFilter
+  protocolFee: HavingBigfloatFilter
+  relayChainBlockHeight: HavingIntFilter
+  paraChainBlockHeight: HavingIntFilter
+}
+
+input OmnipoolAssetOperationHavingMinInput {
+  assetInId: HavingIntFilter
+  assetInAmount: HavingBigfloatFilter
+  assetInFee: HavingBigfloatFilter
+  assetOutId: HavingIntFilter
+  assetOutAmount: HavingBigfloatFilter
+  assetOutFee: HavingBigfloatFilter
+  protocolFee: HavingBigfloatFilter
+  relayChainBlockHeight: HavingIntFilter
+  paraChainBlockHeight: HavingIntFilter
+}
+
+input OmnipoolAssetOperationHavingMaxInput {
+  assetInId: HavingIntFilter
+  assetInAmount: HavingBigfloatFilter
+  assetInFee: HavingBigfloatFilter
+  assetOutId: HavingIntFilter
+  assetOutAmount: HavingBigfloatFilter
+  assetOutFee: HavingBigfloatFilter
+  protocolFee: HavingBigfloatFilter
+  relayChainBlockHeight: HavingIntFilter
+  paraChainBlockHeight: HavingIntFilter
+}
+
+input OmnipoolAssetOperationHavingAverageInput {
+  assetInId: HavingIntFilter
+  assetInAmount: HavingBigfloatFilter
+  assetInFee: HavingBigfloatFilter
+  assetOutId: HavingIntFilter
+  assetOutAmount: HavingBigfloatFilter
+  assetOutFee: HavingBigfloatFilter
+  protocolFee: HavingBigfloatFilter
+  relayChainBlockHeight: HavingIntFilter
+  paraChainBlockHeight: HavingIntFilter
+}
+
+input OmnipoolAssetOperationHavingStddevSampleInput {
+  assetInId: HavingIntFilter
+  assetInAmount: HavingBigfloatFilter
+  assetInFee: HavingBigfloatFilter
+  assetOutId: HavingIntFilter
+  assetOutAmount: HavingBigfloatFilter
+  assetOutFee: HavingBigfloatFilter
+  protocolFee: HavingBigfloatFilter
+  relayChainBlockHeight: HavingIntFilter
+  paraChainBlockHeight: HavingIntFilter
+}
+
+input OmnipoolAssetOperationHavingStddevPopulationInput {
+  assetInId: HavingIntFilter
+  assetInAmount: HavingBigfloatFilter
+  assetInFee: HavingBigfloatFilter
+  assetOutId: HavingIntFilter
+  assetOutAmount: HavingBigfloatFilter
+  assetOutFee: HavingBigfloatFilter
+  protocolFee: HavingBigfloatFilter
+  relayChainBlockHeight: HavingIntFilter
+  paraChainBlockHeight: HavingIntFilter
+}
+
+input OmnipoolAssetOperationHavingVarianceSampleInput {
+  assetInId: HavingIntFilter
+  assetInAmount: HavingBigfloatFilter
+  assetInFee: HavingBigfloatFilter
+  assetOutId: HavingIntFilter
+  assetOutAmount: HavingBigfloatFilter
+  assetOutFee: HavingBigfloatFilter
+  protocolFee: HavingBigfloatFilter
+  relayChainBlockHeight: HavingIntFilter
+  paraChainBlockHeight: HavingIntFilter
+}
+
+input OmnipoolAssetOperationHavingVariancePopulationInput {
+  assetInId: HavingIntFilter
+  assetInAmount: HavingBigfloatFilter
+  assetInFee: HavingBigfloatFilter
+  assetOutId: HavingIntFilter
+  assetOutAmount: HavingBigfloatFilter
+  assetOutFee: HavingBigfloatFilter
+  protocolFee: HavingBigfloatFilter
+  relayChainBlockHeight: HavingIntFilter
+  paraChainBlockHeight: HavingIntFilter
+}
+
+"""A connection to a list of `Omnipool` values."""
+type OmnipoolsConnection {
+  """A list of `Omnipool` objects."""
+  nodes: [Omnipool]!
+
+  """
+  A list of edges which contains the `Omnipool` and cursor to aid in pagination.
+  """
+  edges: [OmnipoolsEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Omnipool` you could get from the connection."""
+  totalCount: Int!
+
+  """
+  Aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  aggregates: OmnipoolAggregates
+
+  """
+  Grouped aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  groupedAggregates(
+    """The method to use when grouping `Omnipool` for these aggregates."""
+    groupBy: [OmnipoolGroupBy!]!
+
+    """Conditions on the grouped aggregates."""
+    having: OmnipoolHavingInput
+  ): [OmnipoolAggregates!]
+}
+
+"""A `Omnipool` edge in the connection."""
+type OmnipoolsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Omnipool` at the end of the edge."""
+  node: Omnipool
+}
+
+type OmnipoolAggregates {
+  keys: [String!]
+
+  """
+  Sum aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  sum: OmnipoolSumAggregates
+
+  """
+  Distinct count aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  distinctCount: OmnipoolDistinctCountAggregates
+
+  """
+  Minimum aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  min: OmnipoolMinAggregates
+
+  """
+  Maximum aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  max: OmnipoolMaxAggregates
+
+  """
+  Mean average aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  average: OmnipoolAverageAggregates
+
+  """
+  Sample standard deviation aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  stddevSample: OmnipoolStddevSampleAggregates
+
+  """
+  Population standard deviation aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  stddevPopulation: OmnipoolStddevPopulationAggregates
+
+  """
+  Sample variance aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  varianceSample: OmnipoolVarianceSampleAggregates
+
+  """
+  Population variance aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  variancePopulation: OmnipoolVariancePopulationAggregates
+}
+
+type OmnipoolSumAggregates {
+  """Sum of createdAtParaBlock across the matching connection"""
+  createdAtParaBlock: BigInt!
+
+  """Sum of destroyedAtParaBlock across the matching connection"""
+  destroyedAtParaBlock: BigInt!
+}
+
+type OmnipoolDistinctCountAggregates {
+  """Distinct count of id across the matching connection"""
+  id: BigInt
+
+  """Distinct count of createdAt across the matching connection"""
+  createdAt: BigInt
+
+  """Distinct count of createdAtParaBlock across the matching connection"""
+  createdAtParaBlock: BigInt
+
+  """Distinct count of isDestroyed across the matching connection"""
+  isDestroyed: BigInt
+
+  """Distinct count of destroyedAtParaBlock across the matching connection"""
+  destroyedAtParaBlock: BigInt
+
+  """Distinct count of accountId across the matching connection"""
+  accountId: BigInt
+}
+
+type OmnipoolMinAggregates {
+  """Minimum of createdAtParaBlock across the matching connection"""
+  createdAtParaBlock: Int
+
+  """Minimum of destroyedAtParaBlock across the matching connection"""
+  destroyedAtParaBlock: Int
+}
+
+type OmnipoolMaxAggregates {
+  """Maximum of createdAtParaBlock across the matching connection"""
+  createdAtParaBlock: Int
+
+  """Maximum of destroyedAtParaBlock across the matching connection"""
+  destroyedAtParaBlock: Int
+}
+
+type OmnipoolAverageAggregates {
+  """Mean average of createdAtParaBlock across the matching connection"""
+  createdAtParaBlock: BigFloat
+
+  """Mean average of destroyedAtParaBlock across the matching connection"""
+  destroyedAtParaBlock: BigFloat
+}
+
+type OmnipoolStddevSampleAggregates {
+  """
+  Sample standard deviation of createdAtParaBlock across the matching connection
+  """
+  createdAtParaBlock: BigFloat
+
+  """
+  Sample standard deviation of destroyedAtParaBlock across the matching connection
+  """
+  destroyedAtParaBlock: BigFloat
+}
+
+type OmnipoolStddevPopulationAggregates {
+  """
+  Population standard deviation of createdAtParaBlock across the matching connection
+  """
+  createdAtParaBlock: BigFloat
+
+  """
+  Population standard deviation of destroyedAtParaBlock across the matching connection
+  """
+  destroyedAtParaBlock: BigFloat
+}
+
+type OmnipoolVarianceSampleAggregates {
+  """Sample variance of createdAtParaBlock across the matching connection"""
+  createdAtParaBlock: BigFloat
+
+  """Sample variance of destroyedAtParaBlock across the matching connection"""
+  destroyedAtParaBlock: BigFloat
+}
+
+type OmnipoolVariancePopulationAggregates {
+  """
+  Population variance of createdAtParaBlock across the matching connection
+  """
+  createdAtParaBlock: BigFloat
+
+  """
+  Population variance of destroyedAtParaBlock across the matching connection
+  """
+  destroyedAtParaBlock: BigFloat
+}
+
+"""Grouping methods for `Omnipool` for usage during aggregation."""
+enum OmnipoolGroupBy {
+  CREATED_AT
+  CREATED_AT_TRUNCATED_TO_HOUR
+  CREATED_AT_TRUNCATED_TO_DAY
+  CREATED_AT_PARA_BLOCK
+  IS_DESTROYED
+  DESTROYED_AT_PARA_BLOCK
+  ACCOUNT_ID
+}
+
+"""Conditions for `Omnipool` aggregates."""
+input OmnipoolHavingInput {
+  AND: [OmnipoolHavingInput!]
+  OR: [OmnipoolHavingInput!]
+  sum: OmnipoolHavingSumInput
+  distinctCount: OmnipoolHavingDistinctCountInput
+  min: OmnipoolHavingMinInput
+  max: OmnipoolHavingMaxInput
+  average: OmnipoolHavingAverageInput
+  stddevSample: OmnipoolHavingStddevSampleInput
+  stddevPopulation: OmnipoolHavingStddevPopulationInput
+  varianceSample: OmnipoolHavingVarianceSampleInput
+  variancePopulation: OmnipoolHavingVariancePopulationInput
+}
+
+input OmnipoolHavingSumInput {
+  createdAt: HavingDatetimeFilter
+  createdAtParaBlock: HavingIntFilter
+  destroyedAtParaBlock: HavingIntFilter
+}
+
+input OmnipoolHavingDistinctCountInput {
+  createdAt: HavingDatetimeFilter
+  createdAtParaBlock: HavingIntFilter
+  destroyedAtParaBlock: HavingIntFilter
+}
+
+input OmnipoolHavingMinInput {
+  createdAt: HavingDatetimeFilter
+  createdAtParaBlock: HavingIntFilter
+  destroyedAtParaBlock: HavingIntFilter
+}
+
+input OmnipoolHavingMaxInput {
+  createdAt: HavingDatetimeFilter
+  createdAtParaBlock: HavingIntFilter
+  destroyedAtParaBlock: HavingIntFilter
+}
+
+input OmnipoolHavingAverageInput {
+  createdAt: HavingDatetimeFilter
+  createdAtParaBlock: HavingIntFilter
+  destroyedAtParaBlock: HavingIntFilter
+}
+
+input OmnipoolHavingStddevSampleInput {
+  createdAt: HavingDatetimeFilter
+  createdAtParaBlock: HavingIntFilter
+  destroyedAtParaBlock: HavingIntFilter
+}
+
+input OmnipoolHavingStddevPopulationInput {
+  createdAt: HavingDatetimeFilter
+  createdAtParaBlock: HavingIntFilter
+  destroyedAtParaBlock: HavingIntFilter
+}
+
+input OmnipoolHavingVarianceSampleInput {
+  createdAt: HavingDatetimeFilter
+  createdAtParaBlock: HavingIntFilter
+  destroyedAtParaBlock: HavingIntFilter
+}
+
+input OmnipoolHavingVariancePopulationInput {
+  createdAt: HavingDatetimeFilter
+  createdAtParaBlock: HavingIntFilter
+  destroyedAtParaBlock: HavingIntFilter
+}
+
+"""Methods to use when ordering `Omnipool`."""
+enum OmnipoolsOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  CREATED_AT_PARA_BLOCK_ASC
+  CREATED_AT_PARA_BLOCK_DESC
+  IS_DESTROYED_ASC
+  IS_DESTROYED_DESC
+  DESTROYED_AT_PARA_BLOCK_ASC
+  DESTROYED_AT_PARA_BLOCK_DESC
+  ACCOUNT_ID_ASC
+  ACCOUNT_ID_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_COUNT_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_COUNT_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_SUM_ID_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_SUM_ID_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_SUM_ASSET_ID_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_SUM_ASSET_ID_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_SUM_CREATED_AT_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_SUM_CREATED_AT_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_SUM_CREATED_AT_PARA_BLOCK_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_SUM_CREATED_AT_PARA_BLOCK_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_SUM_IS_REMOVED_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_SUM_IS_REMOVED_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_SUM_REMOVED_AT_PARA_BLOCK_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_SUM_REMOVED_AT_PARA_BLOCK_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_SUM_POOL_ID_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_SUM_POOL_ID_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_DISTINCT_COUNT_ID_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_DISTINCT_COUNT_ID_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_DISTINCT_COUNT_ASSET_ID_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_DISTINCT_COUNT_ASSET_ID_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_DISTINCT_COUNT_CREATED_AT_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_DISTINCT_COUNT_CREATED_AT_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_DISTINCT_COUNT_CREATED_AT_PARA_BLOCK_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_DISTINCT_COUNT_CREATED_AT_PARA_BLOCK_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_DISTINCT_COUNT_IS_REMOVED_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_DISTINCT_COUNT_IS_REMOVED_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_DISTINCT_COUNT_REMOVED_AT_PARA_BLOCK_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_DISTINCT_COUNT_REMOVED_AT_PARA_BLOCK_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_DISTINCT_COUNT_POOL_ID_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_DISTINCT_COUNT_POOL_ID_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_MIN_ID_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_MIN_ID_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_MIN_ASSET_ID_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_MIN_ASSET_ID_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_MIN_CREATED_AT_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_MIN_CREATED_AT_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_MIN_CREATED_AT_PARA_BLOCK_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_MIN_CREATED_AT_PARA_BLOCK_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_MIN_IS_REMOVED_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_MIN_IS_REMOVED_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_MIN_REMOVED_AT_PARA_BLOCK_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_MIN_REMOVED_AT_PARA_BLOCK_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_MIN_POOL_ID_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_MIN_POOL_ID_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_MAX_ID_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_MAX_ID_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_MAX_ASSET_ID_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_MAX_ASSET_ID_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_MAX_CREATED_AT_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_MAX_CREATED_AT_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_MAX_CREATED_AT_PARA_BLOCK_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_MAX_CREATED_AT_PARA_BLOCK_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_MAX_IS_REMOVED_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_MAX_IS_REMOVED_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_MAX_REMOVED_AT_PARA_BLOCK_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_MAX_REMOVED_AT_PARA_BLOCK_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_MAX_POOL_ID_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_MAX_POOL_ID_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_AVERAGE_ID_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_AVERAGE_ID_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_AVERAGE_ASSET_ID_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_AVERAGE_ASSET_ID_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_AVERAGE_CREATED_AT_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_AVERAGE_CREATED_AT_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_AVERAGE_CREATED_AT_PARA_BLOCK_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_AVERAGE_CREATED_AT_PARA_BLOCK_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_AVERAGE_IS_REMOVED_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_AVERAGE_IS_REMOVED_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_AVERAGE_REMOVED_AT_PARA_BLOCK_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_AVERAGE_REMOVED_AT_PARA_BLOCK_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_AVERAGE_POOL_ID_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_AVERAGE_POOL_ID_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_STDDEV_SAMPLE_ID_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_STDDEV_SAMPLE_ID_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_STDDEV_SAMPLE_ASSET_ID_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_STDDEV_SAMPLE_ASSET_ID_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_STDDEV_SAMPLE_CREATED_AT_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_STDDEV_SAMPLE_CREATED_AT_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_STDDEV_SAMPLE_CREATED_AT_PARA_BLOCK_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_STDDEV_SAMPLE_CREATED_AT_PARA_BLOCK_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_STDDEV_SAMPLE_IS_REMOVED_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_STDDEV_SAMPLE_IS_REMOVED_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_STDDEV_SAMPLE_REMOVED_AT_PARA_BLOCK_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_STDDEV_SAMPLE_REMOVED_AT_PARA_BLOCK_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_STDDEV_SAMPLE_POOL_ID_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_STDDEV_SAMPLE_POOL_ID_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_STDDEV_POPULATION_ID_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_STDDEV_POPULATION_ID_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_STDDEV_POPULATION_ASSET_ID_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_STDDEV_POPULATION_ASSET_ID_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_STDDEV_POPULATION_CREATED_AT_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_STDDEV_POPULATION_CREATED_AT_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_STDDEV_POPULATION_CREATED_AT_PARA_BLOCK_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_STDDEV_POPULATION_CREATED_AT_PARA_BLOCK_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_STDDEV_POPULATION_IS_REMOVED_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_STDDEV_POPULATION_IS_REMOVED_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_STDDEV_POPULATION_REMOVED_AT_PARA_BLOCK_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_STDDEV_POPULATION_REMOVED_AT_PARA_BLOCK_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_STDDEV_POPULATION_POOL_ID_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_STDDEV_POPULATION_POOL_ID_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_VARIANCE_SAMPLE_ID_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_VARIANCE_SAMPLE_ID_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_VARIANCE_SAMPLE_ASSET_ID_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_VARIANCE_SAMPLE_ASSET_ID_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_VARIANCE_SAMPLE_CREATED_AT_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_VARIANCE_SAMPLE_CREATED_AT_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_VARIANCE_SAMPLE_CREATED_AT_PARA_BLOCK_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_VARIANCE_SAMPLE_CREATED_AT_PARA_BLOCK_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_VARIANCE_SAMPLE_IS_REMOVED_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_VARIANCE_SAMPLE_IS_REMOVED_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_VARIANCE_SAMPLE_REMOVED_AT_PARA_BLOCK_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_VARIANCE_SAMPLE_REMOVED_AT_PARA_BLOCK_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_VARIANCE_SAMPLE_POOL_ID_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_VARIANCE_SAMPLE_POOL_ID_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_VARIANCE_POPULATION_ID_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_VARIANCE_POPULATION_ID_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_VARIANCE_POPULATION_ASSET_ID_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_VARIANCE_POPULATION_ASSET_ID_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_VARIANCE_POPULATION_CREATED_AT_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_VARIANCE_POPULATION_CREATED_AT_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_VARIANCE_POPULATION_CREATED_AT_PARA_BLOCK_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_VARIANCE_POPULATION_CREATED_AT_PARA_BLOCK_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_VARIANCE_POPULATION_IS_REMOVED_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_VARIANCE_POPULATION_IS_REMOVED_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_VARIANCE_POPULATION_REMOVED_AT_PARA_BLOCK_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_VARIANCE_POPULATION_REMOVED_AT_PARA_BLOCK_DESC
+  OMNIPOOL_ASSETS_BY_POOL_ID_VARIANCE_POPULATION_POOL_ID_ASC
+  OMNIPOOL_ASSETS_BY_POOL_ID_VARIANCE_POPULATION_POOL_ID_DESC
+}
+
+"""
+A condition to be used against `Omnipool` object types. All fields are tested
+for equality and combined with a logical ‘and.’
+"""
+input OmnipoolCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: String
+
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `createdAtParaBlock` field."""
+  createdAtParaBlock: Int
+
+  """Checks for equality with the object’s `isDestroyed` field."""
+  isDestroyed: Boolean
+
+  """Checks for equality with the object’s `destroyedAtParaBlock` field."""
+  destroyedAtParaBlock: Int
+
+  """Checks for equality with the object’s `accountId` field."""
+  accountId: String
+}
+
+"""
+A filter to be used against `Omnipool` object types. All fields are combined with a logical ‘and.’
+"""
+input OmnipoolFilter {
+  """Filter by the object’s `id` field."""
+  id: StringFilter
+
+  """Filter by the object’s `createdAt` field."""
+  createdAt: DatetimeFilter
+
+  """Filter by the object’s `createdAtParaBlock` field."""
+  createdAtParaBlock: IntFilter
+
+  """Filter by the object’s `isDestroyed` field."""
+  isDestroyed: BooleanFilter
+
+  """Filter by the object’s `destroyedAtParaBlock` field."""
+  destroyedAtParaBlock: IntFilter
+
+  """Filter by the object’s `accountId` field."""
+  accountId: StringFilter
+
+  """Checks for all expressions in this list."""
+  and: [OmnipoolFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [OmnipoolFilter!]
+
+  """Negates the expression."""
+  not: OmnipoolFilter
+}
+
 """A `Account` edge in the connection."""
 type AccountsEdge {
   """A cursor for use in pagination."""
@@ -11430,6 +15772,370 @@ enum AccountsOrderBy {
   XYK_POOLS_VARIANCE_POPULATION_DESTROYED_AT_PARA_BLOCK_DESC
   XYK_POOLS_VARIANCE_POPULATION_ACCOUNT_ID_ASC
   XYK_POOLS_VARIANCE_POPULATION_ACCOUNT_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_COUNT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_COUNT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_SUM_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_SUM_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_SUM_EXTRINSIC_HASH_ASC
+  OMNIPOOL_ASSET_OPERATIONS_SUM_EXTRINSIC_HASH_DESC
+  OMNIPOOL_ASSET_OPERATIONS_SUM_ASSET_IN_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_SUM_ASSET_IN_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_SUM_ASSET_IN_AMOUNT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_SUM_ASSET_IN_AMOUNT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_SUM_ASSET_IN_FEE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_SUM_ASSET_IN_FEE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_SUM_ASSET_OUT_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_SUM_ASSET_OUT_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_SUM_ASSET_OUT_AMOUNT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_SUM_ASSET_OUT_AMOUNT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_SUM_ASSET_OUT_FEE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_SUM_ASSET_OUT_FEE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_SUM_PROTOCOL_FEE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_SUM_PROTOCOL_FEE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_SUM_TYPE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_SUM_TYPE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_SUM_RELAY_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_SUM_RELAY_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_SUM_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_SUM_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_SUM_ACCOUNT_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_SUM_ACCOUNT_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_SUM_OMNIPOOL_ASSET_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_SUM_OMNIPOOL_ASSET_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_DISTINCT_COUNT_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_DISTINCT_COUNT_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_DISTINCT_COUNT_EXTRINSIC_HASH_ASC
+  OMNIPOOL_ASSET_OPERATIONS_DISTINCT_COUNT_EXTRINSIC_HASH_DESC
+  OMNIPOOL_ASSET_OPERATIONS_DISTINCT_COUNT_ASSET_IN_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_DISTINCT_COUNT_ASSET_IN_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_DISTINCT_COUNT_ASSET_IN_AMOUNT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_DISTINCT_COUNT_ASSET_IN_AMOUNT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_DISTINCT_COUNT_ASSET_IN_FEE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_DISTINCT_COUNT_ASSET_IN_FEE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_DISTINCT_COUNT_ASSET_OUT_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_DISTINCT_COUNT_ASSET_OUT_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_DISTINCT_COUNT_ASSET_OUT_AMOUNT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_DISTINCT_COUNT_ASSET_OUT_AMOUNT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_DISTINCT_COUNT_ASSET_OUT_FEE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_DISTINCT_COUNT_ASSET_OUT_FEE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_DISTINCT_COUNT_PROTOCOL_FEE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_DISTINCT_COUNT_PROTOCOL_FEE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_DISTINCT_COUNT_TYPE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_DISTINCT_COUNT_TYPE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_DISTINCT_COUNT_RELAY_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_DISTINCT_COUNT_RELAY_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_DISTINCT_COUNT_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_DISTINCT_COUNT_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_DISTINCT_COUNT_ACCOUNT_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_DISTINCT_COUNT_ACCOUNT_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_DISTINCT_COUNT_OMNIPOOL_ASSET_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_DISTINCT_COUNT_OMNIPOOL_ASSET_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_MIN_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_MIN_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_MIN_EXTRINSIC_HASH_ASC
+  OMNIPOOL_ASSET_OPERATIONS_MIN_EXTRINSIC_HASH_DESC
+  OMNIPOOL_ASSET_OPERATIONS_MIN_ASSET_IN_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_MIN_ASSET_IN_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_MIN_ASSET_IN_AMOUNT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_MIN_ASSET_IN_AMOUNT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_MIN_ASSET_IN_FEE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_MIN_ASSET_IN_FEE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_MIN_ASSET_OUT_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_MIN_ASSET_OUT_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_MIN_ASSET_OUT_AMOUNT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_MIN_ASSET_OUT_AMOUNT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_MIN_ASSET_OUT_FEE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_MIN_ASSET_OUT_FEE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_MIN_PROTOCOL_FEE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_MIN_PROTOCOL_FEE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_MIN_TYPE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_MIN_TYPE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_MIN_RELAY_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_MIN_RELAY_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_MIN_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_MIN_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_MIN_ACCOUNT_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_MIN_ACCOUNT_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_MIN_OMNIPOOL_ASSET_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_MIN_OMNIPOOL_ASSET_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_MAX_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_MAX_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_MAX_EXTRINSIC_HASH_ASC
+  OMNIPOOL_ASSET_OPERATIONS_MAX_EXTRINSIC_HASH_DESC
+  OMNIPOOL_ASSET_OPERATIONS_MAX_ASSET_IN_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_MAX_ASSET_IN_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_MAX_ASSET_IN_AMOUNT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_MAX_ASSET_IN_AMOUNT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_MAX_ASSET_IN_FEE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_MAX_ASSET_IN_FEE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_MAX_ASSET_OUT_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_MAX_ASSET_OUT_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_MAX_ASSET_OUT_AMOUNT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_MAX_ASSET_OUT_AMOUNT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_MAX_ASSET_OUT_FEE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_MAX_ASSET_OUT_FEE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_MAX_PROTOCOL_FEE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_MAX_PROTOCOL_FEE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_MAX_TYPE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_MAX_TYPE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_MAX_RELAY_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_MAX_RELAY_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_MAX_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_MAX_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_MAX_ACCOUNT_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_MAX_ACCOUNT_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_MAX_OMNIPOOL_ASSET_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_MAX_OMNIPOOL_ASSET_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_AVERAGE_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_AVERAGE_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_AVERAGE_EXTRINSIC_HASH_ASC
+  OMNIPOOL_ASSET_OPERATIONS_AVERAGE_EXTRINSIC_HASH_DESC
+  OMNIPOOL_ASSET_OPERATIONS_AVERAGE_ASSET_IN_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_AVERAGE_ASSET_IN_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_AVERAGE_ASSET_IN_AMOUNT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_AVERAGE_ASSET_IN_AMOUNT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_AVERAGE_ASSET_IN_FEE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_AVERAGE_ASSET_IN_FEE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_AVERAGE_ASSET_OUT_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_AVERAGE_ASSET_OUT_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_AVERAGE_ASSET_OUT_AMOUNT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_AVERAGE_ASSET_OUT_AMOUNT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_AVERAGE_ASSET_OUT_FEE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_AVERAGE_ASSET_OUT_FEE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_AVERAGE_PROTOCOL_FEE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_AVERAGE_PROTOCOL_FEE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_AVERAGE_TYPE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_AVERAGE_TYPE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_AVERAGE_RELAY_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_AVERAGE_RELAY_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_AVERAGE_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_AVERAGE_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_AVERAGE_ACCOUNT_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_AVERAGE_ACCOUNT_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_AVERAGE_OMNIPOOL_ASSET_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_AVERAGE_OMNIPOOL_ASSET_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_SAMPLE_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_SAMPLE_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_SAMPLE_EXTRINSIC_HASH_ASC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_SAMPLE_EXTRINSIC_HASH_DESC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_SAMPLE_ASSET_IN_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_SAMPLE_ASSET_IN_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_SAMPLE_ASSET_IN_AMOUNT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_SAMPLE_ASSET_IN_AMOUNT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_SAMPLE_ASSET_IN_FEE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_SAMPLE_ASSET_IN_FEE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_SAMPLE_ASSET_OUT_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_SAMPLE_ASSET_OUT_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_SAMPLE_ASSET_OUT_AMOUNT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_SAMPLE_ASSET_OUT_AMOUNT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_SAMPLE_ASSET_OUT_FEE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_SAMPLE_ASSET_OUT_FEE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_SAMPLE_PROTOCOL_FEE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_SAMPLE_PROTOCOL_FEE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_SAMPLE_TYPE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_SAMPLE_TYPE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_SAMPLE_RELAY_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_SAMPLE_RELAY_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_SAMPLE_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_SAMPLE_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_SAMPLE_ACCOUNT_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_SAMPLE_ACCOUNT_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_SAMPLE_OMNIPOOL_ASSET_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_SAMPLE_OMNIPOOL_ASSET_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_POPULATION_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_POPULATION_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_POPULATION_EXTRINSIC_HASH_ASC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_POPULATION_EXTRINSIC_HASH_DESC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_POPULATION_ASSET_IN_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_POPULATION_ASSET_IN_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_POPULATION_ASSET_IN_AMOUNT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_POPULATION_ASSET_IN_AMOUNT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_POPULATION_ASSET_IN_FEE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_POPULATION_ASSET_IN_FEE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_POPULATION_ASSET_OUT_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_POPULATION_ASSET_OUT_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_POPULATION_ASSET_OUT_AMOUNT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_POPULATION_ASSET_OUT_AMOUNT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_POPULATION_ASSET_OUT_FEE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_POPULATION_ASSET_OUT_FEE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_POPULATION_PROTOCOL_FEE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_POPULATION_PROTOCOL_FEE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_POPULATION_TYPE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_POPULATION_TYPE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_POPULATION_RELAY_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_POPULATION_RELAY_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_POPULATION_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_POPULATION_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_POPULATION_ACCOUNT_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_POPULATION_ACCOUNT_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_POPULATION_OMNIPOOL_ASSET_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_STDDEV_POPULATION_OMNIPOOL_ASSET_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_SAMPLE_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_SAMPLE_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_SAMPLE_EXTRINSIC_HASH_ASC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_SAMPLE_EXTRINSIC_HASH_DESC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_SAMPLE_ASSET_IN_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_SAMPLE_ASSET_IN_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_SAMPLE_ASSET_IN_AMOUNT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_SAMPLE_ASSET_IN_AMOUNT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_SAMPLE_ASSET_IN_FEE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_SAMPLE_ASSET_IN_FEE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_SAMPLE_ASSET_OUT_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_SAMPLE_ASSET_OUT_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_SAMPLE_ASSET_OUT_AMOUNT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_SAMPLE_ASSET_OUT_AMOUNT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_SAMPLE_ASSET_OUT_FEE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_SAMPLE_ASSET_OUT_FEE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_SAMPLE_PROTOCOL_FEE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_SAMPLE_PROTOCOL_FEE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_SAMPLE_TYPE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_SAMPLE_TYPE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_SAMPLE_RELAY_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_SAMPLE_RELAY_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_SAMPLE_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_SAMPLE_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_SAMPLE_ACCOUNT_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_SAMPLE_ACCOUNT_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_SAMPLE_OMNIPOOL_ASSET_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_SAMPLE_OMNIPOOL_ASSET_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_POPULATION_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_POPULATION_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_POPULATION_EXTRINSIC_HASH_ASC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_POPULATION_EXTRINSIC_HASH_DESC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_POPULATION_ASSET_IN_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_POPULATION_ASSET_IN_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_POPULATION_ASSET_IN_AMOUNT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_POPULATION_ASSET_IN_AMOUNT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_POPULATION_ASSET_IN_FEE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_POPULATION_ASSET_IN_FEE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_POPULATION_ASSET_OUT_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_POPULATION_ASSET_OUT_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_POPULATION_ASSET_OUT_AMOUNT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_POPULATION_ASSET_OUT_AMOUNT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_POPULATION_ASSET_OUT_FEE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_POPULATION_ASSET_OUT_FEE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_POPULATION_PROTOCOL_FEE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_POPULATION_PROTOCOL_FEE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_POPULATION_TYPE_ASC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_POPULATION_TYPE_DESC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_POPULATION_RELAY_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_POPULATION_RELAY_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_POPULATION_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_POPULATION_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_POPULATION_ACCOUNT_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_POPULATION_ACCOUNT_ID_DESC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_POPULATION_OMNIPOOL_ASSET_ID_ASC
+  OMNIPOOL_ASSET_OPERATIONS_VARIANCE_POPULATION_OMNIPOOL_ASSET_ID_DESC
+  OMNIPOOLS_COUNT_ASC
+  OMNIPOOLS_COUNT_DESC
+  OMNIPOOLS_SUM_ID_ASC
+  OMNIPOOLS_SUM_ID_DESC
+  OMNIPOOLS_SUM_CREATED_AT_ASC
+  OMNIPOOLS_SUM_CREATED_AT_DESC
+  OMNIPOOLS_SUM_CREATED_AT_PARA_BLOCK_ASC
+  OMNIPOOLS_SUM_CREATED_AT_PARA_BLOCK_DESC
+  OMNIPOOLS_SUM_IS_DESTROYED_ASC
+  OMNIPOOLS_SUM_IS_DESTROYED_DESC
+  OMNIPOOLS_SUM_DESTROYED_AT_PARA_BLOCK_ASC
+  OMNIPOOLS_SUM_DESTROYED_AT_PARA_BLOCK_DESC
+  OMNIPOOLS_SUM_ACCOUNT_ID_ASC
+  OMNIPOOLS_SUM_ACCOUNT_ID_DESC
+  OMNIPOOLS_DISTINCT_COUNT_ID_ASC
+  OMNIPOOLS_DISTINCT_COUNT_ID_DESC
+  OMNIPOOLS_DISTINCT_COUNT_CREATED_AT_ASC
+  OMNIPOOLS_DISTINCT_COUNT_CREATED_AT_DESC
+  OMNIPOOLS_DISTINCT_COUNT_CREATED_AT_PARA_BLOCK_ASC
+  OMNIPOOLS_DISTINCT_COUNT_CREATED_AT_PARA_BLOCK_DESC
+  OMNIPOOLS_DISTINCT_COUNT_IS_DESTROYED_ASC
+  OMNIPOOLS_DISTINCT_COUNT_IS_DESTROYED_DESC
+  OMNIPOOLS_DISTINCT_COUNT_DESTROYED_AT_PARA_BLOCK_ASC
+  OMNIPOOLS_DISTINCT_COUNT_DESTROYED_AT_PARA_BLOCK_DESC
+  OMNIPOOLS_DISTINCT_COUNT_ACCOUNT_ID_ASC
+  OMNIPOOLS_DISTINCT_COUNT_ACCOUNT_ID_DESC
+  OMNIPOOLS_MIN_ID_ASC
+  OMNIPOOLS_MIN_ID_DESC
+  OMNIPOOLS_MIN_CREATED_AT_ASC
+  OMNIPOOLS_MIN_CREATED_AT_DESC
+  OMNIPOOLS_MIN_CREATED_AT_PARA_BLOCK_ASC
+  OMNIPOOLS_MIN_CREATED_AT_PARA_BLOCK_DESC
+  OMNIPOOLS_MIN_IS_DESTROYED_ASC
+  OMNIPOOLS_MIN_IS_DESTROYED_DESC
+  OMNIPOOLS_MIN_DESTROYED_AT_PARA_BLOCK_ASC
+  OMNIPOOLS_MIN_DESTROYED_AT_PARA_BLOCK_DESC
+  OMNIPOOLS_MIN_ACCOUNT_ID_ASC
+  OMNIPOOLS_MIN_ACCOUNT_ID_DESC
+  OMNIPOOLS_MAX_ID_ASC
+  OMNIPOOLS_MAX_ID_DESC
+  OMNIPOOLS_MAX_CREATED_AT_ASC
+  OMNIPOOLS_MAX_CREATED_AT_DESC
+  OMNIPOOLS_MAX_CREATED_AT_PARA_BLOCK_ASC
+  OMNIPOOLS_MAX_CREATED_AT_PARA_BLOCK_DESC
+  OMNIPOOLS_MAX_IS_DESTROYED_ASC
+  OMNIPOOLS_MAX_IS_DESTROYED_DESC
+  OMNIPOOLS_MAX_DESTROYED_AT_PARA_BLOCK_ASC
+  OMNIPOOLS_MAX_DESTROYED_AT_PARA_BLOCK_DESC
+  OMNIPOOLS_MAX_ACCOUNT_ID_ASC
+  OMNIPOOLS_MAX_ACCOUNT_ID_DESC
+  OMNIPOOLS_AVERAGE_ID_ASC
+  OMNIPOOLS_AVERAGE_ID_DESC
+  OMNIPOOLS_AVERAGE_CREATED_AT_ASC
+  OMNIPOOLS_AVERAGE_CREATED_AT_DESC
+  OMNIPOOLS_AVERAGE_CREATED_AT_PARA_BLOCK_ASC
+  OMNIPOOLS_AVERAGE_CREATED_AT_PARA_BLOCK_DESC
+  OMNIPOOLS_AVERAGE_IS_DESTROYED_ASC
+  OMNIPOOLS_AVERAGE_IS_DESTROYED_DESC
+  OMNIPOOLS_AVERAGE_DESTROYED_AT_PARA_BLOCK_ASC
+  OMNIPOOLS_AVERAGE_DESTROYED_AT_PARA_BLOCK_DESC
+  OMNIPOOLS_AVERAGE_ACCOUNT_ID_ASC
+  OMNIPOOLS_AVERAGE_ACCOUNT_ID_DESC
+  OMNIPOOLS_STDDEV_SAMPLE_ID_ASC
+  OMNIPOOLS_STDDEV_SAMPLE_ID_DESC
+  OMNIPOOLS_STDDEV_SAMPLE_CREATED_AT_ASC
+  OMNIPOOLS_STDDEV_SAMPLE_CREATED_AT_DESC
+  OMNIPOOLS_STDDEV_SAMPLE_CREATED_AT_PARA_BLOCK_ASC
+  OMNIPOOLS_STDDEV_SAMPLE_CREATED_AT_PARA_BLOCK_DESC
+  OMNIPOOLS_STDDEV_SAMPLE_IS_DESTROYED_ASC
+  OMNIPOOLS_STDDEV_SAMPLE_IS_DESTROYED_DESC
+  OMNIPOOLS_STDDEV_SAMPLE_DESTROYED_AT_PARA_BLOCK_ASC
+  OMNIPOOLS_STDDEV_SAMPLE_DESTROYED_AT_PARA_BLOCK_DESC
+  OMNIPOOLS_STDDEV_SAMPLE_ACCOUNT_ID_ASC
+  OMNIPOOLS_STDDEV_SAMPLE_ACCOUNT_ID_DESC
+  OMNIPOOLS_STDDEV_POPULATION_ID_ASC
+  OMNIPOOLS_STDDEV_POPULATION_ID_DESC
+  OMNIPOOLS_STDDEV_POPULATION_CREATED_AT_ASC
+  OMNIPOOLS_STDDEV_POPULATION_CREATED_AT_DESC
+  OMNIPOOLS_STDDEV_POPULATION_CREATED_AT_PARA_BLOCK_ASC
+  OMNIPOOLS_STDDEV_POPULATION_CREATED_AT_PARA_BLOCK_DESC
+  OMNIPOOLS_STDDEV_POPULATION_IS_DESTROYED_ASC
+  OMNIPOOLS_STDDEV_POPULATION_IS_DESTROYED_DESC
+  OMNIPOOLS_STDDEV_POPULATION_DESTROYED_AT_PARA_BLOCK_ASC
+  OMNIPOOLS_STDDEV_POPULATION_DESTROYED_AT_PARA_BLOCK_DESC
+  OMNIPOOLS_STDDEV_POPULATION_ACCOUNT_ID_ASC
+  OMNIPOOLS_STDDEV_POPULATION_ACCOUNT_ID_DESC
+  OMNIPOOLS_VARIANCE_SAMPLE_ID_ASC
+  OMNIPOOLS_VARIANCE_SAMPLE_ID_DESC
+  OMNIPOOLS_VARIANCE_SAMPLE_CREATED_AT_ASC
+  OMNIPOOLS_VARIANCE_SAMPLE_CREATED_AT_DESC
+  OMNIPOOLS_VARIANCE_SAMPLE_CREATED_AT_PARA_BLOCK_ASC
+  OMNIPOOLS_VARIANCE_SAMPLE_CREATED_AT_PARA_BLOCK_DESC
+  OMNIPOOLS_VARIANCE_SAMPLE_IS_DESTROYED_ASC
+  OMNIPOOLS_VARIANCE_SAMPLE_IS_DESTROYED_DESC
+  OMNIPOOLS_VARIANCE_SAMPLE_DESTROYED_AT_PARA_BLOCK_ASC
+  OMNIPOOLS_VARIANCE_SAMPLE_DESTROYED_AT_PARA_BLOCK_DESC
+  OMNIPOOLS_VARIANCE_SAMPLE_ACCOUNT_ID_ASC
+  OMNIPOOLS_VARIANCE_SAMPLE_ACCOUNT_ID_DESC
+  OMNIPOOLS_VARIANCE_POPULATION_ID_ASC
+  OMNIPOOLS_VARIANCE_POPULATION_ID_DESC
+  OMNIPOOLS_VARIANCE_POPULATION_CREATED_AT_ASC
+  OMNIPOOLS_VARIANCE_POPULATION_CREATED_AT_DESC
+  OMNIPOOLS_VARIANCE_POPULATION_CREATED_AT_PARA_BLOCK_ASC
+  OMNIPOOLS_VARIANCE_POPULATION_CREATED_AT_PARA_BLOCK_DESC
+  OMNIPOOLS_VARIANCE_POPULATION_IS_DESTROYED_ASC
+  OMNIPOOLS_VARIANCE_POPULATION_IS_DESTROYED_DESC
+  OMNIPOOLS_VARIANCE_POPULATION_DESTROYED_AT_PARA_BLOCK_ASC
+  OMNIPOOLS_VARIANCE_POPULATION_DESTROYED_AT_PARA_BLOCK_DESC
+  OMNIPOOLS_VARIANCE_POPULATION_ACCOUNT_ID_ASC
+  OMNIPOOLS_VARIANCE_POPULATION_ACCOUNT_ID_DESC
 }
 
 """

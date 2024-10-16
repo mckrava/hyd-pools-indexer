@@ -51,6 +51,10 @@ export class AppConfig {
   @IsNotEmpty()
   readonly PROCESS_XYK_POOLS!: boolean;
 
+  @Transform(({ value }: { value: string }) => value === 'true')
+  @IsNotEmpty()
+  readonly PROCESS_OMNIPOOLS!: boolean;
+
   static getInstance(): AppConfig {
     if (!AppConfig.instance) {
       AppConfig.instance = new AppConfig();

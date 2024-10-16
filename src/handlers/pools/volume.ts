@@ -65,6 +65,7 @@ export function initLbpPoolVolume(
   newVolume.assetAVolumeIn += assetAVolumeIn;
   newVolume.assetAVolumeOut += assetAVolumeOut;
   newVolume.assetAFee += assetAFee;
+
   newVolume.assetATotalVolumeIn += assetAVolumeIn;
   newVolume.assetATotalVolumeOut += assetAVolumeOut;
   newVolume.assetATotalFees += assetAFee;
@@ -72,6 +73,7 @@ export function initLbpPoolVolume(
   newVolume.assetBVolumeIn += assetBVolumeIn;
   newVolume.assetBVolumeOut += assetBVolumeOut;
   newVolume.assetBFee += assetBFee;
+
   newVolume.assetBTotalVolumeIn += assetBVolumeIn;
   newVolume.assetBTotalVolumeOut += assetBVolumeOut;
   newVolume.assetBTotalFees += assetBFee;
@@ -131,25 +133,31 @@ export function initXykPoolVolume(
     swap.assetInId === newVolume.assetAId ? swap.assetInAmount : BigInt(0);
   const assetBVolumeIn =
     swap.assetInId === newVolume.assetBId ? swap.assetInAmount : BigInt(0);
+
   const assetAVolumeOut =
     swap.assetOutId === newVolume.assetAId ? swap.assetOutAmount : BigInt(0);
   const assetBVolumeOut =
     swap.assetOutId === newVolume.assetBId ? swap.assetOutAmount : BigInt(0);
+
   const assetAFee =
     swap.assetInId === newVolume.assetAId ? swap.assetInFee : swap.assetOutFee;
   const assetBFee =
     swap.assetInId === newVolume.assetBId ? swap.assetInFee : swap.assetOutFee;
 
+  // Block volumes
   newVolume.assetAVolumeIn += assetAVolumeIn;
   newVolume.assetAVolumeOut += assetAVolumeOut;
   newVolume.assetAFee += assetAFee;
-  newVolume.assetATotalVolumeIn += assetAVolumeIn;
-  newVolume.assetATotalVolumeOut += assetAVolumeOut;
-  newVolume.assetATotalFees += assetAFee;
 
   newVolume.assetBVolumeIn += assetBVolumeIn;
   newVolume.assetBVolumeOut += assetBVolumeOut;
   newVolume.assetBFee += assetBFee;
+
+  // Total volumes
+  newVolume.assetATotalVolumeIn += assetAVolumeIn;
+  newVolume.assetATotalVolumeOut += assetAVolumeOut;
+  newVolume.assetATotalFees += assetAFee;
+
   newVolume.assetBTotalVolumeIn += assetBVolumeIn;
   newVolume.assetBTotalVolumeOut += assetBVolumeOut;
   newVolume.assetBTotalFees += assetBFee;
