@@ -1,6 +1,4 @@
-import { join } from 'path';
 const migrations = require('node-pg-migrate');
-const { exec } = require('child_process');
 
 import { AppConfig } from '../../utils/appConfig';
 import { Client } from 'pg';

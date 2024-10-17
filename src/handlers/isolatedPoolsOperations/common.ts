@@ -11,6 +11,7 @@ import { BigNumber } from 'bignumber.js';
 export function initLbpPoolOperation({
   eventId,
   hash,
+  indexInBlock,
   account,
   assetIn,
   assetOut,
@@ -25,6 +26,7 @@ export function initLbpPoolOperation({
 }: {
   eventId: string;
   hash: string;
+  indexInBlock: number;
   account: Account;
   assetIn: number;
   assetOut: number;
@@ -41,6 +43,7 @@ export function initLbpPoolOperation({
     id: eventId,
     account: account,
     extrinsicHash: hash,
+    indexInBlock,
     assetInId: assetIn,
     assetInAmount: amountIn,
     assetInFee: feeAsset === assetIn ? feeAmount : BigInt(0),
@@ -60,6 +63,7 @@ export function initLbpPoolOperation({
 export function initXykPoolOperation({
   eventId,
   hash,
+  indexInBlock,
   account,
   assetIn,
   assetOut,
@@ -74,6 +78,7 @@ export function initXykPoolOperation({
 }: {
   eventId: string;
   hash: string;
+  indexInBlock: number;
   account: Account;
   assetIn: number;
   assetOut: number;
@@ -90,6 +95,7 @@ export function initXykPoolOperation({
     id: eventId,
     account: account,
     extrinsicHash: hash,
+    indexInBlock,
     assetInId: assetIn,
     assetInAmount: amountIn,
     assetInFee: feeAsset === assetIn ? feeAmount : BigInt(0),

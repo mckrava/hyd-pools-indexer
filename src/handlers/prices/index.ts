@@ -16,13 +16,13 @@ export async function handlePoolPrices(ctx: ProcessorContext<Store>) {
 
   await ctx.store.save(
     [...ctx.batchState.state.xykAllBatchPools.values()].filter((pool) =>
-      ctx.batchState.state.xykPoolsToSave.has(pool.id)
+      ctx.batchState.state.xykPoolIdsToSave.has(pool.id)
     )
   );
 
   await ctx.store.save(
     [...ctx.batchState.state.lbpAllBatchPools.values()].filter((pool) =>
-      ctx.batchState.state.lbpPoolsToSave.has(pool.id)
+      ctx.batchState.state.lbpPoolIdsToSave.has(pool.id)
     )
   );
 }

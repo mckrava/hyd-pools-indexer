@@ -13,9 +13,13 @@ import {
   XykBuyExecutedData,
   XykSellExecutedData,
   BalancesTransferData,
+  OmnipoolTokenAddedData,
+  OmnipoolTokenRemovedData,
+  OmnipoolBuyExecutedData,
+  OmnipoolSellExecutedData,
 } from './types';
 import { EventName, RelayChainInfo } from '../types/events';
-import { Block, Event, ProcessorContext } from '../../processor';
+import { Block, Event, Extrinsic, ProcessorContext } from '../../processor';
 import { Store } from '@subsquid/typeorm-store';
 import parsers from '../';
 import { calls, events } from '../../typegenTypes';
@@ -40,7 +44,15 @@ type EventDataType<T> = T extends EventName.Tokens_Transfer
                   ? XykBuyExecutedData
                   : T extends EventName.XYK_SellExecuted
                     ? XykSellExecutedData
-                    : never;
+                    : T extends EventName.Omnipool_TokenAdded
+                      ? OmnipoolTokenAddedData
+                      : T extends EventName.Omnipool_TokenRemoved
+                        ? OmnipoolTokenRemovedData
+                        : T extends EventName.Omnipool_BuyExecuted
+                          ? OmnipoolBuyExecutedData
+                          : T extends EventName.Omnipool_SellExecuted
+                            ? OmnipoolSellExecutedData
+                            : never;
 
 export class BatchBlocksParsedDataManager {
   private scope: BatchBlocksParsedDataScope;
@@ -88,12 +100,17 @@ export class BatchBlocksParsedDataManager {
   }
 }
 
-function getEventMetadata(blockHeader: Block, event: Event): EventMetadata {
+function getEventMetadata(
+  event: Event,
+  blockHeader: Block,
+  extrinsic?: Extrinsic
+): EventMetadata {
   return {
     id: event.id,
     indexInBlock: event.index,
     name: event.name,
-    blockHeader: blockHeader,
+    blockHeader,
+    extrinsic,
   };
 }
 
@@ -141,6 +158,12 @@ export function getParsedEventsData(
         name: call?.name ?? '_system',
       };
 
+      const eventMetadata = getEventMetadata(
+        event,
+        block.header,
+        event.extrinsic
+      );
+
       switch (event.name) {
         /**
          * ==== LBP pools ====
@@ -150,7 +173,6 @@ export function getParsedEventsData(
             ? parsers.calls.lbp.parseCreatePoolArgs(call)
             : undefined;
           const eventParams = parsers.events.lbp.parsePoolCreatedParams(event);
-          const eventMetadata = getEventMetadata(block.header, event);
 
           parsedDataManager.set(EventName.LBP_PoolCreated, {
             relayChainInfo,
@@ -170,7 +192,6 @@ export function getParsedEventsData(
         }
         case events.lbp.poolUpdated.name: {
           const eventParams = parsers.events.lbp.parsePoolUpdatedParams(event);
-          const eventMetadata = getEventMetadata(block.header, event);
 
           parsedDataManager.set(EventName.LBP_PoolUpdated, {
             relayChainInfo,
@@ -189,7 +210,6 @@ export function getParsedEventsData(
         }
         case events.lbp.buyExecuted.name: {
           const eventParams = parsers.events.lbp.parseBuyExecutedParams(event);
-          const eventMetadata = getEventMetadata(block.header, event);
 
           parsedDataManager.set(EventName.LBP_BuyExecuted, {
             relayChainInfo,
@@ -208,7 +228,6 @@ export function getParsedEventsData(
         }
         case events.lbp.sellExecuted.name: {
           const eventParams = parsers.events.lbp.parseSellExecutedParams(event);
-          const eventMetadata = getEventMetadata(block.header, event);
 
           parsedDataManager.set(EventName.LBP_SellExecuted, {
             relayChainInfo,
@@ -236,7 +255,6 @@ export function getParsedEventsData(
               ? parsers.calls.xyk.parseCreatePoolArgs(call)
               : undefined;
           const eventParams = parsers.events.xyk.parsePoolCreatedParams(event);
-          const eventMetadata = getEventMetadata(block.header, event);
 
           parsedDataManager.set(EventName.XYK_PoolCreated, {
             relayChainInfo,
@@ -257,7 +275,6 @@ export function getParsedEventsData(
         case events.xyk.poolDestroyed.name: {
           const eventParams =
             parsers.events.xyk.parsePoolDestroyedParams(event);
-          const eventMetadata = getEventMetadata(block.header, event);
 
           parsedDataManager.set(EventName.XYK_PoolDestroyed, {
             relayChainInfo,
@@ -276,7 +293,6 @@ export function getParsedEventsData(
         }
         case events.xyk.buyExecuted.name: {
           const eventParams = parsers.events.xyk.parseBuyExecutedParams(event);
-          const eventMetadata = getEventMetadata(block.header, event);
 
           parsedDataManager.set(EventName.XYK_BuyExecuted, {
             relayChainInfo,
@@ -295,9 +311,92 @@ export function getParsedEventsData(
         }
         case events.xyk.sellExecuted.name: {
           const eventParams = parsers.events.xyk.parseSellExecutedParams(event);
-          const eventMetadata = getEventMetadata(block.header, event);
 
           parsedDataManager.set(EventName.XYK_SellExecuted, {
+            relayChainInfo,
+            id: eventMetadata.id,
+            eventData: {
+              name: eventMetadata.name,
+              metadata: eventMetadata,
+              params: eventParams,
+            },
+            callData: {
+              ...callMetadata,
+            },
+          });
+          totalEventsNumber++;
+          break;
+        }
+
+        /**
+         * ==== Omnipools ====
+         */
+
+        case events.omnipool.tokenAdded.name: {
+          const eventParams =
+            parsers.events.omnipool.parseTokenAddedParams(event);
+
+          parsedDataManager.set(EventName.Omnipool_TokenAdded, {
+            relayChainInfo,
+            id: eventMetadata.id,
+            eventData: {
+              name: eventMetadata.name,
+              metadata: eventMetadata,
+              params: eventParams,
+            },
+            callData: {
+              ...callMetadata,
+            },
+          });
+          totalEventsNumber++;
+          break;
+        }
+
+        case events.omnipool.tokenRemoved.name: {
+          const eventParams =
+            parsers.events.omnipool.parseTokenRemovedParams(event);
+
+          parsedDataManager.set(EventName.Omnipool_TokenRemoved, {
+            relayChainInfo,
+            id: eventMetadata.id,
+            eventData: {
+              name: eventMetadata.name,
+              metadata: eventMetadata,
+              params: eventParams,
+            },
+            callData: {
+              ...callMetadata,
+            },
+          });
+          totalEventsNumber++;
+          break;
+        }
+
+        case events.omnipool.buyExecuted.name: {
+          const eventParams =
+            parsers.events.omnipool.parseBuyExecutedParams(event);
+
+          parsedDataManager.set(EventName.Omnipool_BuyExecuted, {
+            relayChainInfo,
+            id: eventMetadata.id,
+            eventData: {
+              name: eventMetadata.name,
+              metadata: eventMetadata,
+              params: eventParams,
+            },
+            callData: {
+              ...callMetadata,
+            },
+          });
+          totalEventsNumber++;
+          break;
+        }
+
+        case events.omnipool.sellExecuted.name: {
+          const eventParams =
+            parsers.events.omnipool.parseSellExecutedParams(event);
+
+          parsedDataManager.set(EventName.Omnipool_SellExecuted, {
             relayChainInfo,
             id: eventMetadata.id,
             eventData: {
@@ -318,14 +417,13 @@ export function getParsedEventsData(
          */
         case events.tokens.transfer.name: {
           const eventParams = parsers.events.tokens.parseTransferParams(event);
-          const eventMetadata = getEventMetadata(block.header, event);
 
           parsedDataManager.set(EventName.Tokens_Transfer, {
             relayChainInfo,
             id: eventMetadata.id,
             eventData: {
               name: eventMetadata.name,
-              metadata: { ...eventMetadata, extrinsic: event.extrinsic },
+              metadata: eventMetadata,
               params: eventParams,
             },
             callData: {
@@ -338,14 +436,13 @@ export function getParsedEventsData(
         case events.balances.transfer.name: {
           const eventParams =
             parsers.events.balances.parseTransferParams(event);
-          const eventMetadata = getEventMetadata(block.header, event);
 
           parsedDataManager.set(EventName.Balances_Transfer, {
             relayChainInfo,
             id: eventMetadata.id,
             eventData: {
               name: eventMetadata.name,
-              metadata: { ...eventMetadata, extrinsic: event.extrinsic },
+              metadata: eventMetadata,
               params: eventParams,
             },
             callData: {

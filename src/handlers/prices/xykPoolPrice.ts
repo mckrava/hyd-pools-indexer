@@ -1,12 +1,4 @@
-import {
-  LbpPoolHistoricalPrice,
-  LbpPoolHistoricalVolume,
-  LbpPoolOperation,
-  XykPoolHistoricalPrice,
-  XykPoolHistoricalVolume,
-  XykPoolOperation,
-} from '../../model';
-import { BigNumber } from 'bignumber.js';
+import { XykPoolHistoricalPrice } from '../../model';
 import { ProcessorContext } from '../../processor';
 import { Store } from '@subsquid/typeorm-store';
 import { getAssetBalance } from '../assets';
@@ -59,7 +51,7 @@ export async function handleXykPoolPrices(ctx: ProcessorContext<Store>) {
   ).filter(isNotNullOrUndefined);
 
   const xykPoolHistoricalPrices = ctx.batchState.state.xykPoolHistoricalPrices;
-  const xykPoolsToSave = ctx.batchState.state.xykPoolsToSave;
+  const xykPoolIdsToSave = ctx.batchState.state.xykPoolIdsToSave;
 
   for (const priceItem of poolPrices) {
     xykPoolHistoricalPrices.set(priceItem.id, priceItem);
@@ -68,12 +60,12 @@ export async function handleXykPoolPrices(ctx: ProcessorContext<Store>) {
     pool.assetABalance = priceItem.assetABalance;
     pool.assetBBalance = priceItem.assetBBalance;
     xykAllBatchPools.set(priceItem.pool.id, pool);
-    xykPoolsToSave.add(priceItem.pool.id);
+    xykPoolIdsToSave.add(priceItem.pool.id);
   }
 
   ctx.batchState.state = {
     xykPoolHistoricalPrices,
     xykAllBatchPools,
-    xykPoolsToSave,
+    xykPoolIdsToSave,
   };
 }

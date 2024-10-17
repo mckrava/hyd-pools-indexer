@@ -16,7 +16,7 @@ export async function handleBalancesTransfer(
     assetId: 0,
     blockNumber: eventMetadata.blockHeader.height,
     timestamp: new Date(eventMetadata.blockHeader.timestamp || 0),
-    extrinsicHash: eventMetadata.blockHeader.hash,
+    extrinsicHash: eventMetadata.extrinsic?.hash,
     from: eventParams.from,
     to: eventParams.to,
     amount: eventParams.amount,

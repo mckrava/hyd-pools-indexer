@@ -5,6 +5,10 @@ import {
   LbpPoolHistoricalPrice,
   LbpPoolHistoricalVolume,
   LbpPoolOperation,
+  Omnipool,
+  OmnipoolAsset,
+  OmnipoolAssetHistoricalVolume,
+  OmnipoolAssetOperation,
   Transfer,
   XykPool,
   XykPoolHistoricalPrice,
@@ -19,7 +23,7 @@ export type BatchStatePayload = {
   transfers: Map<string, Transfer>;
   assetVolumes: Map<string, HistoricalAssetVolume>;
 
-  lbpPoolsToSave: Set<string>;
+  lbpPoolIdsToSave: Set<string>;
   lbpNewPools: LbpPool[];
   lbpExistingPools: Map<string, LbpPool>;
   lbpAllBatchPools: Map<string, LbpPool>;
@@ -27,13 +31,19 @@ export type BatchStatePayload = {
   lbpPoolVolumes: Map<string, LbpPoolHistoricalVolume>;
   lbpPoolHistoricalPrices: Map<string, LbpPoolHistoricalPrice>;
 
-  xykPoolsToSave: Set<string>;
+  xykPoolIdsToSave: Set<string>;
   xykNewPools: XykPool[];
   xykExistingPools: Map<string, XykPool>;
   xykAllBatchPools: Map<string, XykPool>;
   xykPoolOperations: XykPoolOperation[];
   xykPoolVolumes: Map<string, XykPoolHistoricalVolume>;
   xykPoolHistoricalPrices: Map<string, XykPoolHistoricalPrice>;
+
+  omnipoolEntity: Omnipool | null;
+  omnipoolAssets: Map<string, OmnipoolAsset>;
+  omnipoolAssetIdsToSave: Set<string>;
+  omnipoolAssetOperations: OmnipoolAssetOperation[];
+  omnipoolAssetVolumes: Map<string, OmnipoolAssetHistoricalVolume>;
 };
 
 export class BatchState {
@@ -43,7 +53,7 @@ export class BatchState {
     transfers: new Map(),
     assetVolumes: new Map(),
 
-    lbpPoolsToSave: new Set(),
+    lbpPoolIdsToSave: new Set(),
     lbpNewPools: [],
     lbpExistingPools: new Map(),
     lbpAllBatchPools: new Map(),
@@ -51,13 +61,19 @@ export class BatchState {
     lbpPoolVolumes: new Map(),
     lbpPoolHistoricalPrices: new Map(),
 
-    xykPoolsToSave: new Set(),
+    xykPoolIdsToSave: new Set(),
     xykNewPools: [],
     xykExistingPools: new Map(),
     xykAllBatchPools: new Map(),
     xykPoolOperations: [],
     xykPoolVolumes: new Map(),
     xykPoolHistoricalPrices: new Map(),
+
+    omnipoolEntity: null,
+    omnipoolAssets: new Map(),
+    omnipoolAssetIdsToSave: new Set(),
+    omnipoolAssetOperations: [],
+    omnipoolAssetVolumes: new Map(),
   };
 
   get state(): BatchStatePayload {

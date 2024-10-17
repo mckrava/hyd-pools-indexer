@@ -1,7 +1,7 @@
 import { transformAndValidateSync } from 'class-transformer-validator';
 import 'reflect-metadata';
 import { Transform } from 'class-transformer';
-import { IsNotEmpty, ValidationError } from 'class-validator';
+import { IsNotEmpty, IsString, ValidationError } from 'class-validator';
 import dotenv from 'dotenv';
 
 import { events, calls } from '../typegenTypes/';
@@ -55,6 +55,10 @@ export class AppConfig {
   @IsNotEmpty()
   readonly PROCESS_OMNIPOOLS!: boolean;
 
+  @IsNotEmpty()
+  @IsString()
+  readonly OMNIPOOL_ADDRESS!: string;
+
   static getInstance(): AppConfig {
     if (!AppConfig.instance) {
       AppConfig.instance = new AppConfig();
@@ -99,6 +103,16 @@ export class AppConfig {
           events.xyk.poolDestroyed.name,
           events.xyk.buyExecuted.name,
           events.xyk.sellExecuted.name,
+        ]
+      );
+    }
+    if (this.PROCESS_OMNIPOOLS) {
+      eventsToListen.push(
+        ...[
+          events.omnipool.tokenAdded.name,
+          events.omnipool.tokenRemoved.name,
+          events.omnipool.buyExecuted.name,
+          events.omnipool.sellExecuted.name,
         ]
       );
     }

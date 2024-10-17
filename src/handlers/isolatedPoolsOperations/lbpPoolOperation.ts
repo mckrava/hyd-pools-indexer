@@ -6,7 +6,7 @@ import {
   LbpSellExecutedData,
 } from '../../parsers/batchBlocksParser/types';
 import { getAccount } from '../accounts';
-import { handleLbpPoolVolumeUpdates } from '../pools/volume';
+import { handleLbpPoolVolumeUpdates } from '../volumes';
 import { handleAssetVolumeUpdates } from '../assets/volume';
 import { initLbpPoolOperation } from './common';
 
@@ -34,7 +34,8 @@ export async function lpbBuyExecuted(
 
   const operationInstance = initLbpPoolOperation({
     eventId: eventMetadata.id,
-    hash: eventMetadata.blockHeader.hash || '',
+    hash: eventMetadata.extrinsic?.hash || '',
+    indexInBlock: eventMetadata.indexInBlock,
     account: await getAccount(ctx, eventParams.who),
     assetIn: eventParams.assetIn,
     assetOut: eventParams.assetOut,
@@ -86,7 +87,8 @@ export async function lpbSellExecuted(
 
   const operationInstance = initLbpPoolOperation({
     eventId: eventMetadata.id,
-    hash: eventMetadata.blockHeader.hash || '',
+    hash: eventMetadata.extrinsic?.hash || '',
+    indexInBlock: eventMetadata.indexInBlock,
     account: await getAccount(ctx, eventParams.who),
     assetIn: eventParams.assetIn,
     assetOut: eventParams.assetOut,

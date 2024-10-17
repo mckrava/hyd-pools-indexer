@@ -83,13 +83,21 @@ type OmnipoolAsset @entity {
   "OmnipoolId-AssetId"
   id: ID!
   assetId: Int! @index
+  initialAmount: BigInt!
+  initialPrice: BigInt!
   pool: Omnipool!
   createdAt: DateTime!
   createdAtParaBlock: Int!
   isRemoved: Boolean
   removedAtParaBlock: Int
-  historicalVolume: [OmnipoolAssetHistoricalVolume!]! @derivedFrom(field: "omnipoolAsset")
-  operations: [OmnipoolAssetOperation!]! @derivedFrom(field: "omnipoolAsset")
+  removedAmount: BigInt
+  hubWithdrawn: BigInt
+  historicalVolume: [OmnipoolAssetHistoricalVolume!]!
+    @derivedFrom(field: "omnipoolAsset")
+  historicalData: [OmnipoolAssetHistoricalData!]!
+    @derivedFrom(field: "omnipoolAsset")
+  operationsIn: [OmnipoolAssetOperation!]! @derivedFrom(field: "assetIn")
+  operationsOut: [OmnipoolAssetOperation!]! @derivedFrom(field: "assetOut")
 }
 
 type HistoricalAssetVolume @entity {
@@ -179,6 +187,7 @@ type LbpPoolOperation @entity {
   id: ID!
   account: Account!
   extrinsicHash: String @index
+  indexInBlock: Int! @index
   assetInId: Int!
   assetInAmount: BigInt!
   assetInFee: BigInt!
@@ -197,6 +206,7 @@ type XykPoolOperation @entity {
   id: ID!
   account: Account!
   extrinsicHash: String @index
+  indexInBlock: Int! @index
   assetInId: Int!
   assetInAmount: BigInt!
   assetInFee: BigInt!
@@ -213,16 +223,17 @@ type XykPoolOperation @entity {
 type OmnipoolAssetOperation @entity {
   "TxId"
   id: ID!
+  assetIn: OmnipoolAsset!
+  assetOut: OmnipoolAsset!
   account: Account!
   extrinsicHash: String @index
-  assetInId: Int!
+  indexInBlock: Int! @index
   assetInAmount: BigInt!
-  assetInFee: BigInt!
-  assetOutId: Int!
   assetOutAmount: BigInt!
-  assetOutFee: BigInt!
-  protocolFee: BigInt!
-  omnipoolAsset: OmnipoolAsset!
+  assetFeeAmount: BigInt!
+  protocolFeeAmount: BigInt!
+  hubAmountIn: BigInt!
+  hubAmountOut: BigInt!
   type: PoolOperationType!
   relayChainBlockHeight: Int!
   paraChainBlockHeight: Int! @index
@@ -232,20 +243,12 @@ type OmnipoolAssetHistoricalVolume @entity {
   "OmnipoolAssetId-paraChainBlockHeight"
   id: ID!
   omnipoolAsset: OmnipoolAsset!
-  assetAId: Int!
-  assetBId: Int!
-  assetAVolumeIn: BigInt!
-  assetAVolumeOut: BigInt!
-  assetATotalVolumeIn: BigInt!
-  assetATotalVolumeOut: BigInt!
-  assetAFee: BigInt!
-  assetBFee: BigInt!
-  assetATotalFees: BigInt!
-  assetBTotalFees: BigInt!
-  assetBVolumeIn: BigInt!
-  assetBVolumeOut: BigInt!
-  assetBTotalVolumeIn: BigInt!
-  assetBTotalVolumeOut: BigInt!
+  assetVolumeIn: BigInt!
+  assetVolumeOut: BigInt!
+  assetTotalVolumeIn: BigInt!
+  assetTotalVolumeOut: BigInt!
+  assetFee: BigInt!
+  assetTotalFees: BigInt!
   relayChainBlockHeight: Int!
   paraChainBlockHeight: Int! @index
 }

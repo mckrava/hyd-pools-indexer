@@ -64,6 +64,8 @@ export async function handleQueryXykPoolHistoricalVolumesByPeriod(
           assetBVolume: BigInt(0),
         };
 
+        // Should not occur in normal conditions because SQL query will return
+        // either 2 elements in the group or nothing.
         if (group.length === 1) return resp;
 
         if (

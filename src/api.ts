@@ -19,6 +19,8 @@ import { Client } from 'pg';
 import { runMigrations } from './apiSupport/apiMigrations/runMigrations';
 import { XykPoolsVolumeSubscriptionsPlugin } from './apiSupport/plugins/xykPoolsVolumeSubscriptions.plugin';
 import { getEnvPath } from './utils/helpers';
+import { OmnipoolAssetVolumePlugin } from './apiSupport/plugins/omnipoolVolume.plugin';
+import { OmnipoolAssetVolumeSubscriptionsPlugin } from './apiSupport/plugins/omnipoolAssetVolumeSubscriptions.plugin';
 
 const pgTypes = new TypeOverrides();
 pgTypes.setTypeParser(1700, function (val) {
@@ -62,6 +64,8 @@ app.use(
         ProcessorStatusPlugin,
         XykPoolsVolumePlugin,
         XykPoolsVolumeSubscriptionsPlugin,
+        OmnipoolAssetVolumePlugin,
+        OmnipoolAssetVolumeSubscriptionsPlugin,
       ],
       externalUrlBase: appConfig.BASE_PATH,
       graphileBuildOptions: {

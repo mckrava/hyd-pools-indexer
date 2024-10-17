@@ -51,7 +51,7 @@ export async function handleLbpPoolPrices(ctx: ProcessorContext<Store>) {
   ).filter(isNotNullOrUndefined);
 
   const lbpPoolHistoricalPrices = ctx.batchState.state.lbpPoolHistoricalPrices;
-  const lbpPoolsToSave = ctx.batchState.state.lbpPoolsToSave;
+  const lbpPoolIdsToSave = ctx.batchState.state.lbpPoolIdsToSave;
 
   for (const priceItem of poolPrices) {
     lbpPoolHistoricalPrices.set(priceItem.id, priceItem);
@@ -61,12 +61,12 @@ export async function handleLbpPoolPrices(ctx: ProcessorContext<Store>) {
     pool.assetABalance = priceItem.assetABalance;
     pool.assetBBalance = priceItem.assetBBalance;
     lbpAllBatchPools.set(priceItem.pool.id, pool);
-    lbpPoolsToSave.add(priceItem.pool.id);
+    lbpPoolIdsToSave.add(priceItem.pool.id);
   }
 
   ctx.batchState.state = {
     lbpPoolHistoricalPrices,
     lbpAllBatchPools,
-    lbpPoolsToSave,
+    lbpPoolIdsToSave,
   };
 }

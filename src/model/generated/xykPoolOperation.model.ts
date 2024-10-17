@@ -23,6 +23,10 @@ export class XykPoolOperation {
     @StringColumn_({nullable: true})
     extrinsicHash!: string | undefined | null
 
+    @Index_()
+    @IntColumn_({nullable: false})
+    indexInBlock!: number
+
     @IntColumn_({nullable: false})
     assetInId!: number
 

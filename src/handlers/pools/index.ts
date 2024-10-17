@@ -39,10 +39,10 @@ export async function handleLbpPools(
 
   await ctx.store.save(
     [...ctx.batchState.state.lbpAllBatchPools.values()].filter((pool) =>
-      ctx.batchState.state.lbpPoolsToSave.has(pool.id)
+      ctx.batchState.state.lbpPoolIdsToSave.has(pool.id)
     )
   );
-  ctx.batchState.state = { lbpPoolsToSave: new Set() };
+  ctx.batchState.state = { lbpPoolIdsToSave: new Set() };
 }
 
 export async function handleXykPools(
@@ -71,9 +71,9 @@ export async function handleXykPools(
 
   await ctx.store.save(
     [...ctx.batchState.state.xykAllBatchPools.values()].filter((pool) =>
-      ctx.batchState.state.xykPoolsToSave.has(pool.id)
+      ctx.batchState.state.xykPoolIdsToSave.has(pool.id)
     )
   );
 
-  ctx.batchState.state = { xykPoolsToSave: new Set() };
+  ctx.batchState.state = { xykPoolIdsToSave: new Set() };
 }

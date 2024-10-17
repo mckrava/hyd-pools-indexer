@@ -1,10 +1,4 @@
-import {
-  Account,
-  LbpPool,
-  LbpPoolOperation,
-  PoolOperationType,
-} from '../../model';
-import { BigNumber } from 'bignumber.js';
+import { PoolOperationType } from '../../model';
 import { ProcessorContext } from '../../processor';
 import { Store } from '@subsquid/typeorm-store';
 import {
@@ -12,7 +6,7 @@ import {
   XykSellExecutedData,
 } from '../../parsers/batchBlocksParser/types';
 import { getAccount } from '../accounts';
-import { handleXykPoolVolumeUpdates } from '../pools/volume';
+import { handleXykPoolVolumeUpdates } from '../volumes';
 import { handleAssetVolumeUpdates } from '../assets/volume';
 import { initXykPoolOperation } from './common';
 
@@ -37,7 +31,8 @@ export async function xykBuyExecuted(
 
   const operationInstance = initXykPoolOperation({
     eventId: eventMetadata.id,
-    hash: eventMetadata.blockHeader.hash || '',
+    hash: eventMetadata.extrinsic?.hash || '',
+    indexInBlock: eventMetadata.indexInBlock,
     account: await getAccount(ctx, eventParams.who),
     assetIn: eventParams.assetIn,
     assetOut: eventParams.assetOut,
@@ -84,7 +79,8 @@ export async function xykSellExecuted(
 
   const operationInstance = initXykPoolOperation({
     eventId: eventMetadata.id,
-    hash: eventMetadata.blockHeader.hash || '',
+    hash: eventMetadata.extrinsic?.hash || '',
+    indexInBlock: eventMetadata.indexInBlock,
     account: await getAccount(ctx, eventParams.who),
     assetIn: eventParams.assetIn,
     assetOut: eventParams.assetOut,

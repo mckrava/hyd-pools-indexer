@@ -1,6 +1,6 @@
 import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, ManyToOne as ManyToOne_, Index as Index_, StringColumn as StringColumn_, IntColumn as IntColumn_, BigIntColumn as BigIntColumn_} from "@subsquid/typeorm-store"
-import {Account} from "./account.model"
 import {OmnipoolAsset} from "./omnipoolAsset.model"
+import {Account} from "./account.model"
 import {PoolOperationType} from "./_poolOperationType"
 
 @Entity_()
@@ -16,6 +16,14 @@ export class OmnipoolAssetOperation {
     id!: string
 
     @Index_()
+    @ManyToOne_(() => OmnipoolAsset, {nullable: true})
+    assetIn!: OmnipoolAsset
+
+    @Index_()
+    @ManyToOne_(() => OmnipoolAsset, {nullable: true})
+    assetOut!: OmnipoolAsset
+
+    @Index_()
     @ManyToOne_(() => Account, {nullable: true})
     account!: Account
 
@@ -23,30 +31,27 @@ export class OmnipoolAssetOperation {
     @StringColumn_({nullable: true})
     extrinsicHash!: string | undefined | null
 
+    @Index_()
     @IntColumn_({nullable: false})
-    assetInId!: number
+    indexInBlock!: number
 
     @BigIntColumn_({nullable: false})
     assetInAmount!: bigint
 
     @BigIntColumn_({nullable: false})
-    assetInFee!: bigint
-
-    @IntColumn_({nullable: false})
-    assetOutId!: number
-
-    @BigIntColumn_({nullable: false})
     assetOutAmount!: bigint
 
     @BigIntColumn_({nullable: false})
-    assetOutFee!: bigint
+    assetFeeAmount!: bigint
 
     @BigIntColumn_({nullable: false})
-    protocolFee!: bigint
+    protocolFeeAmount!: bigint
 
-    @Index_()
-    @ManyToOne_(() => OmnipoolAsset, {nullable: true})
-    omnipoolAsset!: OmnipoolAsset
+    @BigIntColumn_({nullable: false})
+    hubAmountIn!: bigint
+
+    @BigIntColumn_({nullable: false})
+    hubAmountOut!: bigint
 
     @Column_("varchar", {length: 4, nullable: false})
     type!: PoolOperationType

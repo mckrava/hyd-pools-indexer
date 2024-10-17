@@ -60,11 +60,12 @@ export const processor = new SubstrateBatchProcessor()
       success: true,
       error: true,
     },
-  })
-  // .setBlockRange({ from: 3934551 }); // XYK.create_pool
-  // .setBlockRange({ from: 3934590 }); // XYK.buy
-  // .setBlockRange({ from: 3681000 });
-  // .setBlockRange({ from: 4960727 });
+  });
+// .setBlockRange({ from: 3934551 }); // XYK.create_pool
+// .setBlockRange({ from: 3934590 }); // XYK.buy
+// .setBlockRange({ from: 1708100 }); // Omnipool.TokenAdded
+// .setBlockRange({ from: 3681000 });
+// .setBlockRange({ from: 4960727 });
 
 export type Fields = SubstrateBatchProcessorFields<typeof processor>;
 export type Block = BlockHeader<Fields>;

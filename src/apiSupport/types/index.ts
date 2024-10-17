@@ -43,6 +43,31 @@ export type XykPoolHistoricalVolumeGqlResponse = {
   paraChainBlockHeight: number;
 };
 
+export type OmnipoolAssetHistoricalVolumeRaw = {
+  id: string;
+  omnipool_asset_id: string;
+  asset_volume_in: number;
+  asset_total_volume_in: number;
+  asset_volume_out: number;
+  asset_total_volume_out: number;
+  asset_fee: number;
+  asset_total_fees: number;
+  relay_chain_block_height: number;
+  para_chain_block_height: number;
+};
+export type OmnipoolAssetHistoricalVolumeGqlResponse = {
+  id: string;
+  omnipoolAssetId: string;
+  assetVolumeIn: number;
+  assetTotalVolumeIn: number;
+  assetVolumeOut: number;
+  assetTotalVolumeOut: number;
+  assetFee: number;
+  assetTotalFees: number;
+  relayChainBlockHeight: number;
+  paraChainBlockHeight: number;
+};
+
 export interface QueryResolverContext {
   pgClient: Client;
   pgRole: string;

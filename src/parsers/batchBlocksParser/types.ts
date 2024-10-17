@@ -6,10 +6,16 @@ import {
   LbpPoolCreatedEventParams,
   LbpPoolUpdatedEventParams,
   LbpSellExecutedEventParams,
+  OmnipoolBuyExecutedEventParams,
+  OmnipoolSellExecutedEventParams,
+  OmnipoolTokenAddedEventParams,
+  OmnipoolTokenRemovedEventParams,
   RelayChainInfo,
-  TokensTransferEventParams, XykBuyExecutedEventParams,
+  TokensTransferEventParams,
+  XykBuyExecutedEventParams,
   XykPoolCreatedEventParams,
-  XykPoolDestroyedEventParams, XykSellExecutedEventParams,
+  XykPoolDestroyedEventParams,
+  XykSellExecutedEventParams,
 } from '../types/events';
 import { LbpCreatePoolCallArgs, XykCreatePoolCallArgs } from '../types/calls';
 import { BlockHeader } from '@subsquid/substrate-processor';
@@ -32,7 +38,11 @@ export type ParsedEventsCallsData =
   | XykPoolCreatedData
   | XykPoolDestroyedData
   | XykBuyExecutedData
-  | XykSellExecutedData;
+  | XykSellExecutedData
+  | OmnipoolTokenAddedData
+  | OmnipoolTokenRemovedData
+  | OmnipoolBuyExecutedData
+  | OmnipoolSellExecutedData;
 
 export type CallParsedData<T = undefined> = {
   name: string;
@@ -184,3 +194,51 @@ export type XykSellExecutedData = ParsedEventCallData<
 
 export type XykSellExecutedEventParsedData =
   EventParsedData<XykSellExecutedEventParams>;
+
+/**
+ *  ==== Omnipool Token Added ====
+ */
+
+export type OmnipoolTokenAddedData = ParsedEventCallData<
+  OmnipoolTokenAddedEventParsedData,
+  CallParsedData
+>;
+
+export type OmnipoolTokenAddedEventParsedData =
+  EventParsedData<OmnipoolTokenAddedEventParams>;
+
+/**
+ *  ==== Omnipool Token Removed ====
+ */
+
+export type OmnipoolTokenRemovedData = ParsedEventCallData<
+  OmnipoolTokenRemovedEventParsedData,
+  CallParsedData
+>;
+
+export type OmnipoolTokenRemovedEventParsedData =
+  EventParsedData<OmnipoolTokenRemovedEventParams>;
+
+/**
+ *  ==== Omnipool Buy Executed ====
+ */
+
+export type OmnipoolBuyExecutedData = ParsedEventCallData<
+  OmnipoolBuyExecutedEventParsedData,
+  CallParsedData
+>;
+
+export type OmnipoolBuyExecutedEventParsedData =
+  EventParsedData<OmnipoolBuyExecutedEventParams>;
+
+/**
+ *  ==== Omnipool Sell Executed ====
+ */
+
+export type OmnipoolSellExecutedData = ParsedEventCallData<
+  OmnipoolSellExecutedEventParsedData,
+  CallParsedData
+>;
+
+export type OmnipoolSellExecutedEventParsedData =
+  EventParsedData<OmnipoolSellExecutedEventParams>;

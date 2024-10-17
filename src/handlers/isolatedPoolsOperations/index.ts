@@ -12,23 +12,6 @@ import {
   XykSellExecutedData,
 } from '../../parsers/batchBlocksParser/types';
 
-export async function handlePoolOperations(
-  ctx: ProcessorContext<Store>,
-  parsedEvents: BatchBlocksParsedDataManager
-) {
-  if (ctx.appConfig.PROCESS_LBP_POOLS)
-    await handleLbpPoolOperations(ctx, parsedEvents);
-
-  if (ctx.appConfig.PROCESS_XYK_POOLS)
-    await handleXykPoolOperations(ctx, parsedEvents);
-
-  await ctx.store.save([...ctx.batchState.state.xykPoolOperations.values()]);
-  await ctx.store.save([...ctx.batchState.state.lbpPoolOperations.values()]);
-  await ctx.store.save([...ctx.batchState.state.assetVolumes.values()]);
-  await ctx.store.save([...ctx.batchState.state.lbpPoolVolumes.values()]);
-  await ctx.store.save([...ctx.batchState.state.xykPoolVolumes.values()]);
-}
-
 export async function handleXykPoolOperations(
   ctx: ProcessorContext<Store>,
   parsedEvents: BatchBlocksParsedDataManager

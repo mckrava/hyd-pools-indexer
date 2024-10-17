@@ -5,9 +5,14 @@ import { BatchState } from './utils/batchState';
 import { handlePools } from './handlers/pools';
 import { handleTransfers } from './handlers/transfers';
 import { getParsedEventsData } from './parsers/batchBlocksParser';
-import { handlePoolOperations } from './handlers/poolOperations';
 import { AppConfig } from './utils/appConfig';
 import { handlePoolPrices } from './handlers/prices';
+import {
+  handleOmnipoolAssets,
+  handleOmnipoolOperations,
+} from './handlers/omnipool';
+import { ensureOmnipool } from './handlers/omnipool/omnipool';
+import { handleOperations } from './handlers/operations';
 
 processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
   const ctxWithBatchState: Omit<
@@ -24,7 +29,14 @@ processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
 
   await handlePools(ctxWithBatchState as ProcessorContext<Store>, parsedData);
 
-  await handlePoolOperations(
+  await ensureOmnipool(ctxWithBatchState as ProcessorContext<Store>);
+
+  await handleOmnipoolAssets(
+    ctxWithBatchState as ProcessorContext<Store>,
+    parsedData
+  );
+
+  await handleOperations(
     ctxWithBatchState as ProcessorContext<Store>,
     parsedData
   );
