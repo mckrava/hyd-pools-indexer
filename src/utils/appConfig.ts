@@ -88,6 +88,8 @@ export class AppConfig {
     const eventsToListen = [
       events.balances.transfer.name,
       events.tokens.transfer.name,
+      events.assetRegistry.registered.name,
+      events.assetRegistry.updated.name,
     ];
 
     if (this.PROCESS_LBP_POOLS) {

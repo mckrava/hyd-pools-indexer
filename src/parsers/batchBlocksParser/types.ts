@@ -1,5 +1,7 @@
 import { Runtime } from '@subsquid/substrate-runtime';
 import {
+  AssetRegistryRegisteredEventParams,
+  AssetRegistryUpdatedEventParams,
   BalancesTransferEventParams,
   EventName,
   LbpBuyExecutedEventParams,
@@ -23,7 +25,6 @@ import {
   XykSellExecutedEventParams,
 } from '../types/events';
 import { LbpCreatePoolCallArgs, XykCreatePoolCallArgs } from '../types/calls';
-import { BlockHeader } from '@subsquid/substrate-processor';
 import { Block, Extrinsic } from '../../processor';
 
 export type EventId = string;
@@ -32,41 +33,45 @@ export type EventDataType<T> = T extends EventName.Tokens_Transfer
   ? TokensTransferData
   : T extends EventName.Balances_Transfer
     ? BalancesTransferData
-    : T extends EventName.LBP_PoolCreated
-      ? LbpPoolCreatedData
-      : T extends EventName.LBP_PoolUpdated
-        ? LbpPoolUpdatedData
-        : T extends EventName.LBP_BuyExecuted
-          ? LbpBuyExecutedData
-          : T extends EventName.LBP_SellExecuted
-            ? LbpSellExecutedData
-            : T extends EventName.XYK_PoolCreated
-              ? XykPoolCreatedData
-              : T extends EventName.XYK_PoolDestroyed
-                ? XykPoolDestroyedData
-                : T extends EventName.XYK_BuyExecuted
-                  ? XykBuyExecutedData
-                  : T extends EventName.XYK_SellExecuted
-                    ? XykSellExecutedData
-                    : T extends EventName.Omnipool_TokenAdded
-                      ? OmnipoolTokenAddedData
-                      : T extends EventName.Omnipool_TokenRemoved
-                        ? OmnipoolTokenRemovedData
-                        : T extends EventName.Omnipool_BuyExecuted
-                          ? OmnipoolBuyExecutedData
-                          : T extends EventName.Omnipool_SellExecuted
-                            ? OmnipoolSellExecutedData
-                            : T extends EventName.Stableswap_PoolCreated
-                              ? StableswapPoolCreatedData
-                              : T extends EventName.Stableswap_BuyExecuted
-                                ? StableswapBuyExecutedData
-                                : T extends EventName.Stableswap_SellExecuted
-                                  ? StableswapSellExecutedData
-                                  : T extends EventName.Stableswap_LiquidityAdded
-                                    ? StableswapLiquidityAddedData
-                                    : T extends EventName.Stableswap_LiquidityRemoved
-                                      ? StableswapLiquidityRemovedData
-                                      : never;
+    : T extends EventName.AssetRegistry_Registered
+      ? AssetRegistryRegisteredData
+      : T extends EventName.AssetRegistry_Updated
+        ? AssetRegistryUpdatedData
+        : T extends EventName.LBP_PoolCreated
+          ? LbpPoolCreatedData
+          : T extends EventName.LBP_PoolUpdated
+            ? LbpPoolUpdatedData
+            : T extends EventName.LBP_BuyExecuted
+              ? LbpBuyExecutedData
+              : T extends EventName.LBP_SellExecuted
+                ? LbpSellExecutedData
+                : T extends EventName.XYK_PoolCreated
+                  ? XykPoolCreatedData
+                  : T extends EventName.XYK_PoolDestroyed
+                    ? XykPoolDestroyedData
+                    : T extends EventName.XYK_BuyExecuted
+                      ? XykBuyExecutedData
+                      : T extends EventName.XYK_SellExecuted
+                        ? XykSellExecutedData
+                        : T extends EventName.Omnipool_TokenAdded
+                          ? OmnipoolTokenAddedData
+                          : T extends EventName.Omnipool_TokenRemoved
+                            ? OmnipoolTokenRemovedData
+                            : T extends EventName.Omnipool_BuyExecuted
+                              ? OmnipoolBuyExecutedData
+                              : T extends EventName.Omnipool_SellExecuted
+                                ? OmnipoolSellExecutedData
+                                : T extends EventName.Stableswap_PoolCreated
+                                  ? StableswapPoolCreatedData
+                                  : T extends EventName.Stableswap_BuyExecuted
+                                    ? StableswapBuyExecutedData
+                                    : T extends EventName.Stableswap_SellExecuted
+                                      ? StableswapSellExecutedData
+                                      : T extends EventName.Stableswap_LiquidityAdded
+                                        ? StableswapLiquidityAddedData
+                                        : T extends EventName.Stableswap_LiquidityRemoved
+                                          ? StableswapLiquidityRemovedData
+                                          : never;
 
 export type BatchBlocksParsedDataScope = Map<
   EventName,
@@ -92,7 +97,9 @@ export type ParsedEventsCallsData =
   | StableswapBuyExecutedData
   | StableswapSellExecutedData
   | StableswapLiquidityAddedData
-  | StableswapLiquidityRemovedData;
+  | StableswapLiquidityRemovedData
+  | AssetRegistryRegisteredData
+  | AssetRegistryUpdatedData;
 
 export type CallParsedData<T = undefined> = {
   name: string;
@@ -123,6 +130,30 @@ export interface EventMetadata {
   blockHeader: Block;
   extrinsic?: Extrinsic;
 }
+
+/**
+ *  ==== Asset Registry Registered ====
+ */
+
+export type AssetRegistryRegisteredData = ParsedEventCallData<
+  AssetRegistryRegisteredEventParsedData,
+  CallParsedData
+>;
+
+export type AssetRegistryRegisteredEventParsedData =
+  EventParsedData<AssetRegistryRegisteredEventParams>;
+
+/**
+ *  ==== Asset Registry Updated ====
+ */
+
+export type AssetRegistryUpdatedData = ParsedEventCallData<
+  AssetRegistryUpdatedEventParsedData,
+  CallParsedData
+>;
+
+export type AssetRegistryUpdatedEventParsedData =
+  EventParsedData<AssetRegistryUpdatedEventParams>;
 
 /**
  *  ==== LBP Pool Created ====

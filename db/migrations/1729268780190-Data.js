@@ -1,5 +1,5 @@
-module.exports = class Data1729262323672 {
-    name = 'Data1729262323672'
+module.exports = class Data1729268780190 {
+    name = 'Data1729268780190'
 
     async up(db) {
         await db.query(`CREATE TABLE "transfer" ("id" character varying NOT NULL, "para_chain_block_height" integer NOT NULL, "asset_id" integer NOT NULL, "extrinsic_hash" text, "amount" numeric NOT NULL, "tx_fee" numeric NOT NULL, "from_id" character varying, "to_id" character varying, CONSTRAINT "PK_fd9ddbdd49a17afcbe014401295" PRIMARY KEY ("id"))`)
@@ -8,6 +8,7 @@ module.exports = class Data1729262323672 {
         await db.query(`CREATE INDEX "IDX_76bdfed1a7eb27c6d8ecbb7349" ON "transfer" ("from_id") `)
         await db.query(`CREATE INDEX "IDX_0751309c66e97eac9ef1149362" ON "transfer" ("to_id") `)
         await db.query(`CREATE TABLE "account" ("id" character varying NOT NULL, CONSTRAINT "PK_54115ee388cdb6d86bb4bf5b2ea" PRIMARY KEY ("id"))`)
+        await db.query(`CREATE TABLE "asset" ("id" character varying NOT NULL, "asset_type" character varying(10) NOT NULL, "name" text, "symbol" text, "decimals" integer, "xcm_rate_limit" numeric, "is_sufficient" boolean NOT NULL, "existential_deposit" numeric NOT NULL, CONSTRAINT "PK_1209d107fe21482beaea51b745e" PRIMARY KEY ("id"))`)
         await db.query(`CREATE TABLE "lbp_pool_historical_price" ("id" character varying NOT NULL, "asset_a_id" integer NOT NULL, "asset_b_id" integer NOT NULL, "asset_a_balance" numeric NOT NULL, "asset_b_balance" numeric NOT NULL, "relay_chain_block_height" integer NOT NULL, "para_chain_block_height" integer NOT NULL, "pool_id" character varying, CONSTRAINT "PK_56742aff22b17d24532247771df" PRIMARY KEY ("id"))`)
         await db.query(`CREATE INDEX "IDX_948be5d2180de9400ecaa21d03" ON "lbp_pool_historical_price" ("pool_id") `)
         await db.query(`CREATE INDEX "IDX_1bc0c102a97ce1c2150bf12b03" ON "lbp_pool_historical_price" ("para_chain_block_height") `)
@@ -125,6 +126,7 @@ module.exports = class Data1729262323672 {
         await db.query(`DROP INDEX "public"."IDX_76bdfed1a7eb27c6d8ecbb7349"`)
         await db.query(`DROP INDEX "public"."IDX_0751309c66e97eac9ef1149362"`)
         await db.query(`DROP TABLE "account"`)
+        await db.query(`DROP TABLE "asset"`)
         await db.query(`DROP TABLE "lbp_pool_historical_price"`)
         await db.query(`DROP INDEX "public"."IDX_948be5d2180de9400ecaa21d03"`)
         await db.query(`DROP INDEX "public"."IDX_1bc0c102a97ce1c2150bf12b03"`)

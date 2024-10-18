@@ -1,4 +1,6 @@
 export * from "./account.model"
+export * from "./asset.model"
+export * from "./_assetType"
 export * from "./transfer.model"
 export * from "./lbpPool.model"
 export * from "./xykPool.model"

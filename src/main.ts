@@ -14,6 +14,7 @@ import {
 import { ensureOmnipool } from './handlers/omnipool/omnipool';
 import { handleOperations } from './handlers/operations';
 import { handleStablepools } from './handlers/stablepool';
+import { handleAssetRegistry } from './handlers/assets';
 
 processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
   const ctxWithBatchState: Omit<
@@ -26,6 +27,11 @@ processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
 
   const parsedData = getParsedEventsData(
     ctxWithBatchState as ProcessorContext<Store>
+  );
+
+  await handleAssetRegistry(
+    ctxWithBatchState as ProcessorContext<Store>,
+    parsedData
   );
 
   await handlePools(ctxWithBatchState as ProcessorContext<Store>, parsedData);

@@ -1,8 +1,63 @@
 import { BlockHeader } from '@subsquid/substrate-processor';
 import { ProcessorContext } from '../../processor';
 import { Store } from '@subsquid/typeorm-store';
-import { HistoricalAssetVolume, LbpPoolOperation } from '../../model';
+import {
+  Asset,
+  HistoricalAssetVolume,
+  LbpPool,
+  LbpPoolOperation,
+} from '../../model';
 import parsers from '../../parsers';
+import { BatchBlocksParsedDataManager } from '../../parsers/batchBlocksParser';
+import { getOrderedListByBlockNumber } from '../../utils/helpers';
+import { EventName } from '../../parsers/types/events';
+import { assetRegistered, assetUpdated } from './assetRegistry';
+import { In } from 'typeorm';
+
+export async function handleAssetRegistry(
+  ctx: ProcessorContext<Store>,
+  parsedEvents: BatchBlocksParsedDataManager
+) {
+  for (const eventData of getOrderedListByBlockNumber([
+    ...parsedEvents
+      .getSectionByEventName(EventName.AssetRegistry_Registered)
+      .values(),
+  ])) {
+    await assetRegistered(ctx, eventData);
+  }
+
+  const updatedAssetsList = [
+    ...parsedEvents
+      .getSectionByEventName(EventName.AssetRegistry_Updated)
+      .values(),
+  ];
+
+  if (updatedAssetsList.length > 0)
+    ctx.batchState.state = {
+      assetsAllBatch: new Map(
+        (
+          await ctx.store.find(Asset, {
+            where: {
+              id: In(
+                updatedAssetsList.map((asset) => asset.eventData.params.assetId)
+              ),
+            },
+          })
+        ).map((e) => [e.id, e])
+      ),
+    };
+
+  for (const eventData of getOrderedListByBlockNumber(updatedAssetsList)) {
+    await assetUpdated(ctx, eventData);
+  }
+
+  await ctx.store.save(
+    [...ctx.batchState.state.assetsAllBatch.values()].filter((asset) =>
+      ctx.batchState.state.assetIdsToSave.has(asset.id)
+    )
+  );
+  ctx.batchState.state = { assetIdsToSave: new Set() };
+}
 
 export async function getAssetBalance(
   block: BlockHeader,

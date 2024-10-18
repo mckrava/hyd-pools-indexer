@@ -4,6 +4,7 @@ import omnipool from './omnipool';
 import stableswap from './stableswap';
 import balances from './balances';
 import tokens from './tokens';
+import assetRegistry from './assetRegistry';
 
 export default {
   lbp,
@@ -12,4 +13,5 @@ export default {
   stableswap,
   tokens,
   balances,
+  assetRegistry,
 };

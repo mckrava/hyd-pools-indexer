@@ -1,5 +1,5 @@
 import {
-  Account,
+  Account, Asset,
   HistoricalAssetVolume,
   LbpPool,
   LbpPoolHistoricalPrice,
@@ -24,11 +24,15 @@ import {
 } from '../model';
 import { RelayChainInfo } from '../parsers/types/events';
 
+
 export type BatchStatePayload = {
   relayChainInfo: Map<number, RelayChainInfo>;
   accounts: Map<string, Account>;
   transfers: Map<string, Transfer>;
   assetVolumes: Map<string, HistoricalAssetVolume>;
+
+  assetIdsToSave: Set<string>;
+  assetsAllBatch: Map<string, Asset>;
 
   lbpPoolIdsToSave: Set<string>;
   lbpAllBatchPools: Map<string, LbpPool>;
@@ -64,6 +68,9 @@ export class BatchState {
     accounts: new Map(),
     transfers: new Map(),
     assetVolumes: new Map(),
+
+    assetIdsToSave: new Set(),
+    assetsAllBatch: new Map(),
 
     lbpPoolIdsToSave: new Set(),
     lbpAllBatchPools: new Map(),

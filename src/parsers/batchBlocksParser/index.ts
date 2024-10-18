@@ -1,27 +1,8 @@
 import {
   BatchBlocksParsedDataScope,
-  LbpBuyExecutedData,
-  LbpSellExecutedData,
   EventId,
   EventMetadata,
-  LbpPoolCreatedData,
-  LbpPoolUpdatedData,
   ParsedEventsCallsData,
-  TokensTransferData,
-  XykPoolCreatedData,
-  XykPoolDestroyedData,
-  XykBuyExecutedData,
-  XykSellExecutedData,
-  BalancesTransferData,
-  OmnipoolTokenAddedData,
-  OmnipoolTokenRemovedData,
-  OmnipoolBuyExecutedData,
-  OmnipoolSellExecutedData,
-  StableswapPoolCreatedData,
-  StableswapBuyExecutedData,
-  StableswapSellExecutedData,
-  StableswapLiquidityAddedData,
-  StableswapLiquidityRemovedData,
   EventDataType,
 } from './types';
 import { EventName, RelayChainInfo } from '../types/events';
@@ -515,6 +496,44 @@ export function getParsedEventsData(
             parsers.events.balances.parseTransferParams(event);
 
           parsedDataManager.set(EventName.Balances_Transfer, {
+            relayChainInfo,
+            id: eventMetadata.id,
+            eventData: {
+              name: eventMetadata.name,
+              metadata: eventMetadata,
+              params: eventParams,
+            },
+            callData: {
+              ...callMetadata,
+            },
+          });
+          totalEventsNumber++;
+          break;
+        }
+        case events.assetRegistry.registered.name: {
+          const eventParams =
+            parsers.events.assetRegistry.parseRegisteredParams(event);
+
+          parsedDataManager.set(EventName.AssetRegistry_Registered, {
+            relayChainInfo,
+            id: eventMetadata.id,
+            eventData: {
+              name: eventMetadata.name,
+              metadata: eventMetadata,
+              params: eventParams,
+            },
+            callData: {
+              ...callMetadata,
+            },
+          });
+          totalEventsNumber++;
+          break;
+        }
+        case events.assetRegistry.updated.name: {
+          const eventParams =
+            parsers.events.assetRegistry.parseUpdatedParams(event);
+
+          parsedDataManager.set(EventName.AssetRegistry_Updated, {
             relayChainInfo,
             id: eventMetadata.id,
             eventData: {

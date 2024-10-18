@@ -1,6 +1,4 @@
-import { sts } from '../../typegenTypes/support';
-import { ExtraFlags } from '../../typegenTypes/v205';
-import { Tradability } from '../../typegenTypes/v115';
+import { AssetType } from '../../model';
 
 export interface AccountData {
   free: bigint;
@@ -34,4 +32,14 @@ export interface OmnipoolAssetData {
   protocolShares: bigint;
   cap: bigint;
   tradable: OmnipoolAssetTradability;
+}
+
+export interface AssetDetails {
+  assetType: AssetType;
+  existentialDeposit: bigint;
+  isSufficient: boolean;
+  name?: string;
+  symbol?: string;
+  decimals?: number;
+  xcmRateLimit?: bigint;
 }

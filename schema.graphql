@@ -13,11 +13,31 @@ enum LiquidityActionType {
   REMOVE
 }
 
+enum AssetType {
+  Bond
+  External
+  StableSwap
+  Token
+  XYK
+}
+
 type Account @entity {
   "Account pubkey"
   id: ID!
   transfersTo: [Transfer!] @derivedFrom(field: "to")
   transfersFrom: [Transfer!] @derivedFrom(field: "from")
+}
+
+type Asset @entity {
+  "Asset ID"
+  id: ID!
+  assetType: AssetType!
+  name: String
+  symbol: String
+  decimals: Int
+  xcmRateLimit: BigInt
+  isSufficient: Boolean!
+  existentialDeposit: BigInt!
 }
 
 type Transfer @entity {

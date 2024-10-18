@@ -2,6 +2,8 @@ import { PoolData } from './common';
 import { events } from '../../typegenTypes';
 import { sts } from '../../typegenTypes/support';
 import * as v183 from '../../typegenTypes/v183';
+import * as v222 from '../../typegenTypes/v222';
+import { AssetType } from '../../model';
 
 export const EventNameConst = {
   [events.lbp.poolCreated.name]: events.lbp.poolCreated.name,
@@ -10,6 +12,9 @@ export const EventNameConst = {
 export enum EventName {
   'Balances_Transfer' = 'Balances.Transfer',
   'Tokens_Transfer' = 'Tokens.Transfer',
+
+  'AssetRegistry_Registered' = 'AssetRegistry.Registered',
+  'AssetRegistry_Updated' = 'AssetRegistry.Updated',
 
   'LBP_PoolCreated' = 'LBP.PoolCreated',
   'LBP_PoolUpdated' = 'LBP.PoolUpdated',
@@ -201,4 +206,27 @@ export type StableswapSellExecutedEventParams = {
   amountIn: bigint;
   amountOut: bigint;
   fee: bigint;
+};
+
+
+export type AssetRegistryRegisteredEventParams = {
+  assetId: number;
+  assetName?: string;
+  assetType: AssetType;
+  existentialDeposit: bigint;
+  xcmRateLimit?: bigint;
+  symbol?: string;
+  decimals?: number;
+  isSufficient: boolean;
+};
+
+export type AssetRegistryUpdatedEventParams = {
+  assetId: number;
+  assetName?: string;
+  assetType: AssetType;
+  existentialDeposit: bigint;
+  xcmRateLimit?: bigint;
+  symbol?: string;
+  decimals?: number;
+  isSufficient: boolean;
 };
