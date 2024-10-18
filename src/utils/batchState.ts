@@ -9,6 +9,13 @@ import {
   OmnipoolAsset,
   OmnipoolAssetHistoricalVolume,
   OmnipoolAssetOperation,
+  Stablepool,
+  StablepoolAsset,
+  StablepoolAssetHistoricalVolume,
+  StablepoolAssetLiquidityAmount,
+  StablepoolHistoricalVolume,
+  StablepoolLiquidityAction,
+  StablepoolOperation,
   Transfer,
   XykPool,
   XykPoolHistoricalPrice,
@@ -24,16 +31,12 @@ export type BatchStatePayload = {
   assetVolumes: Map<string, HistoricalAssetVolume>;
 
   lbpPoolIdsToSave: Set<string>;
-  lbpNewPools: LbpPool[];
-  lbpExistingPools: Map<string, LbpPool>;
   lbpAllBatchPools: Map<string, LbpPool>;
   lbpPoolOperations: LbpPoolOperation[];
   lbpPoolVolumes: Map<string, LbpPoolHistoricalVolume>;
   lbpPoolHistoricalPrices: Map<string, LbpPoolHistoricalPrice>;
 
   xykPoolIdsToSave: Set<string>;
-  xykNewPools: XykPool[];
-  xykExistingPools: Map<string, XykPool>;
   xykAllBatchPools: Map<string, XykPool>;
   xykPoolOperations: XykPoolOperation[];
   xykPoolVolumes: Map<string, XykPoolHistoricalVolume>;
@@ -44,6 +47,15 @@ export type BatchStatePayload = {
   omnipoolAssetIdsToSave: Set<string>;
   omnipoolAssetOperations: OmnipoolAssetOperation[];
   omnipoolAssetVolumes: Map<string, OmnipoolAssetHistoricalVolume>;
+
+  stablepoolIdsToSave: Set<string>;
+  stablepoolAssetsAllBatch: Map<number, StablepoolAsset>;
+  stablepoolAllBatchPools: Map<string, Stablepool>;
+  stablepoolOperations: StablepoolOperation[];
+  stablepoolAssetVolumes: Map<string, StablepoolAssetHistoricalVolume>;
+  stablepoolVolumes: Map<string, StablepoolHistoricalVolume>;
+  stablepoolAssetLiquidityAmount: Map<string, StablepoolAssetLiquidityAmount>;
+  stablepoolLiquidityActions: Map<string, StablepoolLiquidityAction>;
 };
 
 export class BatchState {
@@ -54,16 +66,12 @@ export class BatchState {
     assetVolumes: new Map(),
 
     lbpPoolIdsToSave: new Set(),
-    lbpNewPools: [],
-    lbpExistingPools: new Map(),
     lbpAllBatchPools: new Map(),
     lbpPoolOperations: [],
     lbpPoolVolumes: new Map(),
     lbpPoolHistoricalPrices: new Map(),
 
     xykPoolIdsToSave: new Set(),
-    xykNewPools: [],
-    xykExistingPools: new Map(),
     xykAllBatchPools: new Map(),
     xykPoolOperations: [],
     xykPoolVolumes: new Map(),
@@ -74,6 +82,15 @@ export class BatchState {
     omnipoolAssetIdsToSave: new Set(),
     omnipoolAssetOperations: [],
     omnipoolAssetVolumes: new Map(),
+
+    stablepoolIdsToSave: new Set(),
+    stablepoolAllBatchPools: new Map(),
+    stablepoolAssetsAllBatch: new Map(),
+    stablepoolOperations: [],
+    stablepoolAssetVolumes: new Map(),
+    stablepoolVolumes: new Map(),
+    stablepoolAssetLiquidityAmount: new Map(),
+    stablepoolLiquidityActions: new Map(),
   };
 
   get state(): BatchStatePayload {

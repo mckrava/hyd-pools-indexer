@@ -2,7 +2,7 @@ import { TypeormDatabase, Store } from '@subsquid/typeorm-store';
 
 import { processor, ProcessorContext } from './processor';
 import { BatchState } from './utils/batchState';
-import { handlePools } from './handlers/pools';
+import { handlePools } from './handlers/isolatedPool';
 import { handleTransfers } from './handlers/transfers';
 import { getParsedEventsData } from './parsers/batchBlocksParser';
 import { AppConfig } from './utils/appConfig';
@@ -13,6 +13,7 @@ import {
 } from './handlers/omnipool';
 import { ensureOmnipool } from './handlers/omnipool/omnipool';
 import { handleOperations } from './handlers/operations';
+import { handleStablepools } from './handlers/stablepool';
 
 processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
   const ctxWithBatchState: Omit<
@@ -30,8 +31,12 @@ processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
   await handlePools(ctxWithBatchState as ProcessorContext<Store>, parsedData);
 
   await ensureOmnipool(ctxWithBatchState as ProcessorContext<Store>);
-
   await handleOmnipoolAssets(
+    ctxWithBatchState as ProcessorContext<Store>,
+    parsedData
+  );
+
+  await handleStablepools(
     ctxWithBatchState as ProcessorContext<Store>,
     parsedData
   );

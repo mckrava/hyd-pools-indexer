@@ -1,8 +1,7 @@
 import { PoolData } from './common';
 import { events } from '../../typegenTypes';
 import { sts } from '../../typegenTypes/support';
-import * as v115 from '../../typegenTypes/v115';
-import * as v201 from '../../typegenTypes/v201';
+import * as v183 from '../../typegenTypes/v183';
 
 export const EventNameConst = {
   [events.lbp.poolCreated.name]: events.lbp.poolCreated.name,
@@ -26,6 +25,12 @@ export enum EventName {
   'Omnipool_TokenRemoved' = 'Omnipool.TokenRemoved',
   'Omnipool_BuyExecuted' = 'Omnipool.BuyExecuted',
   'Omnipool_SellExecuted' = 'Omnipool.SellExecuted',
+
+  'Stableswap_PoolCreated' = 'Stableswap.PoolCreated',
+  'Stableswap_BuyExecuted' = 'Stableswap.BuyExecuted',
+  'Stableswap_SellExecuted' = 'Stableswap.SellExecuted',
+  'Stableswap_LiquidityAdded' = 'Stableswap.LiquidityAdded',
+  'Stableswap_LiquidityRemoved' = 'Stableswap.LiquidityRemoved',
 }
 
 export type RelayChainInfo = {
@@ -149,4 +154,51 @@ export type OmnipoolSellExecutedEventParams = {
   hubAmountOut: bigint;
   assetFeeAmount: bigint;
   protocolFeeAmount: bigint;
+};
+
+export type StableswapPoolCreatedEventParams = {
+  poolId: number;
+  assets: number[];
+  amplification: number;
+  fee: number;
+};
+
+export type StableswapAssetAmount = {
+  assetId: number;
+  amount: bigint;
+};
+
+export type StableswapLiquidityAddedEventParams = {
+  poolId: number;
+  who: string;
+  shares: bigint;
+  assets: StableswapAssetAmount[];
+};
+
+export type StableswapLiquidityRemovedEventParams = {
+  poolId: number;
+  who: string;
+  shares: bigint;
+  amounts: StableswapAssetAmount[];
+  fee: bigint;
+};
+
+export type StableswapBuyExecutedEventParams = {
+  who: string;
+  poolId: number;
+  assetIn: number;
+  assetOut: number;
+  amountIn: bigint;
+  amountOut: bigint;
+  fee: bigint;
+};
+
+export type StableswapSellExecutedEventParams = {
+  who: string;
+  poolId: number;
+  assetIn: number;
+  assetOut: number;
+  amountIn: bigint;
+  amountOut: bigint;
+  fee: bigint;
 };

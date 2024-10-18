@@ -10,6 +10,7 @@
     "postbuild": "cpx 'src/**/*.sql' lib"
   },
   "dependencies": {
+    "@galacticcouncil/sdk": "^4.2.1",
     "@graphile-contrib/pg-simplify-inflector": "^6.1.0",
     "@graphile/pg-aggregates": "^0.1.1",
     "@graphile/pg-pubsub": "^4.13.0",
@@ -35,6 +36,21 @@
     "typeorm": "^0.3.20"
   },
   "devDependencies": {
+    "@polkadot/api": "^12.1.1",
+    "@polkadot/api-augment": "^12.1.1",
+    "@polkadot/api-base": "^12.1.1",
+    "@polkadot/api-derive": "^12.1.1",
+    "@polkadot/keyring": "^12.6.2",
+    "@polkadot/rpc-augment": "^12.1.1",
+    "@polkadot/rpc-core": "^12.1.1",
+    "@polkadot/rpc-provider": "^12.1.1",
+    "@polkadot/types": "^12.1.1",
+    "@polkadot/types-augment": "^12.1.1",
+    "@polkadot/types-codec": "^12.1.1",
+    "@polkadot/types-create": "^12.1.1",
+    "@polkadot/types-known": "^12.1.1",
+    "@polkadot/util": "^12.6.2",
+    "@polkadot/util-crypto": "^12.6.2",
     "@subsquid/substrate-metadata-explorer": "^3.1.2",
     "@subsquid/substrate-typegen": "^8.1.0",
     "@subsquid/typeorm-codegen": "^2.0.0",

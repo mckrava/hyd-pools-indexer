@@ -55,6 +55,10 @@ export class AppConfig {
   @IsNotEmpty()
   readonly PROCESS_OMNIPOOLS!: boolean;
 
+  @Transform(({ value }: { value: string }) => value === 'true')
+  @IsNotEmpty()
+  readonly PROCESS_STABLEPOOLS!: boolean;
+
   @IsNotEmpty()
   @IsString()
   readonly OMNIPOOL_ADDRESS!: string;
@@ -113,6 +117,17 @@ export class AppConfig {
           events.omnipool.tokenRemoved.name,
           events.omnipool.buyExecuted.name,
           events.omnipool.sellExecuted.name,
+        ]
+      );
+    }
+    if (this.PROCESS_STABLEPOOLS) {
+      eventsToListen.push(
+        ...[
+          events.stableswap.poolCreated.name,
+          events.stableswap.liquidityAdded.name,
+          events.stableswap.liquidityRemoved.name,
+          events.stableswap.buyExecuted.name,
+          events.stableswap.sellExecuted.name,
         ]
       );
     }

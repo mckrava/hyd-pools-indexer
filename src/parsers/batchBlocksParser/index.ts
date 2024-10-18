@@ -17,42 +17,18 @@ import {
   OmnipoolTokenRemovedData,
   OmnipoolBuyExecutedData,
   OmnipoolSellExecutedData,
+  StableswapPoolCreatedData,
+  StableswapBuyExecutedData,
+  StableswapSellExecutedData,
+  StableswapLiquidityAddedData,
+  StableswapLiquidityRemovedData,
+  EventDataType,
 } from './types';
 import { EventName, RelayChainInfo } from '../types/events';
 import { Block, Event, Extrinsic, ProcessorContext } from '../../processor';
 import { Store } from '@subsquid/typeorm-store';
 import parsers from '../';
 import { calls, events } from '../../typegenTypes';
-
-type EventDataType<T> = T extends EventName.Tokens_Transfer
-  ? TokensTransferData
-  : T extends EventName.Balances_Transfer
-    ? BalancesTransferData
-    : T extends EventName.LBP_PoolCreated
-      ? LbpPoolCreatedData
-      : T extends EventName.LBP_PoolUpdated
-        ? LbpPoolUpdatedData
-        : T extends EventName.LBP_BuyExecuted
-          ? LbpBuyExecutedData
-          : T extends EventName.LBP_SellExecuted
-            ? LbpSellExecutedData
-            : T extends EventName.XYK_PoolCreated
-              ? XykPoolCreatedData
-              : T extends EventName.XYK_PoolDestroyed
-                ? XykPoolDestroyedData
-                : T extends EventName.XYK_BuyExecuted
-                  ? XykBuyExecutedData
-                  : T extends EventName.XYK_SellExecuted
-                    ? XykSellExecutedData
-                    : T extends EventName.Omnipool_TokenAdded
-                      ? OmnipoolTokenAddedData
-                      : T extends EventName.Omnipool_TokenRemoved
-                        ? OmnipoolTokenRemovedData
-                        : T extends EventName.Omnipool_BuyExecuted
-                          ? OmnipoolBuyExecutedData
-                          : T extends EventName.Omnipool_SellExecuted
-                            ? OmnipoolSellExecutedData
-                            : never;
 
 export class BatchBlocksParsedDataManager {
   private scope: BatchBlocksParsedDataScope;
@@ -351,7 +327,6 @@ export function getParsedEventsData(
           totalEventsNumber++;
           break;
         }
-
         case events.omnipool.tokenRemoved.name: {
           const eventParams =
             parsers.events.omnipool.parseTokenRemovedParams(event);
@@ -371,7 +346,6 @@ export function getParsedEventsData(
           totalEventsNumber++;
           break;
         }
-
         case events.omnipool.buyExecuted.name: {
           const eventParams =
             parsers.events.omnipool.parseBuyExecutedParams(event);
@@ -391,12 +365,115 @@ export function getParsedEventsData(
           totalEventsNumber++;
           break;
         }
-
         case events.omnipool.sellExecuted.name: {
           const eventParams =
             parsers.events.omnipool.parseSellExecutedParams(event);
 
           parsedDataManager.set(EventName.Omnipool_SellExecuted, {
+            relayChainInfo,
+            id: eventMetadata.id,
+            eventData: {
+              name: eventMetadata.name,
+              metadata: eventMetadata,
+              params: eventParams,
+            },
+            callData: {
+              ...callMetadata,
+            },
+          });
+          totalEventsNumber++;
+          break;
+        }
+
+        /**
+         * ==== Stableswap ====
+         */
+
+        case events.stableswap.poolCreated.name: {
+          const eventParams =
+            parsers.events.stableswap.parsePoolCreatedParams(event);
+
+          parsedDataManager.set(EventName.Stableswap_PoolCreated, {
+            relayChainInfo,
+            id: eventMetadata.id,
+            eventData: {
+              name: eventMetadata.name,
+              metadata: eventMetadata,
+              params: eventParams,
+            },
+            callData: {
+              ...callMetadata,
+            },
+          });
+          totalEventsNumber++;
+          break;
+        }
+
+        case events.stableswap.buyExecuted.name: {
+          const eventParams =
+            parsers.events.stableswap.parseBuyExecutedParams(event);
+
+          parsedDataManager.set(EventName.Stableswap_BuyExecuted, {
+            relayChainInfo,
+            id: eventMetadata.id,
+            eventData: {
+              name: eventMetadata.name,
+              metadata: eventMetadata,
+              params: eventParams,
+            },
+            callData: {
+              ...callMetadata,
+            },
+          });
+          totalEventsNumber++;
+          break;
+        }
+
+        case events.stableswap.sellExecuted.name: {
+          const eventParams =
+            parsers.events.stableswap.parseSellExecutedParams(event);
+
+          parsedDataManager.set(EventName.Stableswap_SellExecuted, {
+            relayChainInfo,
+            id: eventMetadata.id,
+            eventData: {
+              name: eventMetadata.name,
+              metadata: eventMetadata,
+              params: eventParams,
+            },
+            callData: {
+              ...callMetadata,
+            },
+          });
+          totalEventsNumber++;
+          break;
+        }
+
+        case events.stableswap.liquidityAdded.name: {
+          const eventParams =
+            parsers.events.stableswap.parseLiquidityAddedParams(event);
+
+          parsedDataManager.set(EventName.Stableswap_LiquidityAdded, {
+            relayChainInfo,
+            id: eventMetadata.id,
+            eventData: {
+              name: eventMetadata.name,
+              metadata: eventMetadata,
+              params: eventParams,
+            },
+            callData: {
+              ...callMetadata,
+            },
+          });
+          totalEventsNumber++;
+          break;
+        }
+
+        case events.stableswap.liquidityRemoved.name: {
+          const eventParams =
+            parsers.events.stableswap.parseLiquidityRemovedParams(event);
+
+          parsedDataManager.set(EventName.Stableswap_LiquidityRemoved, {
             relayChainInfo,
             id: eventMetadata.id,
             eventData: {

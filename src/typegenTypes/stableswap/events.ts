@@ -17,6 +17,22 @@ export const poolCreated =  {
     ),
 }
 
+export const liquidityAdded =  {
+    name: 'Stableswap.LiquidityAdded',
+    /**
+     * Liquidity of an asset was added to a pool.
+     */
+    v183: new EventType(
+        'Stableswap.LiquidityAdded',
+        sts.struct({
+            poolId: sts.number(),
+            who: v183.AccountId32,
+            shares: sts.bigint(),
+            assets: sts.array(() => v183.AssetAmount),
+        })
+    ),
+}
+
 export const liquidityRemoved =  {
     name: 'Stableswap.LiquidityRemoved',
     /**

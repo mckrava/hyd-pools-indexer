@@ -11,6 +11,11 @@ import {
   OmnipoolTokenAddedEventParams,
   OmnipoolTokenRemovedEventParams,
   RelayChainInfo,
+  StableswapBuyExecutedEventParams,
+  StableswapLiquidityAddedEventParams,
+  StableswapLiquidityRemovedEventParams,
+  StableswapPoolCreatedEventParams,
+  StableswapSellExecutedEventParams,
   TokensTransferEventParams,
   XykBuyExecutedEventParams,
   XykPoolCreatedEventParams,
@@ -22,6 +27,46 @@ import { BlockHeader } from '@subsquid/substrate-processor';
 import { Block, Extrinsic } from '../../processor';
 
 export type EventId = string;
+
+export type EventDataType<T> = T extends EventName.Tokens_Transfer
+  ? TokensTransferData
+  : T extends EventName.Balances_Transfer
+    ? BalancesTransferData
+    : T extends EventName.LBP_PoolCreated
+      ? LbpPoolCreatedData
+      : T extends EventName.LBP_PoolUpdated
+        ? LbpPoolUpdatedData
+        : T extends EventName.LBP_BuyExecuted
+          ? LbpBuyExecutedData
+          : T extends EventName.LBP_SellExecuted
+            ? LbpSellExecutedData
+            : T extends EventName.XYK_PoolCreated
+              ? XykPoolCreatedData
+              : T extends EventName.XYK_PoolDestroyed
+                ? XykPoolDestroyedData
+                : T extends EventName.XYK_BuyExecuted
+                  ? XykBuyExecutedData
+                  : T extends EventName.XYK_SellExecuted
+                    ? XykSellExecutedData
+                    : T extends EventName.Omnipool_TokenAdded
+                      ? OmnipoolTokenAddedData
+                      : T extends EventName.Omnipool_TokenRemoved
+                        ? OmnipoolTokenRemovedData
+                        : T extends EventName.Omnipool_BuyExecuted
+                          ? OmnipoolBuyExecutedData
+                          : T extends EventName.Omnipool_SellExecuted
+                            ? OmnipoolSellExecutedData
+                            : T extends EventName.Stableswap_PoolCreated
+                              ? StableswapPoolCreatedData
+                              : T extends EventName.Stableswap_BuyExecuted
+                                ? StableswapBuyExecutedData
+                                : T extends EventName.Stableswap_SellExecuted
+                                  ? StableswapSellExecutedData
+                                  : T extends EventName.Stableswap_LiquidityAdded
+                                    ? StableswapLiquidityAddedData
+                                    : T extends EventName.Stableswap_LiquidityRemoved
+                                      ? StableswapLiquidityRemovedData
+                                      : never;
 
 export type BatchBlocksParsedDataScope = Map<
   EventName,
@@ -42,7 +87,12 @@ export type ParsedEventsCallsData =
   | OmnipoolTokenAddedData
   | OmnipoolTokenRemovedData
   | OmnipoolBuyExecutedData
-  | OmnipoolSellExecutedData;
+  | OmnipoolSellExecutedData
+  | StableswapPoolCreatedData
+  | StableswapBuyExecutedData
+  | StableswapSellExecutedData
+  | StableswapLiquidityAddedData
+  | StableswapLiquidityRemovedData;
 
 export type CallParsedData<T = undefined> = {
   name: string;
@@ -242,3 +292,63 @@ export type OmnipoolSellExecutedData = ParsedEventCallData<
 
 export type OmnipoolSellExecutedEventParsedData =
   EventParsedData<OmnipoolSellExecutedEventParams>;
+
+/**
+ *  ==== Stableswap Pool Created ====
+ */
+
+export type StableswapPoolCreatedData = ParsedEventCallData<
+  StableswapPoolCreatedEventParsedData,
+  CallParsedData
+>;
+
+export type StableswapPoolCreatedEventParsedData =
+  EventParsedData<StableswapPoolCreatedEventParams>;
+
+/**
+ *  ==== Stableswap Buy Executed ====
+ */
+
+export type StableswapBuyExecutedData = ParsedEventCallData<
+  StableswapBuyExecutedEventParsedData,
+  CallParsedData
+>;
+
+export type StableswapBuyExecutedEventParsedData =
+  EventParsedData<StableswapBuyExecutedEventParams>;
+
+/**
+ *  ==== Stableswap Sell Executed ====
+ */
+
+export type StableswapSellExecutedData = ParsedEventCallData<
+  StableswapSellExecutedEventParsedData,
+  CallParsedData
+>;
+
+export type StableswapSellExecutedEventParsedData =
+  EventParsedData<StableswapSellExecutedEventParams>;
+
+/**
+ *  ==== Stableswap Liquidity Added ====
+ */
+
+export type StableswapLiquidityAddedData = ParsedEventCallData<
+  StableswapLiquidityAddedEventParsedData,
+  CallParsedData
+>;
+
+export type StableswapLiquidityAddedEventParsedData =
+  EventParsedData<StableswapLiquidityAddedEventParams>;
+
+/**
+ *  ==== Stableswap Liquidity Removed ====
+ */
+
+export type StableswapLiquidityRemovedData = ParsedEventCallData<
+  StableswapLiquidityRemovedEventParsedData,
+  CallParsedData
+>;
+
+export type StableswapLiquidityRemovedEventParsedData =
+  EventParsedData<StableswapLiquidityRemovedEventParams>;

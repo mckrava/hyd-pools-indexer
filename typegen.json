@@ -29,6 +29,7 @@
         "PoolCreated",
         "SellExecuted",
         "BuyExecuted",
+        "LiquidityAdded",
         "LiquidityRemoved"
       ],
       "calls": []
