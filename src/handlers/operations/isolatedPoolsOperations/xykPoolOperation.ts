@@ -1,13 +1,13 @@
-import { PoolOperationType } from '../../model';
-import { ProcessorContext } from '../../processor';
+import { PoolOperationType } from '../../../model';
+import { ProcessorContext } from '../../../processor';
 import { Store } from '@subsquid/typeorm-store';
 import {
   XykBuyExecutedData,
   XykSellExecutedData,
-} from '../../parsers/batchBlocksParser/types';
-import { getAccount } from '../accounts';
-import { handleXykPoolVolumeUpdates } from '../volumes';
-import { handleAssetVolumeUpdates } from '../assets/volume';
+} from '../../../parsers/batchBlocksParser/types';
+import { getAccount } from '../../accounts';
+import { handleXykPoolVolumeUpdates } from '../../volumes';
+import { handleAssetVolumeUpdates } from '../../assets/volume';
 import { initXykPoolOperation } from './common';
 
 export async function xykBuyExecuted(

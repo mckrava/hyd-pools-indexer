@@ -1,5 +1,6 @@
-import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, ManyToOne as ManyToOne_, Index as Index_, IntColumn as IntColumn_, BigIntColumn as BigIntColumn_, StringColumn as StringColumn_} from "@subsquid/typeorm-store"
+import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, ManyToOne as ManyToOne_, Index as Index_, BigIntColumn as BigIntColumn_, StringColumn as StringColumn_, IntColumn as IntColumn_} from "@subsquid/typeorm-store"
 import {Account} from "./account.model"
+import {Asset} from "./asset.model"
 import {Stablepool} from "./stablepool.model"
 import {PoolOperationType} from "./_poolOperationType"
 
@@ -19,20 +20,22 @@ export class StablepoolOperation {
     @ManyToOne_(() => Account, {nullable: true})
     account!: Account
 
-    @IntColumn_({nullable: false})
-    assetInId!: number
+    @Index_()
+    @ManyToOne_(() => Asset, {nullable: true})
+    assetIn!: Asset
 
     @BigIntColumn_({nullable: false})
     assetInAmount!: bigint
 
-    @IntColumn_({nullable: false})
-    assetOutId!: number
+    @Index_()
+    @ManyToOne_(() => Asset, {nullable: true})
+    assetOut!: Asset
 
     @BigIntColumn_({nullable: false})
     assetOutAmount!: bigint
 
     @BigIntColumn_({nullable: false})
-    assetFee!: bigint
+    assetFeeAmount!: bigint
 
     @Index_()
     @ManyToOne_(() => Stablepool, {nullable: true})

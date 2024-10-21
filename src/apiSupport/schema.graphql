@@ -14545,217 +14545,164 @@ type StablepoolAssetsConnection {
 
 type StablepoolAsset {
   id: String!
-  assetId: Int!
   amount: BigFloat!
   poolId: String
+  assetId: String
 
   """Reads a single `Stablepool` that is related to this `StablepoolAsset`."""
   pool: Stablepool
+
+  """Reads a single `Asset` that is related to this `StablepoolAsset`."""
+  asset: Asset
 }
 
-"""A `StablepoolAsset` edge in the connection."""
-type StablepoolAssetsEdge {
-  """A cursor for use in pagination."""
-  cursor: Cursor
+type Asset {
+  id: String!
+  assetType: String!
+  name: String
+  symbol: String
+  decimals: Int
+  xcmRateLimit: BigFloat
+  isSufficient: Boolean!
+  existentialDeposit: BigFloat!
 
-  """The `StablepoolAsset` at the end of the edge."""
-  node: StablepoolAsset
-}
+  """Reads and enables pagination through a set of `StablepoolAsset`."""
+  stablepoolAssets(
+    """Only read the first `n` values of the set."""
+    first: Int
 
-type StablepoolAssetAggregates {
-  keys: [String!]
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `StablepoolAsset`."""
+    orderBy: [StablepoolAssetsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: StablepoolAssetCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: StablepoolAssetFilter
+  ): StablepoolAssetsConnection!
 
   """
-  Sum aggregates across the matching connection (ignoring before/after/first/last/offset)
+  Reads and enables pagination through a set of `StablepoolAssetHistoricalVolume`.
   """
-  sum: StablepoolAssetSumAggregates
+  stablepoolAssetHistoricalVolumes(
+    """Only read the first `n` values of the set."""
+    first: Int
 
-  """
-  Distinct count aggregates across the matching connection (ignoring before/after/first/last/offset)
-  """
-  distinctCount: StablepoolAssetDistinctCountAggregates
+    """Only read the last `n` values of the set."""
+    last: Int
 
-  """
-  Minimum aggregates across the matching connection (ignoring before/after/first/last/offset)
-  """
-  min: StablepoolAssetMinAggregates
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
 
-  """
-  Maximum aggregates across the matching connection (ignoring before/after/first/last/offset)
-  """
-  max: StablepoolAssetMaxAggregates
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
 
-  """
-  Mean average aggregates across the matching connection (ignoring before/after/first/last/offset)
-  """
-  average: StablepoolAssetAverageAggregates
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
 
-  """
-  Sample standard deviation aggregates across the matching connection (ignoring before/after/first/last/offset)
-  """
-  stddevSample: StablepoolAssetStddevSampleAggregates
+    """The method to use when ordering `StablepoolAssetHistoricalVolume`."""
+    orderBy: [StablepoolAssetHistoricalVolumesOrderBy!] = [PRIMARY_KEY_ASC]
 
-  """
-  Population standard deviation aggregates across the matching connection (ignoring before/after/first/last/offset)
-  """
-  stddevPopulation: StablepoolAssetStddevPopulationAggregates
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: StablepoolAssetHistoricalVolumeCondition
 
-  """
-  Sample variance aggregates across the matching connection (ignoring before/after/first/last/offset)
-  """
-  varianceSample: StablepoolAssetVarianceSampleAggregates
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: StablepoolAssetHistoricalVolumeFilter
+  ): StablepoolAssetHistoricalVolumesConnection!
 
-  """
-  Population variance aggregates across the matching connection (ignoring before/after/first/last/offset)
-  """
-  variancePopulation: StablepoolAssetVariancePopulationAggregates
-}
+  """Reads and enables pagination through a set of `StablepoolOperation`."""
+  stablepoolOperationsByAssetInId(
+    """Only read the first `n` values of the set."""
+    first: Int
 
-type StablepoolAssetSumAggregates {
-  """Sum of assetId across the matching connection"""
-  assetId: BigInt!
+    """Only read the last `n` values of the set."""
+    last: Int
 
-  """Sum of amount across the matching connection"""
-  amount: BigFloat!
-}
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
 
-type StablepoolAssetDistinctCountAggregates {
-  """Distinct count of id across the matching connection"""
-  id: BigInt
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
 
-  """Distinct count of assetId across the matching connection"""
-  assetId: BigInt
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
 
-  """Distinct count of amount across the matching connection"""
-  amount: BigInt
+    """The method to use when ordering `StablepoolOperation`."""
+    orderBy: [StablepoolOperationsOrderBy!] = [PRIMARY_KEY_ASC]
 
-  """Distinct count of poolId across the matching connection"""
-  poolId: BigInt
-}
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: StablepoolOperationCondition
 
-type StablepoolAssetMinAggregates {
-  """Minimum of assetId across the matching connection"""
-  assetId: Int
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: StablepoolOperationFilter
+  ): StablepoolOperationsConnection!
 
-  """Minimum of amount across the matching connection"""
-  amount: BigFloat
-}
+  """Reads and enables pagination through a set of `StablepoolOperation`."""
+  stablepoolOperationsByAssetOutId(
+    """Only read the first `n` values of the set."""
+    first: Int
 
-type StablepoolAssetMaxAggregates {
-  """Maximum of assetId across the matching connection"""
-  assetId: Int
+    """Only read the last `n` values of the set."""
+    last: Int
 
-  """Maximum of amount across the matching connection"""
-  amount: BigFloat
-}
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
 
-type StablepoolAssetAverageAggregates {
-  """Mean average of assetId across the matching connection"""
-  assetId: BigFloat
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
 
-  """Mean average of amount across the matching connection"""
-  amount: BigFloat
-}
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
 
-type StablepoolAssetStddevSampleAggregates {
-  """Sample standard deviation of assetId across the matching connection"""
-  assetId: BigFloat
+    """The method to use when ordering `StablepoolOperation`."""
+    orderBy: [StablepoolOperationsOrderBy!] = [PRIMARY_KEY_ASC]
 
-  """Sample standard deviation of amount across the matching connection"""
-  amount: BigFloat
-}
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: StablepoolOperationCondition
 
-type StablepoolAssetStddevPopulationAggregates {
-  """
-  Population standard deviation of assetId across the matching connection
-  """
-  assetId: BigFloat
-
-  """Population standard deviation of amount across the matching connection"""
-  amount: BigFloat
-}
-
-type StablepoolAssetVarianceSampleAggregates {
-  """Sample variance of assetId across the matching connection"""
-  assetId: BigFloat
-
-  """Sample variance of amount across the matching connection"""
-  amount: BigFloat
-}
-
-type StablepoolAssetVariancePopulationAggregates {
-  """Population variance of assetId across the matching connection"""
-  assetId: BigFloat
-
-  """Population variance of amount across the matching connection"""
-  amount: BigFloat
-}
-
-"""Grouping methods for `StablepoolAsset` for usage during aggregation."""
-enum StablepoolAssetGroupBy {
-  ASSET_ID
-  AMOUNT
-  POOL_ID
-}
-
-"""Conditions for `StablepoolAsset` aggregates."""
-input StablepoolAssetHavingInput {
-  AND: [StablepoolAssetHavingInput!]
-  OR: [StablepoolAssetHavingInput!]
-  sum: StablepoolAssetHavingSumInput
-  distinctCount: StablepoolAssetHavingDistinctCountInput
-  min: StablepoolAssetHavingMinInput
-  max: StablepoolAssetHavingMaxInput
-  average: StablepoolAssetHavingAverageInput
-  stddevSample: StablepoolAssetHavingStddevSampleInput
-  stddevPopulation: StablepoolAssetHavingStddevPopulationInput
-  varianceSample: StablepoolAssetHavingVarianceSampleInput
-  variancePopulation: StablepoolAssetHavingVariancePopulationInput
-}
-
-input StablepoolAssetHavingSumInput {
-  assetId: HavingIntFilter
-  amount: HavingBigfloatFilter
-}
-
-input StablepoolAssetHavingDistinctCountInput {
-  assetId: HavingIntFilter
-  amount: HavingBigfloatFilter
-}
-
-input StablepoolAssetHavingMinInput {
-  assetId: HavingIntFilter
-  amount: HavingBigfloatFilter
-}
-
-input StablepoolAssetHavingMaxInput {
-  assetId: HavingIntFilter
-  amount: HavingBigfloatFilter
-}
-
-input StablepoolAssetHavingAverageInput {
-  assetId: HavingIntFilter
-  amount: HavingBigfloatFilter
-}
-
-input StablepoolAssetHavingStddevSampleInput {
-  assetId: HavingIntFilter
-  amount: HavingBigfloatFilter
-}
-
-input StablepoolAssetHavingStddevPopulationInput {
-  assetId: HavingIntFilter
-  amount: HavingBigfloatFilter
-}
-
-input StablepoolAssetHavingVarianceSampleInput {
-  assetId: HavingIntFilter
-  amount: HavingBigfloatFilter
-}
-
-input StablepoolAssetHavingVariancePopulationInput {
-  assetId: HavingIntFilter
-  amount: HavingBigfloatFilter
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: StablepoolOperationFilter
+  ): StablepoolOperationsConnection!
 }
 
 """Methods to use when ordering `StablepoolAsset`."""
@@ -14763,12 +14710,12 @@ enum StablepoolAssetsOrderBy {
   NATURAL
   ID_ASC
   ID_DESC
-  ASSET_ID_ASC
-  ASSET_ID_DESC
   AMOUNT_ASC
   AMOUNT_DESC
   POOL_ID_ASC
   POOL_ID_DESC
+  ASSET_ID_ASC
+  ASSET_ID_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
 }
@@ -14781,14 +14728,14 @@ input StablepoolAssetCondition {
   """Checks for equality with the object’s `id` field."""
   id: String
 
-  """Checks for equality with the object’s `assetId` field."""
-  assetId: Int
-
   """Checks for equality with the object’s `amount` field."""
   amount: BigFloat
 
   """Checks for equality with the object’s `poolId` field."""
   poolId: String
+
+  """Checks for equality with the object’s `assetId` field."""
+  assetId: String
 }
 
 """
@@ -14798,14 +14745,14 @@ input StablepoolAssetFilter {
   """Filter by the object’s `id` field."""
   id: StringFilter
 
-  """Filter by the object’s `assetId` field."""
-  assetId: IntFilter
-
   """Filter by the object’s `amount` field."""
   amount: BigFloatFilter
 
   """Filter by the object’s `poolId` field."""
   poolId: StringFilter
+
+  """Filter by the object’s `assetId` field."""
+  assetId: StringFilter
 
   """Checks for all expressions in this list."""
   and: [StablepoolAssetFilter!]
@@ -14817,41 +14764,72 @@ input StablepoolAssetFilter {
   not: StablepoolAssetFilter
 }
 
-"""A connection to a list of `StablepoolHistoricalVolume` values."""
-type StablepoolHistoricalVolumesConnection {
-  """A list of `StablepoolHistoricalVolume` objects."""
-  nodes: [StablepoolHistoricalVolume]!
+"""A connection to a list of `StablepoolAssetHistoricalVolume` values."""
+type StablepoolAssetHistoricalVolumesConnection {
+  """A list of `StablepoolAssetHistoricalVolume` objects."""
+  nodes: [StablepoolAssetHistoricalVolume]!
 
   """
-  A list of edges which contains the `StablepoolHistoricalVolume` and cursor to aid in pagination.
+  A list of edges which contains the `StablepoolAssetHistoricalVolume` and cursor to aid in pagination.
   """
-  edges: [StablepoolHistoricalVolumesEdge!]!
+  edges: [StablepoolAssetHistoricalVolumesEdge!]!
 
   """Information to aid in pagination."""
   pageInfo: PageInfo!
 
   """
-  The count of *all* `StablepoolHistoricalVolume` you could get from the connection.
+  The count of *all* `StablepoolAssetHistoricalVolume` you could get from the connection.
   """
   totalCount: Int!
 
   """
   Aggregates across the matching connection (ignoring before/after/first/last/offset)
   """
-  aggregates: StablepoolHistoricalVolumeAggregates
+  aggregates: StablepoolAssetHistoricalVolumeAggregates
 
   """
   Grouped aggregates across the matching connection (ignoring before/after/first/last/offset)
   """
   groupedAggregates(
     """
-    The method to use when grouping `StablepoolHistoricalVolume` for these aggregates.
+    The method to use when grouping `StablepoolAssetHistoricalVolume` for these aggregates.
     """
-    groupBy: [StablepoolHistoricalVolumeGroupBy!]!
+    groupBy: [StablepoolAssetHistoricalVolumeGroupBy!]!
 
     """Conditions on the grouped aggregates."""
-    having: StablepoolHistoricalVolumeHavingInput
-  ): [StablepoolHistoricalVolumeAggregates!]
+    having: StablepoolAssetHistoricalVolumeHavingInput
+  ): [StablepoolAssetHistoricalVolumeAggregates!]
+}
+
+type StablepoolAssetHistoricalVolume {
+  id: String!
+  assetFee: BigFloat!
+  assetTotalFees: BigFloat!
+  swapVolumeIn: BigFloat!
+  swapVolumeOut: BigFloat!
+  swapTotalVolumeIn: BigFloat!
+  swapTotalVolumeOut: BigFloat!
+  liqAddedAmount: BigFloat!
+  liqRemovedAmount: BigFloat!
+  liqAddedTotalAmount: BigFloat!
+  liqRemovedTotalAmount: BigFloat!
+  routedLiqAddedAmount: BigFloat!
+  routedLiqRemovedAmount: BigFloat!
+  routedLiqAddedTotalAmount: BigFloat!
+  routedLiqRemovedTotalAmount: BigFloat!
+  paraChainBlockHeight: Int!
+  volumesCollectionId: String
+  assetId: String
+
+  """
+  Reads a single `StablepoolHistoricalVolume` that is related to this `StablepoolAssetHistoricalVolume`.
+  """
+  volumesCollection: StablepoolHistoricalVolume
+
+  """
+  Reads a single `Asset` that is related to this `StablepoolAssetHistoricalVolume`.
+  """
+  asset: Asset
 }
 
 type StablepoolHistoricalVolume {
@@ -14902,66 +14880,179 @@ type StablepoolHistoricalVolume {
   ): StablepoolAssetHistoricalVolumesConnection!
 }
 
-"""A connection to a list of `StablepoolAssetHistoricalVolume` values."""
-type StablepoolAssetHistoricalVolumesConnection {
-  """A list of `StablepoolAssetHistoricalVolume` objects."""
-  nodes: [StablepoolAssetHistoricalVolume]!
-
-  """
-  A list of edges which contains the `StablepoolAssetHistoricalVolume` and cursor to aid in pagination.
-  """
-  edges: [StablepoolAssetHistoricalVolumesEdge!]!
-
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """
-  The count of *all* `StablepoolAssetHistoricalVolume` you could get from the connection.
-  """
-  totalCount: Int!
-
-  """
-  Aggregates across the matching connection (ignoring before/after/first/last/offset)
-  """
-  aggregates: StablepoolAssetHistoricalVolumeAggregates
-
-  """
-  Grouped aggregates across the matching connection (ignoring before/after/first/last/offset)
-  """
-  groupedAggregates(
-    """
-    The method to use when grouping `StablepoolAssetHistoricalVolume` for these aggregates.
-    """
-    groupBy: [StablepoolAssetHistoricalVolumeGroupBy!]!
-
-    """Conditions on the grouped aggregates."""
-    having: StablepoolAssetHistoricalVolumeHavingInput
-  ): [StablepoolAssetHistoricalVolumeAggregates!]
+"""Methods to use when ordering `StablepoolAssetHistoricalVolume`."""
+enum StablepoolAssetHistoricalVolumesOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  ASSET_FEE_ASC
+  ASSET_FEE_DESC
+  ASSET_TOTAL_FEES_ASC
+  ASSET_TOTAL_FEES_DESC
+  SWAP_VOLUME_IN_ASC
+  SWAP_VOLUME_IN_DESC
+  SWAP_VOLUME_OUT_ASC
+  SWAP_VOLUME_OUT_DESC
+  SWAP_TOTAL_VOLUME_IN_ASC
+  SWAP_TOTAL_VOLUME_IN_DESC
+  SWAP_TOTAL_VOLUME_OUT_ASC
+  SWAP_TOTAL_VOLUME_OUT_DESC
+  LIQ_ADDED_AMOUNT_ASC
+  LIQ_ADDED_AMOUNT_DESC
+  LIQ_REMOVED_AMOUNT_ASC
+  LIQ_REMOVED_AMOUNT_DESC
+  LIQ_ADDED_TOTAL_AMOUNT_ASC
+  LIQ_ADDED_TOTAL_AMOUNT_DESC
+  LIQ_REMOVED_TOTAL_AMOUNT_ASC
+  LIQ_REMOVED_TOTAL_AMOUNT_DESC
+  ROUTED_LIQ_ADDED_AMOUNT_ASC
+  ROUTED_LIQ_ADDED_AMOUNT_DESC
+  ROUTED_LIQ_REMOVED_AMOUNT_ASC
+  ROUTED_LIQ_REMOVED_AMOUNT_DESC
+  ROUTED_LIQ_ADDED_TOTAL_AMOUNT_ASC
+  ROUTED_LIQ_ADDED_TOTAL_AMOUNT_DESC
+  ROUTED_LIQ_REMOVED_TOTAL_AMOUNT_ASC
+  ROUTED_LIQ_REMOVED_TOTAL_AMOUNT_DESC
+  PARA_CHAIN_BLOCK_HEIGHT_ASC
+  PARA_CHAIN_BLOCK_HEIGHT_DESC
+  VOLUMES_COLLECTION_ID_ASC
+  VOLUMES_COLLECTION_ID_DESC
+  ASSET_ID_ASC
+  ASSET_ID_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
 }
 
-type StablepoolAssetHistoricalVolume {
-  id: String!
-  assetId: Int!
-  assetFee: BigFloat!
-  assetTotalFees: BigFloat!
-  swapVolumeIn: BigFloat!
-  swapVolumeOut: BigFloat!
-  swapTotalVolumeIn: BigFloat!
-  swapTotalVolumeOut: BigFloat!
-  liqAddedAmount: BigFloat!
-  liqRemovedAmount: BigFloat!
-  liqAddedTotalAmount: BigFloat!
-  liqRemovedTotalAmount: BigFloat!
-  routedLiqAddedAmount: BigFloat!
-  routedLiqRemovedAmount: BigFloat!
-  routedLiqAddedTotalAmount: BigFloat!
-  routedLiqRemovedTotalAmount: BigFloat!
-  volumesCollectionId: String
+"""
+A condition to be used against `StablepoolAssetHistoricalVolume` object types.
+All fields are tested for equality and combined with a logical ‘and.’
+"""
+input StablepoolAssetHistoricalVolumeCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: String
+
+  """Checks for equality with the object’s `assetFee` field."""
+  assetFee: BigFloat
+
+  """Checks for equality with the object’s `assetTotalFees` field."""
+  assetTotalFees: BigFloat
+
+  """Checks for equality with the object’s `swapVolumeIn` field."""
+  swapVolumeIn: BigFloat
+
+  """Checks for equality with the object’s `swapVolumeOut` field."""
+  swapVolumeOut: BigFloat
+
+  """Checks for equality with the object’s `swapTotalVolumeIn` field."""
+  swapTotalVolumeIn: BigFloat
+
+  """Checks for equality with the object’s `swapTotalVolumeOut` field."""
+  swapTotalVolumeOut: BigFloat
+
+  """Checks for equality with the object’s `liqAddedAmount` field."""
+  liqAddedAmount: BigFloat
+
+  """Checks for equality with the object’s `liqRemovedAmount` field."""
+  liqRemovedAmount: BigFloat
+
+  """Checks for equality with the object’s `liqAddedTotalAmount` field."""
+  liqAddedTotalAmount: BigFloat
+
+  """Checks for equality with the object’s `liqRemovedTotalAmount` field."""
+  liqRemovedTotalAmount: BigFloat
+
+  """Checks for equality with the object’s `routedLiqAddedAmount` field."""
+  routedLiqAddedAmount: BigFloat
+
+  """Checks for equality with the object’s `routedLiqRemovedAmount` field."""
+  routedLiqRemovedAmount: BigFloat
 
   """
-  Reads a single `StablepoolHistoricalVolume` that is related to this `StablepoolAssetHistoricalVolume`.
+  Checks for equality with the object’s `routedLiqAddedTotalAmount` field.
   """
-  volumesCollection: StablepoolHistoricalVolume
+  routedLiqAddedTotalAmount: BigFloat
+
+  """
+  Checks for equality with the object’s `routedLiqRemovedTotalAmount` field.
+  """
+  routedLiqRemovedTotalAmount: BigFloat
+
+  """Checks for equality with the object’s `paraChainBlockHeight` field."""
+  paraChainBlockHeight: Int
+
+  """Checks for equality with the object’s `volumesCollectionId` field."""
+  volumesCollectionId: String
+
+  """Checks for equality with the object’s `assetId` field."""
+  assetId: String
+}
+
+"""
+A filter to be used against `StablepoolAssetHistoricalVolume` object types. All fields are combined with a logical ‘and.’
+"""
+input StablepoolAssetHistoricalVolumeFilter {
+  """Filter by the object’s `id` field."""
+  id: StringFilter
+
+  """Filter by the object’s `assetFee` field."""
+  assetFee: BigFloatFilter
+
+  """Filter by the object’s `assetTotalFees` field."""
+  assetTotalFees: BigFloatFilter
+
+  """Filter by the object’s `swapVolumeIn` field."""
+  swapVolumeIn: BigFloatFilter
+
+  """Filter by the object’s `swapVolumeOut` field."""
+  swapVolumeOut: BigFloatFilter
+
+  """Filter by the object’s `swapTotalVolumeIn` field."""
+  swapTotalVolumeIn: BigFloatFilter
+
+  """Filter by the object’s `swapTotalVolumeOut` field."""
+  swapTotalVolumeOut: BigFloatFilter
+
+  """Filter by the object’s `liqAddedAmount` field."""
+  liqAddedAmount: BigFloatFilter
+
+  """Filter by the object’s `liqRemovedAmount` field."""
+  liqRemovedAmount: BigFloatFilter
+
+  """Filter by the object’s `liqAddedTotalAmount` field."""
+  liqAddedTotalAmount: BigFloatFilter
+
+  """Filter by the object’s `liqRemovedTotalAmount` field."""
+  liqRemovedTotalAmount: BigFloatFilter
+
+  """Filter by the object’s `routedLiqAddedAmount` field."""
+  routedLiqAddedAmount: BigFloatFilter
+
+  """Filter by the object’s `routedLiqRemovedAmount` field."""
+  routedLiqRemovedAmount: BigFloatFilter
+
+  """Filter by the object’s `routedLiqAddedTotalAmount` field."""
+  routedLiqAddedTotalAmount: BigFloatFilter
+
+  """Filter by the object’s `routedLiqRemovedTotalAmount` field."""
+  routedLiqRemovedTotalAmount: BigFloatFilter
+
+  """Filter by the object’s `paraChainBlockHeight` field."""
+  paraChainBlockHeight: IntFilter
+
+  """Filter by the object’s `volumesCollectionId` field."""
+  volumesCollectionId: StringFilter
+
+  """Filter by the object’s `assetId` field."""
+  assetId: StringFilter
+
+  """Checks for all expressions in this list."""
+  and: [StablepoolAssetHistoricalVolumeFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [StablepoolAssetHistoricalVolumeFilter!]
+
+  """Negates the expression."""
+  not: StablepoolAssetHistoricalVolumeFilter
 }
 
 """A `StablepoolAssetHistoricalVolume` edge in the connection."""
@@ -15023,9 +15114,6 @@ type StablepoolAssetHistoricalVolumeAggregates {
 }
 
 type StablepoolAssetHistoricalVolumeSumAggregates {
-  """Sum of assetId across the matching connection"""
-  assetId: BigInt!
-
   """Sum of assetFee across the matching connection"""
   assetFee: BigFloat!
 
@@ -15067,14 +15155,14 @@ type StablepoolAssetHistoricalVolumeSumAggregates {
 
   """Sum of routedLiqRemovedTotalAmount across the matching connection"""
   routedLiqRemovedTotalAmount: BigFloat!
+
+  """Sum of paraChainBlockHeight across the matching connection"""
+  paraChainBlockHeight: BigInt!
 }
 
 type StablepoolAssetHistoricalVolumeDistinctCountAggregates {
   """Distinct count of id across the matching connection"""
   id: BigInt
-
-  """Distinct count of assetId across the matching connection"""
-  assetId: BigInt
 
   """Distinct count of assetFee across the matching connection"""
   assetFee: BigInt
@@ -15124,14 +15212,17 @@ type StablepoolAssetHistoricalVolumeDistinctCountAggregates {
   """
   routedLiqRemovedTotalAmount: BigInt
 
+  """Distinct count of paraChainBlockHeight across the matching connection"""
+  paraChainBlockHeight: BigInt
+
   """Distinct count of volumesCollectionId across the matching connection"""
   volumesCollectionId: BigInt
+
+  """Distinct count of assetId across the matching connection"""
+  assetId: BigInt
 }
 
 type StablepoolAssetHistoricalVolumeMinAggregates {
-  """Minimum of assetId across the matching connection"""
-  assetId: Int
-
   """Minimum of assetFee across the matching connection"""
   assetFee: BigFloat
 
@@ -15173,12 +15264,12 @@ type StablepoolAssetHistoricalVolumeMinAggregates {
 
   """Minimum of routedLiqRemovedTotalAmount across the matching connection"""
   routedLiqRemovedTotalAmount: BigFloat
+
+  """Minimum of paraChainBlockHeight across the matching connection"""
+  paraChainBlockHeight: Int
 }
 
 type StablepoolAssetHistoricalVolumeMaxAggregates {
-  """Maximum of assetId across the matching connection"""
-  assetId: Int
-
   """Maximum of assetFee across the matching connection"""
   assetFee: BigFloat
 
@@ -15220,12 +15311,12 @@ type StablepoolAssetHistoricalVolumeMaxAggregates {
 
   """Maximum of routedLiqRemovedTotalAmount across the matching connection"""
   routedLiqRemovedTotalAmount: BigFloat
+
+  """Maximum of paraChainBlockHeight across the matching connection"""
+  paraChainBlockHeight: Int
 }
 
 type StablepoolAssetHistoricalVolumeAverageAggregates {
-  """Mean average of assetId across the matching connection"""
-  assetId: BigFloat
-
   """Mean average of assetFee across the matching connection"""
   assetFee: BigFloat
 
@@ -15271,12 +15362,12 @@ type StablepoolAssetHistoricalVolumeAverageAggregates {
   Mean average of routedLiqRemovedTotalAmount across the matching connection
   """
   routedLiqRemovedTotalAmount: BigFloat
+
+  """Mean average of paraChainBlockHeight across the matching connection"""
+  paraChainBlockHeight: BigFloat
 }
 
 type StablepoolAssetHistoricalVolumeStddevSampleAggregates {
-  """Sample standard deviation of assetId across the matching connection"""
-  assetId: BigFloat
-
   """Sample standard deviation of assetFee across the matching connection"""
   assetFee: BigFloat
 
@@ -15344,14 +15435,14 @@ type StablepoolAssetHistoricalVolumeStddevSampleAggregates {
   Sample standard deviation of routedLiqRemovedTotalAmount across the matching connection
   """
   routedLiqRemovedTotalAmount: BigFloat
+
+  """
+  Sample standard deviation of paraChainBlockHeight across the matching connection
+  """
+  paraChainBlockHeight: BigFloat
 }
 
 type StablepoolAssetHistoricalVolumeStddevPopulationAggregates {
-  """
-  Population standard deviation of assetId across the matching connection
-  """
-  assetId: BigFloat
-
   """
   Population standard deviation of assetFee across the matching connection
   """
@@ -15421,12 +15512,14 @@ type StablepoolAssetHistoricalVolumeStddevPopulationAggregates {
   Population standard deviation of routedLiqRemovedTotalAmount across the matching connection
   """
   routedLiqRemovedTotalAmount: BigFloat
+
+  """
+  Population standard deviation of paraChainBlockHeight across the matching connection
+  """
+  paraChainBlockHeight: BigFloat
 }
 
 type StablepoolAssetHistoricalVolumeVarianceSampleAggregates {
-  """Sample variance of assetId across the matching connection"""
-  assetId: BigFloat
-
   """Sample variance of assetFee across the matching connection"""
   assetFee: BigFloat
 
@@ -15476,12 +15569,12 @@ type StablepoolAssetHistoricalVolumeVarianceSampleAggregates {
   Sample variance of routedLiqRemovedTotalAmount across the matching connection
   """
   routedLiqRemovedTotalAmount: BigFloat
+
+  """Sample variance of paraChainBlockHeight across the matching connection"""
+  paraChainBlockHeight: BigFloat
 }
 
 type StablepoolAssetHistoricalVolumeVariancePopulationAggregates {
-  """Population variance of assetId across the matching connection"""
-  assetId: BigFloat
-
   """Population variance of assetFee across the matching connection"""
   assetFee: BigFloat
 
@@ -15539,13 +15632,17 @@ type StablepoolAssetHistoricalVolumeVariancePopulationAggregates {
   Population variance of routedLiqRemovedTotalAmount across the matching connection
   """
   routedLiqRemovedTotalAmount: BigFloat
+
+  """
+  Population variance of paraChainBlockHeight across the matching connection
+  """
+  paraChainBlockHeight: BigFloat
 }
 
 """
 Grouping methods for `StablepoolAssetHistoricalVolume` for usage during aggregation.
 """
 enum StablepoolAssetHistoricalVolumeGroupBy {
-  ASSET_ID
   ASSET_FEE
   ASSET_TOTAL_FEES
   SWAP_VOLUME_IN
@@ -15560,7 +15657,9 @@ enum StablepoolAssetHistoricalVolumeGroupBy {
   ROUTED_LIQ_REMOVED_AMOUNT
   ROUTED_LIQ_ADDED_TOTAL_AMOUNT
   ROUTED_LIQ_REMOVED_TOTAL_AMOUNT
+  PARA_CHAIN_BLOCK_HEIGHT
   VOLUMES_COLLECTION_ID
+  ASSET_ID
 }
 
 """Conditions for `StablepoolAssetHistoricalVolume` aggregates."""
@@ -15579,7 +15678,6 @@ input StablepoolAssetHistoricalVolumeHavingInput {
 }
 
 input StablepoolAssetHistoricalVolumeHavingSumInput {
-  assetId: HavingIntFilter
   assetFee: HavingBigfloatFilter
   assetTotalFees: HavingBigfloatFilter
   swapVolumeIn: HavingBigfloatFilter
@@ -15594,10 +15692,10 @@ input StablepoolAssetHistoricalVolumeHavingSumInput {
   routedLiqRemovedAmount: HavingBigfloatFilter
   routedLiqAddedTotalAmount: HavingBigfloatFilter
   routedLiqRemovedTotalAmount: HavingBigfloatFilter
+  paraChainBlockHeight: HavingIntFilter
 }
 
 input StablepoolAssetHistoricalVolumeHavingDistinctCountInput {
-  assetId: HavingIntFilter
   assetFee: HavingBigfloatFilter
   assetTotalFees: HavingBigfloatFilter
   swapVolumeIn: HavingBigfloatFilter
@@ -15612,10 +15710,10 @@ input StablepoolAssetHistoricalVolumeHavingDistinctCountInput {
   routedLiqRemovedAmount: HavingBigfloatFilter
   routedLiqAddedTotalAmount: HavingBigfloatFilter
   routedLiqRemovedTotalAmount: HavingBigfloatFilter
+  paraChainBlockHeight: HavingIntFilter
 }
 
 input StablepoolAssetHistoricalVolumeHavingMinInput {
-  assetId: HavingIntFilter
   assetFee: HavingBigfloatFilter
   assetTotalFees: HavingBigfloatFilter
   swapVolumeIn: HavingBigfloatFilter
@@ -15630,10 +15728,10 @@ input StablepoolAssetHistoricalVolumeHavingMinInput {
   routedLiqRemovedAmount: HavingBigfloatFilter
   routedLiqAddedTotalAmount: HavingBigfloatFilter
   routedLiqRemovedTotalAmount: HavingBigfloatFilter
+  paraChainBlockHeight: HavingIntFilter
 }
 
 input StablepoolAssetHistoricalVolumeHavingMaxInput {
-  assetId: HavingIntFilter
   assetFee: HavingBigfloatFilter
   assetTotalFees: HavingBigfloatFilter
   swapVolumeIn: HavingBigfloatFilter
@@ -15648,10 +15746,10 @@ input StablepoolAssetHistoricalVolumeHavingMaxInput {
   routedLiqRemovedAmount: HavingBigfloatFilter
   routedLiqAddedTotalAmount: HavingBigfloatFilter
   routedLiqRemovedTotalAmount: HavingBigfloatFilter
+  paraChainBlockHeight: HavingIntFilter
 }
 
 input StablepoolAssetHistoricalVolumeHavingAverageInput {
-  assetId: HavingIntFilter
   assetFee: HavingBigfloatFilter
   assetTotalFees: HavingBigfloatFilter
   swapVolumeIn: HavingBigfloatFilter
@@ -15666,10 +15764,10 @@ input StablepoolAssetHistoricalVolumeHavingAverageInput {
   routedLiqRemovedAmount: HavingBigfloatFilter
   routedLiqAddedTotalAmount: HavingBigfloatFilter
   routedLiqRemovedTotalAmount: HavingBigfloatFilter
+  paraChainBlockHeight: HavingIntFilter
 }
 
 input StablepoolAssetHistoricalVolumeHavingStddevSampleInput {
-  assetId: HavingIntFilter
   assetFee: HavingBigfloatFilter
   assetTotalFees: HavingBigfloatFilter
   swapVolumeIn: HavingBigfloatFilter
@@ -15684,10 +15782,10 @@ input StablepoolAssetHistoricalVolumeHavingStddevSampleInput {
   routedLiqRemovedAmount: HavingBigfloatFilter
   routedLiqAddedTotalAmount: HavingBigfloatFilter
   routedLiqRemovedTotalAmount: HavingBigfloatFilter
+  paraChainBlockHeight: HavingIntFilter
 }
 
 input StablepoolAssetHistoricalVolumeHavingStddevPopulationInput {
-  assetId: HavingIntFilter
   assetFee: HavingBigfloatFilter
   assetTotalFees: HavingBigfloatFilter
   swapVolumeIn: HavingBigfloatFilter
@@ -15702,10 +15800,10 @@ input StablepoolAssetHistoricalVolumeHavingStddevPopulationInput {
   routedLiqRemovedAmount: HavingBigfloatFilter
   routedLiqAddedTotalAmount: HavingBigfloatFilter
   routedLiqRemovedTotalAmount: HavingBigfloatFilter
+  paraChainBlockHeight: HavingIntFilter
 }
 
 input StablepoolAssetHistoricalVolumeHavingVarianceSampleInput {
-  assetId: HavingIntFilter
   assetFee: HavingBigfloatFilter
   assetTotalFees: HavingBigfloatFilter
   swapVolumeIn: HavingBigfloatFilter
@@ -15720,10 +15818,10 @@ input StablepoolAssetHistoricalVolumeHavingVarianceSampleInput {
   routedLiqRemovedAmount: HavingBigfloatFilter
   routedLiqAddedTotalAmount: HavingBigfloatFilter
   routedLiqRemovedTotalAmount: HavingBigfloatFilter
+  paraChainBlockHeight: HavingIntFilter
 }
 
 input StablepoolAssetHistoricalVolumeHavingVariancePopulationInput {
-  assetId: HavingIntFilter
   assetFee: HavingBigfloatFilter
   assetTotalFees: HavingBigfloatFilter
   swapVolumeIn: HavingBigfloatFilter
@@ -15738,173 +15836,817 @@ input StablepoolAssetHistoricalVolumeHavingVariancePopulationInput {
   routedLiqRemovedAmount: HavingBigfloatFilter
   routedLiqAddedTotalAmount: HavingBigfloatFilter
   routedLiqRemovedTotalAmount: HavingBigfloatFilter
+  paraChainBlockHeight: HavingIntFilter
 }
 
-"""Methods to use when ordering `StablepoolAssetHistoricalVolume`."""
-enum StablepoolAssetHistoricalVolumesOrderBy {
+"""A connection to a list of `StablepoolOperation` values."""
+type StablepoolOperationsConnection {
+  """A list of `StablepoolOperation` objects."""
+  nodes: [StablepoolOperation]!
+
+  """
+  A list of edges which contains the `StablepoolOperation` and cursor to aid in pagination.
+  """
+  edges: [StablepoolOperationsEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """
+  The count of *all* `StablepoolOperation` you could get from the connection.
+  """
+  totalCount: Int!
+
+  """
+  Aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  aggregates: StablepoolOperationAggregates
+
+  """
+  Grouped aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  groupedAggregates(
+    """
+    The method to use when grouping `StablepoolOperation` for these aggregates.
+    """
+    groupBy: [StablepoolOperationGroupBy!]!
+
+    """Conditions on the grouped aggregates."""
+    having: StablepoolOperationHavingInput
+  ): [StablepoolOperationAggregates!]
+}
+
+type StablepoolOperation {
+  id: String!
+  assetInAmount: BigFloat!
+  assetOutAmount: BigFloat!
+  assetFeeAmount: BigFloat!
+  type: String!
+  extrinsicHash: String
+  indexInBlock: Int!
+  relayChainBlockHeight: Int!
+  paraChainBlockHeight: Int!
+  accountId: String
+  assetInId: String
+  assetOutId: String
+  poolId: String
+
+  """
+  Reads a single `Account` that is related to this `StablepoolOperation`.
+  """
+  account: Account
+
+  """Reads a single `Asset` that is related to this `StablepoolOperation`."""
+  assetIn: Asset
+
+  """Reads a single `Asset` that is related to this `StablepoolOperation`."""
+  assetOut: Asset
+
+  """
+  Reads a single `Stablepool` that is related to this `StablepoolOperation`.
+  """
+  pool: Stablepool
+}
+
+"""A `StablepoolOperation` edge in the connection."""
+type StablepoolOperationsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `StablepoolOperation` at the end of the edge."""
+  node: StablepoolOperation
+}
+
+type StablepoolOperationAggregates {
+  keys: [String!]
+
+  """
+  Sum aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  sum: StablepoolOperationSumAggregates
+
+  """
+  Distinct count aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  distinctCount: StablepoolOperationDistinctCountAggregates
+
+  """
+  Minimum aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  min: StablepoolOperationMinAggregates
+
+  """
+  Maximum aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  max: StablepoolOperationMaxAggregates
+
+  """
+  Mean average aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  average: StablepoolOperationAverageAggregates
+
+  """
+  Sample standard deviation aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  stddevSample: StablepoolOperationStddevSampleAggregates
+
+  """
+  Population standard deviation aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  stddevPopulation: StablepoolOperationStddevPopulationAggregates
+
+  """
+  Sample variance aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  varianceSample: StablepoolOperationVarianceSampleAggregates
+
+  """
+  Population variance aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  variancePopulation: StablepoolOperationVariancePopulationAggregates
+}
+
+type StablepoolOperationSumAggregates {
+  """Sum of assetInAmount across the matching connection"""
+  assetInAmount: BigFloat!
+
+  """Sum of assetOutAmount across the matching connection"""
+  assetOutAmount: BigFloat!
+
+  """Sum of assetFeeAmount across the matching connection"""
+  assetFeeAmount: BigFloat!
+
+  """Sum of indexInBlock across the matching connection"""
+  indexInBlock: BigInt!
+
+  """Sum of relayChainBlockHeight across the matching connection"""
+  relayChainBlockHeight: BigInt!
+
+  """Sum of paraChainBlockHeight across the matching connection"""
+  paraChainBlockHeight: BigInt!
+}
+
+type StablepoolOperationDistinctCountAggregates {
+  """Distinct count of id across the matching connection"""
+  id: BigInt
+
+  """Distinct count of assetInAmount across the matching connection"""
+  assetInAmount: BigInt
+
+  """Distinct count of assetOutAmount across the matching connection"""
+  assetOutAmount: BigInt
+
+  """Distinct count of assetFeeAmount across the matching connection"""
+  assetFeeAmount: BigInt
+
+  """Distinct count of type across the matching connection"""
+  type: BigInt
+
+  """Distinct count of extrinsicHash across the matching connection"""
+  extrinsicHash: BigInt
+
+  """Distinct count of indexInBlock across the matching connection"""
+  indexInBlock: BigInt
+
+  """Distinct count of relayChainBlockHeight across the matching connection"""
+  relayChainBlockHeight: BigInt
+
+  """Distinct count of paraChainBlockHeight across the matching connection"""
+  paraChainBlockHeight: BigInt
+
+  """Distinct count of accountId across the matching connection"""
+  accountId: BigInt
+
+  """Distinct count of assetInId across the matching connection"""
+  assetInId: BigInt
+
+  """Distinct count of assetOutId across the matching connection"""
+  assetOutId: BigInt
+
+  """Distinct count of poolId across the matching connection"""
+  poolId: BigInt
+}
+
+type StablepoolOperationMinAggregates {
+  """Minimum of assetInAmount across the matching connection"""
+  assetInAmount: BigFloat
+
+  """Minimum of assetOutAmount across the matching connection"""
+  assetOutAmount: BigFloat
+
+  """Minimum of assetFeeAmount across the matching connection"""
+  assetFeeAmount: BigFloat
+
+  """Minimum of indexInBlock across the matching connection"""
+  indexInBlock: Int
+
+  """Minimum of relayChainBlockHeight across the matching connection"""
+  relayChainBlockHeight: Int
+
+  """Minimum of paraChainBlockHeight across the matching connection"""
+  paraChainBlockHeight: Int
+}
+
+type StablepoolOperationMaxAggregates {
+  """Maximum of assetInAmount across the matching connection"""
+  assetInAmount: BigFloat
+
+  """Maximum of assetOutAmount across the matching connection"""
+  assetOutAmount: BigFloat
+
+  """Maximum of assetFeeAmount across the matching connection"""
+  assetFeeAmount: BigFloat
+
+  """Maximum of indexInBlock across the matching connection"""
+  indexInBlock: Int
+
+  """Maximum of relayChainBlockHeight across the matching connection"""
+  relayChainBlockHeight: Int
+
+  """Maximum of paraChainBlockHeight across the matching connection"""
+  paraChainBlockHeight: Int
+}
+
+type StablepoolOperationAverageAggregates {
+  """Mean average of assetInAmount across the matching connection"""
+  assetInAmount: BigFloat
+
+  """Mean average of assetOutAmount across the matching connection"""
+  assetOutAmount: BigFloat
+
+  """Mean average of assetFeeAmount across the matching connection"""
+  assetFeeAmount: BigFloat
+
+  """Mean average of indexInBlock across the matching connection"""
+  indexInBlock: BigFloat
+
+  """Mean average of relayChainBlockHeight across the matching connection"""
+  relayChainBlockHeight: BigFloat
+
+  """Mean average of paraChainBlockHeight across the matching connection"""
+  paraChainBlockHeight: BigFloat
+}
+
+type StablepoolOperationStddevSampleAggregates {
+  """
+  Sample standard deviation of assetInAmount across the matching connection
+  """
+  assetInAmount: BigFloat
+
+  """
+  Sample standard deviation of assetOutAmount across the matching connection
+  """
+  assetOutAmount: BigFloat
+
+  """
+  Sample standard deviation of assetFeeAmount across the matching connection
+  """
+  assetFeeAmount: BigFloat
+
+  """
+  Sample standard deviation of indexInBlock across the matching connection
+  """
+  indexInBlock: BigFloat
+
+  """
+  Sample standard deviation of relayChainBlockHeight across the matching connection
+  """
+  relayChainBlockHeight: BigFloat
+
+  """
+  Sample standard deviation of paraChainBlockHeight across the matching connection
+  """
+  paraChainBlockHeight: BigFloat
+}
+
+type StablepoolOperationStddevPopulationAggregates {
+  """
+  Population standard deviation of assetInAmount across the matching connection
+  """
+  assetInAmount: BigFloat
+
+  """
+  Population standard deviation of assetOutAmount across the matching connection
+  """
+  assetOutAmount: BigFloat
+
+  """
+  Population standard deviation of assetFeeAmount across the matching connection
+  """
+  assetFeeAmount: BigFloat
+
+  """
+  Population standard deviation of indexInBlock across the matching connection
+  """
+  indexInBlock: BigFloat
+
+  """
+  Population standard deviation of relayChainBlockHeight across the matching connection
+  """
+  relayChainBlockHeight: BigFloat
+
+  """
+  Population standard deviation of paraChainBlockHeight across the matching connection
+  """
+  paraChainBlockHeight: BigFloat
+}
+
+type StablepoolOperationVarianceSampleAggregates {
+  """Sample variance of assetInAmount across the matching connection"""
+  assetInAmount: BigFloat
+
+  """Sample variance of assetOutAmount across the matching connection"""
+  assetOutAmount: BigFloat
+
+  """Sample variance of assetFeeAmount across the matching connection"""
+  assetFeeAmount: BigFloat
+
+  """Sample variance of indexInBlock across the matching connection"""
+  indexInBlock: BigFloat
+
+  """
+  Sample variance of relayChainBlockHeight across the matching connection
+  """
+  relayChainBlockHeight: BigFloat
+
+  """Sample variance of paraChainBlockHeight across the matching connection"""
+  paraChainBlockHeight: BigFloat
+}
+
+type StablepoolOperationVariancePopulationAggregates {
+  """Population variance of assetInAmount across the matching connection"""
+  assetInAmount: BigFloat
+
+  """Population variance of assetOutAmount across the matching connection"""
+  assetOutAmount: BigFloat
+
+  """Population variance of assetFeeAmount across the matching connection"""
+  assetFeeAmount: BigFloat
+
+  """Population variance of indexInBlock across the matching connection"""
+  indexInBlock: BigFloat
+
+  """
+  Population variance of relayChainBlockHeight across the matching connection
+  """
+  relayChainBlockHeight: BigFloat
+
+  """
+  Population variance of paraChainBlockHeight across the matching connection
+  """
+  paraChainBlockHeight: BigFloat
+}
+
+"""
+Grouping methods for `StablepoolOperation` for usage during aggregation.
+"""
+enum StablepoolOperationGroupBy {
+  ASSET_IN_AMOUNT
+  ASSET_OUT_AMOUNT
+  ASSET_FEE_AMOUNT
+  TYPE
+  EXTRINSIC_HASH
+  INDEX_IN_BLOCK
+  RELAY_CHAIN_BLOCK_HEIGHT
+  PARA_CHAIN_BLOCK_HEIGHT
+  ACCOUNT_ID
+  ASSET_IN_ID
+  ASSET_OUT_ID
+  POOL_ID
+}
+
+"""Conditions for `StablepoolOperation` aggregates."""
+input StablepoolOperationHavingInput {
+  AND: [StablepoolOperationHavingInput!]
+  OR: [StablepoolOperationHavingInput!]
+  sum: StablepoolOperationHavingSumInput
+  distinctCount: StablepoolOperationHavingDistinctCountInput
+  min: StablepoolOperationHavingMinInput
+  max: StablepoolOperationHavingMaxInput
+  average: StablepoolOperationHavingAverageInput
+  stddevSample: StablepoolOperationHavingStddevSampleInput
+  stddevPopulation: StablepoolOperationHavingStddevPopulationInput
+  varianceSample: StablepoolOperationHavingVarianceSampleInput
+  variancePopulation: StablepoolOperationHavingVariancePopulationInput
+}
+
+input StablepoolOperationHavingSumInput {
+  assetInAmount: HavingBigfloatFilter
+  assetOutAmount: HavingBigfloatFilter
+  assetFeeAmount: HavingBigfloatFilter
+  indexInBlock: HavingIntFilter
+  relayChainBlockHeight: HavingIntFilter
+  paraChainBlockHeight: HavingIntFilter
+}
+
+input StablepoolOperationHavingDistinctCountInput {
+  assetInAmount: HavingBigfloatFilter
+  assetOutAmount: HavingBigfloatFilter
+  assetFeeAmount: HavingBigfloatFilter
+  indexInBlock: HavingIntFilter
+  relayChainBlockHeight: HavingIntFilter
+  paraChainBlockHeight: HavingIntFilter
+}
+
+input StablepoolOperationHavingMinInput {
+  assetInAmount: HavingBigfloatFilter
+  assetOutAmount: HavingBigfloatFilter
+  assetFeeAmount: HavingBigfloatFilter
+  indexInBlock: HavingIntFilter
+  relayChainBlockHeight: HavingIntFilter
+  paraChainBlockHeight: HavingIntFilter
+}
+
+input StablepoolOperationHavingMaxInput {
+  assetInAmount: HavingBigfloatFilter
+  assetOutAmount: HavingBigfloatFilter
+  assetFeeAmount: HavingBigfloatFilter
+  indexInBlock: HavingIntFilter
+  relayChainBlockHeight: HavingIntFilter
+  paraChainBlockHeight: HavingIntFilter
+}
+
+input StablepoolOperationHavingAverageInput {
+  assetInAmount: HavingBigfloatFilter
+  assetOutAmount: HavingBigfloatFilter
+  assetFeeAmount: HavingBigfloatFilter
+  indexInBlock: HavingIntFilter
+  relayChainBlockHeight: HavingIntFilter
+  paraChainBlockHeight: HavingIntFilter
+}
+
+input StablepoolOperationHavingStddevSampleInput {
+  assetInAmount: HavingBigfloatFilter
+  assetOutAmount: HavingBigfloatFilter
+  assetFeeAmount: HavingBigfloatFilter
+  indexInBlock: HavingIntFilter
+  relayChainBlockHeight: HavingIntFilter
+  paraChainBlockHeight: HavingIntFilter
+}
+
+input StablepoolOperationHavingStddevPopulationInput {
+  assetInAmount: HavingBigfloatFilter
+  assetOutAmount: HavingBigfloatFilter
+  assetFeeAmount: HavingBigfloatFilter
+  indexInBlock: HavingIntFilter
+  relayChainBlockHeight: HavingIntFilter
+  paraChainBlockHeight: HavingIntFilter
+}
+
+input StablepoolOperationHavingVarianceSampleInput {
+  assetInAmount: HavingBigfloatFilter
+  assetOutAmount: HavingBigfloatFilter
+  assetFeeAmount: HavingBigfloatFilter
+  indexInBlock: HavingIntFilter
+  relayChainBlockHeight: HavingIntFilter
+  paraChainBlockHeight: HavingIntFilter
+}
+
+input StablepoolOperationHavingVariancePopulationInput {
+  assetInAmount: HavingBigfloatFilter
+  assetOutAmount: HavingBigfloatFilter
+  assetFeeAmount: HavingBigfloatFilter
+  indexInBlock: HavingIntFilter
+  relayChainBlockHeight: HavingIntFilter
+  paraChainBlockHeight: HavingIntFilter
+}
+
+"""Methods to use when ordering `StablepoolOperation`."""
+enum StablepoolOperationsOrderBy {
   NATURAL
   ID_ASC
   ID_DESC
-  ASSET_ID_ASC
-  ASSET_ID_DESC
-  ASSET_FEE_ASC
-  ASSET_FEE_DESC
-  ASSET_TOTAL_FEES_ASC
-  ASSET_TOTAL_FEES_DESC
-  SWAP_VOLUME_IN_ASC
-  SWAP_VOLUME_IN_DESC
-  SWAP_VOLUME_OUT_ASC
-  SWAP_VOLUME_OUT_DESC
-  SWAP_TOTAL_VOLUME_IN_ASC
-  SWAP_TOTAL_VOLUME_IN_DESC
-  SWAP_TOTAL_VOLUME_OUT_ASC
-  SWAP_TOTAL_VOLUME_OUT_DESC
-  LIQ_ADDED_AMOUNT_ASC
-  LIQ_ADDED_AMOUNT_DESC
-  LIQ_REMOVED_AMOUNT_ASC
-  LIQ_REMOVED_AMOUNT_DESC
-  LIQ_ADDED_TOTAL_AMOUNT_ASC
-  LIQ_ADDED_TOTAL_AMOUNT_DESC
-  LIQ_REMOVED_TOTAL_AMOUNT_ASC
-  LIQ_REMOVED_TOTAL_AMOUNT_DESC
-  ROUTED_LIQ_ADDED_AMOUNT_ASC
-  ROUTED_LIQ_ADDED_AMOUNT_DESC
-  ROUTED_LIQ_REMOVED_AMOUNT_ASC
-  ROUTED_LIQ_REMOVED_AMOUNT_DESC
-  ROUTED_LIQ_ADDED_TOTAL_AMOUNT_ASC
-  ROUTED_LIQ_ADDED_TOTAL_AMOUNT_DESC
-  ROUTED_LIQ_REMOVED_TOTAL_AMOUNT_ASC
-  ROUTED_LIQ_REMOVED_TOTAL_AMOUNT_DESC
-  VOLUMES_COLLECTION_ID_ASC
-  VOLUMES_COLLECTION_ID_DESC
+  ASSET_IN_AMOUNT_ASC
+  ASSET_IN_AMOUNT_DESC
+  ASSET_OUT_AMOUNT_ASC
+  ASSET_OUT_AMOUNT_DESC
+  ASSET_FEE_AMOUNT_ASC
+  ASSET_FEE_AMOUNT_DESC
+  TYPE_ASC
+  TYPE_DESC
+  EXTRINSIC_HASH_ASC
+  EXTRINSIC_HASH_DESC
+  INDEX_IN_BLOCK_ASC
+  INDEX_IN_BLOCK_DESC
+  RELAY_CHAIN_BLOCK_HEIGHT_ASC
+  RELAY_CHAIN_BLOCK_HEIGHT_DESC
+  PARA_CHAIN_BLOCK_HEIGHT_ASC
+  PARA_CHAIN_BLOCK_HEIGHT_DESC
+  ACCOUNT_ID_ASC
+  ACCOUNT_ID_DESC
+  ASSET_IN_ID_ASC
+  ASSET_IN_ID_DESC
+  ASSET_OUT_ID_ASC
+  ASSET_OUT_ID_DESC
+  POOL_ID_ASC
+  POOL_ID_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
 }
 
 """
-A condition to be used against `StablepoolAssetHistoricalVolume` object types.
-All fields are tested for equality and combined with a logical ‘and.’
+A condition to be used against `StablepoolOperation` object types. All fields
+are tested for equality and combined with a logical ‘and.’
 """
-input StablepoolAssetHistoricalVolumeCondition {
+input StablepoolOperationCondition {
   """Checks for equality with the object’s `id` field."""
   id: String
 
-  """Checks for equality with the object’s `assetId` field."""
-  assetId: Int
+  """Checks for equality with the object’s `assetInAmount` field."""
+  assetInAmount: BigFloat
 
-  """Checks for equality with the object’s `assetFee` field."""
-  assetFee: BigFloat
+  """Checks for equality with the object’s `assetOutAmount` field."""
+  assetOutAmount: BigFloat
 
-  """Checks for equality with the object’s `assetTotalFees` field."""
-  assetTotalFees: BigFloat
+  """Checks for equality with the object’s `assetFeeAmount` field."""
+  assetFeeAmount: BigFloat
 
-  """Checks for equality with the object’s `swapVolumeIn` field."""
-  swapVolumeIn: BigFloat
+  """Checks for equality with the object’s `type` field."""
+  type: String
 
-  """Checks for equality with the object’s `swapVolumeOut` field."""
-  swapVolumeOut: BigFloat
+  """Checks for equality with the object’s `extrinsicHash` field."""
+  extrinsicHash: String
 
-  """Checks for equality with the object’s `swapTotalVolumeIn` field."""
-  swapTotalVolumeIn: BigFloat
+  """Checks for equality with the object’s `indexInBlock` field."""
+  indexInBlock: Int
 
-  """Checks for equality with the object’s `swapTotalVolumeOut` field."""
-  swapTotalVolumeOut: BigFloat
+  """Checks for equality with the object’s `relayChainBlockHeight` field."""
+  relayChainBlockHeight: Int
 
-  """Checks for equality with the object’s `liqAddedAmount` field."""
-  liqAddedAmount: BigFloat
+  """Checks for equality with the object’s `paraChainBlockHeight` field."""
+  paraChainBlockHeight: Int
 
-  """Checks for equality with the object’s `liqRemovedAmount` field."""
-  liqRemovedAmount: BigFloat
+  """Checks for equality with the object’s `accountId` field."""
+  accountId: String
 
-  """Checks for equality with the object’s `liqAddedTotalAmount` field."""
-  liqAddedTotalAmount: BigFloat
+  """Checks for equality with the object’s `assetInId` field."""
+  assetInId: String
 
-  """Checks for equality with the object’s `liqRemovedTotalAmount` field."""
-  liqRemovedTotalAmount: BigFloat
+  """Checks for equality with the object’s `assetOutId` field."""
+  assetOutId: String
 
-  """Checks for equality with the object’s `routedLiqAddedAmount` field."""
-  routedLiqAddedAmount: BigFloat
-
-  """Checks for equality with the object’s `routedLiqRemovedAmount` field."""
-  routedLiqRemovedAmount: BigFloat
-
-  """
-  Checks for equality with the object’s `routedLiqAddedTotalAmount` field.
-  """
-  routedLiqAddedTotalAmount: BigFloat
-
-  """
-  Checks for equality with the object’s `routedLiqRemovedTotalAmount` field.
-  """
-  routedLiqRemovedTotalAmount: BigFloat
-
-  """Checks for equality with the object’s `volumesCollectionId` field."""
-  volumesCollectionId: String
+  """Checks for equality with the object’s `poolId` field."""
+  poolId: String
 }
 
 """
-A filter to be used against `StablepoolAssetHistoricalVolume` object types. All fields are combined with a logical ‘and.’
+A filter to be used against `StablepoolOperation` object types. All fields are combined with a logical ‘and.’
 """
-input StablepoolAssetHistoricalVolumeFilter {
+input StablepoolOperationFilter {
   """Filter by the object’s `id` field."""
   id: StringFilter
 
-  """Filter by the object’s `assetId` field."""
-  assetId: IntFilter
+  """Filter by the object’s `assetInAmount` field."""
+  assetInAmount: BigFloatFilter
 
-  """Filter by the object’s `assetFee` field."""
-  assetFee: BigFloatFilter
+  """Filter by the object’s `assetOutAmount` field."""
+  assetOutAmount: BigFloatFilter
 
-  """Filter by the object’s `assetTotalFees` field."""
-  assetTotalFees: BigFloatFilter
+  """Filter by the object’s `assetFeeAmount` field."""
+  assetFeeAmount: BigFloatFilter
 
-  """Filter by the object’s `swapVolumeIn` field."""
-  swapVolumeIn: BigFloatFilter
+  """Filter by the object’s `type` field."""
+  type: StringFilter
 
-  """Filter by the object’s `swapVolumeOut` field."""
-  swapVolumeOut: BigFloatFilter
+  """Filter by the object’s `extrinsicHash` field."""
+  extrinsicHash: StringFilter
 
-  """Filter by the object’s `swapTotalVolumeIn` field."""
-  swapTotalVolumeIn: BigFloatFilter
+  """Filter by the object’s `indexInBlock` field."""
+  indexInBlock: IntFilter
 
-  """Filter by the object’s `swapTotalVolumeOut` field."""
-  swapTotalVolumeOut: BigFloatFilter
+  """Filter by the object’s `relayChainBlockHeight` field."""
+  relayChainBlockHeight: IntFilter
 
-  """Filter by the object’s `liqAddedAmount` field."""
-  liqAddedAmount: BigFloatFilter
+  """Filter by the object’s `paraChainBlockHeight` field."""
+  paraChainBlockHeight: IntFilter
 
-  """Filter by the object’s `liqRemovedAmount` field."""
-  liqRemovedAmount: BigFloatFilter
+  """Filter by the object’s `accountId` field."""
+  accountId: StringFilter
 
-  """Filter by the object’s `liqAddedTotalAmount` field."""
-  liqAddedTotalAmount: BigFloatFilter
+  """Filter by the object’s `assetInId` field."""
+  assetInId: StringFilter
 
-  """Filter by the object’s `liqRemovedTotalAmount` field."""
-  liqRemovedTotalAmount: BigFloatFilter
+  """Filter by the object’s `assetOutId` field."""
+  assetOutId: StringFilter
 
-  """Filter by the object’s `routedLiqAddedAmount` field."""
-  routedLiqAddedAmount: BigFloatFilter
-
-  """Filter by the object’s `routedLiqRemovedAmount` field."""
-  routedLiqRemovedAmount: BigFloatFilter
-
-  """Filter by the object’s `routedLiqAddedTotalAmount` field."""
-  routedLiqAddedTotalAmount: BigFloatFilter
-
-  """Filter by the object’s `routedLiqRemovedTotalAmount` field."""
-  routedLiqRemovedTotalAmount: BigFloatFilter
-
-  """Filter by the object’s `volumesCollectionId` field."""
-  volumesCollectionId: StringFilter
+  """Filter by the object’s `poolId` field."""
+  poolId: StringFilter
 
   """Checks for all expressions in this list."""
-  and: [StablepoolAssetHistoricalVolumeFilter!]
+  and: [StablepoolOperationFilter!]
 
   """Checks for any expressions in this list."""
-  or: [StablepoolAssetHistoricalVolumeFilter!]
+  or: [StablepoolOperationFilter!]
 
   """Negates the expression."""
-  not: StablepoolAssetHistoricalVolumeFilter
+  not: StablepoolOperationFilter
+}
+
+"""A `StablepoolAsset` edge in the connection."""
+type StablepoolAssetsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `StablepoolAsset` at the end of the edge."""
+  node: StablepoolAsset
+}
+
+type StablepoolAssetAggregates {
+  keys: [String!]
+
+  """
+  Sum aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  sum: StablepoolAssetSumAggregates
+
+  """
+  Distinct count aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  distinctCount: StablepoolAssetDistinctCountAggregates
+
+  """
+  Minimum aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  min: StablepoolAssetMinAggregates
+
+  """
+  Maximum aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  max: StablepoolAssetMaxAggregates
+
+  """
+  Mean average aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  average: StablepoolAssetAverageAggregates
+
+  """
+  Sample standard deviation aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  stddevSample: StablepoolAssetStddevSampleAggregates
+
+  """
+  Population standard deviation aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  stddevPopulation: StablepoolAssetStddevPopulationAggregates
+
+  """
+  Sample variance aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  varianceSample: StablepoolAssetVarianceSampleAggregates
+
+  """
+  Population variance aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  variancePopulation: StablepoolAssetVariancePopulationAggregates
+}
+
+type StablepoolAssetSumAggregates {
+  """Sum of amount across the matching connection"""
+  amount: BigFloat!
+}
+
+type StablepoolAssetDistinctCountAggregates {
+  """Distinct count of id across the matching connection"""
+  id: BigInt
+
+  """Distinct count of amount across the matching connection"""
+  amount: BigInt
+
+  """Distinct count of poolId across the matching connection"""
+  poolId: BigInt
+
+  """Distinct count of assetId across the matching connection"""
+  assetId: BigInt
+}
+
+type StablepoolAssetMinAggregates {
+  """Minimum of amount across the matching connection"""
+  amount: BigFloat
+}
+
+type StablepoolAssetMaxAggregates {
+  """Maximum of amount across the matching connection"""
+  amount: BigFloat
+}
+
+type StablepoolAssetAverageAggregates {
+  """Mean average of amount across the matching connection"""
+  amount: BigFloat
+}
+
+type StablepoolAssetStddevSampleAggregates {
+  """Sample standard deviation of amount across the matching connection"""
+  amount: BigFloat
+}
+
+type StablepoolAssetStddevPopulationAggregates {
+  """Population standard deviation of amount across the matching connection"""
+  amount: BigFloat
+}
+
+type StablepoolAssetVarianceSampleAggregates {
+  """Sample variance of amount across the matching connection"""
+  amount: BigFloat
+}
+
+type StablepoolAssetVariancePopulationAggregates {
+  """Population variance of amount across the matching connection"""
+  amount: BigFloat
+}
+
+"""Grouping methods for `StablepoolAsset` for usage during aggregation."""
+enum StablepoolAssetGroupBy {
+  AMOUNT
+  POOL_ID
+  ASSET_ID
+}
+
+"""Conditions for `StablepoolAsset` aggregates."""
+input StablepoolAssetHavingInput {
+  AND: [StablepoolAssetHavingInput!]
+  OR: [StablepoolAssetHavingInput!]
+  sum: StablepoolAssetHavingSumInput
+  distinctCount: StablepoolAssetHavingDistinctCountInput
+  min: StablepoolAssetHavingMinInput
+  max: StablepoolAssetHavingMaxInput
+  average: StablepoolAssetHavingAverageInput
+  stddevSample: StablepoolAssetHavingStddevSampleInput
+  stddevPopulation: StablepoolAssetHavingStddevPopulationInput
+  varianceSample: StablepoolAssetHavingVarianceSampleInput
+  variancePopulation: StablepoolAssetHavingVariancePopulationInput
+}
+
+input StablepoolAssetHavingSumInput {
+  amount: HavingBigfloatFilter
+}
+
+input StablepoolAssetHavingDistinctCountInput {
+  amount: HavingBigfloatFilter
+}
+
+input StablepoolAssetHavingMinInput {
+  amount: HavingBigfloatFilter
+}
+
+input StablepoolAssetHavingMaxInput {
+  amount: HavingBigfloatFilter
+}
+
+input StablepoolAssetHavingAverageInput {
+  amount: HavingBigfloatFilter
+}
+
+input StablepoolAssetHavingStddevSampleInput {
+  amount: HavingBigfloatFilter
+}
+
+input StablepoolAssetHavingStddevPopulationInput {
+  amount: HavingBigfloatFilter
+}
+
+input StablepoolAssetHavingVarianceSampleInput {
+  amount: HavingBigfloatFilter
+}
+
+input StablepoolAssetHavingVariancePopulationInput {
+  amount: HavingBigfloatFilter
+}
+
+"""A connection to a list of `StablepoolHistoricalVolume` values."""
+type StablepoolHistoricalVolumesConnection {
+  """A list of `StablepoolHistoricalVolume` objects."""
+  nodes: [StablepoolHistoricalVolume]!
+
+  """
+  A list of edges which contains the `StablepoolHistoricalVolume` and cursor to aid in pagination.
+  """
+  edges: [StablepoolHistoricalVolumesEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """
+  The count of *all* `StablepoolHistoricalVolume` you could get from the connection.
+  """
+  totalCount: Int!
+
+  """
+  Aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  aggregates: StablepoolHistoricalVolumeAggregates
+
+  """
+  Grouped aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  groupedAggregates(
+    """
+    The method to use when grouping `StablepoolHistoricalVolume` for these aggregates.
+    """
+    groupBy: [StablepoolHistoricalVolumeGroupBy!]!
+
+    """Conditions on the grouped aggregates."""
+    having: StablepoolHistoricalVolumeHavingInput
+  ): [StablepoolHistoricalVolumeAggregates!]
 }
 
 """A `StablepoolHistoricalVolume` edge in the connection."""
@@ -16143,8 +16885,6 @@ enum StablepoolHistoricalVolumesOrderBy {
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_COUNT_DESC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_SUM_ID_ASC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_SUM_ID_DESC
-  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_SUM_ASSET_ID_ASC
-  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_SUM_ASSET_ID_DESC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_SUM_ASSET_FEE_ASC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_SUM_ASSET_FEE_DESC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_SUM_ASSET_TOTAL_FEES_ASC
@@ -16173,12 +16913,14 @@ enum StablepoolHistoricalVolumesOrderBy {
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_SUM_ROUTED_LIQ_ADDED_TOTAL_AMOUNT_DESC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_SUM_ROUTED_LIQ_REMOVED_TOTAL_AMOUNT_ASC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_SUM_ROUTED_LIQ_REMOVED_TOTAL_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_SUM_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_SUM_PARA_CHAIN_BLOCK_HEIGHT_DESC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_SUM_VOLUMES_COLLECTION_ID_ASC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_SUM_VOLUMES_COLLECTION_ID_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_SUM_ASSET_ID_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_SUM_ASSET_ID_DESC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_DISTINCT_COUNT_ID_ASC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_DISTINCT_COUNT_ID_DESC
-  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_DISTINCT_COUNT_ASSET_ID_ASC
-  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_DISTINCT_COUNT_ASSET_ID_DESC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_DISTINCT_COUNT_ASSET_FEE_ASC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_DISTINCT_COUNT_ASSET_FEE_DESC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_DISTINCT_COUNT_ASSET_TOTAL_FEES_ASC
@@ -16207,12 +16949,14 @@ enum StablepoolHistoricalVolumesOrderBy {
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_DISTINCT_COUNT_ROUTED_LIQ_ADDED_TOTAL_AMOUNT_DESC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_DISTINCT_COUNT_ROUTED_LIQ_REMOVED_TOTAL_AMOUNT_ASC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_DISTINCT_COUNT_ROUTED_LIQ_REMOVED_TOTAL_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_DISTINCT_COUNT_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_DISTINCT_COUNT_PARA_CHAIN_BLOCK_HEIGHT_DESC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_DISTINCT_COUNT_VOLUMES_COLLECTION_ID_ASC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_DISTINCT_COUNT_VOLUMES_COLLECTION_ID_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_DISTINCT_COUNT_ASSET_ID_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_DISTINCT_COUNT_ASSET_ID_DESC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_MIN_ID_ASC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_MIN_ID_DESC
-  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_MIN_ASSET_ID_ASC
-  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_MIN_ASSET_ID_DESC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_MIN_ASSET_FEE_ASC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_MIN_ASSET_FEE_DESC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_MIN_ASSET_TOTAL_FEES_ASC
@@ -16241,12 +16985,14 @@ enum StablepoolHistoricalVolumesOrderBy {
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_MIN_ROUTED_LIQ_ADDED_TOTAL_AMOUNT_DESC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_MIN_ROUTED_LIQ_REMOVED_TOTAL_AMOUNT_ASC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_MIN_ROUTED_LIQ_REMOVED_TOTAL_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_MIN_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_MIN_PARA_CHAIN_BLOCK_HEIGHT_DESC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_MIN_VOLUMES_COLLECTION_ID_ASC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_MIN_VOLUMES_COLLECTION_ID_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_MIN_ASSET_ID_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_MIN_ASSET_ID_DESC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_MAX_ID_ASC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_MAX_ID_DESC
-  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_MAX_ASSET_ID_ASC
-  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_MAX_ASSET_ID_DESC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_MAX_ASSET_FEE_ASC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_MAX_ASSET_FEE_DESC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_MAX_ASSET_TOTAL_FEES_ASC
@@ -16275,12 +17021,14 @@ enum StablepoolHistoricalVolumesOrderBy {
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_MAX_ROUTED_LIQ_ADDED_TOTAL_AMOUNT_DESC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_MAX_ROUTED_LIQ_REMOVED_TOTAL_AMOUNT_ASC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_MAX_ROUTED_LIQ_REMOVED_TOTAL_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_MAX_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_MAX_PARA_CHAIN_BLOCK_HEIGHT_DESC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_MAX_VOLUMES_COLLECTION_ID_ASC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_MAX_VOLUMES_COLLECTION_ID_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_MAX_ASSET_ID_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_MAX_ASSET_ID_DESC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_AVERAGE_ID_ASC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_AVERAGE_ID_DESC
-  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_AVERAGE_ASSET_ID_ASC
-  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_AVERAGE_ASSET_ID_DESC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_AVERAGE_ASSET_FEE_ASC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_AVERAGE_ASSET_FEE_DESC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_AVERAGE_ASSET_TOTAL_FEES_ASC
@@ -16309,12 +17057,14 @@ enum StablepoolHistoricalVolumesOrderBy {
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_AVERAGE_ROUTED_LIQ_ADDED_TOTAL_AMOUNT_DESC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_AVERAGE_ROUTED_LIQ_REMOVED_TOTAL_AMOUNT_ASC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_AVERAGE_ROUTED_LIQ_REMOVED_TOTAL_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_AVERAGE_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_AVERAGE_PARA_CHAIN_BLOCK_HEIGHT_DESC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_AVERAGE_VOLUMES_COLLECTION_ID_ASC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_AVERAGE_VOLUMES_COLLECTION_ID_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_AVERAGE_ASSET_ID_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_AVERAGE_ASSET_ID_DESC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_STDDEV_SAMPLE_ID_ASC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_STDDEV_SAMPLE_ID_DESC
-  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_STDDEV_SAMPLE_ASSET_ID_ASC
-  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_STDDEV_SAMPLE_ASSET_ID_DESC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_STDDEV_SAMPLE_ASSET_FEE_ASC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_STDDEV_SAMPLE_ASSET_FEE_DESC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_STDDEV_SAMPLE_ASSET_TOTAL_FEES_ASC
@@ -16343,12 +17093,14 @@ enum StablepoolHistoricalVolumesOrderBy {
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_STDDEV_SAMPLE_ROUTED_LIQ_ADDED_TOTAL_AMOUNT_DESC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_STDDEV_SAMPLE_ROUTED_LIQ_REMOVED_TOTAL_AMOUNT_ASC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_STDDEV_SAMPLE_ROUTED_LIQ_REMOVED_TOTAL_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_STDDEV_SAMPLE_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_STDDEV_SAMPLE_PARA_CHAIN_BLOCK_HEIGHT_DESC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_STDDEV_SAMPLE_VOLUMES_COLLECTION_ID_ASC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_STDDEV_SAMPLE_VOLUMES_COLLECTION_ID_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_STDDEV_SAMPLE_ASSET_ID_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_STDDEV_SAMPLE_ASSET_ID_DESC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_STDDEV_POPULATION_ID_ASC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_STDDEV_POPULATION_ID_DESC
-  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_STDDEV_POPULATION_ASSET_ID_ASC
-  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_STDDEV_POPULATION_ASSET_ID_DESC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_STDDEV_POPULATION_ASSET_FEE_ASC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_STDDEV_POPULATION_ASSET_FEE_DESC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_STDDEV_POPULATION_ASSET_TOTAL_FEES_ASC
@@ -16377,12 +17129,14 @@ enum StablepoolHistoricalVolumesOrderBy {
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_STDDEV_POPULATION_ROUTED_LIQ_ADDED_TOTAL_AMOUNT_DESC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_STDDEV_POPULATION_ROUTED_LIQ_REMOVED_TOTAL_AMOUNT_ASC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_STDDEV_POPULATION_ROUTED_LIQ_REMOVED_TOTAL_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_STDDEV_POPULATION_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_STDDEV_POPULATION_PARA_CHAIN_BLOCK_HEIGHT_DESC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_STDDEV_POPULATION_VOLUMES_COLLECTION_ID_ASC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_STDDEV_POPULATION_VOLUMES_COLLECTION_ID_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_STDDEV_POPULATION_ASSET_ID_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_STDDEV_POPULATION_ASSET_ID_DESC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_VARIANCE_SAMPLE_ID_ASC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_VARIANCE_SAMPLE_ID_DESC
-  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_VARIANCE_SAMPLE_ASSET_ID_ASC
-  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_VARIANCE_SAMPLE_ASSET_ID_DESC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_VARIANCE_SAMPLE_ASSET_FEE_ASC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_VARIANCE_SAMPLE_ASSET_FEE_DESC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_VARIANCE_SAMPLE_ASSET_TOTAL_FEES_ASC
@@ -16411,12 +17165,14 @@ enum StablepoolHistoricalVolumesOrderBy {
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_VARIANCE_SAMPLE_ROUTED_LIQ_ADDED_TOTAL_AMOUNT_DESC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_VARIANCE_SAMPLE_ROUTED_LIQ_REMOVED_TOTAL_AMOUNT_ASC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_VARIANCE_SAMPLE_ROUTED_LIQ_REMOVED_TOTAL_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_VARIANCE_SAMPLE_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_VARIANCE_SAMPLE_PARA_CHAIN_BLOCK_HEIGHT_DESC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_VARIANCE_SAMPLE_VOLUMES_COLLECTION_ID_ASC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_VARIANCE_SAMPLE_VOLUMES_COLLECTION_ID_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_VARIANCE_SAMPLE_ASSET_ID_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_VARIANCE_SAMPLE_ASSET_ID_DESC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_VARIANCE_POPULATION_ID_ASC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_VARIANCE_POPULATION_ID_DESC
-  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_VARIANCE_POPULATION_ASSET_ID_ASC
-  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_VARIANCE_POPULATION_ASSET_ID_DESC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_VARIANCE_POPULATION_ASSET_FEE_ASC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_VARIANCE_POPULATION_ASSET_FEE_DESC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_VARIANCE_POPULATION_ASSET_TOTAL_FEES_ASC
@@ -16445,8 +17201,12 @@ enum StablepoolHistoricalVolumesOrderBy {
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_VARIANCE_POPULATION_ROUTED_LIQ_ADDED_TOTAL_AMOUNT_DESC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_VARIANCE_POPULATION_ROUTED_LIQ_REMOVED_TOTAL_AMOUNT_ASC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_VARIANCE_POPULATION_ROUTED_LIQ_REMOVED_TOTAL_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_VARIANCE_POPULATION_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_VARIANCE_POPULATION_PARA_CHAIN_BLOCK_HEIGHT_DESC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_VARIANCE_POPULATION_VOLUMES_COLLECTION_ID_ASC
   STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_VARIANCE_POPULATION_VOLUMES_COLLECTION_ID_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_VARIANCE_POPULATION_ASSET_ID_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_BY_VOLUMES_COLLECTION_ID_VARIANCE_POPULATION_ASSET_ID_DESC
 }
 
 """
@@ -16491,671 +17251,6 @@ input StablepoolHistoricalVolumeFilter {
 
   """Negates the expression."""
   not: StablepoolHistoricalVolumeFilter
-}
-
-"""A connection to a list of `StablepoolOperation` values."""
-type StablepoolOperationsConnection {
-  """A list of `StablepoolOperation` objects."""
-  nodes: [StablepoolOperation]!
-
-  """
-  A list of edges which contains the `StablepoolOperation` and cursor to aid in pagination.
-  """
-  edges: [StablepoolOperationsEdge!]!
-
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """
-  The count of *all* `StablepoolOperation` you could get from the connection.
-  """
-  totalCount: Int!
-
-  """
-  Aggregates across the matching connection (ignoring before/after/first/last/offset)
-  """
-  aggregates: StablepoolOperationAggregates
-
-  """
-  Grouped aggregates across the matching connection (ignoring before/after/first/last/offset)
-  """
-  groupedAggregates(
-    """
-    The method to use when grouping `StablepoolOperation` for these aggregates.
-    """
-    groupBy: [StablepoolOperationGroupBy!]!
-
-    """Conditions on the grouped aggregates."""
-    having: StablepoolOperationHavingInput
-  ): [StablepoolOperationAggregates!]
-}
-
-type StablepoolOperation {
-  id: String!
-  assetInId: Int!
-  assetInAmount: BigFloat!
-  assetOutId: Int!
-  assetOutAmount: BigFloat!
-  assetFee: BigFloat!
-  type: String!
-  extrinsicHash: String
-  indexInBlock: Int!
-  relayChainBlockHeight: Int!
-  paraChainBlockHeight: Int!
-  accountId: String
-  poolId: String
-
-  """
-  Reads a single `Account` that is related to this `StablepoolOperation`.
-  """
-  account: Account
-
-  """
-  Reads a single `Stablepool` that is related to this `StablepoolOperation`.
-  """
-  pool: Stablepool
-}
-
-"""A `StablepoolOperation` edge in the connection."""
-type StablepoolOperationsEdge {
-  """A cursor for use in pagination."""
-  cursor: Cursor
-
-  """The `StablepoolOperation` at the end of the edge."""
-  node: StablepoolOperation
-}
-
-type StablepoolOperationAggregates {
-  keys: [String!]
-
-  """
-  Sum aggregates across the matching connection (ignoring before/after/first/last/offset)
-  """
-  sum: StablepoolOperationSumAggregates
-
-  """
-  Distinct count aggregates across the matching connection (ignoring before/after/first/last/offset)
-  """
-  distinctCount: StablepoolOperationDistinctCountAggregates
-
-  """
-  Minimum aggregates across the matching connection (ignoring before/after/first/last/offset)
-  """
-  min: StablepoolOperationMinAggregates
-
-  """
-  Maximum aggregates across the matching connection (ignoring before/after/first/last/offset)
-  """
-  max: StablepoolOperationMaxAggregates
-
-  """
-  Mean average aggregates across the matching connection (ignoring before/after/first/last/offset)
-  """
-  average: StablepoolOperationAverageAggregates
-
-  """
-  Sample standard deviation aggregates across the matching connection (ignoring before/after/first/last/offset)
-  """
-  stddevSample: StablepoolOperationStddevSampleAggregates
-
-  """
-  Population standard deviation aggregates across the matching connection (ignoring before/after/first/last/offset)
-  """
-  stddevPopulation: StablepoolOperationStddevPopulationAggregates
-
-  """
-  Sample variance aggregates across the matching connection (ignoring before/after/first/last/offset)
-  """
-  varianceSample: StablepoolOperationVarianceSampleAggregates
-
-  """
-  Population variance aggregates across the matching connection (ignoring before/after/first/last/offset)
-  """
-  variancePopulation: StablepoolOperationVariancePopulationAggregates
-}
-
-type StablepoolOperationSumAggregates {
-  """Sum of assetInId across the matching connection"""
-  assetInId: BigInt!
-
-  """Sum of assetInAmount across the matching connection"""
-  assetInAmount: BigFloat!
-
-  """Sum of assetOutId across the matching connection"""
-  assetOutId: BigInt!
-
-  """Sum of assetOutAmount across the matching connection"""
-  assetOutAmount: BigFloat!
-
-  """Sum of assetFee across the matching connection"""
-  assetFee: BigFloat!
-
-  """Sum of indexInBlock across the matching connection"""
-  indexInBlock: BigInt!
-
-  """Sum of relayChainBlockHeight across the matching connection"""
-  relayChainBlockHeight: BigInt!
-
-  """Sum of paraChainBlockHeight across the matching connection"""
-  paraChainBlockHeight: BigInt!
-}
-
-type StablepoolOperationDistinctCountAggregates {
-  """Distinct count of id across the matching connection"""
-  id: BigInt
-
-  """Distinct count of assetInId across the matching connection"""
-  assetInId: BigInt
-
-  """Distinct count of assetInAmount across the matching connection"""
-  assetInAmount: BigInt
-
-  """Distinct count of assetOutId across the matching connection"""
-  assetOutId: BigInt
-
-  """Distinct count of assetOutAmount across the matching connection"""
-  assetOutAmount: BigInt
-
-  """Distinct count of assetFee across the matching connection"""
-  assetFee: BigInt
-
-  """Distinct count of type across the matching connection"""
-  type: BigInt
-
-  """Distinct count of extrinsicHash across the matching connection"""
-  extrinsicHash: BigInt
-
-  """Distinct count of indexInBlock across the matching connection"""
-  indexInBlock: BigInt
-
-  """Distinct count of relayChainBlockHeight across the matching connection"""
-  relayChainBlockHeight: BigInt
-
-  """Distinct count of paraChainBlockHeight across the matching connection"""
-  paraChainBlockHeight: BigInt
-
-  """Distinct count of accountId across the matching connection"""
-  accountId: BigInt
-
-  """Distinct count of poolId across the matching connection"""
-  poolId: BigInt
-}
-
-type StablepoolOperationMinAggregates {
-  """Minimum of assetInId across the matching connection"""
-  assetInId: Int
-
-  """Minimum of assetInAmount across the matching connection"""
-  assetInAmount: BigFloat
-
-  """Minimum of assetOutId across the matching connection"""
-  assetOutId: Int
-
-  """Minimum of assetOutAmount across the matching connection"""
-  assetOutAmount: BigFloat
-
-  """Minimum of assetFee across the matching connection"""
-  assetFee: BigFloat
-
-  """Minimum of indexInBlock across the matching connection"""
-  indexInBlock: Int
-
-  """Minimum of relayChainBlockHeight across the matching connection"""
-  relayChainBlockHeight: Int
-
-  """Minimum of paraChainBlockHeight across the matching connection"""
-  paraChainBlockHeight: Int
-}
-
-type StablepoolOperationMaxAggregates {
-  """Maximum of assetInId across the matching connection"""
-  assetInId: Int
-
-  """Maximum of assetInAmount across the matching connection"""
-  assetInAmount: BigFloat
-
-  """Maximum of assetOutId across the matching connection"""
-  assetOutId: Int
-
-  """Maximum of assetOutAmount across the matching connection"""
-  assetOutAmount: BigFloat
-
-  """Maximum of assetFee across the matching connection"""
-  assetFee: BigFloat
-
-  """Maximum of indexInBlock across the matching connection"""
-  indexInBlock: Int
-
-  """Maximum of relayChainBlockHeight across the matching connection"""
-  relayChainBlockHeight: Int
-
-  """Maximum of paraChainBlockHeight across the matching connection"""
-  paraChainBlockHeight: Int
-}
-
-type StablepoolOperationAverageAggregates {
-  """Mean average of assetInId across the matching connection"""
-  assetInId: BigFloat
-
-  """Mean average of assetInAmount across the matching connection"""
-  assetInAmount: BigFloat
-
-  """Mean average of assetOutId across the matching connection"""
-  assetOutId: BigFloat
-
-  """Mean average of assetOutAmount across the matching connection"""
-  assetOutAmount: BigFloat
-
-  """Mean average of assetFee across the matching connection"""
-  assetFee: BigFloat
-
-  """Mean average of indexInBlock across the matching connection"""
-  indexInBlock: BigFloat
-
-  """Mean average of relayChainBlockHeight across the matching connection"""
-  relayChainBlockHeight: BigFloat
-
-  """Mean average of paraChainBlockHeight across the matching connection"""
-  paraChainBlockHeight: BigFloat
-}
-
-type StablepoolOperationStddevSampleAggregates {
-  """Sample standard deviation of assetInId across the matching connection"""
-  assetInId: BigFloat
-
-  """
-  Sample standard deviation of assetInAmount across the matching connection
-  """
-  assetInAmount: BigFloat
-
-  """Sample standard deviation of assetOutId across the matching connection"""
-  assetOutId: BigFloat
-
-  """
-  Sample standard deviation of assetOutAmount across the matching connection
-  """
-  assetOutAmount: BigFloat
-
-  """Sample standard deviation of assetFee across the matching connection"""
-  assetFee: BigFloat
-
-  """
-  Sample standard deviation of indexInBlock across the matching connection
-  """
-  indexInBlock: BigFloat
-
-  """
-  Sample standard deviation of relayChainBlockHeight across the matching connection
-  """
-  relayChainBlockHeight: BigFloat
-
-  """
-  Sample standard deviation of paraChainBlockHeight across the matching connection
-  """
-  paraChainBlockHeight: BigFloat
-}
-
-type StablepoolOperationStddevPopulationAggregates {
-  """
-  Population standard deviation of assetInId across the matching connection
-  """
-  assetInId: BigFloat
-
-  """
-  Population standard deviation of assetInAmount across the matching connection
-  """
-  assetInAmount: BigFloat
-
-  """
-  Population standard deviation of assetOutId across the matching connection
-  """
-  assetOutId: BigFloat
-
-  """
-  Population standard deviation of assetOutAmount across the matching connection
-  """
-  assetOutAmount: BigFloat
-
-  """
-  Population standard deviation of assetFee across the matching connection
-  """
-  assetFee: BigFloat
-
-  """
-  Population standard deviation of indexInBlock across the matching connection
-  """
-  indexInBlock: BigFloat
-
-  """
-  Population standard deviation of relayChainBlockHeight across the matching connection
-  """
-  relayChainBlockHeight: BigFloat
-
-  """
-  Population standard deviation of paraChainBlockHeight across the matching connection
-  """
-  paraChainBlockHeight: BigFloat
-}
-
-type StablepoolOperationVarianceSampleAggregates {
-  """Sample variance of assetInId across the matching connection"""
-  assetInId: BigFloat
-
-  """Sample variance of assetInAmount across the matching connection"""
-  assetInAmount: BigFloat
-
-  """Sample variance of assetOutId across the matching connection"""
-  assetOutId: BigFloat
-
-  """Sample variance of assetOutAmount across the matching connection"""
-  assetOutAmount: BigFloat
-
-  """Sample variance of assetFee across the matching connection"""
-  assetFee: BigFloat
-
-  """Sample variance of indexInBlock across the matching connection"""
-  indexInBlock: BigFloat
-
-  """
-  Sample variance of relayChainBlockHeight across the matching connection
-  """
-  relayChainBlockHeight: BigFloat
-
-  """Sample variance of paraChainBlockHeight across the matching connection"""
-  paraChainBlockHeight: BigFloat
-}
-
-type StablepoolOperationVariancePopulationAggregates {
-  """Population variance of assetInId across the matching connection"""
-  assetInId: BigFloat
-
-  """Population variance of assetInAmount across the matching connection"""
-  assetInAmount: BigFloat
-
-  """Population variance of assetOutId across the matching connection"""
-  assetOutId: BigFloat
-
-  """Population variance of assetOutAmount across the matching connection"""
-  assetOutAmount: BigFloat
-
-  """Population variance of assetFee across the matching connection"""
-  assetFee: BigFloat
-
-  """Population variance of indexInBlock across the matching connection"""
-  indexInBlock: BigFloat
-
-  """
-  Population variance of relayChainBlockHeight across the matching connection
-  """
-  relayChainBlockHeight: BigFloat
-
-  """
-  Population variance of paraChainBlockHeight across the matching connection
-  """
-  paraChainBlockHeight: BigFloat
-}
-
-"""
-Grouping methods for `StablepoolOperation` for usage during aggregation.
-"""
-enum StablepoolOperationGroupBy {
-  ASSET_IN_ID
-  ASSET_IN_AMOUNT
-  ASSET_OUT_ID
-  ASSET_OUT_AMOUNT
-  ASSET_FEE
-  TYPE
-  EXTRINSIC_HASH
-  INDEX_IN_BLOCK
-  RELAY_CHAIN_BLOCK_HEIGHT
-  PARA_CHAIN_BLOCK_HEIGHT
-  ACCOUNT_ID
-  POOL_ID
-}
-
-"""Conditions for `StablepoolOperation` aggregates."""
-input StablepoolOperationHavingInput {
-  AND: [StablepoolOperationHavingInput!]
-  OR: [StablepoolOperationHavingInput!]
-  sum: StablepoolOperationHavingSumInput
-  distinctCount: StablepoolOperationHavingDistinctCountInput
-  min: StablepoolOperationHavingMinInput
-  max: StablepoolOperationHavingMaxInput
-  average: StablepoolOperationHavingAverageInput
-  stddevSample: StablepoolOperationHavingStddevSampleInput
-  stddevPopulation: StablepoolOperationHavingStddevPopulationInput
-  varianceSample: StablepoolOperationHavingVarianceSampleInput
-  variancePopulation: StablepoolOperationHavingVariancePopulationInput
-}
-
-input StablepoolOperationHavingSumInput {
-  assetInId: HavingIntFilter
-  assetInAmount: HavingBigfloatFilter
-  assetOutId: HavingIntFilter
-  assetOutAmount: HavingBigfloatFilter
-  assetFee: HavingBigfloatFilter
-  indexInBlock: HavingIntFilter
-  relayChainBlockHeight: HavingIntFilter
-  paraChainBlockHeight: HavingIntFilter
-}
-
-input StablepoolOperationHavingDistinctCountInput {
-  assetInId: HavingIntFilter
-  assetInAmount: HavingBigfloatFilter
-  assetOutId: HavingIntFilter
-  assetOutAmount: HavingBigfloatFilter
-  assetFee: HavingBigfloatFilter
-  indexInBlock: HavingIntFilter
-  relayChainBlockHeight: HavingIntFilter
-  paraChainBlockHeight: HavingIntFilter
-}
-
-input StablepoolOperationHavingMinInput {
-  assetInId: HavingIntFilter
-  assetInAmount: HavingBigfloatFilter
-  assetOutId: HavingIntFilter
-  assetOutAmount: HavingBigfloatFilter
-  assetFee: HavingBigfloatFilter
-  indexInBlock: HavingIntFilter
-  relayChainBlockHeight: HavingIntFilter
-  paraChainBlockHeight: HavingIntFilter
-}
-
-input StablepoolOperationHavingMaxInput {
-  assetInId: HavingIntFilter
-  assetInAmount: HavingBigfloatFilter
-  assetOutId: HavingIntFilter
-  assetOutAmount: HavingBigfloatFilter
-  assetFee: HavingBigfloatFilter
-  indexInBlock: HavingIntFilter
-  relayChainBlockHeight: HavingIntFilter
-  paraChainBlockHeight: HavingIntFilter
-}
-
-input StablepoolOperationHavingAverageInput {
-  assetInId: HavingIntFilter
-  assetInAmount: HavingBigfloatFilter
-  assetOutId: HavingIntFilter
-  assetOutAmount: HavingBigfloatFilter
-  assetFee: HavingBigfloatFilter
-  indexInBlock: HavingIntFilter
-  relayChainBlockHeight: HavingIntFilter
-  paraChainBlockHeight: HavingIntFilter
-}
-
-input StablepoolOperationHavingStddevSampleInput {
-  assetInId: HavingIntFilter
-  assetInAmount: HavingBigfloatFilter
-  assetOutId: HavingIntFilter
-  assetOutAmount: HavingBigfloatFilter
-  assetFee: HavingBigfloatFilter
-  indexInBlock: HavingIntFilter
-  relayChainBlockHeight: HavingIntFilter
-  paraChainBlockHeight: HavingIntFilter
-}
-
-input StablepoolOperationHavingStddevPopulationInput {
-  assetInId: HavingIntFilter
-  assetInAmount: HavingBigfloatFilter
-  assetOutId: HavingIntFilter
-  assetOutAmount: HavingBigfloatFilter
-  assetFee: HavingBigfloatFilter
-  indexInBlock: HavingIntFilter
-  relayChainBlockHeight: HavingIntFilter
-  paraChainBlockHeight: HavingIntFilter
-}
-
-input StablepoolOperationHavingVarianceSampleInput {
-  assetInId: HavingIntFilter
-  assetInAmount: HavingBigfloatFilter
-  assetOutId: HavingIntFilter
-  assetOutAmount: HavingBigfloatFilter
-  assetFee: HavingBigfloatFilter
-  indexInBlock: HavingIntFilter
-  relayChainBlockHeight: HavingIntFilter
-  paraChainBlockHeight: HavingIntFilter
-}
-
-input StablepoolOperationHavingVariancePopulationInput {
-  assetInId: HavingIntFilter
-  assetInAmount: HavingBigfloatFilter
-  assetOutId: HavingIntFilter
-  assetOutAmount: HavingBigfloatFilter
-  assetFee: HavingBigfloatFilter
-  indexInBlock: HavingIntFilter
-  relayChainBlockHeight: HavingIntFilter
-  paraChainBlockHeight: HavingIntFilter
-}
-
-"""Methods to use when ordering `StablepoolOperation`."""
-enum StablepoolOperationsOrderBy {
-  NATURAL
-  ID_ASC
-  ID_DESC
-  ASSET_IN_ID_ASC
-  ASSET_IN_ID_DESC
-  ASSET_IN_AMOUNT_ASC
-  ASSET_IN_AMOUNT_DESC
-  ASSET_OUT_ID_ASC
-  ASSET_OUT_ID_DESC
-  ASSET_OUT_AMOUNT_ASC
-  ASSET_OUT_AMOUNT_DESC
-  ASSET_FEE_ASC
-  ASSET_FEE_DESC
-  TYPE_ASC
-  TYPE_DESC
-  EXTRINSIC_HASH_ASC
-  EXTRINSIC_HASH_DESC
-  INDEX_IN_BLOCK_ASC
-  INDEX_IN_BLOCK_DESC
-  RELAY_CHAIN_BLOCK_HEIGHT_ASC
-  RELAY_CHAIN_BLOCK_HEIGHT_DESC
-  PARA_CHAIN_BLOCK_HEIGHT_ASC
-  PARA_CHAIN_BLOCK_HEIGHT_DESC
-  ACCOUNT_ID_ASC
-  ACCOUNT_ID_DESC
-  POOL_ID_ASC
-  POOL_ID_DESC
-  PRIMARY_KEY_ASC
-  PRIMARY_KEY_DESC
-}
-
-"""
-A condition to be used against `StablepoolOperation` object types. All fields
-are tested for equality and combined with a logical ‘and.’
-"""
-input StablepoolOperationCondition {
-  """Checks for equality with the object’s `id` field."""
-  id: String
-
-  """Checks for equality with the object’s `assetInId` field."""
-  assetInId: Int
-
-  """Checks for equality with the object’s `assetInAmount` field."""
-  assetInAmount: BigFloat
-
-  """Checks for equality with the object’s `assetOutId` field."""
-  assetOutId: Int
-
-  """Checks for equality with the object’s `assetOutAmount` field."""
-  assetOutAmount: BigFloat
-
-  """Checks for equality with the object’s `assetFee` field."""
-  assetFee: BigFloat
-
-  """Checks for equality with the object’s `type` field."""
-  type: String
-
-  """Checks for equality with the object’s `extrinsicHash` field."""
-  extrinsicHash: String
-
-  """Checks for equality with the object’s `indexInBlock` field."""
-  indexInBlock: Int
-
-  """Checks for equality with the object’s `relayChainBlockHeight` field."""
-  relayChainBlockHeight: Int
-
-  """Checks for equality with the object’s `paraChainBlockHeight` field."""
-  paraChainBlockHeight: Int
-
-  """Checks for equality with the object’s `accountId` field."""
-  accountId: String
-
-  """Checks for equality with the object’s `poolId` field."""
-  poolId: String
-}
-
-"""
-A filter to be used against `StablepoolOperation` object types. All fields are combined with a logical ‘and.’
-"""
-input StablepoolOperationFilter {
-  """Filter by the object’s `id` field."""
-  id: StringFilter
-
-  """Filter by the object’s `assetInId` field."""
-  assetInId: IntFilter
-
-  """Filter by the object’s `assetInAmount` field."""
-  assetInAmount: BigFloatFilter
-
-  """Filter by the object’s `assetOutId` field."""
-  assetOutId: IntFilter
-
-  """Filter by the object’s `assetOutAmount` field."""
-  assetOutAmount: BigFloatFilter
-
-  """Filter by the object’s `assetFee` field."""
-  assetFee: BigFloatFilter
-
-  """Filter by the object’s `type` field."""
-  type: StringFilter
-
-  """Filter by the object’s `extrinsicHash` field."""
-  extrinsicHash: StringFilter
-
-  """Filter by the object’s `indexInBlock` field."""
-  indexInBlock: IntFilter
-
-  """Filter by the object’s `relayChainBlockHeight` field."""
-  relayChainBlockHeight: IntFilter
-
-  """Filter by the object’s `paraChainBlockHeight` field."""
-  paraChainBlockHeight: IntFilter
-
-  """Filter by the object’s `accountId` field."""
-  accountId: StringFilter
-
-  """Filter by the object’s `poolId` field."""
-  poolId: StringFilter
-
-  """Checks for all expressions in this list."""
-  and: [StablepoolOperationFilter!]
-
-  """Checks for any expressions in this list."""
-  or: [StablepoolOperationFilter!]
-
-  """Negates the expression."""
-  not: StablepoolOperationFilter
 }
 
 """A connection to a list of `StablepoolLiquidityAction` values."""
@@ -18326,76 +18421,76 @@ enum StablepoolsOrderBy {
   STABLEPOOL_ASSETS_BY_POOL_ID_COUNT_DESC
   STABLEPOOL_ASSETS_BY_POOL_ID_SUM_ID_ASC
   STABLEPOOL_ASSETS_BY_POOL_ID_SUM_ID_DESC
-  STABLEPOOL_ASSETS_BY_POOL_ID_SUM_ASSET_ID_ASC
-  STABLEPOOL_ASSETS_BY_POOL_ID_SUM_ASSET_ID_DESC
   STABLEPOOL_ASSETS_BY_POOL_ID_SUM_AMOUNT_ASC
   STABLEPOOL_ASSETS_BY_POOL_ID_SUM_AMOUNT_DESC
   STABLEPOOL_ASSETS_BY_POOL_ID_SUM_POOL_ID_ASC
   STABLEPOOL_ASSETS_BY_POOL_ID_SUM_POOL_ID_DESC
+  STABLEPOOL_ASSETS_BY_POOL_ID_SUM_ASSET_ID_ASC
+  STABLEPOOL_ASSETS_BY_POOL_ID_SUM_ASSET_ID_DESC
   STABLEPOOL_ASSETS_BY_POOL_ID_DISTINCT_COUNT_ID_ASC
   STABLEPOOL_ASSETS_BY_POOL_ID_DISTINCT_COUNT_ID_DESC
-  STABLEPOOL_ASSETS_BY_POOL_ID_DISTINCT_COUNT_ASSET_ID_ASC
-  STABLEPOOL_ASSETS_BY_POOL_ID_DISTINCT_COUNT_ASSET_ID_DESC
   STABLEPOOL_ASSETS_BY_POOL_ID_DISTINCT_COUNT_AMOUNT_ASC
   STABLEPOOL_ASSETS_BY_POOL_ID_DISTINCT_COUNT_AMOUNT_DESC
   STABLEPOOL_ASSETS_BY_POOL_ID_DISTINCT_COUNT_POOL_ID_ASC
   STABLEPOOL_ASSETS_BY_POOL_ID_DISTINCT_COUNT_POOL_ID_DESC
+  STABLEPOOL_ASSETS_BY_POOL_ID_DISTINCT_COUNT_ASSET_ID_ASC
+  STABLEPOOL_ASSETS_BY_POOL_ID_DISTINCT_COUNT_ASSET_ID_DESC
   STABLEPOOL_ASSETS_BY_POOL_ID_MIN_ID_ASC
   STABLEPOOL_ASSETS_BY_POOL_ID_MIN_ID_DESC
-  STABLEPOOL_ASSETS_BY_POOL_ID_MIN_ASSET_ID_ASC
-  STABLEPOOL_ASSETS_BY_POOL_ID_MIN_ASSET_ID_DESC
   STABLEPOOL_ASSETS_BY_POOL_ID_MIN_AMOUNT_ASC
   STABLEPOOL_ASSETS_BY_POOL_ID_MIN_AMOUNT_DESC
   STABLEPOOL_ASSETS_BY_POOL_ID_MIN_POOL_ID_ASC
   STABLEPOOL_ASSETS_BY_POOL_ID_MIN_POOL_ID_DESC
+  STABLEPOOL_ASSETS_BY_POOL_ID_MIN_ASSET_ID_ASC
+  STABLEPOOL_ASSETS_BY_POOL_ID_MIN_ASSET_ID_DESC
   STABLEPOOL_ASSETS_BY_POOL_ID_MAX_ID_ASC
   STABLEPOOL_ASSETS_BY_POOL_ID_MAX_ID_DESC
-  STABLEPOOL_ASSETS_BY_POOL_ID_MAX_ASSET_ID_ASC
-  STABLEPOOL_ASSETS_BY_POOL_ID_MAX_ASSET_ID_DESC
   STABLEPOOL_ASSETS_BY_POOL_ID_MAX_AMOUNT_ASC
   STABLEPOOL_ASSETS_BY_POOL_ID_MAX_AMOUNT_DESC
   STABLEPOOL_ASSETS_BY_POOL_ID_MAX_POOL_ID_ASC
   STABLEPOOL_ASSETS_BY_POOL_ID_MAX_POOL_ID_DESC
+  STABLEPOOL_ASSETS_BY_POOL_ID_MAX_ASSET_ID_ASC
+  STABLEPOOL_ASSETS_BY_POOL_ID_MAX_ASSET_ID_DESC
   STABLEPOOL_ASSETS_BY_POOL_ID_AVERAGE_ID_ASC
   STABLEPOOL_ASSETS_BY_POOL_ID_AVERAGE_ID_DESC
-  STABLEPOOL_ASSETS_BY_POOL_ID_AVERAGE_ASSET_ID_ASC
-  STABLEPOOL_ASSETS_BY_POOL_ID_AVERAGE_ASSET_ID_DESC
   STABLEPOOL_ASSETS_BY_POOL_ID_AVERAGE_AMOUNT_ASC
   STABLEPOOL_ASSETS_BY_POOL_ID_AVERAGE_AMOUNT_DESC
   STABLEPOOL_ASSETS_BY_POOL_ID_AVERAGE_POOL_ID_ASC
   STABLEPOOL_ASSETS_BY_POOL_ID_AVERAGE_POOL_ID_DESC
+  STABLEPOOL_ASSETS_BY_POOL_ID_AVERAGE_ASSET_ID_ASC
+  STABLEPOOL_ASSETS_BY_POOL_ID_AVERAGE_ASSET_ID_DESC
   STABLEPOOL_ASSETS_BY_POOL_ID_STDDEV_SAMPLE_ID_ASC
   STABLEPOOL_ASSETS_BY_POOL_ID_STDDEV_SAMPLE_ID_DESC
-  STABLEPOOL_ASSETS_BY_POOL_ID_STDDEV_SAMPLE_ASSET_ID_ASC
-  STABLEPOOL_ASSETS_BY_POOL_ID_STDDEV_SAMPLE_ASSET_ID_DESC
   STABLEPOOL_ASSETS_BY_POOL_ID_STDDEV_SAMPLE_AMOUNT_ASC
   STABLEPOOL_ASSETS_BY_POOL_ID_STDDEV_SAMPLE_AMOUNT_DESC
   STABLEPOOL_ASSETS_BY_POOL_ID_STDDEV_SAMPLE_POOL_ID_ASC
   STABLEPOOL_ASSETS_BY_POOL_ID_STDDEV_SAMPLE_POOL_ID_DESC
+  STABLEPOOL_ASSETS_BY_POOL_ID_STDDEV_SAMPLE_ASSET_ID_ASC
+  STABLEPOOL_ASSETS_BY_POOL_ID_STDDEV_SAMPLE_ASSET_ID_DESC
   STABLEPOOL_ASSETS_BY_POOL_ID_STDDEV_POPULATION_ID_ASC
   STABLEPOOL_ASSETS_BY_POOL_ID_STDDEV_POPULATION_ID_DESC
-  STABLEPOOL_ASSETS_BY_POOL_ID_STDDEV_POPULATION_ASSET_ID_ASC
-  STABLEPOOL_ASSETS_BY_POOL_ID_STDDEV_POPULATION_ASSET_ID_DESC
   STABLEPOOL_ASSETS_BY_POOL_ID_STDDEV_POPULATION_AMOUNT_ASC
   STABLEPOOL_ASSETS_BY_POOL_ID_STDDEV_POPULATION_AMOUNT_DESC
   STABLEPOOL_ASSETS_BY_POOL_ID_STDDEV_POPULATION_POOL_ID_ASC
   STABLEPOOL_ASSETS_BY_POOL_ID_STDDEV_POPULATION_POOL_ID_DESC
+  STABLEPOOL_ASSETS_BY_POOL_ID_STDDEV_POPULATION_ASSET_ID_ASC
+  STABLEPOOL_ASSETS_BY_POOL_ID_STDDEV_POPULATION_ASSET_ID_DESC
   STABLEPOOL_ASSETS_BY_POOL_ID_VARIANCE_SAMPLE_ID_ASC
   STABLEPOOL_ASSETS_BY_POOL_ID_VARIANCE_SAMPLE_ID_DESC
-  STABLEPOOL_ASSETS_BY_POOL_ID_VARIANCE_SAMPLE_ASSET_ID_ASC
-  STABLEPOOL_ASSETS_BY_POOL_ID_VARIANCE_SAMPLE_ASSET_ID_DESC
   STABLEPOOL_ASSETS_BY_POOL_ID_VARIANCE_SAMPLE_AMOUNT_ASC
   STABLEPOOL_ASSETS_BY_POOL_ID_VARIANCE_SAMPLE_AMOUNT_DESC
   STABLEPOOL_ASSETS_BY_POOL_ID_VARIANCE_SAMPLE_POOL_ID_ASC
   STABLEPOOL_ASSETS_BY_POOL_ID_VARIANCE_SAMPLE_POOL_ID_DESC
+  STABLEPOOL_ASSETS_BY_POOL_ID_VARIANCE_SAMPLE_ASSET_ID_ASC
+  STABLEPOOL_ASSETS_BY_POOL_ID_VARIANCE_SAMPLE_ASSET_ID_DESC
   STABLEPOOL_ASSETS_BY_POOL_ID_VARIANCE_POPULATION_ID_ASC
   STABLEPOOL_ASSETS_BY_POOL_ID_VARIANCE_POPULATION_ID_DESC
-  STABLEPOOL_ASSETS_BY_POOL_ID_VARIANCE_POPULATION_ASSET_ID_ASC
-  STABLEPOOL_ASSETS_BY_POOL_ID_VARIANCE_POPULATION_ASSET_ID_DESC
   STABLEPOOL_ASSETS_BY_POOL_ID_VARIANCE_POPULATION_AMOUNT_ASC
   STABLEPOOL_ASSETS_BY_POOL_ID_VARIANCE_POPULATION_AMOUNT_DESC
   STABLEPOOL_ASSETS_BY_POOL_ID_VARIANCE_POPULATION_POOL_ID_ASC
   STABLEPOOL_ASSETS_BY_POOL_ID_VARIANCE_POPULATION_POOL_ID_DESC
+  STABLEPOOL_ASSETS_BY_POOL_ID_VARIANCE_POPULATION_ASSET_ID_ASC
+  STABLEPOOL_ASSETS_BY_POOL_ID_VARIANCE_POPULATION_ASSET_ID_DESC
   STABLEPOOL_HISTORICAL_VOLUMES_BY_POOL_ID_COUNT_ASC
   STABLEPOOL_HISTORICAL_VOLUMES_BY_POOL_ID_COUNT_DESC
   STABLEPOOL_HISTORICAL_VOLUMES_BY_POOL_ID_SUM_ID_ASC
@@ -18474,16 +18569,12 @@ enum StablepoolsOrderBy {
   STABLEPOOL_OPERATIONS_BY_POOL_ID_COUNT_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_SUM_ID_ASC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_SUM_ID_DESC
-  STABLEPOOL_OPERATIONS_BY_POOL_ID_SUM_ASSET_IN_ID_ASC
-  STABLEPOOL_OPERATIONS_BY_POOL_ID_SUM_ASSET_IN_ID_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_SUM_ASSET_IN_AMOUNT_ASC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_SUM_ASSET_IN_AMOUNT_DESC
-  STABLEPOOL_OPERATIONS_BY_POOL_ID_SUM_ASSET_OUT_ID_ASC
-  STABLEPOOL_OPERATIONS_BY_POOL_ID_SUM_ASSET_OUT_ID_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_SUM_ASSET_OUT_AMOUNT_ASC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_SUM_ASSET_OUT_AMOUNT_DESC
-  STABLEPOOL_OPERATIONS_BY_POOL_ID_SUM_ASSET_FEE_ASC
-  STABLEPOOL_OPERATIONS_BY_POOL_ID_SUM_ASSET_FEE_DESC
+  STABLEPOOL_OPERATIONS_BY_POOL_ID_SUM_ASSET_FEE_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_POOL_ID_SUM_ASSET_FEE_AMOUNT_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_SUM_TYPE_ASC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_SUM_TYPE_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_SUM_EXTRINSIC_HASH_ASC
@@ -18496,20 +18587,20 @@ enum StablepoolsOrderBy {
   STABLEPOOL_OPERATIONS_BY_POOL_ID_SUM_PARA_CHAIN_BLOCK_HEIGHT_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_SUM_ACCOUNT_ID_ASC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_SUM_ACCOUNT_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_POOL_ID_SUM_ASSET_IN_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_POOL_ID_SUM_ASSET_IN_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_POOL_ID_SUM_ASSET_OUT_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_POOL_ID_SUM_ASSET_OUT_ID_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_SUM_POOL_ID_ASC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_SUM_POOL_ID_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_DISTINCT_COUNT_ID_ASC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_DISTINCT_COUNT_ID_DESC
-  STABLEPOOL_OPERATIONS_BY_POOL_ID_DISTINCT_COUNT_ASSET_IN_ID_ASC
-  STABLEPOOL_OPERATIONS_BY_POOL_ID_DISTINCT_COUNT_ASSET_IN_ID_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_DISTINCT_COUNT_ASSET_IN_AMOUNT_ASC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_DISTINCT_COUNT_ASSET_IN_AMOUNT_DESC
-  STABLEPOOL_OPERATIONS_BY_POOL_ID_DISTINCT_COUNT_ASSET_OUT_ID_ASC
-  STABLEPOOL_OPERATIONS_BY_POOL_ID_DISTINCT_COUNT_ASSET_OUT_ID_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_DISTINCT_COUNT_ASSET_OUT_AMOUNT_ASC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_DISTINCT_COUNT_ASSET_OUT_AMOUNT_DESC
-  STABLEPOOL_OPERATIONS_BY_POOL_ID_DISTINCT_COUNT_ASSET_FEE_ASC
-  STABLEPOOL_OPERATIONS_BY_POOL_ID_DISTINCT_COUNT_ASSET_FEE_DESC
+  STABLEPOOL_OPERATIONS_BY_POOL_ID_DISTINCT_COUNT_ASSET_FEE_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_POOL_ID_DISTINCT_COUNT_ASSET_FEE_AMOUNT_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_DISTINCT_COUNT_TYPE_ASC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_DISTINCT_COUNT_TYPE_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_DISTINCT_COUNT_EXTRINSIC_HASH_ASC
@@ -18522,20 +18613,20 @@ enum StablepoolsOrderBy {
   STABLEPOOL_OPERATIONS_BY_POOL_ID_DISTINCT_COUNT_PARA_CHAIN_BLOCK_HEIGHT_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_DISTINCT_COUNT_ACCOUNT_ID_ASC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_DISTINCT_COUNT_ACCOUNT_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_POOL_ID_DISTINCT_COUNT_ASSET_IN_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_POOL_ID_DISTINCT_COUNT_ASSET_IN_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_POOL_ID_DISTINCT_COUNT_ASSET_OUT_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_POOL_ID_DISTINCT_COUNT_ASSET_OUT_ID_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_DISTINCT_COUNT_POOL_ID_ASC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_DISTINCT_COUNT_POOL_ID_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_MIN_ID_ASC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_MIN_ID_DESC
-  STABLEPOOL_OPERATIONS_BY_POOL_ID_MIN_ASSET_IN_ID_ASC
-  STABLEPOOL_OPERATIONS_BY_POOL_ID_MIN_ASSET_IN_ID_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_MIN_ASSET_IN_AMOUNT_ASC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_MIN_ASSET_IN_AMOUNT_DESC
-  STABLEPOOL_OPERATIONS_BY_POOL_ID_MIN_ASSET_OUT_ID_ASC
-  STABLEPOOL_OPERATIONS_BY_POOL_ID_MIN_ASSET_OUT_ID_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_MIN_ASSET_OUT_AMOUNT_ASC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_MIN_ASSET_OUT_AMOUNT_DESC
-  STABLEPOOL_OPERATIONS_BY_POOL_ID_MIN_ASSET_FEE_ASC
-  STABLEPOOL_OPERATIONS_BY_POOL_ID_MIN_ASSET_FEE_DESC
+  STABLEPOOL_OPERATIONS_BY_POOL_ID_MIN_ASSET_FEE_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_POOL_ID_MIN_ASSET_FEE_AMOUNT_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_MIN_TYPE_ASC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_MIN_TYPE_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_MIN_EXTRINSIC_HASH_ASC
@@ -18548,20 +18639,20 @@ enum StablepoolsOrderBy {
   STABLEPOOL_OPERATIONS_BY_POOL_ID_MIN_PARA_CHAIN_BLOCK_HEIGHT_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_MIN_ACCOUNT_ID_ASC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_MIN_ACCOUNT_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_POOL_ID_MIN_ASSET_IN_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_POOL_ID_MIN_ASSET_IN_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_POOL_ID_MIN_ASSET_OUT_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_POOL_ID_MIN_ASSET_OUT_ID_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_MIN_POOL_ID_ASC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_MIN_POOL_ID_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_MAX_ID_ASC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_MAX_ID_DESC
-  STABLEPOOL_OPERATIONS_BY_POOL_ID_MAX_ASSET_IN_ID_ASC
-  STABLEPOOL_OPERATIONS_BY_POOL_ID_MAX_ASSET_IN_ID_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_MAX_ASSET_IN_AMOUNT_ASC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_MAX_ASSET_IN_AMOUNT_DESC
-  STABLEPOOL_OPERATIONS_BY_POOL_ID_MAX_ASSET_OUT_ID_ASC
-  STABLEPOOL_OPERATIONS_BY_POOL_ID_MAX_ASSET_OUT_ID_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_MAX_ASSET_OUT_AMOUNT_ASC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_MAX_ASSET_OUT_AMOUNT_DESC
-  STABLEPOOL_OPERATIONS_BY_POOL_ID_MAX_ASSET_FEE_ASC
-  STABLEPOOL_OPERATIONS_BY_POOL_ID_MAX_ASSET_FEE_DESC
+  STABLEPOOL_OPERATIONS_BY_POOL_ID_MAX_ASSET_FEE_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_POOL_ID_MAX_ASSET_FEE_AMOUNT_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_MAX_TYPE_ASC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_MAX_TYPE_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_MAX_EXTRINSIC_HASH_ASC
@@ -18574,20 +18665,20 @@ enum StablepoolsOrderBy {
   STABLEPOOL_OPERATIONS_BY_POOL_ID_MAX_PARA_CHAIN_BLOCK_HEIGHT_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_MAX_ACCOUNT_ID_ASC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_MAX_ACCOUNT_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_POOL_ID_MAX_ASSET_IN_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_POOL_ID_MAX_ASSET_IN_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_POOL_ID_MAX_ASSET_OUT_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_POOL_ID_MAX_ASSET_OUT_ID_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_MAX_POOL_ID_ASC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_MAX_POOL_ID_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_AVERAGE_ID_ASC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_AVERAGE_ID_DESC
-  STABLEPOOL_OPERATIONS_BY_POOL_ID_AVERAGE_ASSET_IN_ID_ASC
-  STABLEPOOL_OPERATIONS_BY_POOL_ID_AVERAGE_ASSET_IN_ID_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_AVERAGE_ASSET_IN_AMOUNT_ASC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_AVERAGE_ASSET_IN_AMOUNT_DESC
-  STABLEPOOL_OPERATIONS_BY_POOL_ID_AVERAGE_ASSET_OUT_ID_ASC
-  STABLEPOOL_OPERATIONS_BY_POOL_ID_AVERAGE_ASSET_OUT_ID_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_AVERAGE_ASSET_OUT_AMOUNT_ASC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_AVERAGE_ASSET_OUT_AMOUNT_DESC
-  STABLEPOOL_OPERATIONS_BY_POOL_ID_AVERAGE_ASSET_FEE_ASC
-  STABLEPOOL_OPERATIONS_BY_POOL_ID_AVERAGE_ASSET_FEE_DESC
+  STABLEPOOL_OPERATIONS_BY_POOL_ID_AVERAGE_ASSET_FEE_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_POOL_ID_AVERAGE_ASSET_FEE_AMOUNT_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_AVERAGE_TYPE_ASC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_AVERAGE_TYPE_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_AVERAGE_EXTRINSIC_HASH_ASC
@@ -18600,20 +18691,20 @@ enum StablepoolsOrderBy {
   STABLEPOOL_OPERATIONS_BY_POOL_ID_AVERAGE_PARA_CHAIN_BLOCK_HEIGHT_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_AVERAGE_ACCOUNT_ID_ASC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_AVERAGE_ACCOUNT_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_POOL_ID_AVERAGE_ASSET_IN_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_POOL_ID_AVERAGE_ASSET_IN_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_POOL_ID_AVERAGE_ASSET_OUT_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_POOL_ID_AVERAGE_ASSET_OUT_ID_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_AVERAGE_POOL_ID_ASC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_AVERAGE_POOL_ID_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_STDDEV_SAMPLE_ID_ASC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_STDDEV_SAMPLE_ID_DESC
-  STABLEPOOL_OPERATIONS_BY_POOL_ID_STDDEV_SAMPLE_ASSET_IN_ID_ASC
-  STABLEPOOL_OPERATIONS_BY_POOL_ID_STDDEV_SAMPLE_ASSET_IN_ID_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_STDDEV_SAMPLE_ASSET_IN_AMOUNT_ASC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_STDDEV_SAMPLE_ASSET_IN_AMOUNT_DESC
-  STABLEPOOL_OPERATIONS_BY_POOL_ID_STDDEV_SAMPLE_ASSET_OUT_ID_ASC
-  STABLEPOOL_OPERATIONS_BY_POOL_ID_STDDEV_SAMPLE_ASSET_OUT_ID_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_STDDEV_SAMPLE_ASSET_OUT_AMOUNT_ASC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_STDDEV_SAMPLE_ASSET_OUT_AMOUNT_DESC
-  STABLEPOOL_OPERATIONS_BY_POOL_ID_STDDEV_SAMPLE_ASSET_FEE_ASC
-  STABLEPOOL_OPERATIONS_BY_POOL_ID_STDDEV_SAMPLE_ASSET_FEE_DESC
+  STABLEPOOL_OPERATIONS_BY_POOL_ID_STDDEV_SAMPLE_ASSET_FEE_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_POOL_ID_STDDEV_SAMPLE_ASSET_FEE_AMOUNT_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_STDDEV_SAMPLE_TYPE_ASC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_STDDEV_SAMPLE_TYPE_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_STDDEV_SAMPLE_EXTRINSIC_HASH_ASC
@@ -18626,20 +18717,20 @@ enum StablepoolsOrderBy {
   STABLEPOOL_OPERATIONS_BY_POOL_ID_STDDEV_SAMPLE_PARA_CHAIN_BLOCK_HEIGHT_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_STDDEV_SAMPLE_ACCOUNT_ID_ASC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_STDDEV_SAMPLE_ACCOUNT_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_POOL_ID_STDDEV_SAMPLE_ASSET_IN_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_POOL_ID_STDDEV_SAMPLE_ASSET_IN_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_POOL_ID_STDDEV_SAMPLE_ASSET_OUT_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_POOL_ID_STDDEV_SAMPLE_ASSET_OUT_ID_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_STDDEV_SAMPLE_POOL_ID_ASC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_STDDEV_SAMPLE_POOL_ID_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_STDDEV_POPULATION_ID_ASC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_STDDEV_POPULATION_ID_DESC
-  STABLEPOOL_OPERATIONS_BY_POOL_ID_STDDEV_POPULATION_ASSET_IN_ID_ASC
-  STABLEPOOL_OPERATIONS_BY_POOL_ID_STDDEV_POPULATION_ASSET_IN_ID_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_STDDEV_POPULATION_ASSET_IN_AMOUNT_ASC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_STDDEV_POPULATION_ASSET_IN_AMOUNT_DESC
-  STABLEPOOL_OPERATIONS_BY_POOL_ID_STDDEV_POPULATION_ASSET_OUT_ID_ASC
-  STABLEPOOL_OPERATIONS_BY_POOL_ID_STDDEV_POPULATION_ASSET_OUT_ID_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_STDDEV_POPULATION_ASSET_OUT_AMOUNT_ASC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_STDDEV_POPULATION_ASSET_OUT_AMOUNT_DESC
-  STABLEPOOL_OPERATIONS_BY_POOL_ID_STDDEV_POPULATION_ASSET_FEE_ASC
-  STABLEPOOL_OPERATIONS_BY_POOL_ID_STDDEV_POPULATION_ASSET_FEE_DESC
+  STABLEPOOL_OPERATIONS_BY_POOL_ID_STDDEV_POPULATION_ASSET_FEE_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_POOL_ID_STDDEV_POPULATION_ASSET_FEE_AMOUNT_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_STDDEV_POPULATION_TYPE_ASC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_STDDEV_POPULATION_TYPE_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_STDDEV_POPULATION_EXTRINSIC_HASH_ASC
@@ -18652,20 +18743,20 @@ enum StablepoolsOrderBy {
   STABLEPOOL_OPERATIONS_BY_POOL_ID_STDDEV_POPULATION_PARA_CHAIN_BLOCK_HEIGHT_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_STDDEV_POPULATION_ACCOUNT_ID_ASC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_STDDEV_POPULATION_ACCOUNT_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_POOL_ID_STDDEV_POPULATION_ASSET_IN_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_POOL_ID_STDDEV_POPULATION_ASSET_IN_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_POOL_ID_STDDEV_POPULATION_ASSET_OUT_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_POOL_ID_STDDEV_POPULATION_ASSET_OUT_ID_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_STDDEV_POPULATION_POOL_ID_ASC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_STDDEV_POPULATION_POOL_ID_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_VARIANCE_SAMPLE_ID_ASC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_VARIANCE_SAMPLE_ID_DESC
-  STABLEPOOL_OPERATIONS_BY_POOL_ID_VARIANCE_SAMPLE_ASSET_IN_ID_ASC
-  STABLEPOOL_OPERATIONS_BY_POOL_ID_VARIANCE_SAMPLE_ASSET_IN_ID_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_VARIANCE_SAMPLE_ASSET_IN_AMOUNT_ASC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_VARIANCE_SAMPLE_ASSET_IN_AMOUNT_DESC
-  STABLEPOOL_OPERATIONS_BY_POOL_ID_VARIANCE_SAMPLE_ASSET_OUT_ID_ASC
-  STABLEPOOL_OPERATIONS_BY_POOL_ID_VARIANCE_SAMPLE_ASSET_OUT_ID_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_VARIANCE_SAMPLE_ASSET_OUT_AMOUNT_ASC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_VARIANCE_SAMPLE_ASSET_OUT_AMOUNT_DESC
-  STABLEPOOL_OPERATIONS_BY_POOL_ID_VARIANCE_SAMPLE_ASSET_FEE_ASC
-  STABLEPOOL_OPERATIONS_BY_POOL_ID_VARIANCE_SAMPLE_ASSET_FEE_DESC
+  STABLEPOOL_OPERATIONS_BY_POOL_ID_VARIANCE_SAMPLE_ASSET_FEE_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_POOL_ID_VARIANCE_SAMPLE_ASSET_FEE_AMOUNT_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_VARIANCE_SAMPLE_TYPE_ASC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_VARIANCE_SAMPLE_TYPE_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_VARIANCE_SAMPLE_EXTRINSIC_HASH_ASC
@@ -18678,20 +18769,20 @@ enum StablepoolsOrderBy {
   STABLEPOOL_OPERATIONS_BY_POOL_ID_VARIANCE_SAMPLE_PARA_CHAIN_BLOCK_HEIGHT_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_VARIANCE_SAMPLE_ACCOUNT_ID_ASC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_VARIANCE_SAMPLE_ACCOUNT_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_POOL_ID_VARIANCE_SAMPLE_ASSET_IN_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_POOL_ID_VARIANCE_SAMPLE_ASSET_IN_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_POOL_ID_VARIANCE_SAMPLE_ASSET_OUT_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_POOL_ID_VARIANCE_SAMPLE_ASSET_OUT_ID_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_VARIANCE_SAMPLE_POOL_ID_ASC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_VARIANCE_SAMPLE_POOL_ID_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_VARIANCE_POPULATION_ID_ASC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_VARIANCE_POPULATION_ID_DESC
-  STABLEPOOL_OPERATIONS_BY_POOL_ID_VARIANCE_POPULATION_ASSET_IN_ID_ASC
-  STABLEPOOL_OPERATIONS_BY_POOL_ID_VARIANCE_POPULATION_ASSET_IN_ID_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_VARIANCE_POPULATION_ASSET_IN_AMOUNT_ASC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_VARIANCE_POPULATION_ASSET_IN_AMOUNT_DESC
-  STABLEPOOL_OPERATIONS_BY_POOL_ID_VARIANCE_POPULATION_ASSET_OUT_ID_ASC
-  STABLEPOOL_OPERATIONS_BY_POOL_ID_VARIANCE_POPULATION_ASSET_OUT_ID_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_VARIANCE_POPULATION_ASSET_OUT_AMOUNT_ASC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_VARIANCE_POPULATION_ASSET_OUT_AMOUNT_DESC
-  STABLEPOOL_OPERATIONS_BY_POOL_ID_VARIANCE_POPULATION_ASSET_FEE_ASC
-  STABLEPOOL_OPERATIONS_BY_POOL_ID_VARIANCE_POPULATION_ASSET_FEE_DESC
+  STABLEPOOL_OPERATIONS_BY_POOL_ID_VARIANCE_POPULATION_ASSET_FEE_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_POOL_ID_VARIANCE_POPULATION_ASSET_FEE_AMOUNT_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_VARIANCE_POPULATION_TYPE_ASC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_VARIANCE_POPULATION_TYPE_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_VARIANCE_POPULATION_EXTRINSIC_HASH_ASC
@@ -18704,6 +18795,10 @@ enum StablepoolsOrderBy {
   STABLEPOOL_OPERATIONS_BY_POOL_ID_VARIANCE_POPULATION_PARA_CHAIN_BLOCK_HEIGHT_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_VARIANCE_POPULATION_ACCOUNT_ID_ASC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_VARIANCE_POPULATION_ACCOUNT_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_POOL_ID_VARIANCE_POPULATION_ASSET_IN_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_POOL_ID_VARIANCE_POPULATION_ASSET_IN_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_POOL_ID_VARIANCE_POPULATION_ASSET_OUT_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_POOL_ID_VARIANCE_POPULATION_ASSET_OUT_ID_DESC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_VARIANCE_POPULATION_POOL_ID_ASC
   STABLEPOOL_OPERATIONS_BY_POOL_ID_VARIANCE_POPULATION_POOL_ID_DESC
   STABLEPOOL_LIQUIDITY_ACTIONS_BY_POOL_ID_COUNT_ASC
@@ -21468,16 +21563,12 @@ enum AccountsOrderBy {
   STABLEPOOL_OPERATIONS_COUNT_DESC
   STABLEPOOL_OPERATIONS_SUM_ID_ASC
   STABLEPOOL_OPERATIONS_SUM_ID_DESC
-  STABLEPOOL_OPERATIONS_SUM_ASSET_IN_ID_ASC
-  STABLEPOOL_OPERATIONS_SUM_ASSET_IN_ID_DESC
   STABLEPOOL_OPERATIONS_SUM_ASSET_IN_AMOUNT_ASC
   STABLEPOOL_OPERATIONS_SUM_ASSET_IN_AMOUNT_DESC
-  STABLEPOOL_OPERATIONS_SUM_ASSET_OUT_ID_ASC
-  STABLEPOOL_OPERATIONS_SUM_ASSET_OUT_ID_DESC
   STABLEPOOL_OPERATIONS_SUM_ASSET_OUT_AMOUNT_ASC
   STABLEPOOL_OPERATIONS_SUM_ASSET_OUT_AMOUNT_DESC
-  STABLEPOOL_OPERATIONS_SUM_ASSET_FEE_ASC
-  STABLEPOOL_OPERATIONS_SUM_ASSET_FEE_DESC
+  STABLEPOOL_OPERATIONS_SUM_ASSET_FEE_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_SUM_ASSET_FEE_AMOUNT_DESC
   STABLEPOOL_OPERATIONS_SUM_TYPE_ASC
   STABLEPOOL_OPERATIONS_SUM_TYPE_DESC
   STABLEPOOL_OPERATIONS_SUM_EXTRINSIC_HASH_ASC
@@ -21490,20 +21581,20 @@ enum AccountsOrderBy {
   STABLEPOOL_OPERATIONS_SUM_PARA_CHAIN_BLOCK_HEIGHT_DESC
   STABLEPOOL_OPERATIONS_SUM_ACCOUNT_ID_ASC
   STABLEPOOL_OPERATIONS_SUM_ACCOUNT_ID_DESC
+  STABLEPOOL_OPERATIONS_SUM_ASSET_IN_ID_ASC
+  STABLEPOOL_OPERATIONS_SUM_ASSET_IN_ID_DESC
+  STABLEPOOL_OPERATIONS_SUM_ASSET_OUT_ID_ASC
+  STABLEPOOL_OPERATIONS_SUM_ASSET_OUT_ID_DESC
   STABLEPOOL_OPERATIONS_SUM_POOL_ID_ASC
   STABLEPOOL_OPERATIONS_SUM_POOL_ID_DESC
   STABLEPOOL_OPERATIONS_DISTINCT_COUNT_ID_ASC
   STABLEPOOL_OPERATIONS_DISTINCT_COUNT_ID_DESC
-  STABLEPOOL_OPERATIONS_DISTINCT_COUNT_ASSET_IN_ID_ASC
-  STABLEPOOL_OPERATIONS_DISTINCT_COUNT_ASSET_IN_ID_DESC
   STABLEPOOL_OPERATIONS_DISTINCT_COUNT_ASSET_IN_AMOUNT_ASC
   STABLEPOOL_OPERATIONS_DISTINCT_COUNT_ASSET_IN_AMOUNT_DESC
-  STABLEPOOL_OPERATIONS_DISTINCT_COUNT_ASSET_OUT_ID_ASC
-  STABLEPOOL_OPERATIONS_DISTINCT_COUNT_ASSET_OUT_ID_DESC
   STABLEPOOL_OPERATIONS_DISTINCT_COUNT_ASSET_OUT_AMOUNT_ASC
   STABLEPOOL_OPERATIONS_DISTINCT_COUNT_ASSET_OUT_AMOUNT_DESC
-  STABLEPOOL_OPERATIONS_DISTINCT_COUNT_ASSET_FEE_ASC
-  STABLEPOOL_OPERATIONS_DISTINCT_COUNT_ASSET_FEE_DESC
+  STABLEPOOL_OPERATIONS_DISTINCT_COUNT_ASSET_FEE_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_DISTINCT_COUNT_ASSET_FEE_AMOUNT_DESC
   STABLEPOOL_OPERATIONS_DISTINCT_COUNT_TYPE_ASC
   STABLEPOOL_OPERATIONS_DISTINCT_COUNT_TYPE_DESC
   STABLEPOOL_OPERATIONS_DISTINCT_COUNT_EXTRINSIC_HASH_ASC
@@ -21516,20 +21607,20 @@ enum AccountsOrderBy {
   STABLEPOOL_OPERATIONS_DISTINCT_COUNT_PARA_CHAIN_BLOCK_HEIGHT_DESC
   STABLEPOOL_OPERATIONS_DISTINCT_COUNT_ACCOUNT_ID_ASC
   STABLEPOOL_OPERATIONS_DISTINCT_COUNT_ACCOUNT_ID_DESC
+  STABLEPOOL_OPERATIONS_DISTINCT_COUNT_ASSET_IN_ID_ASC
+  STABLEPOOL_OPERATIONS_DISTINCT_COUNT_ASSET_IN_ID_DESC
+  STABLEPOOL_OPERATIONS_DISTINCT_COUNT_ASSET_OUT_ID_ASC
+  STABLEPOOL_OPERATIONS_DISTINCT_COUNT_ASSET_OUT_ID_DESC
   STABLEPOOL_OPERATIONS_DISTINCT_COUNT_POOL_ID_ASC
   STABLEPOOL_OPERATIONS_DISTINCT_COUNT_POOL_ID_DESC
   STABLEPOOL_OPERATIONS_MIN_ID_ASC
   STABLEPOOL_OPERATIONS_MIN_ID_DESC
-  STABLEPOOL_OPERATIONS_MIN_ASSET_IN_ID_ASC
-  STABLEPOOL_OPERATIONS_MIN_ASSET_IN_ID_DESC
   STABLEPOOL_OPERATIONS_MIN_ASSET_IN_AMOUNT_ASC
   STABLEPOOL_OPERATIONS_MIN_ASSET_IN_AMOUNT_DESC
-  STABLEPOOL_OPERATIONS_MIN_ASSET_OUT_ID_ASC
-  STABLEPOOL_OPERATIONS_MIN_ASSET_OUT_ID_DESC
   STABLEPOOL_OPERATIONS_MIN_ASSET_OUT_AMOUNT_ASC
   STABLEPOOL_OPERATIONS_MIN_ASSET_OUT_AMOUNT_DESC
-  STABLEPOOL_OPERATIONS_MIN_ASSET_FEE_ASC
-  STABLEPOOL_OPERATIONS_MIN_ASSET_FEE_DESC
+  STABLEPOOL_OPERATIONS_MIN_ASSET_FEE_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_MIN_ASSET_FEE_AMOUNT_DESC
   STABLEPOOL_OPERATIONS_MIN_TYPE_ASC
   STABLEPOOL_OPERATIONS_MIN_TYPE_DESC
   STABLEPOOL_OPERATIONS_MIN_EXTRINSIC_HASH_ASC
@@ -21542,20 +21633,20 @@ enum AccountsOrderBy {
   STABLEPOOL_OPERATIONS_MIN_PARA_CHAIN_BLOCK_HEIGHT_DESC
   STABLEPOOL_OPERATIONS_MIN_ACCOUNT_ID_ASC
   STABLEPOOL_OPERATIONS_MIN_ACCOUNT_ID_DESC
+  STABLEPOOL_OPERATIONS_MIN_ASSET_IN_ID_ASC
+  STABLEPOOL_OPERATIONS_MIN_ASSET_IN_ID_DESC
+  STABLEPOOL_OPERATIONS_MIN_ASSET_OUT_ID_ASC
+  STABLEPOOL_OPERATIONS_MIN_ASSET_OUT_ID_DESC
   STABLEPOOL_OPERATIONS_MIN_POOL_ID_ASC
   STABLEPOOL_OPERATIONS_MIN_POOL_ID_DESC
   STABLEPOOL_OPERATIONS_MAX_ID_ASC
   STABLEPOOL_OPERATIONS_MAX_ID_DESC
-  STABLEPOOL_OPERATIONS_MAX_ASSET_IN_ID_ASC
-  STABLEPOOL_OPERATIONS_MAX_ASSET_IN_ID_DESC
   STABLEPOOL_OPERATIONS_MAX_ASSET_IN_AMOUNT_ASC
   STABLEPOOL_OPERATIONS_MAX_ASSET_IN_AMOUNT_DESC
-  STABLEPOOL_OPERATIONS_MAX_ASSET_OUT_ID_ASC
-  STABLEPOOL_OPERATIONS_MAX_ASSET_OUT_ID_DESC
   STABLEPOOL_OPERATIONS_MAX_ASSET_OUT_AMOUNT_ASC
   STABLEPOOL_OPERATIONS_MAX_ASSET_OUT_AMOUNT_DESC
-  STABLEPOOL_OPERATIONS_MAX_ASSET_FEE_ASC
-  STABLEPOOL_OPERATIONS_MAX_ASSET_FEE_DESC
+  STABLEPOOL_OPERATIONS_MAX_ASSET_FEE_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_MAX_ASSET_FEE_AMOUNT_DESC
   STABLEPOOL_OPERATIONS_MAX_TYPE_ASC
   STABLEPOOL_OPERATIONS_MAX_TYPE_DESC
   STABLEPOOL_OPERATIONS_MAX_EXTRINSIC_HASH_ASC
@@ -21568,20 +21659,20 @@ enum AccountsOrderBy {
   STABLEPOOL_OPERATIONS_MAX_PARA_CHAIN_BLOCK_HEIGHT_DESC
   STABLEPOOL_OPERATIONS_MAX_ACCOUNT_ID_ASC
   STABLEPOOL_OPERATIONS_MAX_ACCOUNT_ID_DESC
+  STABLEPOOL_OPERATIONS_MAX_ASSET_IN_ID_ASC
+  STABLEPOOL_OPERATIONS_MAX_ASSET_IN_ID_DESC
+  STABLEPOOL_OPERATIONS_MAX_ASSET_OUT_ID_ASC
+  STABLEPOOL_OPERATIONS_MAX_ASSET_OUT_ID_DESC
   STABLEPOOL_OPERATIONS_MAX_POOL_ID_ASC
   STABLEPOOL_OPERATIONS_MAX_POOL_ID_DESC
   STABLEPOOL_OPERATIONS_AVERAGE_ID_ASC
   STABLEPOOL_OPERATIONS_AVERAGE_ID_DESC
-  STABLEPOOL_OPERATIONS_AVERAGE_ASSET_IN_ID_ASC
-  STABLEPOOL_OPERATIONS_AVERAGE_ASSET_IN_ID_DESC
   STABLEPOOL_OPERATIONS_AVERAGE_ASSET_IN_AMOUNT_ASC
   STABLEPOOL_OPERATIONS_AVERAGE_ASSET_IN_AMOUNT_DESC
-  STABLEPOOL_OPERATIONS_AVERAGE_ASSET_OUT_ID_ASC
-  STABLEPOOL_OPERATIONS_AVERAGE_ASSET_OUT_ID_DESC
   STABLEPOOL_OPERATIONS_AVERAGE_ASSET_OUT_AMOUNT_ASC
   STABLEPOOL_OPERATIONS_AVERAGE_ASSET_OUT_AMOUNT_DESC
-  STABLEPOOL_OPERATIONS_AVERAGE_ASSET_FEE_ASC
-  STABLEPOOL_OPERATIONS_AVERAGE_ASSET_FEE_DESC
+  STABLEPOOL_OPERATIONS_AVERAGE_ASSET_FEE_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_AVERAGE_ASSET_FEE_AMOUNT_DESC
   STABLEPOOL_OPERATIONS_AVERAGE_TYPE_ASC
   STABLEPOOL_OPERATIONS_AVERAGE_TYPE_DESC
   STABLEPOOL_OPERATIONS_AVERAGE_EXTRINSIC_HASH_ASC
@@ -21594,20 +21685,20 @@ enum AccountsOrderBy {
   STABLEPOOL_OPERATIONS_AVERAGE_PARA_CHAIN_BLOCK_HEIGHT_DESC
   STABLEPOOL_OPERATIONS_AVERAGE_ACCOUNT_ID_ASC
   STABLEPOOL_OPERATIONS_AVERAGE_ACCOUNT_ID_DESC
+  STABLEPOOL_OPERATIONS_AVERAGE_ASSET_IN_ID_ASC
+  STABLEPOOL_OPERATIONS_AVERAGE_ASSET_IN_ID_DESC
+  STABLEPOOL_OPERATIONS_AVERAGE_ASSET_OUT_ID_ASC
+  STABLEPOOL_OPERATIONS_AVERAGE_ASSET_OUT_ID_DESC
   STABLEPOOL_OPERATIONS_AVERAGE_POOL_ID_ASC
   STABLEPOOL_OPERATIONS_AVERAGE_POOL_ID_DESC
   STABLEPOOL_OPERATIONS_STDDEV_SAMPLE_ID_ASC
   STABLEPOOL_OPERATIONS_STDDEV_SAMPLE_ID_DESC
-  STABLEPOOL_OPERATIONS_STDDEV_SAMPLE_ASSET_IN_ID_ASC
-  STABLEPOOL_OPERATIONS_STDDEV_SAMPLE_ASSET_IN_ID_DESC
   STABLEPOOL_OPERATIONS_STDDEV_SAMPLE_ASSET_IN_AMOUNT_ASC
   STABLEPOOL_OPERATIONS_STDDEV_SAMPLE_ASSET_IN_AMOUNT_DESC
-  STABLEPOOL_OPERATIONS_STDDEV_SAMPLE_ASSET_OUT_ID_ASC
-  STABLEPOOL_OPERATIONS_STDDEV_SAMPLE_ASSET_OUT_ID_DESC
   STABLEPOOL_OPERATIONS_STDDEV_SAMPLE_ASSET_OUT_AMOUNT_ASC
   STABLEPOOL_OPERATIONS_STDDEV_SAMPLE_ASSET_OUT_AMOUNT_DESC
-  STABLEPOOL_OPERATIONS_STDDEV_SAMPLE_ASSET_FEE_ASC
-  STABLEPOOL_OPERATIONS_STDDEV_SAMPLE_ASSET_FEE_DESC
+  STABLEPOOL_OPERATIONS_STDDEV_SAMPLE_ASSET_FEE_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_STDDEV_SAMPLE_ASSET_FEE_AMOUNT_DESC
   STABLEPOOL_OPERATIONS_STDDEV_SAMPLE_TYPE_ASC
   STABLEPOOL_OPERATIONS_STDDEV_SAMPLE_TYPE_DESC
   STABLEPOOL_OPERATIONS_STDDEV_SAMPLE_EXTRINSIC_HASH_ASC
@@ -21620,20 +21711,20 @@ enum AccountsOrderBy {
   STABLEPOOL_OPERATIONS_STDDEV_SAMPLE_PARA_CHAIN_BLOCK_HEIGHT_DESC
   STABLEPOOL_OPERATIONS_STDDEV_SAMPLE_ACCOUNT_ID_ASC
   STABLEPOOL_OPERATIONS_STDDEV_SAMPLE_ACCOUNT_ID_DESC
+  STABLEPOOL_OPERATIONS_STDDEV_SAMPLE_ASSET_IN_ID_ASC
+  STABLEPOOL_OPERATIONS_STDDEV_SAMPLE_ASSET_IN_ID_DESC
+  STABLEPOOL_OPERATIONS_STDDEV_SAMPLE_ASSET_OUT_ID_ASC
+  STABLEPOOL_OPERATIONS_STDDEV_SAMPLE_ASSET_OUT_ID_DESC
   STABLEPOOL_OPERATIONS_STDDEV_SAMPLE_POOL_ID_ASC
   STABLEPOOL_OPERATIONS_STDDEV_SAMPLE_POOL_ID_DESC
   STABLEPOOL_OPERATIONS_STDDEV_POPULATION_ID_ASC
   STABLEPOOL_OPERATIONS_STDDEV_POPULATION_ID_DESC
-  STABLEPOOL_OPERATIONS_STDDEV_POPULATION_ASSET_IN_ID_ASC
-  STABLEPOOL_OPERATIONS_STDDEV_POPULATION_ASSET_IN_ID_DESC
   STABLEPOOL_OPERATIONS_STDDEV_POPULATION_ASSET_IN_AMOUNT_ASC
   STABLEPOOL_OPERATIONS_STDDEV_POPULATION_ASSET_IN_AMOUNT_DESC
-  STABLEPOOL_OPERATIONS_STDDEV_POPULATION_ASSET_OUT_ID_ASC
-  STABLEPOOL_OPERATIONS_STDDEV_POPULATION_ASSET_OUT_ID_DESC
   STABLEPOOL_OPERATIONS_STDDEV_POPULATION_ASSET_OUT_AMOUNT_ASC
   STABLEPOOL_OPERATIONS_STDDEV_POPULATION_ASSET_OUT_AMOUNT_DESC
-  STABLEPOOL_OPERATIONS_STDDEV_POPULATION_ASSET_FEE_ASC
-  STABLEPOOL_OPERATIONS_STDDEV_POPULATION_ASSET_FEE_DESC
+  STABLEPOOL_OPERATIONS_STDDEV_POPULATION_ASSET_FEE_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_STDDEV_POPULATION_ASSET_FEE_AMOUNT_DESC
   STABLEPOOL_OPERATIONS_STDDEV_POPULATION_TYPE_ASC
   STABLEPOOL_OPERATIONS_STDDEV_POPULATION_TYPE_DESC
   STABLEPOOL_OPERATIONS_STDDEV_POPULATION_EXTRINSIC_HASH_ASC
@@ -21646,20 +21737,20 @@ enum AccountsOrderBy {
   STABLEPOOL_OPERATIONS_STDDEV_POPULATION_PARA_CHAIN_BLOCK_HEIGHT_DESC
   STABLEPOOL_OPERATIONS_STDDEV_POPULATION_ACCOUNT_ID_ASC
   STABLEPOOL_OPERATIONS_STDDEV_POPULATION_ACCOUNT_ID_DESC
+  STABLEPOOL_OPERATIONS_STDDEV_POPULATION_ASSET_IN_ID_ASC
+  STABLEPOOL_OPERATIONS_STDDEV_POPULATION_ASSET_IN_ID_DESC
+  STABLEPOOL_OPERATIONS_STDDEV_POPULATION_ASSET_OUT_ID_ASC
+  STABLEPOOL_OPERATIONS_STDDEV_POPULATION_ASSET_OUT_ID_DESC
   STABLEPOOL_OPERATIONS_STDDEV_POPULATION_POOL_ID_ASC
   STABLEPOOL_OPERATIONS_STDDEV_POPULATION_POOL_ID_DESC
   STABLEPOOL_OPERATIONS_VARIANCE_SAMPLE_ID_ASC
   STABLEPOOL_OPERATIONS_VARIANCE_SAMPLE_ID_DESC
-  STABLEPOOL_OPERATIONS_VARIANCE_SAMPLE_ASSET_IN_ID_ASC
-  STABLEPOOL_OPERATIONS_VARIANCE_SAMPLE_ASSET_IN_ID_DESC
   STABLEPOOL_OPERATIONS_VARIANCE_SAMPLE_ASSET_IN_AMOUNT_ASC
   STABLEPOOL_OPERATIONS_VARIANCE_SAMPLE_ASSET_IN_AMOUNT_DESC
-  STABLEPOOL_OPERATIONS_VARIANCE_SAMPLE_ASSET_OUT_ID_ASC
-  STABLEPOOL_OPERATIONS_VARIANCE_SAMPLE_ASSET_OUT_ID_DESC
   STABLEPOOL_OPERATIONS_VARIANCE_SAMPLE_ASSET_OUT_AMOUNT_ASC
   STABLEPOOL_OPERATIONS_VARIANCE_SAMPLE_ASSET_OUT_AMOUNT_DESC
-  STABLEPOOL_OPERATIONS_VARIANCE_SAMPLE_ASSET_FEE_ASC
-  STABLEPOOL_OPERATIONS_VARIANCE_SAMPLE_ASSET_FEE_DESC
+  STABLEPOOL_OPERATIONS_VARIANCE_SAMPLE_ASSET_FEE_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_VARIANCE_SAMPLE_ASSET_FEE_AMOUNT_DESC
   STABLEPOOL_OPERATIONS_VARIANCE_SAMPLE_TYPE_ASC
   STABLEPOOL_OPERATIONS_VARIANCE_SAMPLE_TYPE_DESC
   STABLEPOOL_OPERATIONS_VARIANCE_SAMPLE_EXTRINSIC_HASH_ASC
@@ -21672,20 +21763,20 @@ enum AccountsOrderBy {
   STABLEPOOL_OPERATIONS_VARIANCE_SAMPLE_PARA_CHAIN_BLOCK_HEIGHT_DESC
   STABLEPOOL_OPERATIONS_VARIANCE_SAMPLE_ACCOUNT_ID_ASC
   STABLEPOOL_OPERATIONS_VARIANCE_SAMPLE_ACCOUNT_ID_DESC
+  STABLEPOOL_OPERATIONS_VARIANCE_SAMPLE_ASSET_IN_ID_ASC
+  STABLEPOOL_OPERATIONS_VARIANCE_SAMPLE_ASSET_IN_ID_DESC
+  STABLEPOOL_OPERATIONS_VARIANCE_SAMPLE_ASSET_OUT_ID_ASC
+  STABLEPOOL_OPERATIONS_VARIANCE_SAMPLE_ASSET_OUT_ID_DESC
   STABLEPOOL_OPERATIONS_VARIANCE_SAMPLE_POOL_ID_ASC
   STABLEPOOL_OPERATIONS_VARIANCE_SAMPLE_POOL_ID_DESC
   STABLEPOOL_OPERATIONS_VARIANCE_POPULATION_ID_ASC
   STABLEPOOL_OPERATIONS_VARIANCE_POPULATION_ID_DESC
-  STABLEPOOL_OPERATIONS_VARIANCE_POPULATION_ASSET_IN_ID_ASC
-  STABLEPOOL_OPERATIONS_VARIANCE_POPULATION_ASSET_IN_ID_DESC
   STABLEPOOL_OPERATIONS_VARIANCE_POPULATION_ASSET_IN_AMOUNT_ASC
   STABLEPOOL_OPERATIONS_VARIANCE_POPULATION_ASSET_IN_AMOUNT_DESC
-  STABLEPOOL_OPERATIONS_VARIANCE_POPULATION_ASSET_OUT_ID_ASC
-  STABLEPOOL_OPERATIONS_VARIANCE_POPULATION_ASSET_OUT_ID_DESC
   STABLEPOOL_OPERATIONS_VARIANCE_POPULATION_ASSET_OUT_AMOUNT_ASC
   STABLEPOOL_OPERATIONS_VARIANCE_POPULATION_ASSET_OUT_AMOUNT_DESC
-  STABLEPOOL_OPERATIONS_VARIANCE_POPULATION_ASSET_FEE_ASC
-  STABLEPOOL_OPERATIONS_VARIANCE_POPULATION_ASSET_FEE_DESC
+  STABLEPOOL_OPERATIONS_VARIANCE_POPULATION_ASSET_FEE_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_VARIANCE_POPULATION_ASSET_FEE_AMOUNT_DESC
   STABLEPOOL_OPERATIONS_VARIANCE_POPULATION_TYPE_ASC
   STABLEPOOL_OPERATIONS_VARIANCE_POPULATION_TYPE_DESC
   STABLEPOOL_OPERATIONS_VARIANCE_POPULATION_EXTRINSIC_HASH_ASC
@@ -21698,6 +21789,10 @@ enum AccountsOrderBy {
   STABLEPOOL_OPERATIONS_VARIANCE_POPULATION_PARA_CHAIN_BLOCK_HEIGHT_DESC
   STABLEPOOL_OPERATIONS_VARIANCE_POPULATION_ACCOUNT_ID_ASC
   STABLEPOOL_OPERATIONS_VARIANCE_POPULATION_ACCOUNT_ID_DESC
+  STABLEPOOL_OPERATIONS_VARIANCE_POPULATION_ASSET_IN_ID_ASC
+  STABLEPOOL_OPERATIONS_VARIANCE_POPULATION_ASSET_IN_ID_DESC
+  STABLEPOOL_OPERATIONS_VARIANCE_POPULATION_ASSET_OUT_ID_ASC
+  STABLEPOOL_OPERATIONS_VARIANCE_POPULATION_ASSET_OUT_ID_DESC
   STABLEPOOL_OPERATIONS_VARIANCE_POPULATION_POOL_ID_ASC
   STABLEPOOL_OPERATIONS_VARIANCE_POPULATION_POOL_ID_DESC
 }
@@ -21758,17 +21853,6 @@ type AssetsConnection {
     """Conditions on the grouped aggregates."""
     having: AssetHavingInput
   ): [AssetAggregates!]
-}
-
-type Asset {
-  id: String!
-  assetType: String!
-  name: String
-  symbol: String
-  decimals: Int
-  xcmRateLimit: BigFloat
-  isSufficient: Boolean!
-  existentialDeposit: BigFloat!
 }
 
 """A `Asset` edge in the connection."""
@@ -22056,6 +22140,878 @@ enum AssetsOrderBy {
   EXISTENTIAL_DEPOSIT_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
+  STABLEPOOL_ASSETS_COUNT_ASC
+  STABLEPOOL_ASSETS_COUNT_DESC
+  STABLEPOOL_ASSETS_SUM_ID_ASC
+  STABLEPOOL_ASSETS_SUM_ID_DESC
+  STABLEPOOL_ASSETS_SUM_AMOUNT_ASC
+  STABLEPOOL_ASSETS_SUM_AMOUNT_DESC
+  STABLEPOOL_ASSETS_SUM_POOL_ID_ASC
+  STABLEPOOL_ASSETS_SUM_POOL_ID_DESC
+  STABLEPOOL_ASSETS_SUM_ASSET_ID_ASC
+  STABLEPOOL_ASSETS_SUM_ASSET_ID_DESC
+  STABLEPOOL_ASSETS_DISTINCT_COUNT_ID_ASC
+  STABLEPOOL_ASSETS_DISTINCT_COUNT_ID_DESC
+  STABLEPOOL_ASSETS_DISTINCT_COUNT_AMOUNT_ASC
+  STABLEPOOL_ASSETS_DISTINCT_COUNT_AMOUNT_DESC
+  STABLEPOOL_ASSETS_DISTINCT_COUNT_POOL_ID_ASC
+  STABLEPOOL_ASSETS_DISTINCT_COUNT_POOL_ID_DESC
+  STABLEPOOL_ASSETS_DISTINCT_COUNT_ASSET_ID_ASC
+  STABLEPOOL_ASSETS_DISTINCT_COUNT_ASSET_ID_DESC
+  STABLEPOOL_ASSETS_MIN_ID_ASC
+  STABLEPOOL_ASSETS_MIN_ID_DESC
+  STABLEPOOL_ASSETS_MIN_AMOUNT_ASC
+  STABLEPOOL_ASSETS_MIN_AMOUNT_DESC
+  STABLEPOOL_ASSETS_MIN_POOL_ID_ASC
+  STABLEPOOL_ASSETS_MIN_POOL_ID_DESC
+  STABLEPOOL_ASSETS_MIN_ASSET_ID_ASC
+  STABLEPOOL_ASSETS_MIN_ASSET_ID_DESC
+  STABLEPOOL_ASSETS_MAX_ID_ASC
+  STABLEPOOL_ASSETS_MAX_ID_DESC
+  STABLEPOOL_ASSETS_MAX_AMOUNT_ASC
+  STABLEPOOL_ASSETS_MAX_AMOUNT_DESC
+  STABLEPOOL_ASSETS_MAX_POOL_ID_ASC
+  STABLEPOOL_ASSETS_MAX_POOL_ID_DESC
+  STABLEPOOL_ASSETS_MAX_ASSET_ID_ASC
+  STABLEPOOL_ASSETS_MAX_ASSET_ID_DESC
+  STABLEPOOL_ASSETS_AVERAGE_ID_ASC
+  STABLEPOOL_ASSETS_AVERAGE_ID_DESC
+  STABLEPOOL_ASSETS_AVERAGE_AMOUNT_ASC
+  STABLEPOOL_ASSETS_AVERAGE_AMOUNT_DESC
+  STABLEPOOL_ASSETS_AVERAGE_POOL_ID_ASC
+  STABLEPOOL_ASSETS_AVERAGE_POOL_ID_DESC
+  STABLEPOOL_ASSETS_AVERAGE_ASSET_ID_ASC
+  STABLEPOOL_ASSETS_AVERAGE_ASSET_ID_DESC
+  STABLEPOOL_ASSETS_STDDEV_SAMPLE_ID_ASC
+  STABLEPOOL_ASSETS_STDDEV_SAMPLE_ID_DESC
+  STABLEPOOL_ASSETS_STDDEV_SAMPLE_AMOUNT_ASC
+  STABLEPOOL_ASSETS_STDDEV_SAMPLE_AMOUNT_DESC
+  STABLEPOOL_ASSETS_STDDEV_SAMPLE_POOL_ID_ASC
+  STABLEPOOL_ASSETS_STDDEV_SAMPLE_POOL_ID_DESC
+  STABLEPOOL_ASSETS_STDDEV_SAMPLE_ASSET_ID_ASC
+  STABLEPOOL_ASSETS_STDDEV_SAMPLE_ASSET_ID_DESC
+  STABLEPOOL_ASSETS_STDDEV_POPULATION_ID_ASC
+  STABLEPOOL_ASSETS_STDDEV_POPULATION_ID_DESC
+  STABLEPOOL_ASSETS_STDDEV_POPULATION_AMOUNT_ASC
+  STABLEPOOL_ASSETS_STDDEV_POPULATION_AMOUNT_DESC
+  STABLEPOOL_ASSETS_STDDEV_POPULATION_POOL_ID_ASC
+  STABLEPOOL_ASSETS_STDDEV_POPULATION_POOL_ID_DESC
+  STABLEPOOL_ASSETS_STDDEV_POPULATION_ASSET_ID_ASC
+  STABLEPOOL_ASSETS_STDDEV_POPULATION_ASSET_ID_DESC
+  STABLEPOOL_ASSETS_VARIANCE_SAMPLE_ID_ASC
+  STABLEPOOL_ASSETS_VARIANCE_SAMPLE_ID_DESC
+  STABLEPOOL_ASSETS_VARIANCE_SAMPLE_AMOUNT_ASC
+  STABLEPOOL_ASSETS_VARIANCE_SAMPLE_AMOUNT_DESC
+  STABLEPOOL_ASSETS_VARIANCE_SAMPLE_POOL_ID_ASC
+  STABLEPOOL_ASSETS_VARIANCE_SAMPLE_POOL_ID_DESC
+  STABLEPOOL_ASSETS_VARIANCE_SAMPLE_ASSET_ID_ASC
+  STABLEPOOL_ASSETS_VARIANCE_SAMPLE_ASSET_ID_DESC
+  STABLEPOOL_ASSETS_VARIANCE_POPULATION_ID_ASC
+  STABLEPOOL_ASSETS_VARIANCE_POPULATION_ID_DESC
+  STABLEPOOL_ASSETS_VARIANCE_POPULATION_AMOUNT_ASC
+  STABLEPOOL_ASSETS_VARIANCE_POPULATION_AMOUNT_DESC
+  STABLEPOOL_ASSETS_VARIANCE_POPULATION_POOL_ID_ASC
+  STABLEPOOL_ASSETS_VARIANCE_POPULATION_POOL_ID_DESC
+  STABLEPOOL_ASSETS_VARIANCE_POPULATION_ASSET_ID_ASC
+  STABLEPOOL_ASSETS_VARIANCE_POPULATION_ASSET_ID_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_COUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_COUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_SUM_ID_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_SUM_ID_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_SUM_ASSET_FEE_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_SUM_ASSET_FEE_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_SUM_ASSET_TOTAL_FEES_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_SUM_ASSET_TOTAL_FEES_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_SUM_SWAP_VOLUME_IN_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_SUM_SWAP_VOLUME_IN_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_SUM_SWAP_VOLUME_OUT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_SUM_SWAP_VOLUME_OUT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_SUM_SWAP_TOTAL_VOLUME_IN_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_SUM_SWAP_TOTAL_VOLUME_IN_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_SUM_SWAP_TOTAL_VOLUME_OUT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_SUM_SWAP_TOTAL_VOLUME_OUT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_SUM_LIQ_ADDED_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_SUM_LIQ_ADDED_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_SUM_LIQ_REMOVED_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_SUM_LIQ_REMOVED_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_SUM_LIQ_ADDED_TOTAL_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_SUM_LIQ_ADDED_TOTAL_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_SUM_LIQ_REMOVED_TOTAL_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_SUM_LIQ_REMOVED_TOTAL_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_SUM_ROUTED_LIQ_ADDED_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_SUM_ROUTED_LIQ_ADDED_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_SUM_ROUTED_LIQ_REMOVED_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_SUM_ROUTED_LIQ_REMOVED_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_SUM_ROUTED_LIQ_ADDED_TOTAL_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_SUM_ROUTED_LIQ_ADDED_TOTAL_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_SUM_ROUTED_LIQ_REMOVED_TOTAL_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_SUM_ROUTED_LIQ_REMOVED_TOTAL_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_SUM_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_SUM_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_SUM_VOLUMES_COLLECTION_ID_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_SUM_VOLUMES_COLLECTION_ID_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_SUM_ASSET_ID_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_SUM_ASSET_ID_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_ID_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_ID_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_ASSET_FEE_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_ASSET_FEE_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_ASSET_TOTAL_FEES_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_ASSET_TOTAL_FEES_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_SWAP_VOLUME_IN_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_SWAP_VOLUME_IN_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_SWAP_VOLUME_OUT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_SWAP_VOLUME_OUT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_SWAP_TOTAL_VOLUME_IN_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_SWAP_TOTAL_VOLUME_IN_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_SWAP_TOTAL_VOLUME_OUT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_SWAP_TOTAL_VOLUME_OUT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_LIQ_ADDED_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_LIQ_ADDED_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_LIQ_REMOVED_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_LIQ_REMOVED_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_LIQ_ADDED_TOTAL_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_LIQ_ADDED_TOTAL_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_LIQ_REMOVED_TOTAL_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_LIQ_REMOVED_TOTAL_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_ROUTED_LIQ_ADDED_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_ROUTED_LIQ_ADDED_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_ROUTED_LIQ_REMOVED_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_ROUTED_LIQ_REMOVED_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_ROUTED_LIQ_ADDED_TOTAL_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_ROUTED_LIQ_ADDED_TOTAL_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_ROUTED_LIQ_REMOVED_TOTAL_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_ROUTED_LIQ_REMOVED_TOTAL_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_VOLUMES_COLLECTION_ID_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_VOLUMES_COLLECTION_ID_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_ASSET_ID_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_DISTINCT_COUNT_ASSET_ID_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MIN_ID_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MIN_ID_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MIN_ASSET_FEE_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MIN_ASSET_FEE_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MIN_ASSET_TOTAL_FEES_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MIN_ASSET_TOTAL_FEES_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MIN_SWAP_VOLUME_IN_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MIN_SWAP_VOLUME_IN_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MIN_SWAP_VOLUME_OUT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MIN_SWAP_VOLUME_OUT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MIN_SWAP_TOTAL_VOLUME_IN_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MIN_SWAP_TOTAL_VOLUME_IN_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MIN_SWAP_TOTAL_VOLUME_OUT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MIN_SWAP_TOTAL_VOLUME_OUT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MIN_LIQ_ADDED_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MIN_LIQ_ADDED_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MIN_LIQ_REMOVED_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MIN_LIQ_REMOVED_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MIN_LIQ_ADDED_TOTAL_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MIN_LIQ_ADDED_TOTAL_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MIN_LIQ_REMOVED_TOTAL_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MIN_LIQ_REMOVED_TOTAL_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MIN_ROUTED_LIQ_ADDED_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MIN_ROUTED_LIQ_ADDED_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MIN_ROUTED_LIQ_REMOVED_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MIN_ROUTED_LIQ_REMOVED_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MIN_ROUTED_LIQ_ADDED_TOTAL_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MIN_ROUTED_LIQ_ADDED_TOTAL_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MIN_ROUTED_LIQ_REMOVED_TOTAL_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MIN_ROUTED_LIQ_REMOVED_TOTAL_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MIN_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MIN_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MIN_VOLUMES_COLLECTION_ID_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MIN_VOLUMES_COLLECTION_ID_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MIN_ASSET_ID_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MIN_ASSET_ID_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MAX_ID_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MAX_ID_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MAX_ASSET_FEE_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MAX_ASSET_FEE_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MAX_ASSET_TOTAL_FEES_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MAX_ASSET_TOTAL_FEES_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MAX_SWAP_VOLUME_IN_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MAX_SWAP_VOLUME_IN_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MAX_SWAP_VOLUME_OUT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MAX_SWAP_VOLUME_OUT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MAX_SWAP_TOTAL_VOLUME_IN_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MAX_SWAP_TOTAL_VOLUME_IN_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MAX_SWAP_TOTAL_VOLUME_OUT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MAX_SWAP_TOTAL_VOLUME_OUT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MAX_LIQ_ADDED_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MAX_LIQ_ADDED_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MAX_LIQ_REMOVED_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MAX_LIQ_REMOVED_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MAX_LIQ_ADDED_TOTAL_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MAX_LIQ_ADDED_TOTAL_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MAX_LIQ_REMOVED_TOTAL_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MAX_LIQ_REMOVED_TOTAL_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MAX_ROUTED_LIQ_ADDED_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MAX_ROUTED_LIQ_ADDED_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MAX_ROUTED_LIQ_REMOVED_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MAX_ROUTED_LIQ_REMOVED_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MAX_ROUTED_LIQ_ADDED_TOTAL_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MAX_ROUTED_LIQ_ADDED_TOTAL_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MAX_ROUTED_LIQ_REMOVED_TOTAL_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MAX_ROUTED_LIQ_REMOVED_TOTAL_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MAX_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MAX_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MAX_VOLUMES_COLLECTION_ID_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MAX_VOLUMES_COLLECTION_ID_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MAX_ASSET_ID_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_MAX_ASSET_ID_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_ID_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_ID_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_ASSET_FEE_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_ASSET_FEE_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_ASSET_TOTAL_FEES_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_ASSET_TOTAL_FEES_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_SWAP_VOLUME_IN_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_SWAP_VOLUME_IN_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_SWAP_VOLUME_OUT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_SWAP_VOLUME_OUT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_SWAP_TOTAL_VOLUME_IN_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_SWAP_TOTAL_VOLUME_IN_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_SWAP_TOTAL_VOLUME_OUT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_SWAP_TOTAL_VOLUME_OUT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_LIQ_ADDED_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_LIQ_ADDED_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_LIQ_REMOVED_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_LIQ_REMOVED_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_LIQ_ADDED_TOTAL_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_LIQ_ADDED_TOTAL_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_LIQ_REMOVED_TOTAL_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_LIQ_REMOVED_TOTAL_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_ROUTED_LIQ_ADDED_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_ROUTED_LIQ_ADDED_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_ROUTED_LIQ_REMOVED_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_ROUTED_LIQ_REMOVED_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_ROUTED_LIQ_ADDED_TOTAL_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_ROUTED_LIQ_ADDED_TOTAL_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_ROUTED_LIQ_REMOVED_TOTAL_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_ROUTED_LIQ_REMOVED_TOTAL_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_VOLUMES_COLLECTION_ID_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_VOLUMES_COLLECTION_ID_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_ASSET_ID_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_AVERAGE_ASSET_ID_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_ID_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_ID_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_ASSET_FEE_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_ASSET_FEE_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_ASSET_TOTAL_FEES_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_ASSET_TOTAL_FEES_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_SWAP_VOLUME_IN_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_SWAP_VOLUME_IN_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_SWAP_VOLUME_OUT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_SWAP_VOLUME_OUT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_SWAP_TOTAL_VOLUME_IN_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_SWAP_TOTAL_VOLUME_IN_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_SWAP_TOTAL_VOLUME_OUT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_SWAP_TOTAL_VOLUME_OUT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_LIQ_ADDED_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_LIQ_ADDED_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_LIQ_REMOVED_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_LIQ_REMOVED_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_LIQ_ADDED_TOTAL_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_LIQ_ADDED_TOTAL_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_LIQ_REMOVED_TOTAL_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_LIQ_REMOVED_TOTAL_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_ROUTED_LIQ_ADDED_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_ROUTED_LIQ_ADDED_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_ROUTED_LIQ_REMOVED_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_ROUTED_LIQ_REMOVED_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_ROUTED_LIQ_ADDED_TOTAL_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_ROUTED_LIQ_ADDED_TOTAL_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_ROUTED_LIQ_REMOVED_TOTAL_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_ROUTED_LIQ_REMOVED_TOTAL_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_VOLUMES_COLLECTION_ID_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_VOLUMES_COLLECTION_ID_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_ASSET_ID_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_SAMPLE_ASSET_ID_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_ID_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_ID_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_ASSET_FEE_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_ASSET_FEE_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_ASSET_TOTAL_FEES_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_ASSET_TOTAL_FEES_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_SWAP_VOLUME_IN_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_SWAP_VOLUME_IN_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_SWAP_VOLUME_OUT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_SWAP_VOLUME_OUT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_SWAP_TOTAL_VOLUME_IN_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_SWAP_TOTAL_VOLUME_IN_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_SWAP_TOTAL_VOLUME_OUT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_SWAP_TOTAL_VOLUME_OUT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_LIQ_ADDED_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_LIQ_ADDED_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_LIQ_REMOVED_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_LIQ_REMOVED_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_LIQ_ADDED_TOTAL_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_LIQ_ADDED_TOTAL_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_LIQ_REMOVED_TOTAL_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_LIQ_REMOVED_TOTAL_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_ROUTED_LIQ_ADDED_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_ROUTED_LIQ_ADDED_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_ROUTED_LIQ_REMOVED_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_ROUTED_LIQ_REMOVED_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_ROUTED_LIQ_ADDED_TOTAL_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_ROUTED_LIQ_ADDED_TOTAL_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_ROUTED_LIQ_REMOVED_TOTAL_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_ROUTED_LIQ_REMOVED_TOTAL_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_VOLUMES_COLLECTION_ID_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_VOLUMES_COLLECTION_ID_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_ASSET_ID_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_STDDEV_POPULATION_ASSET_ID_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_ID_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_ID_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_ASSET_FEE_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_ASSET_FEE_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_ASSET_TOTAL_FEES_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_ASSET_TOTAL_FEES_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_SWAP_VOLUME_IN_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_SWAP_VOLUME_IN_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_SWAP_VOLUME_OUT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_SWAP_VOLUME_OUT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_SWAP_TOTAL_VOLUME_IN_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_SWAP_TOTAL_VOLUME_IN_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_SWAP_TOTAL_VOLUME_OUT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_SWAP_TOTAL_VOLUME_OUT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_LIQ_ADDED_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_LIQ_ADDED_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_LIQ_REMOVED_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_LIQ_REMOVED_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_LIQ_ADDED_TOTAL_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_LIQ_ADDED_TOTAL_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_LIQ_REMOVED_TOTAL_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_LIQ_REMOVED_TOTAL_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_ROUTED_LIQ_ADDED_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_ROUTED_LIQ_ADDED_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_ROUTED_LIQ_REMOVED_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_ROUTED_LIQ_REMOVED_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_ROUTED_LIQ_ADDED_TOTAL_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_ROUTED_LIQ_ADDED_TOTAL_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_ROUTED_LIQ_REMOVED_TOTAL_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_ROUTED_LIQ_REMOVED_TOTAL_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_VOLUMES_COLLECTION_ID_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_VOLUMES_COLLECTION_ID_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_ASSET_ID_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_SAMPLE_ASSET_ID_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_ID_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_ID_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_ASSET_FEE_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_ASSET_FEE_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_ASSET_TOTAL_FEES_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_ASSET_TOTAL_FEES_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_SWAP_VOLUME_IN_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_SWAP_VOLUME_IN_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_SWAP_VOLUME_OUT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_SWAP_VOLUME_OUT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_SWAP_TOTAL_VOLUME_IN_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_SWAP_TOTAL_VOLUME_IN_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_SWAP_TOTAL_VOLUME_OUT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_SWAP_TOTAL_VOLUME_OUT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_LIQ_ADDED_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_LIQ_ADDED_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_LIQ_REMOVED_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_LIQ_REMOVED_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_LIQ_ADDED_TOTAL_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_LIQ_ADDED_TOTAL_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_LIQ_REMOVED_TOTAL_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_LIQ_REMOVED_TOTAL_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_ROUTED_LIQ_ADDED_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_ROUTED_LIQ_ADDED_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_ROUTED_LIQ_REMOVED_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_ROUTED_LIQ_REMOVED_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_ROUTED_LIQ_ADDED_TOTAL_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_ROUTED_LIQ_ADDED_TOTAL_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_ROUTED_LIQ_REMOVED_TOTAL_AMOUNT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_ROUTED_LIQ_REMOVED_TOTAL_AMOUNT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_VOLUMES_COLLECTION_ID_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_VOLUMES_COLLECTION_ID_DESC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_ASSET_ID_ASC
+  STABLEPOOL_ASSET_HISTORICAL_VOLUMES_VARIANCE_POPULATION_ASSET_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_COUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_COUNT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_SUM_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_SUM_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_SUM_ASSET_IN_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_SUM_ASSET_IN_AMOUNT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_SUM_ASSET_OUT_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_SUM_ASSET_OUT_AMOUNT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_SUM_ASSET_FEE_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_SUM_ASSET_FEE_AMOUNT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_SUM_TYPE_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_SUM_TYPE_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_SUM_EXTRINSIC_HASH_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_SUM_EXTRINSIC_HASH_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_SUM_INDEX_IN_BLOCK_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_SUM_INDEX_IN_BLOCK_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_SUM_RELAY_CHAIN_BLOCK_HEIGHT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_SUM_RELAY_CHAIN_BLOCK_HEIGHT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_SUM_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_SUM_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_SUM_ACCOUNT_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_SUM_ACCOUNT_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_SUM_ASSET_IN_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_SUM_ASSET_IN_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_SUM_ASSET_OUT_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_SUM_ASSET_OUT_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_SUM_POOL_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_SUM_POOL_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_DISTINCT_COUNT_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_DISTINCT_COUNT_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_DISTINCT_COUNT_ASSET_IN_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_DISTINCT_COUNT_ASSET_IN_AMOUNT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_DISTINCT_COUNT_ASSET_OUT_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_DISTINCT_COUNT_ASSET_OUT_AMOUNT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_DISTINCT_COUNT_ASSET_FEE_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_DISTINCT_COUNT_ASSET_FEE_AMOUNT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_DISTINCT_COUNT_TYPE_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_DISTINCT_COUNT_TYPE_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_DISTINCT_COUNT_EXTRINSIC_HASH_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_DISTINCT_COUNT_EXTRINSIC_HASH_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_DISTINCT_COUNT_INDEX_IN_BLOCK_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_DISTINCT_COUNT_INDEX_IN_BLOCK_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_DISTINCT_COUNT_RELAY_CHAIN_BLOCK_HEIGHT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_DISTINCT_COUNT_RELAY_CHAIN_BLOCK_HEIGHT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_DISTINCT_COUNT_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_DISTINCT_COUNT_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_DISTINCT_COUNT_ACCOUNT_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_DISTINCT_COUNT_ACCOUNT_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_DISTINCT_COUNT_ASSET_IN_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_DISTINCT_COUNT_ASSET_IN_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_DISTINCT_COUNT_ASSET_OUT_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_DISTINCT_COUNT_ASSET_OUT_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_DISTINCT_COUNT_POOL_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_DISTINCT_COUNT_POOL_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_MIN_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_MIN_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_MIN_ASSET_IN_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_MIN_ASSET_IN_AMOUNT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_MIN_ASSET_OUT_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_MIN_ASSET_OUT_AMOUNT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_MIN_ASSET_FEE_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_MIN_ASSET_FEE_AMOUNT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_MIN_TYPE_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_MIN_TYPE_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_MIN_EXTRINSIC_HASH_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_MIN_EXTRINSIC_HASH_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_MIN_INDEX_IN_BLOCK_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_MIN_INDEX_IN_BLOCK_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_MIN_RELAY_CHAIN_BLOCK_HEIGHT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_MIN_RELAY_CHAIN_BLOCK_HEIGHT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_MIN_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_MIN_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_MIN_ACCOUNT_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_MIN_ACCOUNT_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_MIN_ASSET_IN_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_MIN_ASSET_IN_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_MIN_ASSET_OUT_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_MIN_ASSET_OUT_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_MIN_POOL_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_MIN_POOL_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_MAX_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_MAX_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_MAX_ASSET_IN_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_MAX_ASSET_IN_AMOUNT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_MAX_ASSET_OUT_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_MAX_ASSET_OUT_AMOUNT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_MAX_ASSET_FEE_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_MAX_ASSET_FEE_AMOUNT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_MAX_TYPE_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_MAX_TYPE_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_MAX_EXTRINSIC_HASH_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_MAX_EXTRINSIC_HASH_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_MAX_INDEX_IN_BLOCK_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_MAX_INDEX_IN_BLOCK_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_MAX_RELAY_CHAIN_BLOCK_HEIGHT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_MAX_RELAY_CHAIN_BLOCK_HEIGHT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_MAX_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_MAX_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_MAX_ACCOUNT_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_MAX_ACCOUNT_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_MAX_ASSET_IN_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_MAX_ASSET_IN_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_MAX_ASSET_OUT_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_MAX_ASSET_OUT_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_MAX_POOL_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_MAX_POOL_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_AVERAGE_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_AVERAGE_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_AVERAGE_ASSET_IN_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_AVERAGE_ASSET_IN_AMOUNT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_AVERAGE_ASSET_OUT_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_AVERAGE_ASSET_OUT_AMOUNT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_AVERAGE_ASSET_FEE_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_AVERAGE_ASSET_FEE_AMOUNT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_AVERAGE_TYPE_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_AVERAGE_TYPE_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_AVERAGE_EXTRINSIC_HASH_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_AVERAGE_EXTRINSIC_HASH_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_AVERAGE_INDEX_IN_BLOCK_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_AVERAGE_INDEX_IN_BLOCK_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_AVERAGE_RELAY_CHAIN_BLOCK_HEIGHT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_AVERAGE_RELAY_CHAIN_BLOCK_HEIGHT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_AVERAGE_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_AVERAGE_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_AVERAGE_ACCOUNT_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_AVERAGE_ACCOUNT_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_AVERAGE_ASSET_IN_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_AVERAGE_ASSET_IN_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_AVERAGE_ASSET_OUT_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_AVERAGE_ASSET_OUT_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_AVERAGE_POOL_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_AVERAGE_POOL_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_STDDEV_SAMPLE_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_STDDEV_SAMPLE_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_STDDEV_SAMPLE_ASSET_IN_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_STDDEV_SAMPLE_ASSET_IN_AMOUNT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_STDDEV_SAMPLE_ASSET_OUT_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_STDDEV_SAMPLE_ASSET_OUT_AMOUNT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_STDDEV_SAMPLE_ASSET_FEE_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_STDDEV_SAMPLE_ASSET_FEE_AMOUNT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_STDDEV_SAMPLE_TYPE_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_STDDEV_SAMPLE_TYPE_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_STDDEV_SAMPLE_EXTRINSIC_HASH_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_STDDEV_SAMPLE_EXTRINSIC_HASH_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_STDDEV_SAMPLE_INDEX_IN_BLOCK_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_STDDEV_SAMPLE_INDEX_IN_BLOCK_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_STDDEV_SAMPLE_RELAY_CHAIN_BLOCK_HEIGHT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_STDDEV_SAMPLE_RELAY_CHAIN_BLOCK_HEIGHT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_STDDEV_SAMPLE_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_STDDEV_SAMPLE_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_STDDEV_SAMPLE_ACCOUNT_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_STDDEV_SAMPLE_ACCOUNT_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_STDDEV_SAMPLE_ASSET_IN_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_STDDEV_SAMPLE_ASSET_IN_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_STDDEV_SAMPLE_ASSET_OUT_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_STDDEV_SAMPLE_ASSET_OUT_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_STDDEV_SAMPLE_POOL_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_STDDEV_SAMPLE_POOL_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_STDDEV_POPULATION_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_STDDEV_POPULATION_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_STDDEV_POPULATION_ASSET_IN_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_STDDEV_POPULATION_ASSET_IN_AMOUNT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_STDDEV_POPULATION_ASSET_OUT_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_STDDEV_POPULATION_ASSET_OUT_AMOUNT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_STDDEV_POPULATION_ASSET_FEE_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_STDDEV_POPULATION_ASSET_FEE_AMOUNT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_STDDEV_POPULATION_TYPE_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_STDDEV_POPULATION_TYPE_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_STDDEV_POPULATION_EXTRINSIC_HASH_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_STDDEV_POPULATION_EXTRINSIC_HASH_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_STDDEV_POPULATION_INDEX_IN_BLOCK_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_STDDEV_POPULATION_INDEX_IN_BLOCK_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_STDDEV_POPULATION_RELAY_CHAIN_BLOCK_HEIGHT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_STDDEV_POPULATION_RELAY_CHAIN_BLOCK_HEIGHT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_STDDEV_POPULATION_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_STDDEV_POPULATION_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_STDDEV_POPULATION_ACCOUNT_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_STDDEV_POPULATION_ACCOUNT_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_STDDEV_POPULATION_ASSET_IN_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_STDDEV_POPULATION_ASSET_IN_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_STDDEV_POPULATION_ASSET_OUT_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_STDDEV_POPULATION_ASSET_OUT_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_STDDEV_POPULATION_POOL_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_STDDEV_POPULATION_POOL_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_VARIANCE_SAMPLE_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_VARIANCE_SAMPLE_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_VARIANCE_SAMPLE_ASSET_IN_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_VARIANCE_SAMPLE_ASSET_IN_AMOUNT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_VARIANCE_SAMPLE_ASSET_OUT_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_VARIANCE_SAMPLE_ASSET_OUT_AMOUNT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_VARIANCE_SAMPLE_ASSET_FEE_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_VARIANCE_SAMPLE_ASSET_FEE_AMOUNT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_VARIANCE_SAMPLE_TYPE_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_VARIANCE_SAMPLE_TYPE_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_VARIANCE_SAMPLE_EXTRINSIC_HASH_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_VARIANCE_SAMPLE_EXTRINSIC_HASH_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_VARIANCE_SAMPLE_INDEX_IN_BLOCK_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_VARIANCE_SAMPLE_INDEX_IN_BLOCK_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_VARIANCE_SAMPLE_RELAY_CHAIN_BLOCK_HEIGHT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_VARIANCE_SAMPLE_RELAY_CHAIN_BLOCK_HEIGHT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_VARIANCE_SAMPLE_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_VARIANCE_SAMPLE_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_VARIANCE_SAMPLE_ACCOUNT_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_VARIANCE_SAMPLE_ACCOUNT_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_VARIANCE_SAMPLE_ASSET_IN_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_VARIANCE_SAMPLE_ASSET_IN_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_VARIANCE_SAMPLE_ASSET_OUT_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_VARIANCE_SAMPLE_ASSET_OUT_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_VARIANCE_SAMPLE_POOL_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_VARIANCE_SAMPLE_POOL_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_VARIANCE_POPULATION_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_VARIANCE_POPULATION_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_VARIANCE_POPULATION_ASSET_IN_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_VARIANCE_POPULATION_ASSET_IN_AMOUNT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_VARIANCE_POPULATION_ASSET_OUT_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_VARIANCE_POPULATION_ASSET_OUT_AMOUNT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_VARIANCE_POPULATION_ASSET_FEE_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_VARIANCE_POPULATION_ASSET_FEE_AMOUNT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_VARIANCE_POPULATION_TYPE_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_VARIANCE_POPULATION_TYPE_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_VARIANCE_POPULATION_EXTRINSIC_HASH_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_VARIANCE_POPULATION_EXTRINSIC_HASH_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_VARIANCE_POPULATION_INDEX_IN_BLOCK_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_VARIANCE_POPULATION_INDEX_IN_BLOCK_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_VARIANCE_POPULATION_RELAY_CHAIN_BLOCK_HEIGHT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_VARIANCE_POPULATION_RELAY_CHAIN_BLOCK_HEIGHT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_VARIANCE_POPULATION_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_VARIANCE_POPULATION_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_VARIANCE_POPULATION_ACCOUNT_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_VARIANCE_POPULATION_ACCOUNT_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_VARIANCE_POPULATION_ASSET_IN_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_VARIANCE_POPULATION_ASSET_IN_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_VARIANCE_POPULATION_ASSET_OUT_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_VARIANCE_POPULATION_ASSET_OUT_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_VARIANCE_POPULATION_POOL_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_IN_ID_VARIANCE_POPULATION_POOL_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_COUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_COUNT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_SUM_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_SUM_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_SUM_ASSET_IN_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_SUM_ASSET_IN_AMOUNT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_SUM_ASSET_OUT_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_SUM_ASSET_OUT_AMOUNT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_SUM_ASSET_FEE_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_SUM_ASSET_FEE_AMOUNT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_SUM_TYPE_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_SUM_TYPE_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_SUM_EXTRINSIC_HASH_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_SUM_EXTRINSIC_HASH_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_SUM_INDEX_IN_BLOCK_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_SUM_INDEX_IN_BLOCK_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_SUM_RELAY_CHAIN_BLOCK_HEIGHT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_SUM_RELAY_CHAIN_BLOCK_HEIGHT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_SUM_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_SUM_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_SUM_ACCOUNT_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_SUM_ACCOUNT_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_SUM_ASSET_IN_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_SUM_ASSET_IN_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_SUM_ASSET_OUT_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_SUM_ASSET_OUT_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_SUM_POOL_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_SUM_POOL_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_DISTINCT_COUNT_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_DISTINCT_COUNT_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_DISTINCT_COUNT_ASSET_IN_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_DISTINCT_COUNT_ASSET_IN_AMOUNT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_DISTINCT_COUNT_ASSET_OUT_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_DISTINCT_COUNT_ASSET_OUT_AMOUNT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_DISTINCT_COUNT_ASSET_FEE_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_DISTINCT_COUNT_ASSET_FEE_AMOUNT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_DISTINCT_COUNT_TYPE_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_DISTINCT_COUNT_TYPE_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_DISTINCT_COUNT_EXTRINSIC_HASH_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_DISTINCT_COUNT_EXTRINSIC_HASH_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_DISTINCT_COUNT_INDEX_IN_BLOCK_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_DISTINCT_COUNT_INDEX_IN_BLOCK_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_DISTINCT_COUNT_RELAY_CHAIN_BLOCK_HEIGHT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_DISTINCT_COUNT_RELAY_CHAIN_BLOCK_HEIGHT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_DISTINCT_COUNT_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_DISTINCT_COUNT_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_DISTINCT_COUNT_ACCOUNT_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_DISTINCT_COUNT_ACCOUNT_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_DISTINCT_COUNT_ASSET_IN_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_DISTINCT_COUNT_ASSET_IN_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_DISTINCT_COUNT_ASSET_OUT_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_DISTINCT_COUNT_ASSET_OUT_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_DISTINCT_COUNT_POOL_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_DISTINCT_COUNT_POOL_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_MIN_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_MIN_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_MIN_ASSET_IN_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_MIN_ASSET_IN_AMOUNT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_MIN_ASSET_OUT_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_MIN_ASSET_OUT_AMOUNT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_MIN_ASSET_FEE_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_MIN_ASSET_FEE_AMOUNT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_MIN_TYPE_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_MIN_TYPE_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_MIN_EXTRINSIC_HASH_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_MIN_EXTRINSIC_HASH_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_MIN_INDEX_IN_BLOCK_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_MIN_INDEX_IN_BLOCK_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_MIN_RELAY_CHAIN_BLOCK_HEIGHT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_MIN_RELAY_CHAIN_BLOCK_HEIGHT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_MIN_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_MIN_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_MIN_ACCOUNT_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_MIN_ACCOUNT_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_MIN_ASSET_IN_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_MIN_ASSET_IN_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_MIN_ASSET_OUT_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_MIN_ASSET_OUT_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_MIN_POOL_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_MIN_POOL_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_MAX_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_MAX_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_MAX_ASSET_IN_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_MAX_ASSET_IN_AMOUNT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_MAX_ASSET_OUT_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_MAX_ASSET_OUT_AMOUNT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_MAX_ASSET_FEE_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_MAX_ASSET_FEE_AMOUNT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_MAX_TYPE_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_MAX_TYPE_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_MAX_EXTRINSIC_HASH_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_MAX_EXTRINSIC_HASH_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_MAX_INDEX_IN_BLOCK_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_MAX_INDEX_IN_BLOCK_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_MAX_RELAY_CHAIN_BLOCK_HEIGHT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_MAX_RELAY_CHAIN_BLOCK_HEIGHT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_MAX_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_MAX_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_MAX_ACCOUNT_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_MAX_ACCOUNT_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_MAX_ASSET_IN_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_MAX_ASSET_IN_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_MAX_ASSET_OUT_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_MAX_ASSET_OUT_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_MAX_POOL_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_MAX_POOL_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_AVERAGE_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_AVERAGE_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_AVERAGE_ASSET_IN_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_AVERAGE_ASSET_IN_AMOUNT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_AVERAGE_ASSET_OUT_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_AVERAGE_ASSET_OUT_AMOUNT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_AVERAGE_ASSET_FEE_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_AVERAGE_ASSET_FEE_AMOUNT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_AVERAGE_TYPE_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_AVERAGE_TYPE_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_AVERAGE_EXTRINSIC_HASH_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_AVERAGE_EXTRINSIC_HASH_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_AVERAGE_INDEX_IN_BLOCK_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_AVERAGE_INDEX_IN_BLOCK_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_AVERAGE_RELAY_CHAIN_BLOCK_HEIGHT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_AVERAGE_RELAY_CHAIN_BLOCK_HEIGHT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_AVERAGE_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_AVERAGE_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_AVERAGE_ACCOUNT_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_AVERAGE_ACCOUNT_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_AVERAGE_ASSET_IN_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_AVERAGE_ASSET_IN_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_AVERAGE_ASSET_OUT_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_AVERAGE_ASSET_OUT_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_AVERAGE_POOL_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_AVERAGE_POOL_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_STDDEV_SAMPLE_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_STDDEV_SAMPLE_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_STDDEV_SAMPLE_ASSET_IN_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_STDDEV_SAMPLE_ASSET_IN_AMOUNT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_STDDEV_SAMPLE_ASSET_OUT_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_STDDEV_SAMPLE_ASSET_OUT_AMOUNT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_STDDEV_SAMPLE_ASSET_FEE_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_STDDEV_SAMPLE_ASSET_FEE_AMOUNT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_STDDEV_SAMPLE_TYPE_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_STDDEV_SAMPLE_TYPE_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_STDDEV_SAMPLE_EXTRINSIC_HASH_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_STDDEV_SAMPLE_EXTRINSIC_HASH_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_STDDEV_SAMPLE_INDEX_IN_BLOCK_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_STDDEV_SAMPLE_INDEX_IN_BLOCK_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_STDDEV_SAMPLE_RELAY_CHAIN_BLOCK_HEIGHT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_STDDEV_SAMPLE_RELAY_CHAIN_BLOCK_HEIGHT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_STDDEV_SAMPLE_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_STDDEV_SAMPLE_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_STDDEV_SAMPLE_ACCOUNT_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_STDDEV_SAMPLE_ACCOUNT_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_STDDEV_SAMPLE_ASSET_IN_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_STDDEV_SAMPLE_ASSET_IN_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_STDDEV_SAMPLE_ASSET_OUT_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_STDDEV_SAMPLE_ASSET_OUT_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_STDDEV_SAMPLE_POOL_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_STDDEV_SAMPLE_POOL_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_STDDEV_POPULATION_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_STDDEV_POPULATION_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_STDDEV_POPULATION_ASSET_IN_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_STDDEV_POPULATION_ASSET_IN_AMOUNT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_STDDEV_POPULATION_ASSET_OUT_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_STDDEV_POPULATION_ASSET_OUT_AMOUNT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_STDDEV_POPULATION_ASSET_FEE_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_STDDEV_POPULATION_ASSET_FEE_AMOUNT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_STDDEV_POPULATION_TYPE_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_STDDEV_POPULATION_TYPE_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_STDDEV_POPULATION_EXTRINSIC_HASH_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_STDDEV_POPULATION_EXTRINSIC_HASH_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_STDDEV_POPULATION_INDEX_IN_BLOCK_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_STDDEV_POPULATION_INDEX_IN_BLOCK_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_STDDEV_POPULATION_RELAY_CHAIN_BLOCK_HEIGHT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_STDDEV_POPULATION_RELAY_CHAIN_BLOCK_HEIGHT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_STDDEV_POPULATION_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_STDDEV_POPULATION_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_STDDEV_POPULATION_ACCOUNT_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_STDDEV_POPULATION_ACCOUNT_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_STDDEV_POPULATION_ASSET_IN_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_STDDEV_POPULATION_ASSET_IN_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_STDDEV_POPULATION_ASSET_OUT_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_STDDEV_POPULATION_ASSET_OUT_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_STDDEV_POPULATION_POOL_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_STDDEV_POPULATION_POOL_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_VARIANCE_SAMPLE_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_VARIANCE_SAMPLE_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_VARIANCE_SAMPLE_ASSET_IN_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_VARIANCE_SAMPLE_ASSET_IN_AMOUNT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_VARIANCE_SAMPLE_ASSET_OUT_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_VARIANCE_SAMPLE_ASSET_OUT_AMOUNT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_VARIANCE_SAMPLE_ASSET_FEE_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_VARIANCE_SAMPLE_ASSET_FEE_AMOUNT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_VARIANCE_SAMPLE_TYPE_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_VARIANCE_SAMPLE_TYPE_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_VARIANCE_SAMPLE_EXTRINSIC_HASH_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_VARIANCE_SAMPLE_EXTRINSIC_HASH_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_VARIANCE_SAMPLE_INDEX_IN_BLOCK_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_VARIANCE_SAMPLE_INDEX_IN_BLOCK_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_VARIANCE_SAMPLE_RELAY_CHAIN_BLOCK_HEIGHT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_VARIANCE_SAMPLE_RELAY_CHAIN_BLOCK_HEIGHT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_VARIANCE_SAMPLE_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_VARIANCE_SAMPLE_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_VARIANCE_SAMPLE_ACCOUNT_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_VARIANCE_SAMPLE_ACCOUNT_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_VARIANCE_SAMPLE_ASSET_IN_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_VARIANCE_SAMPLE_ASSET_IN_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_VARIANCE_SAMPLE_ASSET_OUT_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_VARIANCE_SAMPLE_ASSET_OUT_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_VARIANCE_SAMPLE_POOL_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_VARIANCE_SAMPLE_POOL_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_VARIANCE_POPULATION_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_VARIANCE_POPULATION_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_VARIANCE_POPULATION_ASSET_IN_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_VARIANCE_POPULATION_ASSET_IN_AMOUNT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_VARIANCE_POPULATION_ASSET_OUT_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_VARIANCE_POPULATION_ASSET_OUT_AMOUNT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_VARIANCE_POPULATION_ASSET_FEE_AMOUNT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_VARIANCE_POPULATION_ASSET_FEE_AMOUNT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_VARIANCE_POPULATION_TYPE_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_VARIANCE_POPULATION_TYPE_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_VARIANCE_POPULATION_EXTRINSIC_HASH_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_VARIANCE_POPULATION_EXTRINSIC_HASH_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_VARIANCE_POPULATION_INDEX_IN_BLOCK_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_VARIANCE_POPULATION_INDEX_IN_BLOCK_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_VARIANCE_POPULATION_RELAY_CHAIN_BLOCK_HEIGHT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_VARIANCE_POPULATION_RELAY_CHAIN_BLOCK_HEIGHT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_VARIANCE_POPULATION_PARA_CHAIN_BLOCK_HEIGHT_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_VARIANCE_POPULATION_PARA_CHAIN_BLOCK_HEIGHT_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_VARIANCE_POPULATION_ACCOUNT_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_VARIANCE_POPULATION_ACCOUNT_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_VARIANCE_POPULATION_ASSET_IN_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_VARIANCE_POPULATION_ASSET_IN_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_VARIANCE_POPULATION_ASSET_OUT_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_VARIANCE_POPULATION_ASSET_OUT_ID_DESC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_VARIANCE_POPULATION_POOL_ID_ASC
+  STABLEPOOL_OPERATIONS_BY_ASSET_OUT_ID_VARIANCE_POPULATION_POOL_ID_DESC
 }
 
 """

@@ -1,13 +1,13 @@
-import { PoolOperationType } from '../../model';
-import { ProcessorContext } from '../../processor';
+import { PoolOperationType } from '../../../model';
+import { ProcessorContext } from '../../../processor';
 import { Store } from '@subsquid/typeorm-store';
 import {
   LbpBuyExecutedData,
   LbpSellExecutedData,
-} from '../../parsers/batchBlocksParser/types';
-import { getAccount } from '../accounts';
-import { handleLbpPoolVolumeUpdates } from '../volumes';
-import { handleAssetVolumeUpdates } from '../assets/volume';
+} from '../../../parsers/batchBlocksParser/types';
+import { getAccount } from '../../accounts';
+import { handleLbpPoolVolumeUpdates } from '../../volumes';
+import { handleAssetVolumeUpdates } from '../../assets/volume';
 import { initLbpPoolOperation } from './common';
 
 export async function lpbBuyExecuted(

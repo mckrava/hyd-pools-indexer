@@ -1,8 +1,8 @@
-import { ProcessorContext } from '../../processor';
+import { ProcessorContext } from '../../../processor';
 import { Store } from '@subsquid/typeorm-store';
-import { BatchBlocksParsedDataManager } from '../../parsers/batchBlocksParser';
-import { EventName } from '../../parsers/types/events';
-import { getOrderedListByBlockNumber } from '../../utils/helpers';
+import { BatchBlocksParsedDataManager } from '../../../parsers/batchBlocksParser';
+import { EventName } from '../../../parsers/types/events';
+import { getOrderedListByBlockNumber } from '../../../utils/helpers';
 import { lpbBuyExecuted, lpbSellExecuted } from './lbpPoolOperation';
 import { xykBuyExecuted, xykSellExecuted } from './xykPoolOperation';
 import {
@@ -10,7 +10,7 @@ import {
   LbpSellExecutedData,
   XykBuyExecutedData,
   XykSellExecutedData,
-} from '../../parsers/batchBlocksParser/types';
+} from '../../../parsers/batchBlocksParser/types';
 
 export async function handleXykPoolOperations(
   ctx: ProcessorContext<Store>,

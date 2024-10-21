@@ -1,6 +1,6 @@
 import { ProcessorContext } from '../../processor';
 import { Store } from '@subsquid/typeorm-store';
-import { Stablepool, StablepoolAsset } from '../../model';
+import { Asset, Stablepool, StablepoolAsset } from '../../model';
 import { getAccount } from '../accounts';
 import { StableswapPoolCreatedData } from '../../parsers/batchBlocksParser/types';
 import { getAssetBalance } from '../assets';
@@ -8,6 +8,21 @@ import { getAssetBalance } from '../assets';
 import { StableMath } from '@galacticcouncil/sdk';
 import { blake2AsHex, encodeAddress } from '@polkadot/util-crypto';
 import { isNotNullOrUndefined } from '../../utils/helpers';
+import { getAsset } from '../assets/assetRegistry';
+
+export async function getStablepool(
+  ctx: ProcessorContext<Store>,
+  poolId: string | number
+) {
+  const batchState = ctx.batchState.state;
+
+  let pool = batchState.stablepoolAllBatchPools.get(`${poolId}`);
+  if (pool) return pool;
+
+  pool = await ctx.store.findOne(Stablepool, { where: { id: `${poolId}` } });
+
+  return pool ?? null;
+}
 
 export async function stablepoolCreated(
   ctx: ProcessorContext<Store>,
@@ -42,13 +57,18 @@ export async function stablepoolCreated(
           assetId,
           newPool.account.id
         ),
-        assetId,
+        asset: (await getAsset({
+          ctx,
+          id: assetId,
+          ensure: true,
+          blockHeader: eventMetadata.blockHeader,
+        }))!, // TODO fix types
       })
   );
   for (const asset of (await Promise.all(assetsListPromise)).filter(
     isNotNullOrUndefined
   )) {
-    allBatchAssets.set(asset.assetId, asset);
+    allBatchAssets.set(+asset.asset.id, asset);
   }
 
   poolsToSave.add(newPool.id);

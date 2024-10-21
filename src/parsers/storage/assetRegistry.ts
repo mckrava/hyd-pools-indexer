@@ -3,8 +3,8 @@ import { AssetDetails, TokensAccountsAssetBalances } from '../types/storage';
 import { UnknownVersionError } from '../../utils/errors';
 import { storage } from '../../typegenTypes/';
 import { AssetType } from '../../model';
-import { sts } from '../../typegenTypes/support';
-import { hexToString } from '@polkadot/util';
+import { hexToString, isUtf8 } from '@polkadot/util';
+import { hexToStrWithNullCharCheck } from '../../utils/helpers';
 
 async function getAsset(
   assetId: string | number,
@@ -15,7 +15,7 @@ async function getAsset(
     return !resp
       ? null
       : {
-          name: hexToString(resp.name),
+          name: hexToStrWithNullCharCheck(resp.name),
           assetType: resp.assetType.__kind as AssetType,
           existentialDeposit: resp.existentialDeposit,
           isSufficient: true,
@@ -27,7 +27,7 @@ async function getAsset(
     return !resp
       ? null
       : {
-          name: hexToString(resp.name),
+          name: hexToStrWithNullCharCheck(resp.name),
           assetType: resp.assetType.__kind as AssetType,
           existentialDeposit: resp.existentialDeposit,
           xcmRateLimit: resp.xcmRateLimit,
@@ -40,7 +40,7 @@ async function getAsset(
     return !resp
       ? null
       : {
-          name: hexToString(resp.name),
+          name: hexToStrWithNullCharCheck(resp.name),
           assetType: resp.assetType.__kind as AssetType,
           existentialDeposit: resp.existentialDeposit,
           xcmRateLimit: resp.xcmRateLimit,
@@ -53,11 +53,11 @@ async function getAsset(
     return !resp
       ? null
       : {
-          name: hexToString(resp.name),
+          name: hexToStrWithNullCharCheck(resp.name),
           assetType: resp.assetType.__kind as AssetType,
           existentialDeposit: resp.existentialDeposit,
           xcmRateLimit: resp.xcmRateLimit,
-          symbol: hexToString(resp.symbol),
+          symbol: hexToStrWithNullCharCheck(resp.symbol),
           decimals: resp.decimals,
           isSufficient: resp.isSufficient,
         };

@@ -5,7 +5,7 @@ import {
   PoolOperationType,
   XykPool,
   XykPoolOperation,
-} from '../../model';
+} from '../../../model';
 import { BigNumber } from 'bignumber.js';
 
 export function initLbpPoolOperation({

@@ -7,7 +7,7 @@ import { ProcessorContext } from '../../processor';
 import { Store } from '@subsquid/typeorm-store';
 import {
   getOldOmnipoolAssetVolume,
-  getOmnipoolAssetLastVolumeFromCache,
+  getPoolAssetLastVolumeFromCache,
 } from './index';
 
 export function initOmnipoolAssetVolume({
@@ -86,7 +86,7 @@ export async function handleOmnipoolAssetVolumeUpdates({
 
     const oldVolume =
       currentVolume ||
-      (getOmnipoolAssetLastVolumeFromCache(
+      (getPoolAssetLastVolumeFromCache(
         omnipoolAssetVolumes,
         omnipoolAsset.id
       ) as OmnipoolAssetHistoricalVolume | undefined) ||

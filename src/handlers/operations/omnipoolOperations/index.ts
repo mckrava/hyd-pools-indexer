@@ -1,19 +1,19 @@
-import { ProcessorContext } from '../../processor';
+import { ProcessorContext } from '../../../processor';
 import { Store } from '@subsquid/typeorm-store';
-import { BatchBlocksParsedDataManager } from '../../parsers/batchBlocksParser';
-import { EventName } from '../../parsers/types/events';
-import { getOrderedListByBlockNumber } from '../../utils/helpers';
+import { BatchBlocksParsedDataManager } from '../../../parsers/batchBlocksParser';
+import { EventName } from '../../../parsers/types/events';
+import { getOrderedListByBlockNumber } from '../../../utils/helpers';
 import {
   OmnipoolBuyExecutedData,
   OmnipoolSellExecutedData,
-} from '../../parsers/batchBlocksParser/types';
-import { getAccount } from '../accounts';
+} from '../../../parsers/batchBlocksParser/types';
+import { getAccount } from '../../accounts';
 import {
   OmnipoolAsset,
   OmnipoolAssetOperation,
   PoolOperationType,
-} from '../../model';
-import { handleOmnipoolAssetVolumeUpdates } from '../volumes';
+} from '../../../model';
+import { handleOmnipoolAssetVolumeUpdates } from '../../volumes';
 
 export async function handleOmnioolOperations(
   ctx: ProcessorContext<Store>,
@@ -72,7 +72,10 @@ export async function omnipoolBuySellExecuted(
     protocolFeeAmount: eventParams.protocolFeeAmount,
     hubAmountIn: eventParams.hubAmountIn,
     hubAmountOut: eventParams.hubAmountOut,
-    type: PoolOperationType.BUY,
+    type:
+      eventMetadata.name === EventName.Omnipool_BuyExecuted
+        ? PoolOperationType.BUY
+        : PoolOperationType.SELL,
     extrinsicHash: eventMetadata.extrinsic?.hash,
     indexInBlock: eventMetadata.indexInBlock,
     relayChainBlockHeight: eventCallData.relayChainInfo.relaychainBlockNumber,
@@ -86,7 +89,10 @@ export async function omnipoolBuySellExecuted(
     ],
   };
 
-  await handleOmnipoolAssetVolumeUpdates({ ctx, assetOperation: operationInstance });
+  await handleOmnipoolAssetVolumeUpdates({
+    ctx,
+    assetOperation: operationInstance,
+  });
   //
   // await handleAssetVolumeUpdates(ctx, operationInstance);
 }

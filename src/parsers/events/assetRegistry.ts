@@ -6,7 +6,8 @@ import {
   AssetRegistryUpdatedEventParams,
 } from '../types/events';
 import { AssetType } from '../../model';
-import { hexToString } from '@polkadot/util';
+import { hexToString, isUtf8 } from '@polkadot/util';
+import { hexToStrWithNullCharCheck } from '../../utils/helpers';
 
 function parseRegisteredParams(
   event: Event
@@ -16,7 +17,7 @@ function parseRegisteredParams(
       events.assetRegistry.registered.v108.decode(event);
     return {
       assetId,
-      assetName: hexToString(assetName),
+      assetName: hexToStrWithNullCharCheck(assetName),
       assetType: assetType.__kind as AssetType,
       existentialDeposit: BigInt(0),
       isSufficient: true,
@@ -28,7 +29,7 @@ function parseRegisteredParams(
       events.assetRegistry.registered.v115.decode(event);
     return {
       assetId,
-      assetName: hexToString(assetName),
+      assetName: hexToStrWithNullCharCheck(assetName),
       assetType: assetType.__kind as AssetType,
       existentialDeposit: BigInt(0),
       isSufficient: true,
@@ -37,9 +38,10 @@ function parseRegisteredParams(
   if (events.assetRegistry.registered.v176.is(event)) {
     const { assetId, assetType, assetName } =
       events.assetRegistry.registered.v176.decode(event);
+
     return {
       assetId,
-      assetName: hexToString(assetName),
+      assetName: hexToStrWithNullCharCheck(assetName),
       assetType: assetType.__kind as AssetType,
       existentialDeposit: BigInt(0),
       isSufficient: true,
@@ -59,10 +61,10 @@ function parseRegisteredParams(
     return {
       assetId,
       assetType: assetType.__kind as AssetType,
-      assetName: hexToString(assetName),
+      assetName: hexToStrWithNullCharCheck(assetName),
       existentialDeposit,
       isSufficient,
-      symbol: hexToString(symbol),
+      symbol: hexToStrWithNullCharCheck(symbol),
       xcmRateLimit,
       decimals,
     };
@@ -77,7 +79,7 @@ function parseUpdatedParams(event: Event): AssetRegistryUpdatedEventParams {
       events.assetRegistry.updated.v108.decode(event);
     return {
       assetId,
-      assetName: hexToString(assetName),
+      assetName: hexToStrWithNullCharCheck(assetName),
       assetType: assetType.__kind as AssetType,
       existentialDeposit: BigInt(0),
       isSufficient: true,
@@ -89,7 +91,7 @@ function parseUpdatedParams(event: Event): AssetRegistryUpdatedEventParams {
       events.assetRegistry.updated.v115.decode(event);
     return {
       assetId,
-      assetName: hexToString(assetName),
+      assetName: hexToStrWithNullCharCheck(assetName),
       assetType: assetType.__kind as AssetType,
       existentialDeposit: BigInt(0),
       isSufficient: true,
@@ -101,7 +103,7 @@ function parseUpdatedParams(event: Event): AssetRegistryUpdatedEventParams {
       events.assetRegistry.updated.v160.decode(event);
     return {
       assetId,
-      assetName: hexToString(assetName),
+      assetName: hexToStrWithNullCharCheck(assetName),
       assetType: assetType.__kind as AssetType,
       xcmRateLimit,
       existentialDeposit,
@@ -113,14 +115,14 @@ function parseUpdatedParams(event: Event): AssetRegistryUpdatedEventParams {
       events.assetRegistry.updated.v176.decode(event);
     return {
       assetId,
-      assetName: hexToString(assetName),
+      assetName: hexToStrWithNullCharCheck(assetName),
       assetType: assetType.__kind as AssetType,
       xcmRateLimit,
       existentialDeposit,
       isSufficient: true,
     };
   }
-  if (events.assetRegistry.registered.v222.is(event)) {
+  if (events.assetRegistry.updated.v222.is(event)) {
     const {
       assetId,
       assetType,
@@ -130,14 +132,14 @@ function parseUpdatedParams(event: Event): AssetRegistryUpdatedEventParams {
       symbol,
       xcmRateLimit,
       decimals,
-    } = events.assetRegistry.registered.v222.decode(event);
+    } = events.assetRegistry.updated.v222.decode(event);
     return {
       assetId,
       assetType: assetType.__kind as AssetType,
-      assetName: hexToString(assetName),
+      assetName: hexToStrWithNullCharCheck(assetName),
       existentialDeposit,
       isSufficient,
-      symbol: hexToString(symbol),
+      symbol: hexToStrWithNullCharCheck(symbol),
       xcmRateLimit,
       decimals,
     };

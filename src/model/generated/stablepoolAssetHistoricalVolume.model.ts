@@ -1,5 +1,6 @@
-import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, ManyToOne as ManyToOne_, Index as Index_, IntColumn as IntColumn_, BigIntColumn as BigIntColumn_} from "@subsquid/typeorm-store"
+import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, ManyToOne as ManyToOne_, Index as Index_, BigIntColumn as BigIntColumn_, IntColumn as IntColumn_} from "@subsquid/typeorm-store"
 import {StablepoolHistoricalVolume} from "./stablepoolHistoricalVolume.model"
+import {Asset} from "./asset.model"
 
 @Entity_()
 export class StablepoolAssetHistoricalVolume {
@@ -8,7 +9,7 @@ export class StablepoolAssetHistoricalVolume {
     }
 
     /**
-     * stablepoolId-paraChainBlockHeight-assetId
+     * stablepoolId-assetId-paraChainBlockHeight
      */
     @PrimaryColumn_()
     id!: string
@@ -17,8 +18,9 @@ export class StablepoolAssetHistoricalVolume {
     @ManyToOne_(() => StablepoolHistoricalVolume, {nullable: true})
     volumesCollection!: StablepoolHistoricalVolume
 
-    @IntColumn_({nullable: false})
-    assetId!: number
+    @Index_()
+    @ManyToOne_(() => Asset, {nullable: true})
+    asset!: Asset
 
     @BigIntColumn_({nullable: false})
     assetFee!: bigint
@@ -61,4 +63,8 @@ export class StablepoolAssetHistoricalVolume {
 
     @BigIntColumn_({nullable: false})
     routedLiqRemovedTotalAmount!: bigint
+
+    @Index_()
+    @IntColumn_({nullable: false})
+    paraChainBlockHeight!: number
 }

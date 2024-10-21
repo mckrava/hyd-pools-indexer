@@ -7,7 +7,8 @@
   "scripts": {
     "build": "rm -rf lib && tsc",
     "node-pg-migrate": "node-pg-migrate",
-    "postbuild": "cpx 'src/**/*.sql' lib"
+    "postbuild": "cpx 'src/**/*.sql' lib",
+    "deploy-main": "sqd deploy --org galacticcouncil . -m xyk-pools-indexer.yaml"
   },
   "dependencies": {
     "@galacticcouncil/sdk": "^4.2.1",

@@ -1,5 +1,6 @@
 import {
-  Account, Asset,
+  Account,
+  Asset,
   HistoricalAssetVolume,
   LbpPool,
   LbpPoolHistoricalPrice,
@@ -23,7 +24,6 @@ import {
   XykPoolOperation,
 } from '../model';
 import { RelayChainInfo } from '../parsers/types/events';
-
 
 export type BatchStatePayload = {
   relayChainInfo: Map<number, RelayChainInfo>;
@@ -56,10 +56,8 @@ export type BatchStatePayload = {
   stablepoolAssetsAllBatch: Map<number, StablepoolAsset>;
   stablepoolAllBatchPools: Map<string, Stablepool>;
   stablepoolOperations: StablepoolOperation[];
+  stablepoolVolumeCollections: Map<string, StablepoolHistoricalVolume>;
   stablepoolAssetVolumes: Map<string, StablepoolAssetHistoricalVolume>;
-  stablepoolVolumes: Map<string, StablepoolHistoricalVolume>;
-  stablepoolAssetLiquidityAmount: Map<string, StablepoolAssetLiquidityAmount>;
-  stablepoolLiquidityActions: Map<string, StablepoolLiquidityAction>;
 };
 
 export class BatchState {
@@ -95,9 +93,7 @@ export class BatchState {
     stablepoolAssetsAllBatch: new Map(),
     stablepoolOperations: [],
     stablepoolAssetVolumes: new Map(),
-    stablepoolVolumes: new Map(),
-    stablepoolAssetLiquidityAmount: new Map(),
-    stablepoolLiquidityActions: new Map(),
+    stablepoolVolumeCollections: new Map(),
   };
 
   get state(): BatchStatePayload {

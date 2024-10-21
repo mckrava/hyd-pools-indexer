@@ -108,7 +108,7 @@ type StablepoolAsset @entity {
   "stablepoolId-assetId"
   id: ID!
   pool: Stablepool!
-  assetId: Int! @index
+  asset: Asset!
   amount: BigInt!
 }
 
@@ -226,10 +226,10 @@ type XykPoolHistoricalVolume @entity {
 }
 
 type StablepoolAssetHistoricalVolume @entity {
-  "stablepoolId-paraChainBlockHeight-assetId"
+  "stablepoolId-assetId-paraChainBlockHeight"
   id: ID!
   volumesCollection: StablepoolHistoricalVolume!
-  assetId: Int!
+  asset: Asset!
   assetFee: BigInt!
   assetTotalFees: BigInt!
 
@@ -247,6 +247,8 @@ type StablepoolAssetHistoricalVolume @entity {
   routedLiqRemovedAmount: BigInt!
   routedLiqAddedTotalAmount: BigInt!
   routedLiqRemovedTotalAmount: BigInt!
+
+  paraChainBlockHeight: Int! @index
 }
 
 type StablepoolHistoricalVolume @entity {
@@ -301,11 +303,11 @@ type StablepoolOperation @entity {
   "TxId"
   id: ID!
   account: Account!
-  assetInId: Int!
+  assetIn: Asset!
   assetInAmount: BigInt!
-  assetOutId: Int!
+  assetOut: Asset!
   assetOutAmount: BigInt!
-  assetFee: BigInt!
+  assetFeeAmount: BigInt!
   pool: Stablepool!
   type: PoolOperationType!
   extrinsicHash: String @index

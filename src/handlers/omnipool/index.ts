@@ -3,7 +3,7 @@ import { Store } from '@subsquid/typeorm-store';
 import { BatchBlocksParsedDataManager } from '../../parsers/batchBlocksParser';
 import { EventName } from '../../parsers/types/events';
 import { getOrderedListByBlockNumber } from '../../utils/helpers';
-import { omnipoolTokenAdded, omnipoolTokenRemoved } from './assets';
+import { omnipoolTokenAdded, omnipoolTokenRemoved } from './omnipoolAssets';
 
 export async function handleOmnipoolAssets(
   ctx: ProcessorContext<Store>,

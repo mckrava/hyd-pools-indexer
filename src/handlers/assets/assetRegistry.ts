@@ -27,6 +27,12 @@ export async function getAsset({
 
   if (!ensure) return asset ?? null;
 
+  /**
+   * Following logic below is implemented and will be used only if indexer
+   * has been started not from genesis block and some assets have not been
+   * pre-created before indexing start point.
+   */
+
   if (!blockHeader) return null;
   const storageData = await parsers.storage.assetRegistry.getAsset(
     +id,

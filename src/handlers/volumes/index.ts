@@ -1,6 +1,7 @@
 import {
   LbpPoolHistoricalVolume,
   OmnipoolAssetHistoricalVolume,
+  StablepoolAssetHistoricalVolume,
   XykPoolHistoricalVolume,
 } from '../../model';
 import { ProcessorContext } from '../../processor';
@@ -11,7 +12,6 @@ export {
   handleOmnipoolAssetVolumeUpdates,
   initOmnipoolAssetVolume,
 } from './omnipoolAssetVolume';
-
 
 export async function getOldLbpVolume(
   ctx: ProcessorContext<Store>,
@@ -55,6 +55,22 @@ export async function getOldOmnipoolAssetVolume(
   });
 }
 
+export async function getOldStablepoolAssetVolume(
+  ctx: ProcessorContext<Store>,
+  assetId: string | number,
+  poolId: string
+) {
+  return await ctx.store.findOne(StablepoolAssetHistoricalVolume, {
+    where: {
+      asset: { id: `${assetId}` },
+      volumesCollection: { pool: { id: poolId } },
+    },
+    order: {
+      paraChainBlockHeight: 'DESC',
+    },
+  });
+}
+
 export function getLastVolumeFromCache(
   volume: Map<string, LbpPoolHistoricalVolume | XykPoolHistoricalVolume>,
   poolId: string
@@ -70,14 +86,18 @@ export function getLastVolumeFromCache(
   );
 }
 
-export function getOmnipoolAssetLastVolumeFromCache(
-  volume: Map<string, OmnipoolAssetHistoricalVolume>,
-  omnipoolAssetId: string
+/**
+ * @param volumes Map<string, PoolAssetHistoricalVolume>
+ * @param poolAssetId  <poolId>-<assetId>
+ */
+export function getPoolAssetLastVolumeFromCache<T extends { id: string }>(
+  volumes: Map<string, T>,
+  poolAssetId: string
 ) {
-  return volume.get(
-    Array.from(volume.keys())
+  return volumes.get(
+    Array.from(volumes.keys())
       .filter((k) => {
-        return k.startsWith(omnipoolAssetId + '-');
+        return k.startsWith(poolAssetId + '-');
       })
       .sort((a, b) => {
         return parseInt(b.split('-')[2]) - parseInt(a.split('-')[2]);
