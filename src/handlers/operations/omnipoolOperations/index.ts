@@ -14,6 +14,7 @@ import {
   PoolOperationType,
 } from '../../../model';
 import { handleOmnipoolAssetVolumeUpdates } from '../../volumes';
+import { getOmnipoolAsset } from '../../omnipool/omnipoolAssets';
 
 export async function handleOmnioolOperations(
   ctx: ProcessorContext<Store>,
@@ -43,23 +44,16 @@ export async function omnipoolBuySellExecuted(
     eventData: { params: eventParams, metadata: eventMetadata },
   } = eventCallData;
 
-  let assetInEntity =
-    ctx.batchState.state.omnipoolAssets.get(
-      `${ctx.appConfig.OMNIPOOL_ADDRESS}-${eventParams.assetIn}`
-    ) ||
-    (await ctx.store.findOne(OmnipoolAsset, {
-      where: { assetId: eventParams.assetIn },
-    }));
+  let assetInEntity = await getOmnipoolAsset(ctx, eventParams.assetIn);
 
-  let assetOutEntity =
-    ctx.batchState.state.omnipoolAssets.get(
-      `${ctx.appConfig.OMNIPOOL_ADDRESS}-${eventParams.assetOut}`
-    ) ||
-    (await ctx.store.findOne(OmnipoolAsset, {
-      where: { assetId: eventParams.assetOut },
-    }));
+  let assetOutEntity = await getOmnipoolAsset(ctx, eventParams.assetOut);
 
-  if (!assetInEntity && !assetOutEntity) return;
+  if (!assetInEntity || !assetOutEntity) {
+    console.log(
+      `Omnipool asset with assetId: ${!assetInEntity ? eventParams.assetIn : eventParams.assetOut} has not been found`
+    );
+    return;
+  }
 
   const operationInstance = new OmnipoolAssetOperation({
     id: eventMetadata.id,

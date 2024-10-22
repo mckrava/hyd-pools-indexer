@@ -21,6 +21,7 @@ import { XykPoolsVolumeSubscriptionsPlugin } from './apiSupport/plugins/xykPools
 import { getEnvPath } from './utils/helpers';
 import { OmnipoolAssetVolumePlugin } from './apiSupport/plugins/omnipoolVolume.plugin';
 import { OmnipoolAssetVolumeSubscriptionsPlugin } from './apiSupport/plugins/omnipoolAssetVolumeSubscriptions.plugin';
+import { StablepoolVolumePlugin } from './apiSupport/plugins/stablepoolVolume.plugin';
 
 const pgTypes = new TypeOverrides();
 pgTypes.setTypeParser(1700, function (val) {
@@ -66,6 +67,7 @@ app.use(
         XykPoolsVolumeSubscriptionsPlugin,
         OmnipoolAssetVolumePlugin,
         OmnipoolAssetVolumeSubscriptionsPlugin,
+        StablepoolVolumePlugin,
       ],
       externalUrlBase: appConfig.BASE_PATH,
       graphileBuildOptions: {

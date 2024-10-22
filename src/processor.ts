@@ -60,13 +60,16 @@ export const processor = new SubstrateBatchProcessor()
       success: true,
       error: true,
     },
-  })
-  // .setBlockRange({ from: 3934551 }); // XYK.create_pool
-  // .setBlockRange({ from: 3934590 }); // XYK.buy
-  // .setBlockRange({ from: 1708100 }); // Omnipool.TokenAdded
-  .setBlockRange({ from: 3640100 }); // Stableswap.PoolCreated
-  // .setBlockRange({ from: 1439857 }); // AssetRegistry.Registered
-  // .setBlockRange({ from: 4959696 });
+  });
+// .setBlockRange({ from: 3934551 }); // XYK.create_pool
+// .setBlockRange({ from: 3934590 }); // XYK.buy
+// .setBlockRange({ from: 1708100 }); // Omnipool.TokenAdded
+// .setBlockRange({ from: 3640100 }); // Stableswap.PoolCreated
+// .setBlockRange({ from: 1439857 }); // AssetRegistry.Registered
+// .setBlockRange({ from: 4959696 });
+
+// 3640700 - 0xc8589b7ae9c1e6e65cc810a83548e541872bcc5e52a26967fa3999e51262232a -> 17,779,260
+// 3640800 - 0x9b1b6cd9708ee52b804a80bf650ddc6ca72e7e9471e3545512035e7d8c1bbd62 -> 17,779,462
 
 export type Fields = SubstrateBatchProcessorFields<typeof processor>;
 export type Block = BlockHeader<Fields>;

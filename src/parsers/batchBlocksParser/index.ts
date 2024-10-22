@@ -71,9 +71,9 @@ function getEventMetadata(
   };
 }
 
-export function getParsedEventsData(
+export async function getParsedEventsData(
   ctx: ProcessorContext<Store>
-): BatchBlocksParsedDataManager {
+): Promise<BatchBlocksParsedDataManager> {
   const parsedDataManager = new BatchBlocksParsedDataManager();
   let totalEventsNumber = 0;
 

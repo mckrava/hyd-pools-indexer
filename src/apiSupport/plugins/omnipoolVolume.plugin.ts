@@ -1,10 +1,6 @@
 import { gql, makeExtendSchemaPlugin, Plugin, embed } from 'postgraphile';
 import type * as pg from 'pg';
 import {
-  aggregateXykPoolVolumesByBlocksRange,
-  getAssetIdsByPoolIds,
-} from './sql/xykPoolsVolume.sql';
-import {
   OmnipoolAssetHistoricalVolumeRaw,
   QueryResolverContext,
 } from '../types';
@@ -84,7 +80,9 @@ export async function handleQueryOmnipoolAssetHistoricalVolumesByPeriod(
           BigInt(group[1].asset_total_volume_in) +
           BigInt(group[1].asset_total_volume_out) -
           BigInt(group[0].asset_total_volume_in) -
-          BigInt(group[0].asset_total_volume_out);
+          BigInt(group[0].asset_total_volume_out) +
+          BigInt(group[0].asset_volume_in) -
+          BigInt(group[0].asset_volume_out);
 
         resp.assetFeeVolume =
           BigInt(group[1].asset_total_fees) - BigInt(group[0].asset_total_fees);

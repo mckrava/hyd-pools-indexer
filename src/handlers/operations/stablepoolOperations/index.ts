@@ -5,6 +5,8 @@ import { EventName } from '../../../parsers/types/events';
 import { getOrderedListByBlockNumber } from '../../../utils/helpers';
 import {
   StableswapBuyExecutedData,
+  StableswapLiquidityAddedData,
+  StableswapLiquidityRemovedData,
   StableswapSellExecutedData,
 } from '../../../parsers/batchBlocksParser/types';
 import { getAccount } from '../../accounts';
@@ -12,6 +14,7 @@ import { PoolOperationType, StablepoolOperation } from '../../../model';
 import { getAsset } from '../../assets/assetRegistry';
 import { handleStablepoolVolumeUpdates } from '../../volumes/stablepoolVolume';
 import { getStablepool } from '../../stablepool/stablepool';
+import { stablepoolLiquidityAddedRemoved } from '../../stablepool/liquidity';
 
 export async function handleStablepoolOperations(
   ctx: ProcessorContext<Store>,
@@ -28,9 +31,39 @@ export async function handleStablepoolOperations(
     ...parsedEvents
       .getSectionByEventName(EventName.Stableswap_SellExecuted)
       .values(),
+    ...parsedEvents
+      .getSectionByEventName(EventName.Stableswap_LiquidityAdded)
+      .values(),
+    ...parsedEvents
+      .getSectionByEventName(EventName.Stableswap_LiquidityRemoved)
+      .values(),
   ])) {
-    await stablepoolBuySellExecuted(ctx, eventData);
+    switch (eventData.eventData.name) {
+      case EventName.Stableswap_LiquidityAdded:
+      case EventName.Stableswap_LiquidityRemoved:
+        await stablepoolLiquidityAddedRemoved(
+          ctx,
+          eventData as
+            | StableswapLiquidityAddedData
+            | StableswapLiquidityRemovedData
+        );
+        break;
+      case EventName.Stableswap_BuyExecuted:
+      case EventName.Stableswap_SellExecuted:
+        await stablepoolBuySellExecuted(
+          ctx,
+          eventData as StableswapBuyExecutedData | StableswapSellExecutedData
+        );
+        break;
+    }
   }
+
+  await ctx.store.save([
+    ...ctx.batchState.state.stablepoolBatchLiquidityActions.values(),
+  ]);
+  await ctx.store.save([
+    ...ctx.batchState.state.stablepoolAssetBatchLiquidityAmounts.values(),
+  ]);
 }
 
 export async function stablepoolBuySellExecuted(

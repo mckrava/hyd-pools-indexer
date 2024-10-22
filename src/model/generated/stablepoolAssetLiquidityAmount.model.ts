@@ -1,5 +1,6 @@
-import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, ManyToOne as ManyToOne_, Index as Index_, IntColumn as IntColumn_, BigIntColumn as BigIntColumn_} from "@subsquid/typeorm-store"
+import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, ManyToOne as ManyToOne_, Index as Index_, BigIntColumn as BigIntColumn_} from "@subsquid/typeorm-store"
 import {StablepoolLiquidityAction} from "./stablepoolLiquidityAction.model"
+import {Asset} from "./asset.model"
 
 @Entity_()
 export class StablepoolAssetLiquidityAmount {
@@ -8,7 +9,7 @@ export class StablepoolAssetLiquidityAmount {
     }
 
     /**
-     * TxId
+     * poolId-assetId-paraChainBlockHeight-indexInBlock
      */
     @PrimaryColumn_()
     id!: string
@@ -18,8 +19,8 @@ export class StablepoolAssetLiquidityAmount {
     liquidityAction!: StablepoolLiquidityAction
 
     @Index_()
-    @IntColumn_({nullable: false})
-    assetId!: number
+    @ManyToOne_(() => Asset, {nullable: true})
+    asset!: Asset
 
     @BigIntColumn_({nullable: false})
     amount!: bigint

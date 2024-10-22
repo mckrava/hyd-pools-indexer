@@ -6,6 +6,20 @@ import {
   OmnipoolTokenRemovedData,
 } from '../../parsers/batchBlocksParser/types';
 
+export async function getOmnipoolAsset(
+  ctx: ProcessorContext<Store>,
+  assetId: number
+) {
+  return (
+    ctx.batchState.state.omnipoolAssets.get(
+      `${ctx.appConfig.OMNIPOOL_ADDRESS}-${assetId}`
+    ) ||
+    (await ctx.store.findOne(OmnipoolAsset, {
+      where: { assetId },
+    }))
+  );
+}
+
 export async function omnipoolTokenAdded(
   ctx: ProcessorContext<Store>,
   eventCallData: OmnipoolTokenAddedData

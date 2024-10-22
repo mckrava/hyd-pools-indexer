@@ -10,7 +10,7 @@ export class StablepoolLiquidityAction {
     }
 
     /**
-     * TxId
+     * poolId-paraChainBlockHeight-indexInBlock
      */
     @PrimaryColumn_()
     id!: string

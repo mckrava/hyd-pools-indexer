@@ -68,6 +68,69 @@ export type OmnipoolAssetHistoricalVolumeGqlResponse = {
   paraChainBlockHeight: number;
 };
 
+export type StablepoolHistoricalVolumeRaw = {
+  id: string;
+  pool_id: string;
+  relay_chain_block_height: number;
+  para_chain_block_height: number;
+};
+export type StablepoolHistoricalVolumeGqlResponse = {
+  id: string;
+  poolId: string;
+  assetAmounts: StablepoolAssetHistoricalVolumeGqlResponse[];
+  relayChainBlockHeight: number;
+  paraChainBlockHeight: number;
+};
+
+export type StablepoolAssetHistoricalVolumeRaw = {
+  id: string;
+  volumes_collection_id: string;
+  asset_id: string;
+  swap_fee: number;
+  swap_total_fees: number;
+  liq_fee: number;
+  liq_total_fees: number;
+  routed_liq_fee: number;
+  routed_liq_total_fees: number;
+  swap_volume_in: number;
+  swap_volume_out: number;
+  swap_total_volume_in: number;
+  swap_total_volume_out: number;
+  liq_added_amount: number;
+  liq_removed_amount: number;
+  liq_added_total_amount: number;
+  liq_removed_total_amount: number;
+  routed_liq_added_amount: number;
+  routed_liq_removed_amount: number;
+  routed_liq_added_total_amount: number;
+  routed_liq_removed_total_amount: number;
+  para_chain_block_height: number;
+};
+export type StablepoolAssetHistoricalVolumeGqlResponse = {
+  id: string;
+  volumesCollectionId: string;
+  assetId: string;
+  swapFee: number;
+  swapTotalFees: number;
+  liqFee: number;
+  liqTotalFees: number;
+  routedLiqFee: number;
+  routedLiqTotalFees: number;
+  swapVolumeIn: number;
+  swapVolumeOut: number;
+  swapTotalVolumeIn: number;
+  swapTotalVolumeOut: number;
+  liqAddedAmount: number;
+  liqRemovedAmount: number;
+  liqAddedTotalAmount: number;
+  liqRemovedTotalAmount: number;
+  routedLiqAddedAmount: number;
+  routedLiqRemovedAmount: number;
+  routedLiqAddedTotalAmount: number;
+  routedLiqRemovedTotalAmount: number;
+  paraChainBlockHeight: number;
+};
+
 export interface QueryResolverContext {
   pgClient: Client;
   pgRole: string;

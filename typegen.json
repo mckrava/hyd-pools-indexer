@@ -17,7 +17,8 @@
       "storage": ["Accounts"]
     },
     "ParachainSystem": {
-      "calls": ["set_validation_data"]
+      "calls": ["set_validation_data"],
+      "storage": ["LastRelayChainBlockNumber"]
     },
     "XYK": {
       "events": ["PoolCreated", "PoolDestroyed", "SellExecuted", "BuyExecuted"],

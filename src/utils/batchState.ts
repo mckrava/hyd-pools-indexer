@@ -58,6 +58,12 @@ export type BatchStatePayload = {
   stablepoolOperations: StablepoolOperation[];
   stablepoolVolumeCollections: Map<string, StablepoolHistoricalVolume>;
   stablepoolAssetVolumes: Map<string, StablepoolAssetHistoricalVolume>;
+  stablepoolAssetVolumeIdsToSave: Set<string>;
+  stablepoolAssetBatchLiquidityAmounts: Map<
+    string,
+    StablepoolAssetLiquidityAmount
+  >;
+  stablepoolBatchLiquidityActions: Map<string, StablepoolLiquidityAction>;
 };
 
 export class BatchState {
@@ -93,7 +99,10 @@ export class BatchState {
     stablepoolAssetsAllBatch: new Map(),
     stablepoolOperations: [],
     stablepoolAssetVolumes: new Map(),
+    stablepoolAssetVolumeIdsToSave: new Set(),
     stablepoolVolumeCollections: new Map(),
+    stablepoolAssetBatchLiquidityAmounts: new Map(),
+    stablepoolBatchLiquidityActions: new Map(),
   };
 
   get state(): BatchStatePayload {

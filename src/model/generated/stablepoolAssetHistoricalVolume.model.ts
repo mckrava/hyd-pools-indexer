@@ -23,10 +23,22 @@ export class StablepoolAssetHistoricalVolume {
     asset!: Asset
 
     @BigIntColumn_({nullable: false})
-    assetFee!: bigint
+    swapFee!: bigint
 
     @BigIntColumn_({nullable: false})
-    assetTotalFees!: bigint
+    swapTotalFees!: bigint
+
+    @BigIntColumn_({nullable: false})
+    liqFee!: bigint
+
+    @BigIntColumn_({nullable: false})
+    liqTotalFees!: bigint
+
+    @BigIntColumn_({nullable: false})
+    routedLiqFee!: bigint
+
+    @BigIntColumn_({nullable: false})
+    routedLiqTotalFees!: bigint
 
     @BigIntColumn_({nullable: false})
     swapVolumeIn!: bigint

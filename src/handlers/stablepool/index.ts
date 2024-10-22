@@ -4,6 +4,8 @@ import { BatchBlocksParsedDataManager } from '../../parsers/batchBlocksParser';
 import { EventName } from '../../parsers/types/events';
 import { getOrderedListByBlockNumber } from '../../utils/helpers';
 import { stablepoolCreated } from './stablepool';
+import { stablepoolBuySellExecuted } from '../operations/stablepoolOperations';
+import { stablepoolLiquidityAddedRemoved } from './liquidity';
 
 export async function handleStablepools(
   ctx: ProcessorContext<Store>,
@@ -30,6 +32,42 @@ export async function handleStablepools(
     ...ctx.batchState.state.stablepoolAssetsAllBatch.values(),
   ]);
 }
+
+// export async function handleStablepoolLiquidityActions(
+//   ctx: ProcessorContext<Store>,
+//   parsedEvents: BatchBlocksParsedDataManager
+// ) {
+//   if (!ctx.appConfig.PROCESS_STABLEPOOLS) return;
+//
+//   for (const eventData of getOrderedListByBlockNumber([
+//     ...parsedEvents
+//       .getSectionByEventName(EventName.Stableswap_LiquidityAdded)
+//       .values(),
+//     ...parsedEvents
+//       .getSectionByEventName(EventName.Stableswap_LiquidityRemoved)
+//       .values(),
+//   ])) {
+//     await stablepoolLiquidityAddedRemoved(ctx, eventData);
+//   }
+//
+//   await ctx.store.save([
+//     ...ctx.batchState.state.stablepoolBatchLiquidityActions.values(),
+//   ]);
+//   await ctx.store.save([
+//     ...ctx.batchState.state.stablepoolAssetBatchLiquidityAmounts.values(),
+//   ]);
+//   await ctx.store.save([
+//     ...ctx.batchState.state.stablepoolVolumeCollections.values(),
+//   ]);
+//
+//   await ctx.store.save(
+//     [...ctx.batchState.state.stablepoolAssetVolumes.values()].filter((asset) =>
+//       ctx.batchState.state.stablepoolAssetVolumeIdsToSave.has(asset.id)
+//     )
+//   );
+//   ctx.batchState.state = { stablepoolAssetVolumeIdsToSave: new Set() };
+// }
+
 //
 // export async function handleStablepoolOperations(
 //   ctx: ProcessorContext<Store>,

@@ -15,6 +15,7 @@ export interface SystemAccountInfo {
   sufficients: number;
   data: AccountData;
 }
+export type ParachainSystemLastRelayChainBlockNumber = number;
 
 export interface TokensAccountsAssetBalances {
   free: bigint;

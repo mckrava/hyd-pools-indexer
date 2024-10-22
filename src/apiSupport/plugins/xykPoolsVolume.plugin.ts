@@ -85,13 +85,17 @@ export async function handleQueryXykPoolHistoricalVolumesByPeriod(
           BigInt(group[1].asset_a_total_volume_in) +
           BigInt(group[1].asset_a_total_volume_out) -
           BigInt(group[0].asset_a_total_volume_in) -
-          BigInt(group[0].asset_a_total_volume_out);
+          BigInt(group[0].asset_a_total_volume_out) +
+          BigInt(group[0].asset_a_volume_in) -
+          BigInt(group[0].asset_a_volume_out);
 
         resp.assetBVolume =
           BigInt(group[1].asset_b_total_volume_in) +
           BigInt(group[1].asset_b_total_volume_out) -
           BigInt(group[0].asset_b_total_volume_in) -
-          BigInt(group[0].asset_b_total_volume_out);
+          BigInt(group[0].asset_b_total_volume_out) +
+          BigInt(group[0].asset_b_volume_in) -
+          BigInt(group[0].asset_b_volume_out);
         return resp;
       })
       .map((r: XykPoolVolumeAggregated) => [r.poolId, r])
