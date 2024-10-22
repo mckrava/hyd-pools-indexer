@@ -7,16 +7,10 @@ import { handleTransfers } from './handlers/transfers';
 import { getParsedEventsData } from './parsers/batchBlocksParser';
 import { AppConfig } from './utils/appConfig';
 import { handlePoolPrices } from './handlers/prices';
-import {
-  handleOmnipoolAssets,
-  handleOmnipoolOperations,
-} from './handlers/omnipool';
+import { handleOmnipoolAssets } from './handlers/omnipool';
 import { ensureOmnipool } from './handlers/omnipool/omnipool';
 import { handleOperations } from './handlers/operations';
-import {
-  // handleStablepoolLiquidityActions,
-  handleStablepools,
-} from './handlers/stablepool';
+import { handleStablepools } from './handlers/stablepool';
 import { handleAssetRegistry } from './handlers/assets';
 
 processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
@@ -54,11 +48,6 @@ processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
     ctxWithBatchState as ProcessorContext<Store>,
     parsedData
   );
-
-  // await handleStablepoolLiquidityActions(
-  //   ctxWithBatchState as ProcessorContext<Store>,
-  //   parsedData
-  // );
 
   if (ctx.isHead)
     await handlePoolPrices(ctxWithBatchState as ProcessorContext<Store>);

@@ -1,6 +1,6 @@
 import { gql, makeExtendSchemaPlugin, Plugin } from 'postgraphile';
 import type * as pg from 'pg';
-import { QueryResolverContext } from '../types';
+import { QueryResolverContext } from '../../types';
 import { GraphQLResolveInfo } from 'graphql/type/definition';
 import { GraphileHelpers } from 'graphile-utils/node8plus/fieldHelpers';
 import type { QueryBuilder, SQL } from 'graphile-build-pg';

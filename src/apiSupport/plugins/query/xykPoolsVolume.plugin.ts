@@ -3,8 +3,8 @@ import type * as pg from 'pg';
 import {
   aggregateXykPoolVolumesByBlocksRange,
   getAssetIdsByPoolIds,
-} from './sql/xykPoolsVolume.sql';
-import { QueryResolverContext, XykPoolHistoricalVolumeRaw } from '../types';
+} from '../sql/xykPoolsVolume.sql';
+import { QueryResolverContext, XykPoolHistoricalVolumeRaw } from '../../types';
 import { GraphQLResolveInfo } from 'graphql/type/definition';
 import { GraphileHelpers } from 'graphile-utils/node8plus/fieldHelpers';
 

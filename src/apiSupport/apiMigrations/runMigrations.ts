@@ -1,3 +1,5 @@
+import type { RunMigration } from 'node-pg-migrate/dist/migration';
+
 const migrations = require('node-pg-migrate');
 
 import { AppConfig } from '../../utils/appConfig';
@@ -17,7 +19,7 @@ export async function runMigrations() {
   await pgClient.connect();
 
   try {
-    await migrations.runner({
+    const migrationsResult: RunMigration[] = await migrations.runner({
       migrationsSchema: 'squid_processor',
       migrationsTable: 'node_pg_migrations',
       schema: 'public',
@@ -26,8 +28,11 @@ export async function runMigrations() {
       direction: 'up',
       count: 10000,
     });
-
-    console.log('Migrations successfully executed');
+    if (migrationsResult && migrationsResult.length > 0) {
+      console.log(`API DB migrations have been successfully executed.`);
+    } else {
+      console.log(`There are no pending API DB migrations.`);
+    }
   } catch (err) {
     console.error('Error executing migrations:', err);
   }

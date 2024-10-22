@@ -3,8 +3,8 @@ import {
   OmnipoolAssetHistoricalVolumeGqlResponse,
   QueryResolverContext,
   XykPoolHistoricalVolumeGqlResponse,
-} from '../types';
-import { convertObjectPropsSnakeCaseToCamelCase } from '../../utils/helpers';
+} from '../../types';
+import { convertObjectPropsSnakeCaseToCamelCase } from '../../../utils/helpers';
 import { GraphQLResolveInfo } from 'graphql/type/definition';
 import { GraphileHelpers } from 'graphile-utils/node8plus/fieldHelpers';
 import type { QueryBuilder, SQL } from 'graphile-build-pg';

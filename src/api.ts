@@ -10,18 +10,19 @@ import {
   makePluginHook,
 } from 'postgraphile';
 import FilterPlugin from 'postgraphile-plugin-connection-filter';
-import { ProcessorStatusPlugin } from './apiSupport/plugins/processorStatus.plugin';
+import { ProcessorStatusPlugin } from './apiSupport/plugins/query/processorStatus.plugin';
 import { AppConfig } from './utils/appConfig';
-import { XykPoolsVolumePlugin } from './apiSupport/plugins/xykPoolsVolume.plugin';
+import { XykPoolsVolumePlugin } from './apiSupport/plugins/query/xykPoolsVolume.plugin';
 import PgPubsub from '@graphile/pg-pubsub';
 import TypeOverrides from 'pg/lib/type-overrides';
 import { Client } from 'pg';
 import { runMigrations } from './apiSupport/apiMigrations/runMigrations';
-import { XykPoolsVolumeSubscriptionsPlugin } from './apiSupport/plugins/xykPoolsVolumeSubscriptions.plugin';
+import { XykPoolsVolumeSubscriptionsPlugin } from './apiSupport/plugins/subscription/xykPoolsVolumeSubscriptions.plugin';
 import { getEnvPath } from './utils/helpers';
-import { OmnipoolAssetVolumePlugin } from './apiSupport/plugins/omnipoolVolume.plugin';
-import { OmnipoolAssetVolumeSubscriptionsPlugin } from './apiSupport/plugins/omnipoolAssetVolumeSubscriptions.plugin';
-import { StablepoolVolumePlugin } from './apiSupport/plugins/stablepoolVolume.plugin';
+import { OmnipoolAssetVolumePlugin } from './apiSupport/plugins/query/omnipoolVolume.plugin';
+import { OmnipoolAssetVolumeSubscriptionsPlugin } from './apiSupport/plugins/subscription/omnipoolAssetVolumeSubscriptions.plugin';
+import { StablepoolVolumePlugin } from './apiSupport/plugins/query/stablepoolVolume.plugin';
+import { StablepoolVolumeSubscriptionsPlugin } from './apiSupport/plugins/subscription/stablepoolVolumeSubscriptions.plugin';
 
 const pgTypes = new TypeOverrides();
 pgTypes.setTypeParser(1700, function (val) {
@@ -37,47 +38,52 @@ runMigrations()
     console.log(e);
   });
 
-app.use(
-  postgraphile(
-    {
-      host: appConfig.DB_HOST,
-      port: appConfig.DB_PORT,
-      database: appConfig.DB_NAME,
-      user: appConfig.DB_USER,
-      password: appConfig.DB_PASS,
-      types: pgTypes,
+const postgraphileInstance = postgraphile(
+  {
+    host: appConfig.DB_HOST,
+    port: appConfig.DB_PORT,
+    database: appConfig.DB_NAME,
+    user: appConfig.DB_USER,
+    password: appConfig.DB_PASS,
+    types: pgTypes,
+  },
+  'public',
+  {
+    graphiql: true,
+    watchPg: true,
+    showErrorStack: false,
+    enhanceGraphiql: true,
+    dynamicJson: true,
+    disableDefaultMutations: true,
+    skipPlugins: [NodePlugin],
+    subscriptions: true,
+    pluginHook: makePluginHook([PgPubsub]),
+    appendPlugins: [
+      AggregatesPluggin,
+      FilterPlugin,
+      SimplifyInflectorPlugin,
+      ProcessorStatusPlugin,
+      XykPoolsVolumePlugin,
+      XykPoolsVolumeSubscriptionsPlugin,
+      OmnipoolAssetVolumePlugin,
+      OmnipoolAssetVolumeSubscriptionsPlugin,
+      StablepoolVolumePlugin,
+      StablepoolVolumeSubscriptionsPlugin,
+    ],
+    externalUrlBase: process.env.BASE_PATH
+      ? process.env.BASE_PATH + '/api'
+      : undefined,
+    graphileBuildOptions: {
+      stateSchemas: ['squid_processor'],
     },
-    'public',
-    {
-      graphiql: true,
-      watchPg: true,
-      showErrorStack: false,
-      enhanceGraphiql: true,
-      dynamicJson: true,
-      disableDefaultMutations: true,
-      skipPlugins: [NodePlugin],
-      subscriptions: true,
-      pluginHook: makePluginHook([PgPubsub]),
-      appendPlugins: [
-        AggregatesPluggin,
-        FilterPlugin,
-        SimplifyInflectorPlugin,
-        ProcessorStatusPlugin,
-        XykPoolsVolumePlugin,
-        XykPoolsVolumeSubscriptionsPlugin,
-        OmnipoolAssetVolumePlugin,
-        OmnipoolAssetVolumeSubscriptionsPlugin,
-        StablepoolVolumePlugin,
-      ],
-      externalUrlBase: appConfig.BASE_PATH,
-      graphileBuildOptions: {
-        stateSchemas: ['squid_processor'],
-      },
-      allowExplain: true,
-      exportGqlSchemaPath: getEnvPath('apiSupport/schema.graphql'),
-    }
-  )
+    allowExplain: true,
+    exportGqlSchemaPath: getEnvPath('apiSupport/schema.graphql'),
+  }
 );
+
+console.log(postgraphileInstance.options);
+
+app.use(postgraphileInstance);
 
 app.listen(appConfig.GQL_PORT, () => {
   console.log(`Squid API listening on port ${appConfig.GQL_PORT}`);

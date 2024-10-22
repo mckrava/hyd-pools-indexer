@@ -3,10 +3,10 @@ import type * as pg from 'pg';
 import {
   OmnipoolAssetHistoricalVolumeRaw,
   QueryResolverContext,
-} from '../types';
+} from '../../types';
 import { GraphQLResolveInfo } from 'graphql/type/definition';
 import { GraphileHelpers } from 'graphile-utils/node8plus/fieldHelpers';
-import { aggregateOmnipoolAssetsVolumesByBlocksRange } from './sql/omnipoolAssetsVolume.sql';
+import { aggregateOmnipoolAssetsVolumesByBlocksRange } from '../sql/omnipoolAssetsVolume.sql';
 
 type OmnipoolAssetVolumesByPeriodFilter = {
   omnipoolAssetIds: string[];

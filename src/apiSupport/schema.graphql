@@ -24516,6 +24516,7 @@ type Subscription {
   squidStatus: SquidStatusSubscriptionPayload
   xykPoolHistoricalVolume(filter: XykPoolHistoricalVolumeSubscriptionFilter): XykPoolHistoricalVolumeSubscriptionPayload
   omnipoolAssetHistoricalVolume(filter: OmnipoolAssetHistoricalVolumeSubscriptionFilter): OmnipoolAssetHistoricalVolumeSubscriptionPayload
+  stablepoolHistoricalVolume(filter: StablepoolHistoricalVolumeSubscriptionFilter): StablepoolHistoricalVolumeSubscriptionPayload
 }
 
 type SquidStatusSubscriptionPayload {
@@ -24574,4 +24575,46 @@ type OmnipoolAssetHistoricalVolumeEntity {
 
 input OmnipoolAssetHistoricalVolumeSubscriptionFilter {
   omnipoolAssetIds: [String!]
+}
+
+type StablepoolHistoricalVolumeSubscriptionPayload {
+  node: StablepoolHistoricalVolumeEntity
+  event: String
+}
+
+type StablepoolHistoricalVolumeEntity {
+  id: String!
+  poolId: String!
+  assetVolumes: [StablepoolAssetHistoricalVolumeEntity]!
+  paraChainBlockHeight: Int!
+  relayChainBlockHeight: Int!
+}
+
+type StablepoolAssetHistoricalVolumeEntity {
+  id: String!
+  volumesCollectionId: String!
+  assetId: Int!
+  swapFee: BigInt!
+  swapTotalFees: BigInt!
+  liqFee: BigInt!
+  liqTotalFees: BigInt!
+  routedLiqFee: BigInt!
+  routedLiqTotalFees: BigInt!
+  swapVolumeIn: BigInt!
+  swapVolumeOut: BigInt!
+  swapTotalVolumeIn: BigInt!
+  swapTotalVolumeOut: BigInt!
+  liqAddedAmount: BigInt!
+  liqRemovedAmount: BigInt!
+  liqAddedTotalAmount: BigInt!
+  liqRemovedTotalAmount: BigInt!
+  routedLiqAddedAmount: BigInt!
+  routedLiqRemovedAmount: BigInt!
+  routedLiqAddedTotalAmount: BigInt!
+  routedLiqRemovedTotalAmount: BigInt!
+  paraChainBlockHeight: Int!
+}
+
+input StablepoolHistoricalVolumeSubscriptionFilter {
+  poolIds: [String!]
 }

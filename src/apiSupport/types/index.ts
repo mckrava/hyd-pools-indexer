@@ -77,7 +77,7 @@ export type StablepoolHistoricalVolumeRaw = {
 export type StablepoolHistoricalVolumeGqlResponse = {
   id: string;
   poolId: string;
-  assetAmounts: StablepoolAssetHistoricalVolumeGqlResponse[];
+  assetVolumes: StablepoolAssetHistoricalVolumeGqlResponse[];
   relayChainBlockHeight: number;
   paraChainBlockHeight: number;
 };

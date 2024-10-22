@@ -5,15 +5,15 @@ import {
   QueryResolverContext,
   StablepoolAssetHistoricalVolumeRaw,
   StablepoolHistoricalVolumeRaw,
-} from '../types';
+} from '../../types';
 import { GraphQLResolveInfo } from 'graphql/type/definition';
 import { GraphileHelpers } from 'graphile-utils/node8plus/fieldHelpers';
-import { aggregateOmnipoolAssetsVolumesByBlocksRange } from './sql/omnipoolAssetsVolume.sql';
+import { aggregateOmnipoolAssetsVolumesByBlocksRange } from '../sql/omnipoolAssetsVolume.sql';
 import {
   aggregateStablepoolVolumesByBlocksRange,
   getAssetIdsByStablepoolIds,
-} from './sql/stablepoolVolumes.sql';
-import { getAssetIdsByPoolIds } from './sql/xykPoolsVolume.sql';
+} from '../sql/stablepoolVolumes.sql';
+import { getAssetIdsByPoolIds } from '../sql/xykPoolsVolume.sql';
 
 type StablepoolVolumesByPeriodFilter = {
   poolIds: string[];
