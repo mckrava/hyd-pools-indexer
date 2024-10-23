@@ -70,6 +70,7 @@ const postgraphileInstance = postgraphile(
       StablepoolVolumePlugin,
       StablepoolVolumeSubscriptionsPlugin,
     ],
+    disableQueryLog: appConfig.NODE_ENV !== 'development',
     externalUrlBase: process.env.BASE_PATH
       ? process.env.BASE_PATH + '/api'
       : undefined,
@@ -80,8 +81,6 @@ const postgraphileInstance = postgraphile(
     exportGqlSchemaPath: getEnvPath('apiSupport/schema.graphql'),
   }
 );
-
-console.log(postgraphileInstance.options);
 
 app.use(postgraphileInstance);
 
