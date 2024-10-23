@@ -1,3 +1,5 @@
+import { sts } from '../../typegenTypes/support';
+
 export type LbpCreatePoolCallArgs = {
   poolOwner: string;
   assetA: number;
@@ -10,4 +12,15 @@ export type LbpCreatePoolCallArgs = {
   fee: [number, number];
   feeCollector: string;
   repayTarget: bigint;
+};
+
+export type XykCreatePoolCallArgs = {
+  assetA: number;
+  amountA: bigint;
+  assetB: number;
+  amountB: bigint;
+};
+
+export type RelaySystemSetValidationDataCallArgs = {
+  relayParentNumber: number;
 };

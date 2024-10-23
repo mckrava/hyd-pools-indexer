@@ -1,6 +1,28 @@
+# ======================================================================================================================
+# *** Common entities ***
+# ======================================================================================================================
+
 enum SwapType {
   BUY
   SELL
+}
+
+enum PoolOperationType {
+  BUY
+  SELL
+}
+
+enum LiquidityActionType {
+  ADD
+  REMOVE
+}
+
+enum AssetType {
+  Bond
+  External
+  StableSwap
+  Token
+  XYK
 }
 
 type Account @entity {
@@ -8,6 +30,18 @@ type Account @entity {
   id: ID!
   transfersTo: [Transfer!] @derivedFrom(field: "to")
   transfersFrom: [Transfer!] @derivedFrom(field: "from")
+}
+
+type Asset @entity {
+  "Asset ID"
+  id: ID!
+  assetType: AssetType!
+  name: String
+  symbol: String
+  decimals: Int
+  xcmRateLimit: BigInt
+  isSufficient: Boolean!
+  existentialDeposit: BigInt!
 }
 
 type Transfer @entity {
@@ -22,15 +56,33 @@ type Transfer @entity {
   txFee: BigInt!
 }
 
-type Pool @entity {
+type HistoricalAssetVolume @entity {
+  "AssetId-paraChainBlockHeight"
+  id: ID!
+  assetId: Int! @index
+  volumeIn: BigInt!
+  volumeOut: BigInt!
+  totalVolumeIn: BigInt!
+  totalVolumeOut: BigInt!
+  relayChainBlockHeight: Int!
+  paraChainBlockHeight: Int! @index
+}
+
+# ======================================================================================================================
+# *** LBP Pool ***
+# ======================================================================================================================
+
+type LbpPool @entity {
   id: ID!
   account: Account!
-  assetAId: Int!
-  assetBId: Int!
+  assetAId: Int! @index
+  assetBId: Int! @index
   assetABalance: BigInt!
   assetBBalance: BigInt!
   createdAt: DateTime!
   createdAtParaBlock: Int!
+  isDestroyed: Boolean
+  destroyedAtParaBlock: Int
   startBlockNumber: Int
   endBlockNumber: Int
   fee: [Int]
@@ -39,39 +91,27 @@ type Pool @entity {
   initialWeight: Int
   finalWeight: Int
   owner: Account
-  historicalBlockPrices: [HistoricalBlockPrice!]! @derivedFrom(field: "pool")
-  historicalVolume: [HistoricalVolume!]! @derivedFrom(field: "pool")
-  swaps: [Swap!]! @derivedFrom(field: "pool")
+  historicalBlockPrices: [LbpPoolHistoricalPrice!]! @derivedFrom(field: "pool")
+  historicalVolume: [LbpPoolHistoricalVolume!]! @derivedFrom(field: "pool")
+  operations: [LbpPoolOperation!]! @derivedFrom(field: "pool")
 }
 
-type HistoricalAssetVolume @entity {
-  "AssetId-paraChainBlockHeight"
-  id: ID!
-  assetId: Int!
-  volumeIn: BigInt!
-  volumeOut: BigInt!
-  totalVolumeIn: BigInt!
-  totalVolumeOut: BigInt!
-  relayChainBlockHeight: Int!
-  paraChainBlockHeight: Int!
-}
-
-type HistoricalBlockPrice @entity {
+type LbpPoolHistoricalPrice @entity {
   "PoolId-paraChainBlockHeight"
   id: ID!
-  pool: Pool!
+  pool: LbpPool!
   assetAId: Int!
   assetBId: Int!
   assetABalance: BigInt!
   assetBBalance: BigInt!
   relayChainBlockHeight: Int!
-  paraChainBlockHeight: Int!
+  paraChainBlockHeight: Int! @index
 }
 
-type HistoricalVolume @entity {
+type LbpPoolHistoricalVolume @entity {
   "PoolId-paraChainBlockHeight"
   id: ID!
-  pool: Pool!
+  pool: LbpPool!
   assetAId: Int!
   assetBId: Int!
   averagePrice: Float!
@@ -88,14 +128,15 @@ type HistoricalVolume @entity {
   assetBTotalVolumeIn: BigInt!
   assetBTotalVolumeOut: BigInt!
   relayChainBlockHeight: Int!
-  paraChainBlockHeight: Int!
+  paraChainBlockHeight: Int! @index
 }
 
-type Swap @entity {
+type LbpPoolOperation @entity {
   "TxId"
   id: ID!
   account: Account!
   extrinsicHash: String @index
+  indexInBlock: Int! @index
   assetInId: Int!
   assetInAmount: BigInt!
   assetInFee: BigInt!
@@ -103,8 +144,267 @@ type Swap @entity {
   assetOutAmount: BigInt!
   assetOutFee: BigInt!
   swapPrice: Float!
-  pool: Pool!
-  type: SwapType!
+  pool: LbpPool!
+  type: PoolOperationType!
   relayChainBlockHeight: Int!
-  paraChainBlockHeight: Int!
+  paraChainBlockHeight: Int! @index
+}
+
+# ======================================================================================================================
+# *** XYK Pool ***
+# ======================================================================================================================
+
+type XykPool @entity {
+  id: ID!
+  account: Account!
+  assetAId: Int! @index
+  assetBId: Int! @index
+  shareTokenId: Int!
+  assetABalance: BigInt!
+  assetBBalance: BigInt!
+  initialSharesAmount: BigInt!
+  createdAt: DateTime!
+  createdAtParaBlock: Int!
+  isDestroyed: Boolean
+  destroyedAtParaBlock: Int
+  historicalBlockPrices: [XykPoolHistoricalPrice!]! @derivedFrom(field: "pool")
+  historicalVolume: [XykPoolHistoricalVolume!]! @derivedFrom(field: "pool")
+  operations: [XykPoolOperation!]! @derivedFrom(field: "pool")
+}
+
+type XykPoolHistoricalPrice @entity {
+  "PoolId-paraChainBlockHeight"
+  id: ID!
+  pool: XykPool!
+  assetAId: Int!
+  assetBId: Int!
+  assetABalance: BigInt!
+  assetBBalance: BigInt!
+  relayChainBlockHeight: Int!
+  paraChainBlockHeight: Int! @index
+}
+
+type XykPoolOperation @entity {
+  "TxId"
+  id: ID!
+  account: Account!
+  extrinsicHash: String @index
+  indexInBlock: Int! @index
+  assetInId: Int!
+  assetInAmount: BigInt!
+  assetInFee: BigInt!
+  assetOutId: Int!
+  assetOutAmount: BigInt!
+  assetOutFee: BigInt!
+  swapPrice: Float!
+  pool: XykPool!
+  type: PoolOperationType!
+  relayChainBlockHeight: Int!
+  paraChainBlockHeight: Int! @index
+}
+
+type XykPoolHistoricalVolume @entity {
+  "PoolId-paraChainBlockHeight"
+  id: ID!
+  pool: XykPool!
+  assetAId: Int!
+  assetBId: Int!
+  averagePrice: Float!
+  assetAVolumeIn: BigInt!
+  assetAVolumeOut: BigInt!
+  assetATotalVolumeIn: BigInt!
+  assetATotalVolumeOut: BigInt!
+  assetAFee: BigInt!
+  assetBFee: BigInt!
+  assetATotalFees: BigInt!
+  assetBTotalFees: BigInt!
+  assetBVolumeIn: BigInt!
+  assetBVolumeOut: BigInt!
+  assetBTotalVolumeIn: BigInt!
+  assetBTotalVolumeOut: BigInt!
+  relayChainBlockHeight: Int!
+  paraChainBlockHeight: Int! @index
+}
+
+# ======================================================================================================================
+# *** Omnipool ***
+# ======================================================================================================================
+
+type Omnipool @entity {
+  id: ID!
+  account: Account!
+  createdAt: DateTime!
+  createdAtParaBlock: Int!
+  isDestroyed: Boolean
+  destroyedAtParaBlock: Int
+  assets: [OmnipoolAsset!]! @derivedFrom(field: "pool")
+}
+
+type OmnipoolAsset @entity {
+  "OmnipoolId-AssetId"
+  id: ID!
+  assetId: Int! @index
+  initialAmount: BigInt!
+  initialPrice: BigInt!
+  pool: Omnipool!
+  createdAt: DateTime!
+  createdAtParaBlock: Int!
+  isRemoved: Boolean
+  removedAtParaBlock: Int
+  removedAmount: BigInt
+  hubWithdrawn: BigInt
+  historicalVolume: [OmnipoolAssetHistoricalVolume!]!
+    @derivedFrom(field: "omnipoolAsset")
+  historicalData: [OmnipoolAssetHistoricalData!]!
+    @derivedFrom(field: "omnipoolAsset")
+  operationsIn: [OmnipoolAssetOperation!]! @derivedFrom(field: "assetIn")
+  operationsOut: [OmnipoolAssetOperation!]! @derivedFrom(field: "assetOut")
+}
+
+type OmnipoolAssetOperation @entity {
+  "TxId"
+  id: ID!
+  assetIn: OmnipoolAsset!
+  assetOut: OmnipoolAsset!
+  account: Account!
+  extrinsicHash: String @index
+  indexInBlock: Int! @index
+  assetInAmount: BigInt!
+  assetOutAmount: BigInt!
+  assetFeeAmount: BigInt!
+  protocolFeeAmount: BigInt!
+  hubAmountIn: BigInt!
+  hubAmountOut: BigInt!
+  type: PoolOperationType!
+  relayChainBlockHeight: Int!
+  paraChainBlockHeight: Int! @index
+}
+
+type OmnipoolAssetHistoricalVolume @entity {
+  "OmnipoolAssetId-paraChainBlockHeight"
+  id: ID!
+  omnipoolAsset: OmnipoolAsset!
+  assetVolumeIn: BigInt!
+  assetVolumeOut: BigInt!
+  assetTotalVolumeIn: BigInt!
+  assetTotalVolumeOut: BigInt!
+  assetFee: BigInt!
+  assetTotalFees: BigInt!
+  relayChainBlockHeight: Int!
+  paraChainBlockHeight: Int! @index
+}
+
+type OmnipoolAssetHistoricalData @entity {
+  "OmnipoolAssetId-paraChainBlockHeight"
+  id: ID!
+  omnipoolAsset: OmnipoolAsset!
+  assetId: Int! @index
+  assetBalance: BigInt!
+  nativeAssetBalance: BigInt!
+  hubReserveBalance: BigInt!
+  sharesBalance: BigInt!
+  relayChainBlockHeight: Int!
+  paraChainBlockHeight: Int! @index
+}
+
+# ======================================================================================================================
+# *** Stablepool ***
+# ======================================================================================================================
+
+type Stablepool @entity {
+  id: ID!
+  account: Account!
+  createdAt: DateTime!
+  createdAtParaBlock: Int!
+  isDestroyed: Boolean
+  destroyedAtParaBlock: Int
+  assets: [StablepoolAsset!]! @derivedFrom(field: "pool")
+}
+
+type StablepoolAsset @entity {
+  "stablepoolId-assetId"
+  id: ID!
+  pool: Stablepool!
+  asset: Asset!
+  amount: BigInt!
+}
+
+type StablepoolOperation @entity {
+  "TxId"
+  id: ID!
+  account: Account!
+  assetIn: Asset!
+  assetInAmount: BigInt!
+  assetOut: Asset!
+  assetOutAmount: BigInt!
+  assetFeeAmount: BigInt!
+  pool: Stablepool!
+  type: PoolOperationType!
+  extrinsicHash: String @index
+  indexInBlock: Int! @index
+  relayChainBlockHeight: Int!
+  paraChainBlockHeight: Int! @index
+}
+
+type StablepoolAssetHistoricalVolume @entity {
+  "stablepoolId-assetId-paraChainBlockHeight"
+  id: ID!
+  volumesCollection: StablepoolHistoricalVolume!
+  asset: Asset!
+
+  swapFee: BigInt!
+  swapTotalFees: BigInt!
+  liqFee: BigInt!
+  liqTotalFees: BigInt!
+  routedLiqFee: BigInt!
+  routedLiqTotalFees: BigInt!
+
+  swapVolumeIn: BigInt!
+  swapVolumeOut: BigInt!
+  swapTotalVolumeIn: BigInt!
+  swapTotalVolumeOut: BigInt!
+
+  liqAddedAmount: BigInt!
+  liqRemovedAmount: BigInt!
+  liqAddedTotalAmount: BigInt!
+  liqRemovedTotalAmount: BigInt!
+
+  routedLiqAddedAmount: BigInt!
+  routedLiqRemovedAmount: BigInt!
+  routedLiqAddedTotalAmount: BigInt!
+  routedLiqRemovedTotalAmount: BigInt!
+
+  paraChainBlockHeight: Int! @index
+}
+
+type StablepoolHistoricalVolume @entity {
+  "stablepoolId-paraChainBlockHeight"
+  id: ID!
+  pool: Stablepool!
+  assetVolumes: [StablepoolAssetHistoricalVolume!]!
+    @derivedFrom(field: "volumesCollection")
+  relayChainBlockHeight: Int!
+  paraChainBlockHeight: Int! @index
+}
+
+type StablepoolAssetLiquidityAmount @entity {
+  "poolId-assetId-paraChainBlockHeight-indexInBlock"
+  id: ID!
+  liquidityAction: StablepoolLiquidityAction!
+  asset: Asset!
+  amount: BigInt!
+}
+
+type StablepoolLiquidityAction @entity {
+  "poolId-paraChainBlockHeight-indexInBlock"
+  id: ID!
+  pool: Stablepool!
+  sharesAmount: BigInt!
+  feeAmount: BigInt!
+  assetAmounts: [StablepoolAssetLiquidityAmount!]!
+    @derivedFrom(field: "liquidityAction")
+  actionType: LiquidityActionType!
+  indexInBlock: Int! @index
+  relayChainBlockHeight: Int!
+  paraChainBlockHeight: Int! @index
 }

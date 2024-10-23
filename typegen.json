@@ -1,7 +1,11 @@
 {
-  "outDir": "src/types",
+  "outDir": "src/typegenTypes",
   "specVersions": "https://v2.archive.subsquid.io/metadata/hydradx",
   "pallets": {
+    "AssetRegistry": {
+      "events": ["Registered", "Updated"],
+      "storage": ["Assets"]
+    },
     "Balances": {
       "events": ["Transfer"],
       "calls": [],
@@ -13,19 +17,27 @@
       "storage": ["Accounts"]
     },
     "ParachainSystem": {
-      "calls": ["set_validation_data"]
+      "calls": ["set_validation_data"],
+      "storage": ["LastRelayChainBlockNumber"]
     },
     "XYK": {
-      "events": ["PoolUpdated", "PoolCreated", "PoolDestroyed", "SellExecuted", "BuyExecuted"],
+      "events": ["PoolCreated", "PoolDestroyed", "SellExecuted", "BuyExecuted"],
       "calls": ["create_pool"]
     },
     "Omnipool": {
-      "events": ["PoolUpdated", "PoolCreated", "PoolDestroyed", "SellExecuted", "BuyExecuted"],
-      "calls": ["create_pool"]
+      "events": ["TokenAdded", "TokenRemoved", "SellExecuted", "BuyExecuted"],
+      "calls": [],
+      "storage": ["Assets"]
     },
     "Stableswap": {
-      "events": ["PoolUpdated", "PoolCreated", "SellExecuted", "BuyExecuted"],
-      "calls": ["create_pool"]
+      "events": [
+        "PoolCreated",
+        "SellExecuted",
+        "BuyExecuted",
+        "LiquidityAdded",
+        "LiquidityRemoved"
+      ],
+      "calls": []
     },
     "LBP": {
       "events": ["PoolUpdated", "PoolCreated", "SellExecuted", "BuyExecuted"],

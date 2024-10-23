@@ -8,7 +8,7 @@
     "build": {
       "description": "Build the squid project",
       "deps": ["clean"],
-      "cmd": ["tsc"]
+      "cmd": ["npm", "run", "build"]
     },
     "up": {
       "description": "Start a PG database",
@@ -17,6 +17,10 @@
     "down": {
       "description": "Drop a PG database",
       "cmd": ["docker", "compose", "down"]
+    },
+    "migration:create": {
+      "description": "Generate a DB migration matching the TypeORM entities",
+      "cmd": ["squid-typeorm-migration", "generate"]
     },
     "migration:apply": {
       "description": "Apply the DB migrations",
@@ -55,20 +59,41 @@
       "cmd": ["node", "lib/main.js"],
       "hidden": true
     },
+    "api": {
+      "description": "Start the PostGraphile GraphQL server",
+      "deps": ["build"],
+      "cmd": ["node", "--require=dotenv/config", "lib/api.js"]
+    },
+    "api:prod": {
+      "description": "Start the PostGraphile GraphQL server in Subsquid Cloud setting",
+      "cmd": ["node", "lib/api.js"]
+    },
     "serve": {
       "description": "Start the GraphQL API server",
       "cmd": ["squid-graphql-server"]
     },
     "serve:prod": {
       "description": "Start the GraphQL API server with caching and limits",
-      "cmd": ["squid-graphql-server",
-        "--dumb-cache", "in-memory",
-        "--dumb-cache-ttl", "1000",
-        "--dumb-cache-size", "100",
-        "--dumb-cache-max-age", "1000" ]
+      "cmd": [
+        "squid-graphql-server",
+        "--dumb-cache",
+        "in-memory",
+        "--dumb-cache-ttl",
+        "1000",
+        "--dumb-cache-size",
+        "100",
+        "--dumb-cache-max-age",
+        "1000"
+      ]
     },
     "check-updates": {
-      "cmd": ["npx", "--yes", "npm-check-updates", "--filter=/subsquid/", "--upgrade"],
+      "cmd": [
+        "npx",
+        "--yes",
+        "npm-check-updates",
+        "--filter=/subsquid/",
+        "--upgrade"
+      ],
       "hidden": true
     },
     "bump": {
