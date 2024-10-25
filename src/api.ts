@@ -11,7 +11,7 @@ import {
 } from 'postgraphile';
 import FilterPlugin from 'postgraphile-plugin-connection-filter';
 import { ProcessorStatusPlugin } from './apiSupport/plugins/query/processorStatus.plugin';
-import { AppConfig } from './utils/appConfig';
+import { AppConfig } from './appConfig';
 import { XykPoolsVolumePlugin } from './apiSupport/plugins/query/xykPoolsVolume.plugin';
 import PgPubsub from '@graphile/pg-pubsub';
 import TypeOverrides from 'pg/lib/type-overrides';

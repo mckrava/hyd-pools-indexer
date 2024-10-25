@@ -82,36 +82,6 @@ export const ProcessorStatusPlugin: Plugin = makeExtendSchemaPlugin(
             };
           },
         },
-        // SquidStatusSubscriptionPayload: {
-        //   node: async (
-        //     event: any,
-        //     _args: any,
-        //     _context: QueryResolverContext,
-        //     resolveInfo: GraphQLResolveInfo & { graphile: GraphileHelpers<any> }
-        //   ) => {
-        //     const rows =
-        //       await resolveInfo.graphile.selectGraphQLResultFromTable(
-        //         sql.fragment`squid_processor.status`,
-        //         (tableAlias: SQL, sqlBuilder: QueryBuilder) => {
-        //           sqlBuilder.where(
-        //             sql.fragment`${tableAlias}.id = ${sql.value(event.__node__[2])}`
-        //           );
-        //           sqlBuilder.select(
-        //             sql.fragment`${tableAlias}.height`,
-        //             'height'
-        //           );
-        //           sqlBuilder.select(sql.fragment`${tableAlias}.hash`, 'hash');
-        //         }
-        //       );
-        //
-        //     return {
-        //       name: 'squid_processor', // TODO add real value
-        //       height: rows[0].height,
-        //       hash: rows[0].hash,
-        //     };
-        //   },
-        //   event: (event: any) => event.__node__[0],
-        // },
       },
     };
   }

@@ -1,6 +1,6 @@
 import { ParsedEventsCallsData } from '../parsers/batchBlocksParser/types';
 import lodashCamelCase from 'lodash.camelcase';
-import { AppConfig } from './appConfig';
+import { AppConfig } from '../appConfig';
 import { NodeEnv } from './types';
 import { join } from 'path';
 import { hexToString } from '@polkadot/util';

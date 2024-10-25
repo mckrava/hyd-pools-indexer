@@ -4,8 +4,8 @@ import { Transform } from 'class-transformer';
 import { IsNotEmpty, IsString, ValidationError } from 'class-validator';
 import dotenv from 'dotenv';
 
-import { events, calls } from '../typegenTypes/';
-import { NodeEnv } from './types';
+import { events, calls } from './typegenTypes';
+import { NodeEnv } from './utils/types';
 
 dotenv.config();
 
@@ -62,6 +62,18 @@ export class AppConfig {
   @IsNotEmpty()
   @IsString()
   readonly OMNIPOOL_ADDRESS!: string;
+
+  @IsNotEmpty()
+  @IsString()
+  readonly HYDRATION_STORAGE_DICTIONARY_XYKPOOL_URL!: string;
+
+  @IsNotEmpty()
+  @IsString()
+  readonly HYDRATION_STORAGE_DICTIONARY_OMNIPOOL_URL!: string;
+
+  @IsNotEmpty()
+  @IsString()
+  readonly HYDRATION_STORAGE_DICTIONARY_STABLEPOOL_URL!: string;
 
   static getInstance(): AppConfig {
     if (!AppConfig.instance) {

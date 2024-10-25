@@ -2,7 +2,7 @@ import type { RunMigration } from 'node-pg-migrate/dist/migration';
 
 const migrations = require('node-pg-migrate');
 
-import { AppConfig } from '../../utils/appConfig';
+import { AppConfig } from '../../appConfig';
 import { Client } from 'pg';
 import { getEnvPath } from '../../utils/helpers';
 
