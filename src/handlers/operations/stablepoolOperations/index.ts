@@ -99,11 +99,15 @@ export async function stablepoolBuySellExecuted(
     paraChainBlockHeight: eventMetadata.blockHeader.height,
   });
 
+  const stablepoolAllBatchPools = ctx.batchState.state.stablepoolAllBatchPools;
+  stablepoolAllBatchPools.set(pool.id, pool);
+
   ctx.batchState.state = {
     stablepoolOperations: [
       ...ctx.batchState.state.stablepoolOperations,
       operationInstance,
     ],
+    stablepoolAllBatchPools,
   };
 
   await handleStablepoolVolumeUpdates({

@@ -298,11 +298,20 @@ type OmnipoolAssetHistoricalData @entity {
   "OmnipoolAssetId-paraChainBlockHeight"
   id: ID!
   omnipoolAsset: OmnipoolAsset!
-  assetId: Int! @index
-  assetBalance: BigInt!
-  nativeAssetBalance: BigInt!
-  hubReserveBalance: BigInt!
-  sharesBalance: BigInt!
+  asset: Asset!
+
+  stateCap: BigInt!
+  stateShares: BigInt!
+  stateHubReserve: BigInt!
+  stateProtocolShares: BigInt!
+
+  balanceFree: BigInt!
+  balanceFlags: BigInt!
+  balanceFrozen: BigInt!
+  balanceReserved: BigInt!
+  balanceFeeFrozen: BigInt!
+  balanceMiscFrozen: BigInt!
+
   relayChainBlockHeight: Int!
   paraChainBlockHeight: Int! @index
 }
@@ -406,5 +415,34 @@ type StablepoolLiquidityAction @entity {
   actionType: LiquidityActionType!
   indexInBlock: Int! @index
   relayChainBlockHeight: Int!
+  paraChainBlockHeight: Int! @index
+}
+
+type StablepoolHistoricalData @entity {
+  "stablepoolId-paraChainBlockHeight"
+  id: ID!
+  pool: Stablepool!
+  assetsData: [StablepoolAssetHistoricalData!]!
+    @derivedFrom(field: "poolHistoricalData")
+  initialAmplification: Int!
+  finalAmplification: Int!
+  initialBlock: Int!
+  finalBlock: Int!
+  fee: Int!
+  relayChainBlockHeight: Int!
+  paraChainBlockHeight: Int! @index
+}
+
+type StablepoolAssetHistoricalData @entity {
+  "stablepoolId-assetId-paraChainBlockHeight"
+  id: ID!
+  asset: Asset!
+  poolHistoricalData: StablepoolHistoricalData!
+  free: BigInt!
+  reserved: BigInt!
+  miscFrozen: BigInt
+  feeFrozen: BigInt
+  frozen: BigInt
+  flags: BigInt
   paraChainBlockHeight: Int! @index
 }

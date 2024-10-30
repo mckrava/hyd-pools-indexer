@@ -19,6 +19,23 @@ export type Scalars = {
   JSON: { input: any; output: any; }
 };
 
+export type AccountBalances = {
+  __typename?: 'AccountBalances';
+  feeFrozen?: Maybe<Scalars['BigInt']['output']>;
+  flags?: Maybe<Scalars['BigInt']['output']>;
+  free: Scalars['BigInt']['output'];
+  frozen?: Maybe<Scalars['BigInt']['output']>;
+  miscFrozen?: Maybe<Scalars['BigInt']['output']>;
+  reserved: Scalars['BigInt']['output'];
+};
+
+export type ApiSupportResponse = {
+  __typename?: 'ApiSupportResponse';
+  accountBalances?: Maybe<AccountBalances>;
+  omnipoolAssetState?: Maybe<OmnipoolAssetState>;
+  tradability?: Maybe<Tradability>;
+};
+
 /** A filter to be used against BigInt fields. All fields are combined with a logical ‘and.’ */
 export type BigIntFilter = {
   /** Not equal to the specified value, treating null like an ordinary value. */
@@ -645,6 +662,15 @@ export type OmnipoolAssetDatumVarianceSampleAggregates = {
   paraChainBlockHeight?: Maybe<Scalars['BigFloat']['output']>;
 };
 
+export type OmnipoolAssetState = {
+  __typename?: 'OmnipoolAssetState';
+  cap: Scalars['BigInt']['output'];
+  hubReserve: Scalars['BigInt']['output'];
+  protocolShares: Scalars['BigInt']['output'];
+  shares: Scalars['BigInt']['output'];
+  tradable?: Maybe<Tradability>;
+};
+
 /** Information about pagination in a connection. */
 export type PageInfo = {
   __typename?: 'PageInfo';
@@ -661,6 +687,7 @@ export type PageInfo = {
 /** The root query type which gives access points into the data universe. */
 export type Query = {
   __typename?: 'Query';
+  _apiSupport?: Maybe<ApiSupportResponse>;
   _squidStatus: Array<_ProcessorStatus>;
   migration?: Maybe<Migration>;
   /** Reads and enables pagination through a set of `Migration`. */
@@ -1996,6 +2023,11 @@ export type Subscription = {
   squidStatus?: Maybe<SquidStatusSubscriptionPayload>;
 };
 
+export type Tradability = {
+  __typename?: 'Tradability';
+  bits: Scalars['Int']['output'];
+};
+
 export type XykPool = {
   __typename?: 'XykPool';
   assetAId: Scalars['Int']['output'];
@@ -2741,28 +2773,28 @@ export const GetXykPoolBlocksStorageState = gql`
     `;
 export const GetStablepoolBlocksStorageState = gql`
     query GetStablepoolBlocksStorageState($filter: StablepoolFilter, $first: Int!, $offset: Int!, $orderBy: [StablepoolsOrderBy!]) {
-  stablepools(filter: $filter, orderBy: $orderBy, first: $first, offset: $offset) {
-    nodes {
-      fee
-      finalAmplification
-      finalBlock
-      id
-      initialAmplification
-      initialBlock
-      paraChainBlockHeight
-      poolAddress
-      poolId
-      stablepoolAssetDataByPoolId {
+      stablepools(filter: $filter, orderBy: $orderBy, first: $first, offset: $offset) {
         nodes {
-          assetId
-          balances
+          fee
+          finalAmplification
+          finalBlock
           id
+          initialAmplification
+          initialBlock
           paraChainBlockHeight
+          poolAddress
           poolId
+          stablepoolAssetDataByPoolId {
+            nodes {
+              assetId
+              balances
+              id
+              paraChainBlockHeight
+              poolId
+            }
+          }
         }
+        totalCount
       }
     }
-    totalCount
-  }
-}
     `;

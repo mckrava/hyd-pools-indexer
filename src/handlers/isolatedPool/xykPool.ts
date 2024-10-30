@@ -1,9 +1,9 @@
 import { ProcessorContext } from '../../processor';
 import { Store } from '@subsquid/typeorm-store';
 import { LbpPool, XykPool } from '../../model';
-import { getAssetBalance } from '../assets';
 import { getAccount } from '../accounts';
 import { XykPoolCreatedData } from '../../parsers/batchBlocksParser/types';
+import { getAssetBalance } from '../assets/balances';
 
 export async function xykPoolCreated(
   ctx: ProcessorContext<Store>,

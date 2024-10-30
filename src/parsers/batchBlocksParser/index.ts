@@ -10,6 +10,8 @@ import { Block, Event, Extrinsic, ProcessorContext } from '../../processor';
 import { Store } from '@subsquid/typeorm-store';
 import parsers from '../';
 import { calls, events } from '../../typegenTypes';
+import { BatchStatePayload } from '../../utils/batchState';
+import { BlockHeader } from '@subsquid/substrate-processor';
 
 export class BatchBlocksParsedDataManager {
   private scope: BatchBlocksParsedDataScope;
@@ -76,6 +78,26 @@ export async function getParsedEventsData(
 ): Promise<BatchBlocksParsedDataManager> {
   const parsedDataManager = new BatchBlocksParsedDataManager();
   let totalEventsNumber = 0;
+
+  const batchState = ctx.batchState.state;
+
+  const addIdsForStoragePrefetch = (
+    key:
+      | 'xykPoolIdsForStoragePrefetch'
+      | 'omnipoolAssetIdsForStoragePrefetch'
+      | 'stablepoolIdsForStoragePrefetch',
+    blockHeader: BlockHeader,
+    id: any // TODO fix type
+  ) => {
+    if (!batchState[key].has(blockHeader.height)) {
+      batchState[key].set(blockHeader.height, {
+        blockHeader,
+        ids: new Set([id]),
+      });
+      return;
+    }
+    batchState[key].get(blockHeader.height)!.ids.add(id as never); // TODO fix type
+  };
 
   for (let block of ctx.blocks) {
     const relayChainInfo: RelayChainInfo = {
@@ -213,6 +235,12 @@ export async function getParsedEventsData(
               : undefined;
           const eventParams = parsers.events.xyk.parsePoolCreatedParams(event);
 
+          addIdsForStoragePrefetch(
+            'xykPoolIdsForStoragePrefetch',
+            event.block,
+            eventParams.pool
+          );
+
           parsedDataManager.set(EventName.XYK_PoolCreated, {
             relayChainInfo,
             id: eventMetadata.id,
@@ -233,6 +261,12 @@ export async function getParsedEventsData(
           const eventParams =
             parsers.events.xyk.parsePoolDestroyedParams(event);
 
+          addIdsForStoragePrefetch(
+            'xykPoolIdsForStoragePrefetch',
+            event.block,
+            eventParams.pool
+          );
+
           parsedDataManager.set(EventName.XYK_PoolDestroyed, {
             relayChainInfo,
             id: eventMetadata.id,
@@ -251,6 +285,12 @@ export async function getParsedEventsData(
         case events.xyk.buyExecuted.name: {
           const eventParams = parsers.events.xyk.parseBuyExecutedParams(event);
 
+          addIdsForStoragePrefetch(
+            'xykPoolIdsForStoragePrefetch',
+            event.block,
+            eventParams.pool
+          );
+
           parsedDataManager.set(EventName.XYK_BuyExecuted, {
             relayChainInfo,
             id: eventMetadata.id,
@@ -268,6 +308,12 @@ export async function getParsedEventsData(
         }
         case events.xyk.sellExecuted.name: {
           const eventParams = parsers.events.xyk.parseSellExecutedParams(event);
+
+          addIdsForStoragePrefetch(
+            'xykPoolIdsForStoragePrefetch',
+            event.block,
+            eventParams.pool
+          );
 
           parsedDataManager.set(EventName.XYK_SellExecuted, {
             relayChainInfo,
@@ -293,6 +339,12 @@ export async function getParsedEventsData(
           const eventParams =
             parsers.events.omnipool.parseTokenAddedParams(event);
 
+          addIdsForStoragePrefetch(
+            'omnipoolAssetIdsForStoragePrefetch',
+            event.block,
+            eventParams.assetId
+          );
+
           parsedDataManager.set(EventName.Omnipool_TokenAdded, {
             relayChainInfo,
             id: eventMetadata.id,
@@ -311,6 +363,12 @@ export async function getParsedEventsData(
         case events.omnipool.tokenRemoved.name: {
           const eventParams =
             parsers.events.omnipool.parseTokenRemovedParams(event);
+
+          addIdsForStoragePrefetch(
+            'omnipoolAssetIdsForStoragePrefetch',
+            event.block,
+            eventParams.assetId
+          );
 
           parsedDataManager.set(EventName.Omnipool_TokenRemoved, {
             relayChainInfo,
@@ -331,6 +389,17 @@ export async function getParsedEventsData(
           const eventParams =
             parsers.events.omnipool.parseBuyExecutedParams(event);
 
+          addIdsForStoragePrefetch(
+            'omnipoolAssetIdsForStoragePrefetch',
+            event.block,
+            eventParams.assetIn
+          );
+          addIdsForStoragePrefetch(
+            'omnipoolAssetIdsForStoragePrefetch',
+            event.block,
+            eventParams.assetOut
+          );
+
           parsedDataManager.set(EventName.Omnipool_BuyExecuted, {
             relayChainInfo,
             id: eventMetadata.id,
@@ -349,6 +418,17 @@ export async function getParsedEventsData(
         case events.omnipool.sellExecuted.name: {
           const eventParams =
             parsers.events.omnipool.parseSellExecutedParams(event);
+
+          addIdsForStoragePrefetch(
+            'omnipoolAssetIdsForStoragePrefetch',
+            event.block,
+            eventParams.assetIn
+          );
+          addIdsForStoragePrefetch(
+            'omnipoolAssetIdsForStoragePrefetch',
+            event.block,
+            eventParams.assetOut
+          );
 
           parsedDataManager.set(EventName.Omnipool_SellExecuted, {
             relayChainInfo,
@@ -374,6 +454,12 @@ export async function getParsedEventsData(
           const eventParams =
             parsers.events.stableswap.parsePoolCreatedParams(event);
 
+          addIdsForStoragePrefetch(
+            'stablepoolIdsForStoragePrefetch',
+            event.block,
+            eventParams.poolId
+          );
+
           parsedDataManager.set(EventName.Stableswap_PoolCreated, {
             relayChainInfo,
             id: eventMetadata.id,
@@ -393,6 +479,12 @@ export async function getParsedEventsData(
         case events.stableswap.buyExecuted.name: {
           const eventParams =
             parsers.events.stableswap.parseBuyExecutedParams(event);
+
+          addIdsForStoragePrefetch(
+            'stablepoolIdsForStoragePrefetch',
+            event.block,
+            eventParams.poolId
+          );
 
           parsedDataManager.set(EventName.Stableswap_BuyExecuted, {
             relayChainInfo,
@@ -414,6 +506,12 @@ export async function getParsedEventsData(
           const eventParams =
             parsers.events.stableswap.parseSellExecutedParams(event);
 
+          addIdsForStoragePrefetch(
+            'stablepoolIdsForStoragePrefetch',
+            event.block,
+            eventParams.poolId
+          );
+
           parsedDataManager.set(EventName.Stableswap_SellExecuted, {
             relayChainInfo,
             id: eventMetadata.id,
@@ -434,6 +532,12 @@ export async function getParsedEventsData(
           const eventParams =
             parsers.events.stableswap.parseLiquidityAddedParams(event);
 
+          addIdsForStoragePrefetch(
+            'stablepoolIdsForStoragePrefetch',
+            event.block,
+            eventParams.poolId
+          );
+
           parsedDataManager.set(EventName.Stableswap_LiquidityAdded, {
             relayChainInfo,
             id: eventMetadata.id,
@@ -453,6 +557,12 @@ export async function getParsedEventsData(
         case events.stableswap.liquidityRemoved.name: {
           const eventParams =
             parsers.events.stableswap.parseLiquidityRemovedParams(event);
+
+          addIdsForStoragePrefetch(
+            'stablepoolIdsForStoragePrefetch',
+            event.block,
+            eventParams.poolId
+          );
 
           parsedDataManager.set(EventName.Stableswap_LiquidityRemoved, {
             relayChainInfo,
@@ -552,6 +662,13 @@ export async function getParsedEventsData(
       }
     }
   }
+
+  ctx.batchState.state = {
+    stablepoolIdsForStoragePrefetch: batchState.stablepoolIdsForStoragePrefetch,
+    omnipoolAssetIdsForStoragePrefetch:
+      batchState.omnipoolAssetIdsForStoragePrefetch,
+    xykPoolIdsForStoragePrefetch: batchState.xykPoolIdsForStoragePrefetch,
+  };
 
   ctx.log.info(
     `Parsed ${totalEventsNumber} events from ${ctx.blocks.length} blocks [${ctx.blocks[0].header.height} / ${ctx.blocks[ctx.blocks.length - 1].header.height}].`

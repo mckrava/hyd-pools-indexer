@@ -25,7 +25,9 @@ export async function getAsset({
 
   asset = await ctx.store.findOne(Asset, { where: { id: `${id}` } });
 
-  if (!ensure) return asset ?? null;
+  if (asset) return asset;
+
+  if (!asset && !ensure) return null;
 
   /**
    * Following logic below is implemented and will be used only if indexer

@@ -37,7 +37,7 @@
         "LiquidityAdded",
         "LiquidityRemoved"
       ],
-      "calls": []
+      "storage": ["Pools"]
     },
     "LBP": {
       "events": ["PoolUpdated", "PoolCreated", "SellExecuted", "BuyExecuted"],

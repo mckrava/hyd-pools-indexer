@@ -1,12 +1,12 @@
 import { ProcessorContext } from '../../processor';
 import { Store } from '@subsquid/typeorm-store';
 import { LbpPool } from '../../model';
-import { getAssetBalance } from '../assets';
 import { getAccount } from '../accounts';
 import {
   LbpPoolCreatedData,
   LbpPoolUpdatedData,
 } from '../../parsers/batchBlocksParser/types';
+import { getAssetBalance } from '../assets/balances';
 
 export async function lpbPoolCreated(
   ctx: ProcessorContext<Store>,

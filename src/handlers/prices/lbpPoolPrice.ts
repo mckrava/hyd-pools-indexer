@@ -1,8 +1,8 @@
 import { LbpPoolHistoricalPrice } from '../../model';
 import { ProcessorContext } from '../../processor';
 import { Store } from '@subsquid/typeorm-store';
-import { getAssetBalance } from '../assets';
 import { isNotNullOrUndefined } from '../../utils/helpers';
+import { getAssetBalance } from '../assets/balances';
 
 export async function handleLbpPoolPrices(ctx: ProcessorContext<Store>) {
   const poolPricesRaw = [];

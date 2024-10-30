@@ -1,5 +1,6 @@
-import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, ManyToOne as ManyToOne_, Index as Index_, IntColumn as IntColumn_, BigIntColumn as BigIntColumn_} from "@subsquid/typeorm-store"
+import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, ManyToOne as ManyToOne_, Index as Index_, BigIntColumn as BigIntColumn_, IntColumn as IntColumn_} from "@subsquid/typeorm-store"
 import {OmnipoolAsset} from "./omnipoolAsset.model"
+import {Asset} from "./asset.model"
 
 @Entity_()
 export class OmnipoolAssetHistoricalData {
@@ -18,20 +19,38 @@ export class OmnipoolAssetHistoricalData {
     omnipoolAsset!: OmnipoolAsset
 
     @Index_()
-    @IntColumn_({nullable: false})
-    assetId!: number
+    @ManyToOne_(() => Asset, {nullable: true})
+    asset!: Asset
 
     @BigIntColumn_({nullable: false})
-    assetBalance!: bigint
+    stateCap!: bigint
 
     @BigIntColumn_({nullable: false})
-    nativeAssetBalance!: bigint
+    stateShares!: bigint
 
     @BigIntColumn_({nullable: false})
-    hubReserveBalance!: bigint
+    stateHubReserve!: bigint
 
     @BigIntColumn_({nullable: false})
-    sharesBalance!: bigint
+    stateProtocolShares!: bigint
+
+    @BigIntColumn_({nullable: false})
+    balanceFree!: bigint
+
+    @BigIntColumn_({nullable: false})
+    balanceFlags!: bigint
+
+    @BigIntColumn_({nullable: false})
+    balanceFrozen!: bigint
+
+    @BigIntColumn_({nullable: false})
+    balanceReserved!: bigint
+
+    @BigIntColumn_({nullable: false})
+    balanceFeeFrozen!: bigint
+
+    @BigIntColumn_({nullable: false})
+    balanceMiscFrozen!: bigint
 
     @IntColumn_({nullable: false})
     relayChainBlockHeight!: number

@@ -59,25 +59,6 @@ export async function handleAssetRegistry(
   ctx.batchState.state = { assetIdsToSave: new Set() };
 }
 
-export async function getAssetBalance(
-  block: BlockHeader,
-  assetId: number,
-  account: string
-): Promise<bigint> {
-  if (assetId === 0) {
-    return parsers.storage.system
-      .getSystemAccount(account, block)
-      .then((accountInfo) => {
-        return accountInfo?.data.free || BigInt(0);
-      });
-  } else {
-    return parsers.storage.tokens
-      .getTokensAccountsAssetBalances(account, assetId, block)
-      .then((accountInfo) => {
-        return accountInfo?.free || BigInt(0);
-      });
-  }
-}
 
 export async function getNewAssetVolume(
   ctx: ProcessorContext<Store>,

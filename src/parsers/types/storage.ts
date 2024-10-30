@@ -1,8 +1,10 @@
 import { AssetType } from '../../model';
+import { BlockHeader } from '@subsquid/substrate-processor';
 
 export interface AccountData {
   free: bigint;
   reserved: bigint;
+  frozen?: bigint;
   miscFrozen: bigint;
   feeFrozen: bigint;
   flags: bigint;
@@ -35,6 +37,15 @@ export interface OmnipoolAssetData {
   tradable: OmnipoolAssetTradability;
 }
 
+export interface StablepoolInfo {
+  assets: number[];
+  initialAmplification: number;
+  finalAmplification: number;
+  initialBlock: number;
+  finalBlock: number;
+  fee: number;
+}
+
 export interface AssetDetails {
   assetType: AssetType;
   existentialDeposit: bigint;
@@ -44,3 +55,27 @@ export interface AssetDetails {
   decimals?: number;
   xcmRateLimit?: bigint;
 }
+
+/**
+ * =============================================================================
+ * =========================== I N P U T    T Y P E S===========================
+ * =============================================================================
+ */
+
+export type StablepoolGetPoolDataInput = {
+  assetId: number;
+  block: BlockHeader;
+};
+
+export type GetPoolAssetInfoInput = {
+  poolId?: number;
+  poolAddress?: string;
+  assetId: number;
+  block: BlockHeader;
+};
+
+export type OmnipoolGetAssetDataInput = {
+  assetId: number;
+  block: BlockHeader;
+};
+

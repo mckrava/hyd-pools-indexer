@@ -4,6 +4,7 @@ import * as v115 from '../v115'
 import * as v160 from '../v160'
 import * as v176 from '../v176'
 import * as v222 from '../v222'
+import * as v264 from '../v264'
 
 export const registered =  {
     name: 'AssetRegistry.Registered',
@@ -45,6 +46,22 @@ export const registered =  {
             assetId: sts.number(),
             assetName: sts.option(() => sts.bytes()),
             assetType: v222.AssetType,
+            existentialDeposit: sts.bigint(),
+            xcmRateLimit: sts.option(() => sts.bigint()),
+            symbol: sts.option(() => sts.bytes()),
+            decimals: sts.option(() => sts.number()),
+            isSufficient: sts.boolean(),
+        })
+    ),
+    /**
+     * Asset was registered.
+     */
+    v264: new EventType(
+        'AssetRegistry.Registered',
+        sts.struct({
+            assetId: sts.number(),
+            assetName: sts.option(() => sts.bytes()),
+            assetType: v264.AssetType,
             existentialDeposit: sts.bigint(),
             xcmRateLimit: sts.option(() => sts.bigint()),
             symbol: sts.option(() => sts.bytes()),
@@ -109,6 +126,22 @@ export const updated =  {
             assetId: sts.number(),
             assetName: sts.option(() => sts.bytes()),
             assetType: v222.AssetType,
+            existentialDeposit: sts.bigint(),
+            xcmRateLimit: sts.option(() => sts.bigint()),
+            symbol: sts.option(() => sts.bytes()),
+            decimals: sts.option(() => sts.number()),
+            isSufficient: sts.boolean(),
+        })
+    ),
+    /**
+     * Asset was updated.
+     */
+    v264: new EventType(
+        'AssetRegistry.Updated',
+        sts.struct({
+            assetId: sts.number(),
+            assetName: sts.option(() => sts.bytes()),
+            assetType: v264.AssetType,
             existentialDeposit: sts.bigint(),
             xcmRateLimit: sts.option(() => sts.bigint()),
             symbol: sts.option(() => sts.bytes()),

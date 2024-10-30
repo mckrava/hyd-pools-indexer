@@ -3,12 +3,12 @@ import { Store } from '@subsquid/typeorm-store';
 import { Asset, Stablepool, StablepoolAsset } from '../../model';
 import { getAccount } from '../accounts';
 import { StableswapPoolCreatedData } from '../../parsers/batchBlocksParser/types';
-import { getAssetBalance } from '../assets';
 
 import { StableMath } from '@galacticcouncil/sdk';
 import { blake2AsHex, encodeAddress } from '@polkadot/util-crypto';
 import { isNotNullOrUndefined } from '../../utils/helpers';
 import { getAsset } from '../assets/assetRegistry';
+import { getAssetBalance } from '../assets/balances';
 
 export async function getStablepool(
   ctx: ProcessorContext<Store>,

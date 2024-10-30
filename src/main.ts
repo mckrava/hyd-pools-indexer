@@ -12,7 +12,12 @@ import { ensureOmnipool } from './handlers/omnipool/omnipool';
 import { handleOperations } from './handlers/operations';
 import { handleStablepools } from './handlers/stablepool';
 import { handleAssetRegistry } from './handlers/assets';
-import { StorageDictionaryManager } from './utils/storageResolver/dictionaryUtils/storageDictionaryManager';
+import { StorageDictionaryManager } from './parsers/storageResolver/dictionaryUtils/storageDictionaryManager';
+import { StorageResolver } from './parsers/storageResolver';
+import { handleStablepoolHistoricalData } from './handlers/stablepool/historicalData';
+import { handleOmnipoolAssetHistoricalData } from './handlers/omnipool/historicalData';
+
+const timeMes = { start: Date.now(), end: Date.now() };
 
 processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
   const ctxWithBatchState: Omit<
@@ -23,20 +28,15 @@ processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
   (ctxWithBatchState as ProcessorContext<Store>).appConfig =
     AppConfig.getInstance();
 
-  const storageDictionaryManager = new StorageDictionaryManager({
-    batchCtx: ctxWithBatchState as ProcessorContext<Store>,
-  });
-
-  await storageDictionaryManager.fetchBatchStorageStateAllPallets({
-    blockNumberFrom: ctx.blocks[0].header.height,
-    blockNumberTo: ctx.blocks[ctx.blocks.length - 1].header.height,
-  });
-
-  throw Error('STOP');
-
   const parsedData = await getParsedEventsData(
     ctxWithBatchState as ProcessorContext<Store>
   );
+
+  await StorageResolver.getInstance().init({
+    ctx: ctxWithBatchState as ProcessorContext<Store>,
+    blockNumberFrom: ctx.blocks[0].header.height,
+    blockNumberTo: ctx.blocks[ctx.blocks.length - 1].header.height,
+  });
 
   await handleAssetRegistry(
     ctxWithBatchState as ProcessorContext<Store>,
@@ -69,5 +69,20 @@ processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
     parsedData
   );
 
-  console.log('Batch complete');
+  console.time('handleStablepoolHistoricalData');
+  await handleStablepoolHistoricalData(
+    ctxWithBatchState as ProcessorContext<Store>,
+    parsedData
+  );
+  console.timeEnd('handleStablepoolHistoricalData');
+
+  console.time('handleOmnipoolAssetHistoricalData');
+  await handleOmnipoolAssetHistoricalData(
+    ctxWithBatchState as ProcessorContext<Store>,
+    parsedData
+  );
+  console.timeEnd('handleOmnipoolAssetHistoricalData');
+
+  timeMes.end = Date.now();
+  console.log('Batch complete - ', timeMes);
 });
