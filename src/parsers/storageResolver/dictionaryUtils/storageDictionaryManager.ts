@@ -36,6 +36,8 @@ import {
   OmnipoolGetAssetDataInput,
   StablepoolGetPoolDataInput,
   StablepoolInfo,
+  XykGetAssetsInput,
+  XykPoolWithAssets,
 } from '../../types/storage';
 import {
   BalancesTransferData,
@@ -495,6 +497,49 @@ export class StorageDictionaryManager extends QueriesHelper {
       protocolShares: BigInt(assetState.protocolShares ?? 0),
       cap: BigInt(assetState.cap ?? 0),
       tradable: { bits: assetState.tradable.tradable ?? 0 },
+    };
+  }
+
+  getXykPoolAssets({
+    poolAddress,
+    block,
+  }: XykGetAssetsInput): XykPoolWithAssets | null {
+    const node = this.getBatchStorageStatePart(ProcessingPallets.XYK).get(
+      `${poolAddress}-${block.height}`
+    );
+
+    if (!node) return null;
+
+    return {
+      assetAId: node.assetAId,
+      assetBId: node.assetBId,
+      poolAddress,
+    };
+  }
+  getXykPoolAssetInfo({
+    poolAddress,
+    assetId,
+    block,
+  }: GetPoolAssetInfoInput): AccountData | null {
+    const node = this.getBatchStorageStatePart(ProcessingPallets.XYK).get(
+      `${poolAddress}-${block.height}`
+    );
+
+    if (!node) return null;
+    const asset = node.xykPoolAssetsDataByPoolId.nodes.find(
+      (asset) => asset && asset.assetId === assetId
+    );
+    if (!asset) return null;
+
+    const { balances } = asset;
+
+    return {
+      free: BigInt(balances.free ?? 0),
+      reserved: BigInt(balances.reserved ?? 0),
+      frozen: BigInt(balances.frozen ?? 0),
+      miscFrozen: BigInt(balances.miscFrozen ?? 0),
+      feeFrozen: BigInt(balances.feeFrozen ?? 0),
+      flags: BigInt(balances.flags ?? 0),
     };
   }
 }

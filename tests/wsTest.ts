@@ -3,7 +3,7 @@ import { createClient } from 'graphql-ws';
 
 const client = createClient({
   webSocketImpl: WebSocket,
-  url: 'wss://galacticcouncil.squids.live/hydration-xyk-pools-indexer/graphql',
+  url: 'wss://galacticcouncil.squids.live/hydration-pools:prod/api/graphql',
   retryAttempts: Infinity,
 });
 

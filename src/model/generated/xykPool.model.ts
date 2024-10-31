@@ -3,6 +3,7 @@ import {Account} from "./account.model"
 import {XykPoolHistoricalPrice} from "./xykPoolHistoricalPrice.model"
 import {XykPoolHistoricalVolume} from "./xykPoolHistoricalVolume.model"
 import {XykPoolOperation} from "./xykPoolOperation.model"
+import {XykPoolHistoricalData} from "./xykPoolHistoricalData.model"
 
 @Entity_()
 export class XykPool {
@@ -57,4 +58,7 @@ export class XykPool {
 
     @OneToMany_(() => XykPoolOperation, e => e.pool)
     operations!: XykPoolOperation[]
+
+    @OneToMany_(() => XykPoolHistoricalData, e => e.pool)
+    historicalData!: XykPoolHistoricalData[]
 }

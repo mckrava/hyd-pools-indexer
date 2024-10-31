@@ -170,6 +170,7 @@ type XykPool @entity {
   historicalBlockPrices: [XykPoolHistoricalPrice!]! @derivedFrom(field: "pool")
   historicalVolume: [XykPoolHistoricalVolume!]! @derivedFrom(field: "pool")
   operations: [XykPoolOperation!]! @derivedFrom(field: "pool")
+  historicalData: [XykPoolHistoricalData!]! @derivedFrom(field: "pool")
 }
 
 type XykPoolHistoricalPrice @entity {
@@ -222,6 +223,18 @@ type XykPoolHistoricalVolume @entity {
   assetBVolumeOut: BigInt!
   assetBTotalVolumeIn: BigInt!
   assetBTotalVolumeOut: BigInt!
+  relayChainBlockHeight: Int!
+  paraChainBlockHeight: Int! @index
+}
+
+type XykPoolHistoricalData @entity {
+  "OmnipoolId-assetId-paraChainBlockHeight"
+  id: ID!
+  pool: XykPool!
+  assetA: Asset!
+  assetB: Asset!
+  assetABalance: BigInt!
+  assetBBalance: BigInt!
   relayChainBlockHeight: Int!
   paraChainBlockHeight: Int! @index
 }

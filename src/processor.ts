@@ -61,11 +61,11 @@ export const processor = new SubstrateBatchProcessor()
       error: true,
     },
   })
-  // .setBlockRange({ from: 3934551, to: 3935551 }); // XYK.create_pool
+  .setBlockRange({ from: 3934551, to: 3944551 }); // XYK.create_pool
   // .setBlockRange({ from: 3934590 }); // XYK.buy
   // .setBlockRange({ from: 1708100, to: 1798100 }); // Omnipool.TokenAdded
   // .setBlockRange({ from: 0, to: 3690100 }); // Stableswap.PoolCreated
-.setBlockRange({ from: 3640100, to: 3690100 }); // Stableswap.PoolCreated
+// .setBlockRange({ from: 3640100, to: 3690100 }); // Stableswap.PoolCreated
 // .setBlockRange({ from: 1439857 }); // AssetRegistry.Registered
 // .setBlockRange({ from: 4959696 });
 

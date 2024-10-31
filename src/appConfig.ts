@@ -63,6 +63,10 @@ export class AppConfig {
   @IsString()
   readonly OMNIPOOL_ADDRESS!: string;
 
+  @Transform(({ value }: { value: string }) => value === 'true')
+  @IsNotEmpty()
+  readonly USE_STORAGE_DICTIONARY!: boolean;
+
   @IsNotEmpty()
   @IsString()
   readonly HYDRATION_STORAGE_DICTIONARY_XYKPOOL_URL!: string;

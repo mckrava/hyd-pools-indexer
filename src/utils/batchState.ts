@@ -7,7 +7,8 @@ import {
   LbpPoolHistoricalVolume,
   LbpPoolOperation,
   Omnipool,
-  OmnipoolAsset, OmnipoolAssetHistoricalData,
+  OmnipoolAsset,
+  OmnipoolAssetHistoricalData,
   OmnipoolAssetHistoricalVolume,
   OmnipoolAssetOperation,
   Stablepool,
@@ -21,6 +22,7 @@ import {
   StablepoolOperation,
   Transfer,
   XykPool,
+  XykPoolHistoricalData,
   XykPoolHistoricalPrice,
   XykPoolHistoricalVolume,
   XykPoolOperation,
@@ -54,6 +56,7 @@ export type BatchStatePayload = {
     number,
     { blockHeader: BlockHeader; ids: Set<string> }
   >;
+  xykPoolAllHistoricalData: XykPoolHistoricalData[];
 
   omnipoolEntity: Omnipool | null;
   omnipoolAssets: Map<string, OmnipoolAsset>;
@@ -109,6 +112,7 @@ export class BatchState {
     xykPoolVolumes: new Map(),
     xykPoolHistoricalPrices: new Map(),
     xykPoolIdsForStoragePrefetch: new Map(),
+    xykPoolAllHistoricalData: [],
 
     omnipoolEntity: null,
     omnipoolAssets: new Map(),

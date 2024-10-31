@@ -16,6 +16,7 @@ import { StorageDictionaryManager } from './parsers/storageResolver/dictionaryUt
 import { StorageResolver } from './parsers/storageResolver';
 import { handleStablepoolHistoricalData } from './handlers/stablepool/historicalData';
 import { handleOmnipoolAssetHistoricalData } from './handlers/omnipool/historicalData';
+import { handleXykPoolHistoricalData } from './handlers/isolatedPool/xykPoolHistoricalData';
 
 const timeMes = { start: Date.now(), end: Date.now() };
 
@@ -82,6 +83,13 @@ processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
     parsedData
   );
   console.timeEnd('handleOmnipoolAssetHistoricalData');
+
+  console.time('handleXykPoolHistoricalData');
+  await handleXykPoolHistoricalData(
+    ctxWithBatchState as ProcessorContext<Store>,
+    parsedData
+  );
+  console.timeEnd('handleXykPoolHistoricalData');
 
   timeMes.end = Date.now();
   console.log('Batch complete - ', timeMes);

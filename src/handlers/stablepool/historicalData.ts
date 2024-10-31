@@ -19,42 +19,6 @@ export async function handleStablepoolHistoricalData(
 ) {
   if (!ctx.appConfig.PROCESS_STABLEPOOLS) return;
 
-  const poolsToProcessMap: Map<
-    number,
-    { blockHeader: BlockHeader; poolIds: Set<number> }
-  > = new Map();
-
-  for (const eventData of [
-    ...parsedEvents
-      .getSectionByEventName(EventName.Stableswap_BuyExecuted)
-      .values(),
-    ...parsedEvents
-      .getSectionByEventName(EventName.Stableswap_SellExecuted)
-      .values(),
-    ...parsedEvents
-      .getSectionByEventName(EventName.Stableswap_LiquidityRemoved)
-      .values(),
-    ...parsedEvents
-      .getSectionByEventName(EventName.Stableswap_PoolCreated)
-      .values(),
-  ]) {
-    let blockScope = poolsToProcessMap.get(
-      eventData.eventData.metadata.blockHeader.height
-    );
-    if (!blockScope) {
-      poolsToProcessMap.set(eventData.eventData.metadata.blockHeader.height, {
-        blockHeader: eventData.eventData.metadata.blockHeader,
-        poolIds: new Set([eventData.eventData.params.poolId]),
-      });
-      continue;
-    }
-    blockScope.poolIds.add(eventData.eventData.params.poolId);
-    poolsToProcessMap.set(
-      eventData.eventData.metadata.blockHeader.height,
-      blockScope
-    );
-  }
-
   const predefinedEntities = await Promise.all(
     [...ctx.batchState.state.stablepoolIdsForStoragePrefetch.entries()]
       .map(([blockNumber, { blockHeader, ids }]) =>

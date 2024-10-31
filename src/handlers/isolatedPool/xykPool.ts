@@ -1,9 +1,32 @@
-import { ProcessorContext } from '../../processor';
+import { Block, ProcessorContext } from '../../processor';
 import { Store } from '@subsquid/typeorm-store';
-import { LbpPool, XykPool } from '../../model';
+import { Asset, LbpPool, XykPool } from '../../model';
 import { getAccount } from '../accounts';
 import { XykPoolCreatedData } from '../../parsers/batchBlocksParser/types';
 import { getAssetBalance } from '../assets/balances';
+
+export async function getXykPool({
+  ctx,
+  id,
+  ensure = false,
+  blockHeader,
+}: {
+  ctx: ProcessorContext<Store>;
+  id: string | number;
+  ensure?: boolean;
+  blockHeader?: Block;
+}): Promise<XykPool | null> {
+  const batchState = ctx.batchState.state;
+
+  let pool = batchState.xykAllBatchPools.get(`${id}`);
+  if (pool) return pool;
+
+  pool = await ctx.store.findOne(XykPool, { where: { id: `${id}` } });
+
+  return pool ?? null;
+
+  // TODO implement automatic creation of XykPool based on storage data if ensure === true
+}
 
 export async function xykPoolCreated(
   ctx: ProcessorContext<Store>,

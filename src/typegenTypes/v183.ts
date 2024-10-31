@@ -1,5 +1,7 @@
 import {sts, Result, Option, Bytes, BitSequence} from './support'
 
+export type AccountId32 = Bytes
+
 export interface PoolInfo {
     assets: number[]
     initialAmplification: NonZeroU16

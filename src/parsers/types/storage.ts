@@ -56,6 +56,12 @@ export interface AssetDetails {
   xcmRateLimit?: bigint;
 }
 
+export interface XykPoolWithAssets {
+  poolAddress: string;
+  assetAId: number;
+  assetBId: number;
+}
+
 /**
  * =============================================================================
  * =========================== I N P U T    T Y P E S===========================
@@ -76,6 +82,11 @@ export type GetPoolAssetInfoInput = {
 
 export type OmnipoolGetAssetDataInput = {
   assetId: number;
+  block: BlockHeader;
+};
+
+export type XykGetAssetsInput = {
+  poolAddress: string;
   block: BlockHeader;
 };
 

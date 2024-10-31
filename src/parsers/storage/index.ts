@@ -4,6 +4,7 @@ import omnipool from './omnipool';
 import assetRegistry from './assetRegistry';
 import parachainSystem from './parachainSystem';
 import stableswap from './stableswap';
+import xyk from './xyk';
 import { StorageResolver } from '../storageResolver';
 import { ProcessingPallets } from '../storageResolver/dictionaryUtils/types';
 import {
@@ -13,6 +14,8 @@ import {
   GetPoolAssetInfoInput,
   StablepoolGetPoolDataInput,
   StablepoolInfo,
+  XykPoolWithAssets,
+  XykGetAssetsInput,
 } from '../types/storage';
 import { getAccountBalances } from '../../handlers/assets/balances';
 
@@ -69,6 +72,32 @@ export default {
       >({
         args,
         pallet: ProcessingPallets.OMNIPOOL,
+        method: 'getPoolAssetInfo',
+        fallbackFn: getAccountBalances,
+      }),
+  },
+  xyk: {
+    getPoolAssets: (
+      args: XykGetAssetsInput
+    ): Promise<XykPoolWithAssets | null> =>
+      StorageResolver.getInstance().resolveStorageData<
+        XykGetAssetsInput,
+        XykPoolWithAssets | null
+      >({
+        args,
+        pallet: ProcessingPallets.XYK,
+        method: 'getPoolAssets',
+        fallbackFn: xyk.getPoolAssets,
+      }),
+    getPoolAssetInfo: (
+      args: GetPoolAssetInfoInput
+    ): Promise<AccountData | null> =>
+      StorageResolver.getInstance().resolveStorageData<
+        GetPoolAssetInfoInput,
+        AccountData | null
+      >({
+        args,
+        pallet: ProcessingPallets.XYK,
         method: 'getPoolAssetInfo',
         fallbackFn: getAccountBalances,
       }),

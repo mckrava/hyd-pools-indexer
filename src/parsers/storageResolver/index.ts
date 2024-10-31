@@ -9,6 +9,7 @@ import {
   OmnipoolGetAssetDataInput,
   StablepoolGetPoolDataInput,
   StablepoolInfo,
+  XykGetAssetsInput,
 } from '../types/storage';
 
 export class StorageResolver {
@@ -40,10 +41,11 @@ export class StorageResolver {
 
     this.storageDictionaryManager.wipeBatchStorageState();
 
-    // await this.storageDictionaryManager.fetchBatchStorageStateAllPallets({
-    //   blockNumberFrom,
-    //   blockNumberTo,
-    // });
+    if (ctx.appConfig.USE_STORAGE_DICTIONARY)
+      await this.storageDictionaryManager.fetchBatchStorageStateAllPallets({
+        blockNumberFrom,
+        blockNumberTo,
+      });
   }
 
   async resolveStorageData<Args extends { block: BlockHeader }, R>({
@@ -53,7 +55,11 @@ export class StorageResolver {
     fallbackFn,
   }: {
     pallet: ProcessingPallets;
-    method: 'getPoolData' | 'getPoolAssetInfo' | 'getAssetData';
+    method:
+      | 'getPoolData'
+      | 'getPoolAssetInfo'
+      | 'getAssetData'
+      | 'getPoolAssets';
     args: Args;
     fallbackFn?: (args: Args) => Promise<R>;
   }): Promise<R | null> {
@@ -79,14 +85,29 @@ export class StorageResolver {
         }
         case ProcessingPallets.OMNIPOOL: {
           if (method === 'getAssetData')
-          return (
-            (this.storageDictionaryManager.getOmnipoolAssetState(
-              args as unknown as OmnipoolGetAssetDataInput // TOD fix types
-            ) as R) ?? (fallbackFn ? await fallbackFn(args) : null)
-          );
+            return (
+              (this.storageDictionaryManager.getOmnipoolAssetState(
+                args as unknown as OmnipoolGetAssetDataInput // TOD fix types
+              ) as R) ?? (fallbackFn ? await fallbackFn(args) : null)
+            );
           if (method === 'getPoolAssetInfo')
             return (
               (this.storageDictionaryManager.getOmnipoolAssetInfo(
+                args as unknown as GetPoolAssetInfoInput // TOD fix types
+              ) as R) ?? (fallbackFn ? await fallbackFn(args) : null)
+            );
+          break;
+        }
+        case ProcessingPallets.XYK: {
+          if (method === 'getPoolAssets')
+            return (
+              (this.storageDictionaryManager.getXykPoolAssets(
+                args as unknown as XykGetAssetsInput // TOD fix types
+              ) as R) ?? (fallbackFn ? await fallbackFn(args) : null)
+            );
+          if (method === 'getPoolAssetInfo')
+            return (
+              (this.storageDictionaryManager.getXykPoolAssetInfo(
                 args as unknown as GetPoolAssetInfoInput // TOD fix types
               ) as R) ?? (fallbackFn ? await fallbackFn(args) : null)
             );
