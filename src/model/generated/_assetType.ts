@@ -4,4 +4,5 @@ export enum AssetType {
     StableSwap = "StableSwap",
     Token = "Token",
     XYK = "XYK",
+    Erc20 = "Erc20",
 }

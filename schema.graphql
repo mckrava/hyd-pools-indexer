@@ -23,6 +23,7 @@ enum AssetType {
   StableSwap
   Token
   XYK
+  Erc20
 }
 
 type Account @entity {

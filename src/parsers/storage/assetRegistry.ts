@@ -5,6 +5,7 @@ import { storage } from '../../typegenTypes/';
 import { AssetType } from '../../model';
 import { hexToString, isUtf8 } from '@polkadot/util';
 import { hexToStrWithNullCharCheck } from '../../utils/helpers';
+import { Bytes } from '../../typegenTypes/support';
 
 async function getAsset(
   assetId: string | number,
@@ -62,8 +63,23 @@ async function getAsset(
           isSufficient: resp.isSufficient,
         };
   }
+  if (storage.assetRegistry.assets.v264.is(block)) {
+    const resp = await storage.assetRegistry.assets.v264.get(block, +assetId);
 
-  throw new UnknownVersionError('storage.tokens.accounts');
+    return !resp
+      ? null
+      : {
+          name: hexToStrWithNullCharCheck(resp.name),
+          assetType: resp.assetType.__kind as AssetType,
+          existentialDeposit: resp.existentialDeposit,
+          xcmRateLimit: resp.xcmRateLimit,
+          symbol: hexToStrWithNullCharCheck(resp.symbol),
+          decimals: resp.decimals,
+          isSufficient: resp.isSufficient,
+        };
+  }
+
+  throw new UnknownVersionError('storage.assetRegistry.assets');
 }
 
 export default { getAsset };

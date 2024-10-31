@@ -17,7 +17,7 @@ async function getLastRelayChainBlockNumber(
     );
   }
 
-  throw new UnknownVersionError('storage.system.account');
+  throw new UnknownVersionError('storage.parachainSystem.lastRelayChainBlockNumber');
 }
 
 export default { getLastRelayChainBlockNumber };

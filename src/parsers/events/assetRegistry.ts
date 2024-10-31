@@ -69,6 +69,28 @@ function parseRegisteredParams(
       decimals,
     };
   }
+  if (events.assetRegistry.registered.v264.is(event)) {
+    const {
+      assetId,
+      assetType,
+      assetName,
+      existentialDeposit,
+      isSufficient,
+      symbol,
+      xcmRateLimit,
+      decimals,
+    } = events.assetRegistry.registered.v264.decode(event);
+    return {
+      assetId,
+      assetType: assetType.__kind as AssetType,
+      assetName: hexToStrWithNullCharCheck(assetName),
+      existentialDeposit,
+      isSufficient,
+      symbol: hexToStrWithNullCharCheck(symbol),
+      xcmRateLimit,
+      decimals,
+    };
+  }
 
   throw new UnknownVersionError(event.name);
 }
