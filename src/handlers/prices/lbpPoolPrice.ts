@@ -25,14 +25,14 @@ export async function handleLbpPoolPrices(ctx: ProcessorContext<Store>) {
             }
 
             Promise.all([
-              getAssetBalance(block.header, p.assetAId, p.id), // TODO must be optimized
-              getAssetBalance(block.header, p.assetBId, p.id), // TODO must be optimized
+              getAssetBalance(block.header, +p.assetA.id, p.id), // TODO must be optimized
+              getAssetBalance(block.header, +p.assetB.id, p.id), // TODO must be optimized
             ]).then(([assetABalance, assetBBalance]) => {
               resolve(
                 new LbpPoolHistoricalPrice({
                   id: p.id + '-' + block.header.height,
-                  assetAId: p.assetAId,
-                  assetBId: p.assetBId,
+                  assetAId: +p.assetA.id,
+                  assetBId: +p.assetB.id,
                   assetABalance: assetABalance,
                   assetBBalance: assetBBalance,
                   pool: p,

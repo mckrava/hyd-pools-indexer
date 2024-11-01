@@ -10,7 +10,6 @@ import { Block, Event, Extrinsic, ProcessorContext } from '../../processor';
 import { Store } from '@subsquid/typeorm-store';
 import parsers from '../';
 import { calls, events } from '../../typegenTypes';
-import { BatchStatePayload } from '../../utils/batchState';
 import { BlockHeader } from '@subsquid/substrate-processor';
 
 export class BatchBlocksParsedDataManager {
@@ -83,20 +82,21 @@ export async function getParsedEventsData(
 
   const addIdsForStoragePrefetch = (
     key:
+      | 'lbpPoolAssetIdsForStoragePrefetch'
       | 'xykPoolIdsForStoragePrefetch'
       | 'omnipoolAssetIdsForStoragePrefetch'
       | 'stablepoolIdsForStoragePrefetch',
     blockHeader: BlockHeader,
-    id: any // TODO fix type
+    value: any // TODO fix type
   ) => {
     if (!batchState[key].has(blockHeader.height)) {
       batchState[key].set(blockHeader.height, {
         blockHeader,
-        ids: new Set([id]),
+        ids: new Set([value]),
       });
       return;
     }
-    batchState[key].get(blockHeader.height)!.ids.add(id as never); // TODO fix type
+    batchState[key].get(blockHeader.height)!.ids.add(value as never); // TODO fix type
   };
 
   for (let block of ctx.blocks) {
@@ -153,6 +153,12 @@ export async function getParsedEventsData(
             : undefined;
           const eventParams = parsers.events.lbp.parsePoolCreatedParams(event);
 
+          addIdsForStoragePrefetch(
+            'lbpPoolAssetIdsForStoragePrefetch',
+            event.block,
+            `${eventParams.data.assets[0]}-${eventParams.data.assets[1]}`
+          );
+
           parsedDataManager.set(EventName.LBP_PoolCreated, {
             relayChainInfo,
             id: eventMetadata.id,
@@ -172,6 +178,12 @@ export async function getParsedEventsData(
         case events.lbp.poolUpdated.name: {
           const eventParams = parsers.events.lbp.parsePoolUpdatedParams(event);
 
+          addIdsForStoragePrefetch(
+            'lbpPoolAssetIdsForStoragePrefetch',
+            event.block,
+            `${eventParams.data.assets[0]}-${eventParams.data.assets[1]}`
+          );
+
           parsedDataManager.set(EventName.LBP_PoolUpdated, {
             relayChainInfo,
             id: eventMetadata.id,
@@ -190,6 +202,12 @@ export async function getParsedEventsData(
         case events.lbp.buyExecuted.name: {
           const eventParams = parsers.events.lbp.parseBuyExecutedParams(event);
 
+          addIdsForStoragePrefetch(
+            'lbpPoolAssetIdsForStoragePrefetch',
+            event.block,
+            `${eventParams.assetIn}-${eventParams.assetOut}`
+          );
+
           parsedDataManager.set(EventName.LBP_BuyExecuted, {
             relayChainInfo,
             id: eventMetadata.id,
@@ -207,6 +225,12 @@ export async function getParsedEventsData(
         }
         case events.lbp.sellExecuted.name: {
           const eventParams = parsers.events.lbp.parseSellExecutedParams(event);
+
+          addIdsForStoragePrefetch(
+            'lbpPoolAssetIdsForStoragePrefetch',
+            event.block,
+            `${eventParams.assetIn}-${eventParams.assetOut}`
+          );
 
           parsedDataManager.set(EventName.LBP_SellExecuted, {
             relayChainInfo,

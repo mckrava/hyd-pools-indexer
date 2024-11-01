@@ -1,8 +1,6 @@
 import { ProcessorContext } from '../../processor';
 import { Store } from '@subsquid/typeorm-store';
 import { BatchBlocksParsedDataManager } from '../../parsers/batchBlocksParser';
-import { EventName } from '../../parsers/types/events';
-import { BlockHeader } from '@subsquid/substrate-processor';
 import parsers from '../../parsers';
 import { blake2AsHex } from '@polkadot/util-crypto';
 import { StableMath } from '@galacticcouncil/sdk';
@@ -69,7 +67,6 @@ export async function handleStablepoolHistoricalData(
 
         const poolAssetHistoricalDataEntities = [];
 
-        // console.time(`getAsset - (${poolId} / ${blockHeader.height})`);
         for (const { assetId, data } of assetsData.filter(
           (data) => !!data && !!data.data
         )) {
@@ -97,7 +94,6 @@ export async function handleStablepoolHistoricalData(
             })
           );
         }
-        // console.timeEnd(`getAsset - (${poolId} / ${blockHeader.height})`);
 
         return {
           poolData: poolHistoricalDataEntity,
@@ -116,7 +112,12 @@ export async function handleStablepoolHistoricalData(
       entitiesToSave.poolData.id,
       entitiesToSave.poolData
     );
-    stablepoolAssetsAllHistoricalData.push(...entitiesToSave.assetsData);
+
+    for (const assetData of entitiesToSave.assetsData.filter(
+      (item) => !!item
+    )) {
+      stablepoolAssetsAllHistoricalData.set(assetData.id, assetData);
+    }
   }
 
   ctx.batchState.state = {
@@ -125,5 +126,5 @@ export async function handleStablepoolHistoricalData(
   };
 
   await ctx.store.save([...stablepoolAllHistoricalData.values()]);
-  await ctx.store.save(stablepoolAssetsAllHistoricalData);
+  await ctx.store.save([...stablepoolAssetsAllHistoricalData.values()]);
 }

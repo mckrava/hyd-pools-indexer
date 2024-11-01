@@ -76,8 +76,8 @@ type HistoricalAssetVolume @entity {
 type LbpPool @entity {
   id: ID!
   account: Account!
-  assetAId: Int! @index
-  assetBId: Int! @index
+  assetA: Asset!
+  assetB: Asset!
   assetABalance: BigInt!
   assetBBalance: BigInt!
   createdAt: DateTime!
@@ -94,6 +94,7 @@ type LbpPool @entity {
   owner: Account
   historicalBlockPrices: [LbpPoolHistoricalPrice!]! @derivedFrom(field: "pool")
   historicalVolume: [LbpPoolHistoricalVolume!]! @derivedFrom(field: "pool")
+  historicalData: [LbpPoolHistoricalData!]! @derivedFrom(field: "pool")
   operations: [LbpPoolOperation!]! @derivedFrom(field: "pool")
 }
 
@@ -147,6 +148,29 @@ type LbpPoolOperation @entity {
   swapPrice: Float!
   pool: LbpPool!
   type: PoolOperationType!
+  relayChainBlockHeight: Int!
+  paraChainBlockHeight: Int! @index
+}
+
+type LbpPoolHistoricalData @entity {
+  "poolAddress-assetId-paraChainBlockHeight"
+  id: ID!
+  pool: LbpPool!
+  assetA: Asset!
+  assetB: Asset!
+  assetABalance: BigInt!
+  assetBBalance: BigInt!
+
+  owner: Account!
+  start: Int
+  end: Int
+  initialWeight: Int!
+  finalWeight: Int!
+  weightCurve: String!
+  fee: [Int!]!
+  feeCollector: Account
+  repayTarget: BigInt!
+
   relayChainBlockHeight: Int!
   paraChainBlockHeight: Int! @index
 }
@@ -229,7 +253,7 @@ type XykPoolHistoricalVolume @entity {
 }
 
 type XykPoolHistoricalData @entity {
-  "OmnipoolId-assetId-paraChainBlockHeight"
+  "poolAddress-assetId-paraChainBlockHeight"
   id: ID!
   pool: XykPool!
   assetA: Asset!

@@ -80,16 +80,9 @@ export async function handleOmnipoolAssetHistoricalData(
       })
   );
 
-  const omnipoolAssetAllHistoricalData =
-    ctx.batchState.state.omnipoolAssetAllHistoricalData;
-
-  omnipoolAssetAllHistoricalData.push(
-    ...predefinedEntities.filter((item) => !!item)
+  const predefinedEntitiesWithoutDuplicates = new Map(
+    predefinedEntities.filter((item) => !!item).map((item) => [item.id, item])
   );
 
-  ctx.batchState.state = {
-    omnipoolAssetAllHistoricalData,
-  };
-
-  await ctx.store.save(omnipoolAssetAllHistoricalData);
+  await ctx.store.save([...predefinedEntitiesWithoutDuplicates.values()]);
 }

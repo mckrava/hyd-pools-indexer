@@ -5,6 +5,7 @@ import assetRegistry from './assetRegistry';
 import parachainSystem from './parachainSystem';
 import stableswap from './stableswap';
 import xyk from './xyk';
+import lbp from './lbp';
 import { StorageResolver } from '../storageResolver';
 import { ProcessingPallets } from '../storageResolver/dictionaryUtils/types';
 import {
@@ -16,6 +17,8 @@ import {
   StablepoolInfo,
   XykPoolWithAssets,
   XykGetAssetsInput,
+  LbpGetPoolDataInput,
+  LbpPoolData,
 } from '../types/storage';
 import { getAccountBalances } from '../../handlers/assets/balances';
 
@@ -98,6 +101,30 @@ export default {
       >({
         args,
         pallet: ProcessingPallets.XYK,
+        method: 'getPoolAssetInfo',
+        fallbackFn: getAccountBalances,
+      }),
+  },
+  lbp: {
+    getPoolData: (args: LbpGetPoolDataInput): Promise<LbpPoolData | null> =>
+      StorageResolver.getInstance().resolveStorageData<
+        LbpGetPoolDataInput,
+        LbpPoolData | null
+      >({
+        args,
+        pallet: ProcessingPallets.LBP,
+        method: 'getPoolData',
+        fallbackFn: lbp.getPoolData,
+      }),
+    getPoolAssetInfo: (
+      args: GetPoolAssetInfoInput
+    ): Promise<AccountData | null> =>
+      StorageResolver.getInstance().resolveStorageData<
+        GetPoolAssetInfoInput,
+        AccountData | null
+      >({
+        args,
+        pallet: ProcessingPallets.LBP,
         method: 'getPoolAssetInfo',
         fallbackFn: getAccountBalances,
       }),

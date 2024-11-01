@@ -21,6 +21,12 @@ import {
   XykPool as XykPoolGlq,
   XykPoolFilter,
   XykPoolsOrderBy,
+  LbpPool as LbpPoolGlq,
+  LbpPoolFilter,
+  LbpPoolsOrderBy,
+  GetLbpPoolBlocksStorageStateQuery,
+  GetLbpPoolBlocksStorageStateQueryVariables,
+  GetLbpPoolBlocksStorageState,
 } from './apiTypes/types';
 import { QueriesHelper } from './queriesHelper';
 import {
@@ -31,6 +37,9 @@ import {
 import {
   AccountData,
   GetPoolAssetInfoInput,
+  LbpGetPoolDataInput,
+  LbpPoolData,
+  LbpWeightCurveType,
   OmnipoolAssetData,
   OmnipoolAssetTradability,
   OmnipoolGetAssetDataInput,
@@ -39,13 +48,6 @@ import {
   XykGetAssetsInput,
   XykPoolWithAssets,
 } from '../../types/storage';
-import {
-  BalancesTransferData,
-  EventDataType,
-  EventId,
-  TokensTransferData,
-} from '../../batchBlocksParser/types';
-import { EventName } from '../../types/events';
 
 // type PalletBatchStorageState<T = any> = T extends ProcessingPallets.XYK
 //   ? Map<string, XykPoolGlq>
@@ -61,15 +63,18 @@ export type BatchStorageStateSectionNode<T> = T extends ProcessingPallets.XYK
     ? OmnipoolAssetDatum
     : T extends ProcessingPallets.STABLESWAP
       ? StablepoolGql
-      : never;
+      : T extends ProcessingPallets.LBP
+        ? LbpPoolGlq
+        : never;
 
 export class StorageDictionaryManager extends QueriesHelper {
   protected batchCtx: ProcessorContext<Store>;
 
   batchStorageState: Map<
     ProcessingPallets,
-    Map<string, XykPoolGlq | OmnipoolAssetDatum | StablepoolGql>
+    Map<string, LbpPoolGlq | XykPoolGlq | OmnipoolAssetDatum | StablepoolGql>
   > = new Map([
+    [ProcessingPallets.LBP, new Map()],
     [ProcessingPallets.XYK, new Map()],
     [ProcessingPallets.OMNIPOOL, new Map()],
     [ProcessingPallets.STABLESWAP, new Map()],
@@ -103,13 +108,118 @@ export class StorageDictionaryManager extends QueriesHelper {
     ]);
   }
 
-  async fetchBatchStorageStateAllPallets({
-    blockNumberFrom,
-    blockNumberTo,
-  }: {
+  async fetchBatchStorageStateAllPallets(args: {
     blockNumberFrom: number;
     blockNumberTo: number;
   }) {
+    const fetchAllLbpPoolsPaginated = async ({
+      pageSize,
+      offset,
+    }: PaginationConfig) => {
+      let filter: InputMaybe<LbpPoolFilter> = { or: [] };
+      const lbpPoolAssetIdsForStoragePrefetch =
+        this.batchCtx.batchState.state.lbpPoolAssetIdsForStoragePrefetch;
+
+      if (lbpPoolAssetIdsForStoragePrefetch.size === 0)
+        return {
+          data: [],
+          totalCount: 0,
+        };
+
+      if (lbpPoolAssetIdsForStoragePrefetch.size > 2) {
+        const filterParams = this.getGenericFilterParams<string>(
+          lbpPoolAssetIdsForStoragePrefetch
+        );
+        filter = {
+          or: [...filterParams.ids.values()]
+            .map((idsPair) => {
+              const [assetA, assetB] = idsPair.split('-');
+              return [
+                {
+                  assetAId: { equalTo: +assetA },
+                  assetBId: { equalTo: +assetB },
+                  paraChainBlockHeight: {
+                    greaterThanOrEqualTo: filterParams.fromBlockNumber,
+                  },
+                  and: [
+                    {
+                      assetAId: { equalTo: +assetA },
+                      assetBId: { equalTo: +assetB },
+                      paraChainBlockHeight: {
+                        lessThanOrEqualTo: filterParams.toBlockNumber,
+                      },
+                    },
+                  ],
+                },
+                {
+                  assetAId: { equalTo: +assetB },
+                  assetBId: { equalTo: +assetA },
+                  paraChainBlockHeight: {
+                    greaterThanOrEqualTo: filterParams.fromBlockNumber,
+                  },
+                  and: [
+                    {
+                      assetAId: { equalTo: +assetA },
+                      assetBId: { equalTo: +assetB },
+                      paraChainBlockHeight: {
+                        lessThanOrEqualTo: filterParams.toBlockNumber,
+                      },
+                    },
+                  ],
+                },
+              ] as LbpPoolFilter[];
+            })
+            .flat(),
+        };
+      } else {
+        lbpPoolAssetIdsForStoragePrefetch.forEach((poolIds, blockNumber) => {
+          poolIds.ids.forEach((idsPair) => {
+            const [assetA, assetB] = idsPair.split('-');
+            filter!.or!.push(
+              ...[
+                {
+                  paraChainBlockHeight: { equalTo: blockNumber },
+                  assetAId: { equalTo: +assetA },
+                  assetBId: { equalTo: +assetB },
+                },
+                {
+                  paraChainBlockHeight: { equalTo: blockNumber },
+                  assetAId: { equalTo: +assetB },
+                  assetBId: { equalTo: +assetA },
+                },
+              ]
+            );
+          });
+        });
+      }
+
+      const resp = await this.dictionaryGqlRequest<
+        GetLbpPoolBlocksStorageStateQuery,
+        GetLbpPoolBlocksStorageStateQueryVariables
+      >({
+        query: GetLbpPoolBlocksStorageState,
+        variables: {
+          filter,
+          orderBy: LbpPoolsOrderBy.ParaChainBlockHeightAsc,
+          first: pageSize,
+          offset,
+        },
+        dictName: ProcessingPallets.LBP,
+      });
+
+      // console.log('filter');
+      // console.dir(filter, { depth: null });
+      // console.log('resp');
+      // console.dir(resp.data, { depth: null });
+      // console.log('\n\n\n\n');
+
+      return {
+        data: resp.data && resp.data.lbpPools ? resp.data.lbpPools.nodes : [],
+        totalCount:
+          resp.data && resp.data.lbpPools ? resp.data.lbpPools.totalCount : 0,
+      };
+    };
+
     const fetchAllXykPoolsPaginated = async ({
       pageSize,
       offset,
@@ -118,13 +228,19 @@ export class StorageDictionaryManager extends QueriesHelper {
       const xykPoolIdsForStoragePrefetch =
         this.batchCtx.batchState.state.xykPoolIdsForStoragePrefetch;
 
+      if (xykPoolIdsForStoragePrefetch.size === 0)
+        return {
+          data: [],
+          totalCount: 0,
+        };
+
       if (xykPoolIdsForStoragePrefetch.size > 30) {
         const filterParams = this.getGenericFilterParams<string>(
           xykPoolIdsForStoragePrefetch
         );
         filter = {
           poolAddress: {
-            in: [...new Set(filterParams.ids).values()],
+            in: filterParams.ids,
           },
           paraChainBlockHeight: {
             greaterThanOrEqualTo: filterParams.fromBlockNumber,
@@ -177,6 +293,12 @@ export class StorageDictionaryManager extends QueriesHelper {
       const omnipoolAssetIdsForStoragePrefetch =
         this.batchCtx.batchState.state.omnipoolAssetIdsForStoragePrefetch;
 
+      if (omnipoolAssetIdsForStoragePrefetch.size === 0)
+        return {
+          data: [],
+          totalCount: 0,
+        };
+
       /**
        * We need adjust filter based on number of blocks which must be filtered.
        * Dictionary API will go through Time out error with big amount of
@@ -190,7 +312,7 @@ export class StorageDictionaryManager extends QueriesHelper {
 
         filter = {
           assetId: {
-            in: [...new Set(filterParams.ids).values()],
+            in: filterParams.ids,
           },
           paraChainBlockHeight: {
             greaterThanOrEqualTo: filterParams.fromBlockNumber,
@@ -247,6 +369,12 @@ export class StorageDictionaryManager extends QueriesHelper {
       const stablepoolIdsForStoragePrefetch =
         this.batchCtx.batchState.state.stablepoolIdsForStoragePrefetch;
 
+      if (stablepoolIdsForStoragePrefetch.size === 0)
+        return {
+          data: [],
+          totalCount: 0,
+        };
+
       if (stablepoolIdsForStoragePrefetch.size > 30) {
         const filterParams = this.getGenericFilterParams<number>(
           stablepoolIdsForStoragePrefetch
@@ -292,7 +420,6 @@ export class StorageDictionaryManager extends QueriesHelper {
         dictName: ProcessingPallets.STABLESWAP,
       });
 
-      // console.dir(resp.data, { depth: null });
       return {
         data:
           resp.data && resp.data.stablepools ? resp.data.stablepools.nodes : [],
@@ -303,8 +430,32 @@ export class StorageDictionaryManager extends QueriesHelper {
       };
     };
 
+    const allLbpPoolStorageFetchPromise = async () => {
+      if (
+        !this.batchCtx.appConfig.PROCESS_LBP_POOLS ||
+        this.batchCtx.batchState.state.lbpPoolAssetIdsForStoragePrefetch
+          .size === 0
+      )
+        return [];
+
+      const data: LbpPoolGlq[] = [];
+      for await (const page of this.fetchAllPages({
+        limit: 1000,
+        requestPromise: fetchAllLbpPoolsPaginated,
+      })) {
+        if (!page) continue;
+        data.push(...(page as LbpPoolGlq[]));
+      }
+      return { pallet: ProcessingPallets.LBP, data: data.flat() };
+    };
+
     const allXykPoolStorageFetchPromise = async () => {
-      if (!this.batchCtx.appConfig.PROCESS_XYK_POOLS) return [];
+      if (
+        !this.batchCtx.appConfig.PROCESS_XYK_POOLS ||
+        this.batchCtx.batchState.state.xykPoolIdsForStoragePrefetch.size === 0
+      )
+        return [];
+
       const data: XykPoolGlq[] = [];
       for await (const page of this.fetchAllPages({
         limit: 1000,
@@ -323,6 +474,7 @@ export class StorageDictionaryManager extends QueriesHelper {
           .size === 0
       )
         return [];
+
       const data = [];
       for await (const page of this.fetchAllPages({
         limit: 1000,
@@ -339,6 +491,7 @@ export class StorageDictionaryManager extends QueriesHelper {
           0
       )
         return [];
+
       const data = [];
       for await (const page of this.fetchAllPages({
         limit: 1000,
@@ -351,6 +504,7 @@ export class StorageDictionaryManager extends QueriesHelper {
 
     console.time('Dictionary API call executed in');
     const fullResponse = await Promise.all([
+      allLbpPoolStorageFetchPromise(),
       allXykPoolStorageFetchPromise(),
       allOmnipoolStorageFetchPromise(),
       allStablepoolStorageFetchPromise(),
@@ -364,6 +518,14 @@ export class StorageDictionaryManager extends QueriesHelper {
   decorateDictionaryData(rawData: Array<PalletDictionaryCollectedData>) {
     for (const palletData of rawData) {
       switch (palletData.pallet) {
+        case ProcessingPallets.LBP:
+          this.batchStorageState.set(
+            ProcessingPallets.LBP,
+            new Map(
+              (palletData.data as LbpPoolGlq[]).map((item) => [item.id, item])
+            )
+          );
+          break;
         case ProcessingPallets.XYK:
           this.batchStorageState.set(
             ProcessingPallets.XYK,
@@ -527,6 +689,73 @@ export class StorageDictionaryManager extends QueriesHelper {
 
     if (!node) return null;
     const asset = node.xykPoolAssetsDataByPoolId.nodes.find(
+      (asset) => asset && asset.assetId === assetId
+    );
+    if (!asset) return null;
+
+    const { balances } = asset;
+
+    return {
+      free: BigInt(balances.free ?? 0),
+      reserved: BigInt(balances.reserved ?? 0),
+      frozen: BigInt(balances.frozen ?? 0),
+      miscFrozen: BigInt(balances.miscFrozen ?? 0),
+      feeFrozen: BigInt(balances.feeFrozen ?? 0),
+      flags: BigInt(balances.flags ?? 0),
+    };
+  }
+
+  getLbpPoolData({
+    poolAddress,
+    block,
+  }: LbpGetPoolDataInput): LbpPoolData | null {
+    const node = this.getBatchStorageStatePart(ProcessingPallets.LBP).get(
+      `${poolAddress}-${block.height}`
+    );
+
+    if (!node) return null;
+
+    const {
+      owner,
+      start,
+      end,
+      assetAId,
+      assetBId,
+      initialWeight,
+      finalWeight,
+      weightCurve,
+      fee,
+      feeCollector,
+      repayTarget,
+    } = node;
+
+    return {
+      poolAddress,
+      owner,
+      start: start ?? undefined,
+      end: end ?? undefined,
+      assetAId,
+      assetBId,
+      initialWeight,
+      finalWeight,
+      weightCurve: { __kind: weightCurve },
+      fee: [fee[0]!, fee[1]!],
+      feeCollector: feeCollector!,
+      repayTarget,
+    };
+  }
+
+  getLbpPoolAssetInfo({
+    poolAddress,
+    assetId,
+    block,
+  }: GetPoolAssetInfoInput): AccountData | null {
+    const node = this.getBatchStorageStatePart(ProcessingPallets.LBP).get(
+      `${poolAddress}-${block.height}`
+    );
+
+    if (!node) return null;
+    const asset = node.lbpPoolAssetsDataByPoolId.nodes.find(
       (asset) => asset && asset.assetId === assetId
     );
     if (!asset) return null;

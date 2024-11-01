@@ -41,15 +41,6 @@ export async function handleStablepoolVolumeUpdates({
     ctx,
     pool.id
   );
-  // let involvedAssets: Asset[] = [];
-  //
-  // if (poolOperation) {
-  //   involvedAssets = [poolOperation.assetIn, poolOperation.assetOut];
-  // } else if (liquidityAction) {
-  //   involvedAssets = liquidityAction.assetAmounts.map(
-  //     (assetAmount) => assetAmount.asset
-  //   );
-  // }
 
   const stablepoolVolumeCollections =
     ctx.batchState.state.stablepoolVolumeCollections;

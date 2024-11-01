@@ -12,11 +12,11 @@ import { ensureOmnipool } from './handlers/omnipool/omnipool';
 import { handleOperations } from './handlers/operations';
 import { handleStablepools } from './handlers/stablepool';
 import { handleAssetRegistry } from './handlers/assets';
-import { StorageDictionaryManager } from './parsers/storageResolver/dictionaryUtils/storageDictionaryManager';
 import { StorageResolver } from './parsers/storageResolver';
 import { handleStablepoolHistoricalData } from './handlers/stablepool/historicalData';
 import { handleOmnipoolAssetHistoricalData } from './handlers/omnipool/historicalData';
 import { handleXykPoolHistoricalData } from './handlers/isolatedPool/xykPoolHistoricalData';
+import { handleLbpPoolHistoricalData } from './handlers/isolatedPool/lbpPoolHistoricalData';
 
 const timeMes = { start: Date.now(), end: Date.now() };
 
@@ -90,6 +90,13 @@ processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
     parsedData
   );
   console.timeEnd('handleXykPoolHistoricalData');
+
+  console.time('handleLbpPoolHistoricalData');
+  await handleLbpPoolHistoricalData(
+    ctxWithBatchState as ProcessorContext<Store>,
+    parsedData
+  );
+  console.timeEnd('handleLbpPoolHistoricalData');
 
   timeMes.end = Date.now();
   console.log('Batch complete - ', timeMes);

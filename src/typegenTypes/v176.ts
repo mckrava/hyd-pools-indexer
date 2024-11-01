@@ -1,5 +1,26 @@
 import {sts, Result, Option, Bytes, BitSequence} from './support'
 
+export type AccountId32 = Bytes
+
+export interface Pool {
+    owner: AccountId32
+    start?: (number | undefined)
+    end?: (number | undefined)
+    assets: [number, number]
+    initialWeight: number
+    finalWeight: number
+    weightCurve: WeightCurveType
+    fee: [number, number]
+    feeCollector: AccountId32
+    repayTarget: bigint
+}
+
+export type WeightCurveType = WeightCurveType_Linear
+
+export interface WeightCurveType_Linear {
+    __kind: 'Linear'
+}
+
 export interface AssetDetails {
     name: Bytes
     assetType: AssetType
@@ -45,12 +66,6 @@ export const WeightCurveType: sts.Type<WeightCurveType> = sts.closedEnum(() => {
     }
 })
 
-export type WeightCurveType = WeightCurveType_Linear
-
-export interface WeightCurveType_Linear {
-    __kind: 'Linear'
-}
-
 export const Pool: sts.Type<Pool> = sts.struct(() => {
     return  {
         owner: AccountId32,
@@ -65,21 +80,6 @@ export const Pool: sts.Type<Pool> = sts.struct(() => {
         repayTarget: sts.bigint(),
     }
 })
-
-export interface Pool {
-    owner: AccountId32
-    start?: (number | undefined)
-    end?: (number | undefined)
-    assets: [number, number]
-    initialWeight: number
-    finalWeight: number
-    weightCurve: WeightCurveType
-    fee: [number, number]
-    feeCollector: AccountId32
-    repayTarget: bigint
-}
-
-export type AccountId32 = Bytes
 
 export const AccountId32 = sts.bytes()
 

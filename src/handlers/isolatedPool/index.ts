@@ -21,7 +21,12 @@ export async function handleLbpPools(
 ) {
   ctx.batchState.state = {
     lbpAllBatchPools: new Map(
-      (await ctx.store.find(LbpPool)).map((p) => [p.id, p])
+      (
+        await ctx.store.find(LbpPool, {
+          where: {},
+          relations: { account: true, assetA: true, assetB: true },
+        })
+      ).map((p) => [p.id, p])
     ),
   };
 
@@ -49,10 +54,6 @@ export async function handleXykPools(
   ctx: ProcessorContext<Store>,
   parsedEvents: BatchBlocksParsedDataManager
 ) {
-  // const lbpPoolDestroyedEvents = [
-  //   ...parsedEvents.getSectionByEventName(EventName.XYK_PoolDestroyed).values(),
-  // ];
-
   ctx.batchState.state = {
     xykAllBatchPools: new Map(
       (await ctx.store.find(XykPool)).map((p) => [p.id, p])
@@ -64,10 +65,6 @@ export async function handleXykPools(
   ])) {
     await xykPoolCreated(ctx, eventData);
   }
-
-  // for (const eventData of getOrderedListByBlockNumber(lbpPoolDestroyedEvents)) {
-  //   await lpbPoolUpdated(ctx, eventData);
-  // }
 
   await ctx.store.save(
     [...ctx.batchState.state.xykAllBatchPools.values()].filter((pool) =>

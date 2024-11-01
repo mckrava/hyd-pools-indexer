@@ -20,9 +20,10 @@ export async function lpbBuyExecuted(
 
   const pool = [...ctx.batchState.state.lbpAllBatchPools.values()].find(
     (p) =>
-      (p.assetAId == eventParams.assetIn &&
-        p.assetBId == eventParams.assetOut) ||
-      (p.assetBId == eventParams.assetIn && p.assetAId == eventParams.assetOut)
+      (p.assetA.id == `${eventParams.assetIn}` &&
+        p.assetB.id == `${eventParams.assetOut}`) ||
+      (p.assetB.id == `${eventParams.assetIn}` &&
+        p.assetA.id == `${eventParams.assetOut}`)
   );
 
   if (!pool) {
@@ -73,9 +74,10 @@ export async function lpbSellExecuted(
 
   const pool = [...ctx.batchState.state.lbpAllBatchPools.values()].find(
     (p) =>
-      (p.assetAId == eventParams.assetIn &&
-        p.assetBId == eventParams.assetOut) ||
-      (p.assetBId == eventParams.assetIn && p.assetAId == eventParams.assetOut)
+      (p.assetA.id == `${eventParams.assetIn}` &&
+        p.assetB.id == `${eventParams.assetOut}`) ||
+      (p.assetB.id == `${eventParams.assetIn}` &&
+        p.assetA.id == `${eventParams.assetOut}`)
   );
 
   if (!pool) {
@@ -101,8 +103,6 @@ export async function lpbSellExecuted(
     relayChainBlockHeight: eventCallData.relayChainInfo.relaychainBlockNumber,
     paraChainBlockHeight: eventMetadata.blockHeader.height,
   });
-
-  // await ctx.store.save(operationInstance);
 
   ctx.batchState.state = {
     lbpPoolOperations: [

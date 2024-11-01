@@ -1,7 +1,9 @@
-import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, ManyToOne as ManyToOne_, Index as Index_, IntColumn as IntColumn_, BigIntColumn as BigIntColumn_, DateTimeColumn as DateTimeColumn_, BooleanColumn as BooleanColumn_, OneToMany as OneToMany_} from "@subsquid/typeorm-store"
+import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, ManyToOne as ManyToOne_, Index as Index_, BigIntColumn as BigIntColumn_, DateTimeColumn as DateTimeColumn_, IntColumn as IntColumn_, BooleanColumn as BooleanColumn_, OneToMany as OneToMany_} from "@subsquid/typeorm-store"
 import {Account} from "./account.model"
+import {Asset} from "./asset.model"
 import {LbpPoolHistoricalPrice} from "./lbpPoolHistoricalPrice.model"
 import {LbpPoolHistoricalVolume} from "./lbpPoolHistoricalVolume.model"
+import {LbpPoolHistoricalData} from "./lbpPoolHistoricalData.model"
 import {LbpPoolOperation} from "./lbpPoolOperation.model"
 
 @Entity_()
@@ -18,12 +20,12 @@ export class LbpPool {
     account!: Account
 
     @Index_()
-    @IntColumn_({nullable: false})
-    assetAId!: number
+    @ManyToOne_(() => Asset, {nullable: true})
+    assetA!: Asset
 
     @Index_()
-    @IntColumn_({nullable: false})
-    assetBId!: number
+    @ManyToOne_(() => Asset, {nullable: true})
+    assetB!: Asset
 
     @BigIntColumn_({nullable: false})
     assetABalance!: bigint
@@ -74,6 +76,9 @@ export class LbpPool {
 
     @OneToMany_(() => LbpPoolHistoricalVolume, e => e.pool)
     historicalVolume!: LbpPoolHistoricalVolume[]
+
+    @OneToMany_(() => LbpPoolHistoricalData, e => e.pool)
+    historicalData!: LbpPoolHistoricalData[]
 
     @OneToMany_(() => LbpPoolOperation, e => e.pool)
     operations!: LbpPoolOperation[]

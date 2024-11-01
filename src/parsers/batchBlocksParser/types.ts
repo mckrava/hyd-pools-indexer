@@ -1,4 +1,3 @@
-import { Runtime } from '@subsquid/substrate-runtime';
 import {
   AssetRegistryRegisteredEventParams,
   AssetRegistryUpdatedEventParams,

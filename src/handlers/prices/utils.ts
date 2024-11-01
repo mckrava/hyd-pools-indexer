@@ -20,8 +20,11 @@ export function calculateAveragePrice(
 
   const volume = newVolume.assetAVolumeIn + newVolume.assetAVolumeOut;
 
+  // @ts-ignore
+  const assetAId = swap.pool.assetA ? swap.pool.assetA.id : swap.pool.assetAId;
+
   const price =
-    swap.assetInId === swap.pool.assetAId ? swap.swapPrice : 1 / swap.swapPrice;
+    swap.assetInId === assetAId ? swap.swapPrice : 1 / swap.swapPrice;
 
   const oldPrice = currentVolume?.averagePrice || oldVolume?.averagePrice || 0;
 

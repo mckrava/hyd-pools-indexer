@@ -1,9 +1,4 @@
-import {
-  LbpPoolHistoricalVolume,
-  LbpPoolOperation,
-  LbpPool,
-  HistoricalAssetVolume,
-} from '../model';
+import { LbpPoolOperation } from '../model';
 import type * as base from '@subsquid/substrate-data';
 
 export interface TransferEvent {

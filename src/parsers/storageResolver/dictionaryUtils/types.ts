@@ -1,4 +1,5 @@
 import {
+  LbpPool as LbpPoolGlq,
   OmnipoolAssetDatum,
   Stablepool as StablepoolGql,
   XykPool as XykPoolGlq,
@@ -11,11 +12,12 @@ export type PaginationConfig = {
 
 export type PalletDictionaryCollectedData = {
   pallet: ProcessingPallets;
-  data: StablepoolGql[] | XykPoolGlq[] | OmnipoolAssetDatum[];
+  data: LbpPoolGlq[] | StablepoolGql[] | XykPoolGlq[] | OmnipoolAssetDatum[];
 };
 
 export enum ProcessingPallets {
-  OMNIPOOL = 'OMNIPOOL',
+  LBP = 'LBP',
   XYK = 'XYK',
   STABLESWAP = 'STABLESWAP',
+  OMNIPOOL = 'OMNIPOOL',
 }

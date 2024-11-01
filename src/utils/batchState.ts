@@ -3,6 +3,7 @@ import {
   Asset,
   HistoricalAssetVolume,
   LbpPool,
+  LbpPoolHistoricalData,
   LbpPoolHistoricalPrice,
   LbpPoolHistoricalVolume,
   LbpPoolOperation,
@@ -46,6 +47,11 @@ export type BatchStatePayload = {
   lbpPoolOperations: LbpPoolOperation[];
   lbpPoolVolumes: Map<string, LbpPoolHistoricalVolume>;
   lbpPoolHistoricalPrices: Map<string, LbpPoolHistoricalPrice>;
+  lbpPoolAssetIdsForStoragePrefetch: Map<
+    number,
+    { blockHeader: BlockHeader; ids: Set<string> } // ... ids: Set<"assetAId-assetBId">
+  >;
+  lbpPoolAllHistoricalData: LbpPoolHistoricalData[];
 
   xykPoolIdsToSave: Set<string>;
   xykAllBatchPools: Map<string, XykPool>;
@@ -83,7 +89,7 @@ export type BatchStatePayload = {
   stablepoolBatchLiquidityActions: Map<string, StablepoolLiquidityAction>;
 
   stablepoolAllHistoricalData: Map<string, StablepoolHistoricalData>;
-  stablepoolAssetsAllHistoricalData: StablepoolAssetHistoricalData[];
+  stablepoolAssetsAllHistoricalData: Map<string, StablepoolAssetHistoricalData>;
   stablepoolIdsForStoragePrefetch: Map<
     number,
     { blockHeader: BlockHeader; ids: Set<number> }
@@ -105,6 +111,8 @@ export class BatchState {
     lbpPoolOperations: [],
     lbpPoolVolumes: new Map(),
     lbpPoolHistoricalPrices: new Map(),
+    lbpPoolAssetIdsForStoragePrefetch: new Map(),
+    lbpPoolAllHistoricalData: [],
 
     xykPoolIdsToSave: new Set(),
     xykAllBatchPools: new Map(),
@@ -132,7 +140,7 @@ export class BatchState {
     stablepoolAssetBatchLiquidityAmounts: new Map(),
     stablepoolBatchLiquidityActions: new Map(),
     stablepoolAllHistoricalData: new Map(),
-    stablepoolAssetsAllHistoricalData: [],
+    stablepoolAssetsAllHistoricalData: new Map(),
     stablepoolIdsForStoragePrefetch: new Map(),
   };
 

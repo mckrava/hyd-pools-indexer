@@ -6,6 +6,8 @@ import {
   StablepoolsOrderBy,
   XykPoolFilter,
   XykPoolsOrderBy,
+  LbpPoolFilter,
+  LbpPoolsOrderBy,
 } from './types';
 
 export const GET_OMNIPOOL_BLOCKS_STORAGE_STATE = gql`
@@ -28,6 +30,49 @@ export const GET_OMNIPOOL_BLOCKS_STORAGE_STATE = gql`
         id
         paraChainBlockHeight
         poolAddress
+      }
+      totalCount
+    }
+  }
+`;
+
+export const GET_LBPPOOL_BLOCKS_STORAGE_STATE = gql`
+  query GetLbpPoolBlocksStorageState(
+    $filter: LbpPoolFilter
+    $first: Int!
+    $offset: Int!
+    $orderBy: [LbpPoolsOrderBy!]
+  ) {
+    lbpPools(
+      filter: $filter
+      orderBy: $orderBy
+      first: $first
+      offset: $offset
+    ) {
+      nodes {
+        id
+        poolAddress
+        assetAId
+        assetBId
+        owner
+        repayTarget
+        weightCurve
+        initialWeight
+        finalWeight
+        feeCollector
+        fee
+        start
+        end
+        paraChainBlockHeight
+        lbpPoolAssetsDataByPoolId {
+          nodes {
+            id
+            assetId
+            poolId
+            balances
+            paraChainBlockHeight
+          }
+        }
       }
       totalCount
     }

@@ -1,6 +1,6 @@
 import { Block, ProcessorContext } from '../../processor';
 import { Store } from '@subsquid/typeorm-store';
-import { Asset, LbpPool, XykPool } from '../../model';
+import { XykPool } from '../../model';
 import { getAccount } from '../accounts';
 import { XykPoolCreatedData } from '../../parsers/batchBlocksParser/types';
 import { getAssetBalance } from '../assets/balances';
@@ -75,8 +75,6 @@ export async function xykPoolCreated(
     createdAtParaBlock: eventMetadata.blockHeader.height,
     isDestroyed: false,
   });
-
-  // await ctx.store.save(newPool);
 
   const poolsToSave = ctx.batchState.state.xykPoolIdsToSave;
   poolsToSave.add(newPool.id);

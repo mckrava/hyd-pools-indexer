@@ -9,7 +9,6 @@ import {
 } from '../../../parsers/batchBlocksParser/types';
 import { getAccount } from '../../accounts';
 import {
-  OmnipoolAsset,
   OmnipoolAssetOperation,
   PoolOperationType,
 } from '../../../model';

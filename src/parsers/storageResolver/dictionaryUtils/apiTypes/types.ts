@@ -36,6 +36,32 @@ export type ApiSupportResponse = {
   tradability?: Maybe<Tradability>;
 };
 
+/** A filter to be used against BigFloat fields. All fields are combined with a logical ‘and.’ */
+export type BigFloatFilter = {
+  /** Not equal to the specified value, treating null like an ordinary value. */
+  distinctFrom?: InputMaybe<Scalars['BigFloat']['input']>;
+  /** Equal to the specified value. */
+  equalTo?: InputMaybe<Scalars['BigFloat']['input']>;
+  /** Greater than the specified value. */
+  greaterThan?: InputMaybe<Scalars['BigFloat']['input']>;
+  /** Greater than or equal to the specified value. */
+  greaterThanOrEqualTo?: InputMaybe<Scalars['BigFloat']['input']>;
+  /** Included in the specified list. */
+  in?: InputMaybe<Array<Scalars['BigFloat']['input']>>;
+  /** Is null (if `true` is specified) or is not null (if `false` is specified). */
+  isNull?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Less than the specified value. */
+  lessThan?: InputMaybe<Scalars['BigFloat']['input']>;
+  /** Less than or equal to the specified value. */
+  lessThanOrEqualTo?: InputMaybe<Scalars['BigFloat']['input']>;
+  /** Equal to the specified value, treating null like an ordinary value. */
+  notDistinctFrom?: InputMaybe<Scalars['BigFloat']['input']>;
+  /** Not equal to the specified value. */
+  notEqualTo?: InputMaybe<Scalars['BigFloat']['input']>;
+  /** Not included in the specified list. */
+  notIn?: InputMaybe<Array<Scalars['BigFloat']['input']>>;
+};
+
 /** A filter to be used against BigInt fields. All fields are combined with a logical ‘and.’ */
 export type BigIntFilter = {
   /** Not equal to the specified value, treating null like an ordinary value. */
@@ -60,6 +86,15 @@ export type BigIntFilter = {
   notEqualTo?: InputMaybe<Scalars['BigInt']['input']>;
   /** Not included in the specified list. */
   notIn?: InputMaybe<Array<Scalars['BigInt']['input']>>;
+};
+
+export type HavingBigfloatFilter = {
+  equalTo?: InputMaybe<Scalars['BigFloat']['input']>;
+  greaterThan?: InputMaybe<Scalars['BigFloat']['input']>;
+  greaterThanOrEqualTo?: InputMaybe<Scalars['BigFloat']['input']>;
+  lessThan?: InputMaybe<Scalars['BigFloat']['input']>;
+  lessThanOrEqualTo?: InputMaybe<Scalars['BigFloat']['input']>;
+  notEqualTo?: InputMaybe<Scalars['BigFloat']['input']>;
 };
 
 export type HavingBigintFilter = {
@@ -106,6 +141,46 @@ export type IntFilter = {
   notIn?: InputMaybe<Array<Scalars['Int']['input']>>;
 };
 
+/** A filter to be used against Int List fields. All fields are combined with a logical ‘and.’ */
+export type IntListFilter = {
+  /** Any array item is equal to the specified value. */
+  anyEqualTo?: InputMaybe<Scalars['Int']['input']>;
+  /** Any array item is greater than the specified value. */
+  anyGreaterThan?: InputMaybe<Scalars['Int']['input']>;
+  /** Any array item is greater than or equal to the specified value. */
+  anyGreaterThanOrEqualTo?: InputMaybe<Scalars['Int']['input']>;
+  /** Any array item is less than the specified value. */
+  anyLessThan?: InputMaybe<Scalars['Int']['input']>;
+  /** Any array item is less than or equal to the specified value. */
+  anyLessThanOrEqualTo?: InputMaybe<Scalars['Int']['input']>;
+  /** Any array item is not equal to the specified value. */
+  anyNotEqualTo?: InputMaybe<Scalars['Int']['input']>;
+  /** Contained by the specified list of values. */
+  containedBy?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  /** Contains the specified list of values. */
+  contains?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  /** Not equal to the specified value, treating null like an ordinary value. */
+  distinctFrom?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  /** Equal to the specified value. */
+  equalTo?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  /** Greater than the specified value. */
+  greaterThan?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  /** Greater than or equal to the specified value. */
+  greaterThanOrEqualTo?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  /** Is null (if `true` is specified) or is not null (if `false` is specified). */
+  isNull?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Less than the specified value. */
+  lessThan?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  /** Less than or equal to the specified value. */
+  lessThanOrEqualTo?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  /** Equal to the specified value, treating null like an ordinary value. */
+  notDistinctFrom?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  /** Not equal to the specified value. */
+  notEqualTo?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  /** Overlaps the specified list of values. */
+  overlaps?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+};
+
 /** A filter to be used against JSON fields. All fields are combined with a logical ‘and.’ */
 export type JsonFilter = {
   /** Contained by the specified JSON. */
@@ -141,6 +216,881 @@ export type JsonFilter = {
   /** Not included in the specified list. */
   notIn?: InputMaybe<Array<Scalars['JSON']['input']>>;
 };
+
+export type LbpPool = {
+  __typename?: 'LbpPool';
+  assetAId: Scalars['Int']['output'];
+  assetBId: Scalars['Int']['output'];
+  end?: Maybe<Scalars['Int']['output']>;
+  fee: Array<Maybe<Scalars['Int']['output']>>;
+  feeCollector?: Maybe<Scalars['String']['output']>;
+  finalWeight: Scalars['Int']['output'];
+  id: Scalars['String']['output'];
+  initialWeight: Scalars['Int']['output'];
+  /** Reads and enables pagination through a set of `LbpPoolAssetsDatum`. */
+  lbpPoolAssetsDataByPoolId: LbpPoolAssetsDataConnection;
+  owner: Scalars['String']['output'];
+  paraChainBlockHeight: Scalars['Int']['output'];
+  poolAddress: Scalars['String']['output'];
+  repayTarget: Scalars['BigFloat']['output'];
+  start?: Maybe<Scalars['Int']['output']>;
+  weightCurve: Scalars['String']['output'];
+};
+
+
+export type LbpPoolLbpPoolAssetsDataByPoolIdArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  condition?: InputMaybe<LbpPoolAssetsDatumCondition>;
+  filter?: InputMaybe<LbpPoolAssetsDatumFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<LbpPoolAssetsDataOrderBy>>;
+};
+
+export type LbpPoolAggregates = {
+  __typename?: 'LbpPoolAggregates';
+  /** Mean average aggregates across the matching connection (ignoring before/after/first/last/offset) */
+  average?: Maybe<LbpPoolAverageAggregates>;
+  /** Distinct count aggregates across the matching connection (ignoring before/after/first/last/offset) */
+  distinctCount?: Maybe<LbpPoolDistinctCountAggregates>;
+  keys?: Maybe<Array<Scalars['String']['output']>>;
+  /** Maximum aggregates across the matching connection (ignoring before/after/first/last/offset) */
+  max?: Maybe<LbpPoolMaxAggregates>;
+  /** Minimum aggregates across the matching connection (ignoring before/after/first/last/offset) */
+  min?: Maybe<LbpPoolMinAggregates>;
+  /** Population standard deviation aggregates across the matching connection (ignoring before/after/first/last/offset) */
+  stddevPopulation?: Maybe<LbpPoolStddevPopulationAggregates>;
+  /** Sample standard deviation aggregates across the matching connection (ignoring before/after/first/last/offset) */
+  stddevSample?: Maybe<LbpPoolStddevSampleAggregates>;
+  /** Sum aggregates across the matching connection (ignoring before/after/first/last/offset) */
+  sum?: Maybe<LbpPoolSumAggregates>;
+  /** Population variance aggregates across the matching connection (ignoring before/after/first/last/offset) */
+  variancePopulation?: Maybe<LbpPoolVariancePopulationAggregates>;
+  /** Sample variance aggregates across the matching connection (ignoring before/after/first/last/offset) */
+  varianceSample?: Maybe<LbpPoolVarianceSampleAggregates>;
+};
+
+/** A connection to a list of `LbpPoolAssetsDatum` values. */
+export type LbpPoolAssetsDataConnection = {
+  __typename?: 'LbpPoolAssetsDataConnection';
+  /** Aggregates across the matching connection (ignoring before/after/first/last/offset) */
+  aggregates?: Maybe<LbpPoolAssetsDatumAggregates>;
+  /** A list of edges which contains the `LbpPoolAssetsDatum` and cursor to aid in pagination. */
+  edges: Array<LbpPoolAssetsDataEdge>;
+  /** Grouped aggregates across the matching connection (ignoring before/after/first/last/offset) */
+  groupedAggregates?: Maybe<Array<LbpPoolAssetsDatumAggregates>>;
+  /** A list of `LbpPoolAssetsDatum` objects. */
+  nodes: Array<Maybe<LbpPoolAssetsDatum>>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `LbpPoolAssetsDatum` you could get from the connection. */
+  totalCount: Scalars['Int']['output'];
+};
+
+
+/** A connection to a list of `LbpPoolAssetsDatum` values. */
+export type LbpPoolAssetsDataConnectionGroupedAggregatesArgs = {
+  groupBy: Array<LbpPoolAssetsDataGroupBy>;
+  having?: InputMaybe<LbpPoolAssetsDataHavingInput>;
+};
+
+/** A `LbpPoolAssetsDatum` edge in the connection. */
+export type LbpPoolAssetsDataEdge = {
+  __typename?: 'LbpPoolAssetsDataEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']['output']>;
+  /** The `LbpPoolAssetsDatum` at the end of the edge. */
+  node?: Maybe<LbpPoolAssetsDatum>;
+};
+
+/** Grouping methods for `LbpPoolAssetsDatum` for usage during aggregation. */
+export enum LbpPoolAssetsDataGroupBy {
+  AssetId = 'ASSET_ID',
+  Balances = 'BALANCES',
+  ParaChainBlockHeight = 'PARA_CHAIN_BLOCK_HEIGHT',
+  PoolId = 'POOL_ID'
+}
+
+export type LbpPoolAssetsDataHavingAverageInput = {
+  assetId?: InputMaybe<HavingIntFilter>;
+  paraChainBlockHeight?: InputMaybe<HavingIntFilter>;
+};
+
+export type LbpPoolAssetsDataHavingDistinctCountInput = {
+  assetId?: InputMaybe<HavingIntFilter>;
+  paraChainBlockHeight?: InputMaybe<HavingIntFilter>;
+};
+
+/** Conditions for `LbpPoolAssetsDatum` aggregates. */
+export type LbpPoolAssetsDataHavingInput = {
+  AND?: InputMaybe<Array<LbpPoolAssetsDataHavingInput>>;
+  OR?: InputMaybe<Array<LbpPoolAssetsDataHavingInput>>;
+  average?: InputMaybe<LbpPoolAssetsDataHavingAverageInput>;
+  distinctCount?: InputMaybe<LbpPoolAssetsDataHavingDistinctCountInput>;
+  max?: InputMaybe<LbpPoolAssetsDataHavingMaxInput>;
+  min?: InputMaybe<LbpPoolAssetsDataHavingMinInput>;
+  stddevPopulation?: InputMaybe<LbpPoolAssetsDataHavingStddevPopulationInput>;
+  stddevSample?: InputMaybe<LbpPoolAssetsDataHavingStddevSampleInput>;
+  sum?: InputMaybe<LbpPoolAssetsDataHavingSumInput>;
+  variancePopulation?: InputMaybe<LbpPoolAssetsDataHavingVariancePopulationInput>;
+  varianceSample?: InputMaybe<LbpPoolAssetsDataHavingVarianceSampleInput>;
+};
+
+export type LbpPoolAssetsDataHavingMaxInput = {
+  assetId?: InputMaybe<HavingIntFilter>;
+  paraChainBlockHeight?: InputMaybe<HavingIntFilter>;
+};
+
+export type LbpPoolAssetsDataHavingMinInput = {
+  assetId?: InputMaybe<HavingIntFilter>;
+  paraChainBlockHeight?: InputMaybe<HavingIntFilter>;
+};
+
+export type LbpPoolAssetsDataHavingStddevPopulationInput = {
+  assetId?: InputMaybe<HavingIntFilter>;
+  paraChainBlockHeight?: InputMaybe<HavingIntFilter>;
+};
+
+export type LbpPoolAssetsDataHavingStddevSampleInput = {
+  assetId?: InputMaybe<HavingIntFilter>;
+  paraChainBlockHeight?: InputMaybe<HavingIntFilter>;
+};
+
+export type LbpPoolAssetsDataHavingSumInput = {
+  assetId?: InputMaybe<HavingIntFilter>;
+  paraChainBlockHeight?: InputMaybe<HavingIntFilter>;
+};
+
+export type LbpPoolAssetsDataHavingVariancePopulationInput = {
+  assetId?: InputMaybe<HavingIntFilter>;
+  paraChainBlockHeight?: InputMaybe<HavingIntFilter>;
+};
+
+export type LbpPoolAssetsDataHavingVarianceSampleInput = {
+  assetId?: InputMaybe<HavingIntFilter>;
+  paraChainBlockHeight?: InputMaybe<HavingIntFilter>;
+};
+
+/** Methods to use when ordering `LbpPoolAssetsDatum`. */
+export enum LbpPoolAssetsDataOrderBy {
+  AssetIdAsc = 'ASSET_ID_ASC',
+  AssetIdDesc = 'ASSET_ID_DESC',
+  BalancesAsc = 'BALANCES_ASC',
+  BalancesDesc = 'BALANCES_DESC',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  Natural = 'NATURAL',
+  ParaChainBlockHeightAsc = 'PARA_CHAIN_BLOCK_HEIGHT_ASC',
+  ParaChainBlockHeightDesc = 'PARA_CHAIN_BLOCK_HEIGHT_DESC',
+  PoolIdAsc = 'POOL_ID_ASC',
+  PoolIdDesc = 'POOL_ID_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+export type LbpPoolAssetsDatum = {
+  __typename?: 'LbpPoolAssetsDatum';
+  assetId: Scalars['Int']['output'];
+  balances: Scalars['JSON']['output'];
+  id: Scalars['String']['output'];
+  paraChainBlockHeight: Scalars['Int']['output'];
+  /** Reads a single `LbpPool` that is related to this `LbpPoolAssetsDatum`. */
+  pool?: Maybe<LbpPool>;
+  poolId?: Maybe<Scalars['String']['output']>;
+};
+
+export type LbpPoolAssetsDatumAggregates = {
+  __typename?: 'LbpPoolAssetsDatumAggregates';
+  /** Mean average aggregates across the matching connection (ignoring before/after/first/last/offset) */
+  average?: Maybe<LbpPoolAssetsDatumAverageAggregates>;
+  /** Distinct count aggregates across the matching connection (ignoring before/after/first/last/offset) */
+  distinctCount?: Maybe<LbpPoolAssetsDatumDistinctCountAggregates>;
+  keys?: Maybe<Array<Scalars['String']['output']>>;
+  /** Maximum aggregates across the matching connection (ignoring before/after/first/last/offset) */
+  max?: Maybe<LbpPoolAssetsDatumMaxAggregates>;
+  /** Minimum aggregates across the matching connection (ignoring before/after/first/last/offset) */
+  min?: Maybe<LbpPoolAssetsDatumMinAggregates>;
+  /** Population standard deviation aggregates across the matching connection (ignoring before/after/first/last/offset) */
+  stddevPopulation?: Maybe<LbpPoolAssetsDatumStddevPopulationAggregates>;
+  /** Sample standard deviation aggregates across the matching connection (ignoring before/after/first/last/offset) */
+  stddevSample?: Maybe<LbpPoolAssetsDatumStddevSampleAggregates>;
+  /** Sum aggregates across the matching connection (ignoring before/after/first/last/offset) */
+  sum?: Maybe<LbpPoolAssetsDatumSumAggregates>;
+  /** Population variance aggregates across the matching connection (ignoring before/after/first/last/offset) */
+  variancePopulation?: Maybe<LbpPoolAssetsDatumVariancePopulationAggregates>;
+  /** Sample variance aggregates across the matching connection (ignoring before/after/first/last/offset) */
+  varianceSample?: Maybe<LbpPoolAssetsDatumVarianceSampleAggregates>;
+};
+
+export type LbpPoolAssetsDatumAverageAggregates = {
+  __typename?: 'LbpPoolAssetsDatumAverageAggregates';
+  /** Mean average of assetId across the matching connection */
+  assetId?: Maybe<Scalars['BigFloat']['output']>;
+  /** Mean average of paraChainBlockHeight across the matching connection */
+  paraChainBlockHeight?: Maybe<Scalars['BigFloat']['output']>;
+};
+
+/**
+ * A condition to be used against `LbpPoolAssetsDatum` object types. All fields are
+ * tested for equality and combined with a logical ‘and.’
+ */
+export type LbpPoolAssetsDatumCondition = {
+  /** Checks for equality with the object’s `assetId` field. */
+  assetId?: InputMaybe<Scalars['Int']['input']>;
+  /** Checks for equality with the object’s `balances` field. */
+  balances?: InputMaybe<Scalars['JSON']['input']>;
+  /** Checks for equality with the object’s `id` field. */
+  id?: InputMaybe<Scalars['String']['input']>;
+  /** Checks for equality with the object’s `paraChainBlockHeight` field. */
+  paraChainBlockHeight?: InputMaybe<Scalars['Int']['input']>;
+  /** Checks for equality with the object’s `poolId` field. */
+  poolId?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type LbpPoolAssetsDatumDistinctCountAggregates = {
+  __typename?: 'LbpPoolAssetsDatumDistinctCountAggregates';
+  /** Distinct count of assetId across the matching connection */
+  assetId?: Maybe<Scalars['BigInt']['output']>;
+  /** Distinct count of balances across the matching connection */
+  balances?: Maybe<Scalars['BigInt']['output']>;
+  /** Distinct count of id across the matching connection */
+  id?: Maybe<Scalars['BigInt']['output']>;
+  /** Distinct count of paraChainBlockHeight across the matching connection */
+  paraChainBlockHeight?: Maybe<Scalars['BigInt']['output']>;
+  /** Distinct count of poolId across the matching connection */
+  poolId?: Maybe<Scalars['BigInt']['output']>;
+};
+
+/** A filter to be used against `LbpPoolAssetsDatum` object types. All fields are combined with a logical ‘and.’ */
+export type LbpPoolAssetsDatumFilter = {
+  /** Checks for all expressions in this list. */
+  and?: InputMaybe<Array<LbpPoolAssetsDatumFilter>>;
+  /** Filter by the object’s `assetId` field. */
+  assetId?: InputMaybe<IntFilter>;
+  /** Filter by the object’s `balances` field. */
+  balances?: InputMaybe<JsonFilter>;
+  /** Filter by the object’s `id` field. */
+  id?: InputMaybe<StringFilter>;
+  /** Negates the expression. */
+  not?: InputMaybe<LbpPoolAssetsDatumFilter>;
+  /** Checks for any expressions in this list. */
+  or?: InputMaybe<Array<LbpPoolAssetsDatumFilter>>;
+  /** Filter by the object’s `paraChainBlockHeight` field. */
+  paraChainBlockHeight?: InputMaybe<IntFilter>;
+  /** Filter by the object’s `poolId` field. */
+  poolId?: InputMaybe<StringFilter>;
+};
+
+export type LbpPoolAssetsDatumMaxAggregates = {
+  __typename?: 'LbpPoolAssetsDatumMaxAggregates';
+  /** Maximum of assetId across the matching connection */
+  assetId?: Maybe<Scalars['Int']['output']>;
+  /** Maximum of paraChainBlockHeight across the matching connection */
+  paraChainBlockHeight?: Maybe<Scalars['Int']['output']>;
+};
+
+export type LbpPoolAssetsDatumMinAggregates = {
+  __typename?: 'LbpPoolAssetsDatumMinAggregates';
+  /** Minimum of assetId across the matching connection */
+  assetId?: Maybe<Scalars['Int']['output']>;
+  /** Minimum of paraChainBlockHeight across the matching connection */
+  paraChainBlockHeight?: Maybe<Scalars['Int']['output']>;
+};
+
+export type LbpPoolAssetsDatumStddevPopulationAggregates = {
+  __typename?: 'LbpPoolAssetsDatumStddevPopulationAggregates';
+  /** Population standard deviation of assetId across the matching connection */
+  assetId?: Maybe<Scalars['BigFloat']['output']>;
+  /** Population standard deviation of paraChainBlockHeight across the matching connection */
+  paraChainBlockHeight?: Maybe<Scalars['BigFloat']['output']>;
+};
+
+export type LbpPoolAssetsDatumStddevSampleAggregates = {
+  __typename?: 'LbpPoolAssetsDatumStddevSampleAggregates';
+  /** Sample standard deviation of assetId across the matching connection */
+  assetId?: Maybe<Scalars['BigFloat']['output']>;
+  /** Sample standard deviation of paraChainBlockHeight across the matching connection */
+  paraChainBlockHeight?: Maybe<Scalars['BigFloat']['output']>;
+};
+
+export type LbpPoolAssetsDatumSumAggregates = {
+  __typename?: 'LbpPoolAssetsDatumSumAggregates';
+  /** Sum of assetId across the matching connection */
+  assetId: Scalars['BigInt']['output'];
+  /** Sum of paraChainBlockHeight across the matching connection */
+  paraChainBlockHeight: Scalars['BigInt']['output'];
+};
+
+export type LbpPoolAssetsDatumVariancePopulationAggregates = {
+  __typename?: 'LbpPoolAssetsDatumVariancePopulationAggregates';
+  /** Population variance of assetId across the matching connection */
+  assetId?: Maybe<Scalars['BigFloat']['output']>;
+  /** Population variance of paraChainBlockHeight across the matching connection */
+  paraChainBlockHeight?: Maybe<Scalars['BigFloat']['output']>;
+};
+
+export type LbpPoolAssetsDatumVarianceSampleAggregates = {
+  __typename?: 'LbpPoolAssetsDatumVarianceSampleAggregates';
+  /** Sample variance of assetId across the matching connection */
+  assetId?: Maybe<Scalars['BigFloat']['output']>;
+  /** Sample variance of paraChainBlockHeight across the matching connection */
+  paraChainBlockHeight?: Maybe<Scalars['BigFloat']['output']>;
+};
+
+export type LbpPoolAverageAggregates = {
+  __typename?: 'LbpPoolAverageAggregates';
+  /** Mean average of assetAId across the matching connection */
+  assetAId?: Maybe<Scalars['BigFloat']['output']>;
+  /** Mean average of assetBId across the matching connection */
+  assetBId?: Maybe<Scalars['BigFloat']['output']>;
+  /** Mean average of end across the matching connection */
+  end?: Maybe<Scalars['BigFloat']['output']>;
+  /** Mean average of finalWeight across the matching connection */
+  finalWeight?: Maybe<Scalars['BigFloat']['output']>;
+  /** Mean average of initialWeight across the matching connection */
+  initialWeight?: Maybe<Scalars['BigFloat']['output']>;
+  /** Mean average of paraChainBlockHeight across the matching connection */
+  paraChainBlockHeight?: Maybe<Scalars['BigFloat']['output']>;
+  /** Mean average of repayTarget across the matching connection */
+  repayTarget?: Maybe<Scalars['BigFloat']['output']>;
+  /** Mean average of start across the matching connection */
+  start?: Maybe<Scalars['BigFloat']['output']>;
+};
+
+/** A condition to be used against `LbpPool` object types. All fields are tested for equality and combined with a logical ‘and.’ */
+export type LbpPoolCondition = {
+  /** Checks for equality with the object’s `assetAId` field. */
+  assetAId?: InputMaybe<Scalars['Int']['input']>;
+  /** Checks for equality with the object’s `assetBId` field. */
+  assetBId?: InputMaybe<Scalars['Int']['input']>;
+  /** Checks for equality with the object’s `end` field. */
+  end?: InputMaybe<Scalars['Int']['input']>;
+  /** Checks for equality with the object’s `fee` field. */
+  fee?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  /** Checks for equality with the object’s `feeCollector` field. */
+  feeCollector?: InputMaybe<Scalars['String']['input']>;
+  /** Checks for equality with the object’s `finalWeight` field. */
+  finalWeight?: InputMaybe<Scalars['Int']['input']>;
+  /** Checks for equality with the object’s `id` field. */
+  id?: InputMaybe<Scalars['String']['input']>;
+  /** Checks for equality with the object’s `initialWeight` field. */
+  initialWeight?: InputMaybe<Scalars['Int']['input']>;
+  /** Checks for equality with the object’s `owner` field. */
+  owner?: InputMaybe<Scalars['String']['input']>;
+  /** Checks for equality with the object’s `paraChainBlockHeight` field. */
+  paraChainBlockHeight?: InputMaybe<Scalars['Int']['input']>;
+  /** Checks for equality with the object’s `poolAddress` field. */
+  poolAddress?: InputMaybe<Scalars['String']['input']>;
+  /** Checks for equality with the object’s `repayTarget` field. */
+  repayTarget?: InputMaybe<Scalars['BigFloat']['input']>;
+  /** Checks for equality with the object’s `start` field. */
+  start?: InputMaybe<Scalars['Int']['input']>;
+  /** Checks for equality with the object’s `weightCurve` field. */
+  weightCurve?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type LbpPoolDistinctCountAggregates = {
+  __typename?: 'LbpPoolDistinctCountAggregates';
+  /** Distinct count of assetAId across the matching connection */
+  assetAId?: Maybe<Scalars['BigInt']['output']>;
+  /** Distinct count of assetBId across the matching connection */
+  assetBId?: Maybe<Scalars['BigInt']['output']>;
+  /** Distinct count of end across the matching connection */
+  end?: Maybe<Scalars['BigInt']['output']>;
+  /** Distinct count of fee across the matching connection */
+  fee?: Maybe<Scalars['BigInt']['output']>;
+  /** Distinct count of feeCollector across the matching connection */
+  feeCollector?: Maybe<Scalars['BigInt']['output']>;
+  /** Distinct count of finalWeight across the matching connection */
+  finalWeight?: Maybe<Scalars['BigInt']['output']>;
+  /** Distinct count of id across the matching connection */
+  id?: Maybe<Scalars['BigInt']['output']>;
+  /** Distinct count of initialWeight across the matching connection */
+  initialWeight?: Maybe<Scalars['BigInt']['output']>;
+  /** Distinct count of owner across the matching connection */
+  owner?: Maybe<Scalars['BigInt']['output']>;
+  /** Distinct count of paraChainBlockHeight across the matching connection */
+  paraChainBlockHeight?: Maybe<Scalars['BigInt']['output']>;
+  /** Distinct count of poolAddress across the matching connection */
+  poolAddress?: Maybe<Scalars['BigInt']['output']>;
+  /** Distinct count of repayTarget across the matching connection */
+  repayTarget?: Maybe<Scalars['BigInt']['output']>;
+  /** Distinct count of start across the matching connection */
+  start?: Maybe<Scalars['BigInt']['output']>;
+  /** Distinct count of weightCurve across the matching connection */
+  weightCurve?: Maybe<Scalars['BigInt']['output']>;
+};
+
+/** A filter to be used against `LbpPool` object types. All fields are combined with a logical ‘and.’ */
+export type LbpPoolFilter = {
+  /** Checks for all expressions in this list. */
+  and?: InputMaybe<Array<LbpPoolFilter>>;
+  /** Filter by the object’s `assetAId` field. */
+  assetAId?: InputMaybe<IntFilter>;
+  /** Filter by the object’s `assetBId` field. */
+  assetBId?: InputMaybe<IntFilter>;
+  /** Filter by the object’s `end` field. */
+  end?: InputMaybe<IntFilter>;
+  /** Filter by the object’s `fee` field. */
+  fee?: InputMaybe<IntListFilter>;
+  /** Filter by the object’s `feeCollector` field. */
+  feeCollector?: InputMaybe<StringFilter>;
+  /** Filter by the object’s `finalWeight` field. */
+  finalWeight?: InputMaybe<IntFilter>;
+  /** Filter by the object’s `id` field. */
+  id?: InputMaybe<StringFilter>;
+  /** Filter by the object’s `initialWeight` field. */
+  initialWeight?: InputMaybe<IntFilter>;
+  /** Negates the expression. */
+  not?: InputMaybe<LbpPoolFilter>;
+  /** Checks for any expressions in this list. */
+  or?: InputMaybe<Array<LbpPoolFilter>>;
+  /** Filter by the object’s `owner` field. */
+  owner?: InputMaybe<StringFilter>;
+  /** Filter by the object’s `paraChainBlockHeight` field. */
+  paraChainBlockHeight?: InputMaybe<IntFilter>;
+  /** Filter by the object’s `poolAddress` field. */
+  poolAddress?: InputMaybe<StringFilter>;
+  /** Filter by the object’s `repayTarget` field. */
+  repayTarget?: InputMaybe<BigFloatFilter>;
+  /** Filter by the object’s `start` field. */
+  start?: InputMaybe<IntFilter>;
+  /** Filter by the object’s `weightCurve` field. */
+  weightCurve?: InputMaybe<StringFilter>;
+};
+
+/** Grouping methods for `LbpPool` for usage during aggregation. */
+export enum LbpPoolGroupBy {
+  AssetAId = 'ASSET_A_ID',
+  AssetBId = 'ASSET_B_ID',
+  End = 'END',
+  Fee = 'FEE',
+  FeeCollector = 'FEE_COLLECTOR',
+  FinalWeight = 'FINAL_WEIGHT',
+  InitialWeight = 'INITIAL_WEIGHT',
+  Owner = 'OWNER',
+  ParaChainBlockHeight = 'PARA_CHAIN_BLOCK_HEIGHT',
+  PoolAddress = 'POOL_ADDRESS',
+  RepayTarget = 'REPAY_TARGET',
+  Start = 'START',
+  WeightCurve = 'WEIGHT_CURVE'
+}
+
+export type LbpPoolHavingAverageInput = {
+  assetAId?: InputMaybe<HavingIntFilter>;
+  assetBId?: InputMaybe<HavingIntFilter>;
+  end?: InputMaybe<HavingIntFilter>;
+  finalWeight?: InputMaybe<HavingIntFilter>;
+  initialWeight?: InputMaybe<HavingIntFilter>;
+  paraChainBlockHeight?: InputMaybe<HavingIntFilter>;
+  repayTarget?: InputMaybe<HavingBigfloatFilter>;
+  start?: InputMaybe<HavingIntFilter>;
+};
+
+export type LbpPoolHavingDistinctCountInput = {
+  assetAId?: InputMaybe<HavingIntFilter>;
+  assetBId?: InputMaybe<HavingIntFilter>;
+  end?: InputMaybe<HavingIntFilter>;
+  finalWeight?: InputMaybe<HavingIntFilter>;
+  initialWeight?: InputMaybe<HavingIntFilter>;
+  paraChainBlockHeight?: InputMaybe<HavingIntFilter>;
+  repayTarget?: InputMaybe<HavingBigfloatFilter>;
+  start?: InputMaybe<HavingIntFilter>;
+};
+
+/** Conditions for `LbpPool` aggregates. */
+export type LbpPoolHavingInput = {
+  AND?: InputMaybe<Array<LbpPoolHavingInput>>;
+  OR?: InputMaybe<Array<LbpPoolHavingInput>>;
+  average?: InputMaybe<LbpPoolHavingAverageInput>;
+  distinctCount?: InputMaybe<LbpPoolHavingDistinctCountInput>;
+  max?: InputMaybe<LbpPoolHavingMaxInput>;
+  min?: InputMaybe<LbpPoolHavingMinInput>;
+  stddevPopulation?: InputMaybe<LbpPoolHavingStddevPopulationInput>;
+  stddevSample?: InputMaybe<LbpPoolHavingStddevSampleInput>;
+  sum?: InputMaybe<LbpPoolHavingSumInput>;
+  variancePopulation?: InputMaybe<LbpPoolHavingVariancePopulationInput>;
+  varianceSample?: InputMaybe<LbpPoolHavingVarianceSampleInput>;
+};
+
+export type LbpPoolHavingMaxInput = {
+  assetAId?: InputMaybe<HavingIntFilter>;
+  assetBId?: InputMaybe<HavingIntFilter>;
+  end?: InputMaybe<HavingIntFilter>;
+  finalWeight?: InputMaybe<HavingIntFilter>;
+  initialWeight?: InputMaybe<HavingIntFilter>;
+  paraChainBlockHeight?: InputMaybe<HavingIntFilter>;
+  repayTarget?: InputMaybe<HavingBigfloatFilter>;
+  start?: InputMaybe<HavingIntFilter>;
+};
+
+export type LbpPoolHavingMinInput = {
+  assetAId?: InputMaybe<HavingIntFilter>;
+  assetBId?: InputMaybe<HavingIntFilter>;
+  end?: InputMaybe<HavingIntFilter>;
+  finalWeight?: InputMaybe<HavingIntFilter>;
+  initialWeight?: InputMaybe<HavingIntFilter>;
+  paraChainBlockHeight?: InputMaybe<HavingIntFilter>;
+  repayTarget?: InputMaybe<HavingBigfloatFilter>;
+  start?: InputMaybe<HavingIntFilter>;
+};
+
+export type LbpPoolHavingStddevPopulationInput = {
+  assetAId?: InputMaybe<HavingIntFilter>;
+  assetBId?: InputMaybe<HavingIntFilter>;
+  end?: InputMaybe<HavingIntFilter>;
+  finalWeight?: InputMaybe<HavingIntFilter>;
+  initialWeight?: InputMaybe<HavingIntFilter>;
+  paraChainBlockHeight?: InputMaybe<HavingIntFilter>;
+  repayTarget?: InputMaybe<HavingBigfloatFilter>;
+  start?: InputMaybe<HavingIntFilter>;
+};
+
+export type LbpPoolHavingStddevSampleInput = {
+  assetAId?: InputMaybe<HavingIntFilter>;
+  assetBId?: InputMaybe<HavingIntFilter>;
+  end?: InputMaybe<HavingIntFilter>;
+  finalWeight?: InputMaybe<HavingIntFilter>;
+  initialWeight?: InputMaybe<HavingIntFilter>;
+  paraChainBlockHeight?: InputMaybe<HavingIntFilter>;
+  repayTarget?: InputMaybe<HavingBigfloatFilter>;
+  start?: InputMaybe<HavingIntFilter>;
+};
+
+export type LbpPoolHavingSumInput = {
+  assetAId?: InputMaybe<HavingIntFilter>;
+  assetBId?: InputMaybe<HavingIntFilter>;
+  end?: InputMaybe<HavingIntFilter>;
+  finalWeight?: InputMaybe<HavingIntFilter>;
+  initialWeight?: InputMaybe<HavingIntFilter>;
+  paraChainBlockHeight?: InputMaybe<HavingIntFilter>;
+  repayTarget?: InputMaybe<HavingBigfloatFilter>;
+  start?: InputMaybe<HavingIntFilter>;
+};
+
+export type LbpPoolHavingVariancePopulationInput = {
+  assetAId?: InputMaybe<HavingIntFilter>;
+  assetBId?: InputMaybe<HavingIntFilter>;
+  end?: InputMaybe<HavingIntFilter>;
+  finalWeight?: InputMaybe<HavingIntFilter>;
+  initialWeight?: InputMaybe<HavingIntFilter>;
+  paraChainBlockHeight?: InputMaybe<HavingIntFilter>;
+  repayTarget?: InputMaybe<HavingBigfloatFilter>;
+  start?: InputMaybe<HavingIntFilter>;
+};
+
+export type LbpPoolHavingVarianceSampleInput = {
+  assetAId?: InputMaybe<HavingIntFilter>;
+  assetBId?: InputMaybe<HavingIntFilter>;
+  end?: InputMaybe<HavingIntFilter>;
+  finalWeight?: InputMaybe<HavingIntFilter>;
+  initialWeight?: InputMaybe<HavingIntFilter>;
+  paraChainBlockHeight?: InputMaybe<HavingIntFilter>;
+  repayTarget?: InputMaybe<HavingBigfloatFilter>;
+  start?: InputMaybe<HavingIntFilter>;
+};
+
+export type LbpPoolMaxAggregates = {
+  __typename?: 'LbpPoolMaxAggregates';
+  /** Maximum of assetAId across the matching connection */
+  assetAId?: Maybe<Scalars['Int']['output']>;
+  /** Maximum of assetBId across the matching connection */
+  assetBId?: Maybe<Scalars['Int']['output']>;
+  /** Maximum of end across the matching connection */
+  end?: Maybe<Scalars['Int']['output']>;
+  /** Maximum of finalWeight across the matching connection */
+  finalWeight?: Maybe<Scalars['Int']['output']>;
+  /** Maximum of initialWeight across the matching connection */
+  initialWeight?: Maybe<Scalars['Int']['output']>;
+  /** Maximum of paraChainBlockHeight across the matching connection */
+  paraChainBlockHeight?: Maybe<Scalars['Int']['output']>;
+  /** Maximum of repayTarget across the matching connection */
+  repayTarget?: Maybe<Scalars['BigFloat']['output']>;
+  /** Maximum of start across the matching connection */
+  start?: Maybe<Scalars['Int']['output']>;
+};
+
+export type LbpPoolMinAggregates = {
+  __typename?: 'LbpPoolMinAggregates';
+  /** Minimum of assetAId across the matching connection */
+  assetAId?: Maybe<Scalars['Int']['output']>;
+  /** Minimum of assetBId across the matching connection */
+  assetBId?: Maybe<Scalars['Int']['output']>;
+  /** Minimum of end across the matching connection */
+  end?: Maybe<Scalars['Int']['output']>;
+  /** Minimum of finalWeight across the matching connection */
+  finalWeight?: Maybe<Scalars['Int']['output']>;
+  /** Minimum of initialWeight across the matching connection */
+  initialWeight?: Maybe<Scalars['Int']['output']>;
+  /** Minimum of paraChainBlockHeight across the matching connection */
+  paraChainBlockHeight?: Maybe<Scalars['Int']['output']>;
+  /** Minimum of repayTarget across the matching connection */
+  repayTarget?: Maybe<Scalars['BigFloat']['output']>;
+  /** Minimum of start across the matching connection */
+  start?: Maybe<Scalars['Int']['output']>;
+};
+
+export type LbpPoolStddevPopulationAggregates = {
+  __typename?: 'LbpPoolStddevPopulationAggregates';
+  /** Population standard deviation of assetAId across the matching connection */
+  assetAId?: Maybe<Scalars['BigFloat']['output']>;
+  /** Population standard deviation of assetBId across the matching connection */
+  assetBId?: Maybe<Scalars['BigFloat']['output']>;
+  /** Population standard deviation of end across the matching connection */
+  end?: Maybe<Scalars['BigFloat']['output']>;
+  /** Population standard deviation of finalWeight across the matching connection */
+  finalWeight?: Maybe<Scalars['BigFloat']['output']>;
+  /** Population standard deviation of initialWeight across the matching connection */
+  initialWeight?: Maybe<Scalars['BigFloat']['output']>;
+  /** Population standard deviation of paraChainBlockHeight across the matching connection */
+  paraChainBlockHeight?: Maybe<Scalars['BigFloat']['output']>;
+  /** Population standard deviation of repayTarget across the matching connection */
+  repayTarget?: Maybe<Scalars['BigFloat']['output']>;
+  /** Population standard deviation of start across the matching connection */
+  start?: Maybe<Scalars['BigFloat']['output']>;
+};
+
+export type LbpPoolStddevSampleAggregates = {
+  __typename?: 'LbpPoolStddevSampleAggregates';
+  /** Sample standard deviation of assetAId across the matching connection */
+  assetAId?: Maybe<Scalars['BigFloat']['output']>;
+  /** Sample standard deviation of assetBId across the matching connection */
+  assetBId?: Maybe<Scalars['BigFloat']['output']>;
+  /** Sample standard deviation of end across the matching connection */
+  end?: Maybe<Scalars['BigFloat']['output']>;
+  /** Sample standard deviation of finalWeight across the matching connection */
+  finalWeight?: Maybe<Scalars['BigFloat']['output']>;
+  /** Sample standard deviation of initialWeight across the matching connection */
+  initialWeight?: Maybe<Scalars['BigFloat']['output']>;
+  /** Sample standard deviation of paraChainBlockHeight across the matching connection */
+  paraChainBlockHeight?: Maybe<Scalars['BigFloat']['output']>;
+  /** Sample standard deviation of repayTarget across the matching connection */
+  repayTarget?: Maybe<Scalars['BigFloat']['output']>;
+  /** Sample standard deviation of start across the matching connection */
+  start?: Maybe<Scalars['BigFloat']['output']>;
+};
+
+export type LbpPoolSumAggregates = {
+  __typename?: 'LbpPoolSumAggregates';
+  /** Sum of assetAId across the matching connection */
+  assetAId: Scalars['BigInt']['output'];
+  /** Sum of assetBId across the matching connection */
+  assetBId: Scalars['BigInt']['output'];
+  /** Sum of end across the matching connection */
+  end: Scalars['BigInt']['output'];
+  /** Sum of finalWeight across the matching connection */
+  finalWeight: Scalars['BigInt']['output'];
+  /** Sum of initialWeight across the matching connection */
+  initialWeight: Scalars['BigInt']['output'];
+  /** Sum of paraChainBlockHeight across the matching connection */
+  paraChainBlockHeight: Scalars['BigInt']['output'];
+  /** Sum of repayTarget across the matching connection */
+  repayTarget: Scalars['BigFloat']['output'];
+  /** Sum of start across the matching connection */
+  start: Scalars['BigInt']['output'];
+};
+
+export type LbpPoolVariancePopulationAggregates = {
+  __typename?: 'LbpPoolVariancePopulationAggregates';
+  /** Population variance of assetAId across the matching connection */
+  assetAId?: Maybe<Scalars['BigFloat']['output']>;
+  /** Population variance of assetBId across the matching connection */
+  assetBId?: Maybe<Scalars['BigFloat']['output']>;
+  /** Population variance of end across the matching connection */
+  end?: Maybe<Scalars['BigFloat']['output']>;
+  /** Population variance of finalWeight across the matching connection */
+  finalWeight?: Maybe<Scalars['BigFloat']['output']>;
+  /** Population variance of initialWeight across the matching connection */
+  initialWeight?: Maybe<Scalars['BigFloat']['output']>;
+  /** Population variance of paraChainBlockHeight across the matching connection */
+  paraChainBlockHeight?: Maybe<Scalars['BigFloat']['output']>;
+  /** Population variance of repayTarget across the matching connection */
+  repayTarget?: Maybe<Scalars['BigFloat']['output']>;
+  /** Population variance of start across the matching connection */
+  start?: Maybe<Scalars['BigFloat']['output']>;
+};
+
+export type LbpPoolVarianceSampleAggregates = {
+  __typename?: 'LbpPoolVarianceSampleAggregates';
+  /** Sample variance of assetAId across the matching connection */
+  assetAId?: Maybe<Scalars['BigFloat']['output']>;
+  /** Sample variance of assetBId across the matching connection */
+  assetBId?: Maybe<Scalars['BigFloat']['output']>;
+  /** Sample variance of end across the matching connection */
+  end?: Maybe<Scalars['BigFloat']['output']>;
+  /** Sample variance of finalWeight across the matching connection */
+  finalWeight?: Maybe<Scalars['BigFloat']['output']>;
+  /** Sample variance of initialWeight across the matching connection */
+  initialWeight?: Maybe<Scalars['BigFloat']['output']>;
+  /** Sample variance of paraChainBlockHeight across the matching connection */
+  paraChainBlockHeight?: Maybe<Scalars['BigFloat']['output']>;
+  /** Sample variance of repayTarget across the matching connection */
+  repayTarget?: Maybe<Scalars['BigFloat']['output']>;
+  /** Sample variance of start across the matching connection */
+  start?: Maybe<Scalars['BigFloat']['output']>;
+};
+
+/** A connection to a list of `LbpPool` values. */
+export type LbpPoolsConnection = {
+  __typename?: 'LbpPoolsConnection';
+  /** Aggregates across the matching connection (ignoring before/after/first/last/offset) */
+  aggregates?: Maybe<LbpPoolAggregates>;
+  /** A list of edges which contains the `LbpPool` and cursor to aid in pagination. */
+  edges: Array<LbpPoolsEdge>;
+  /** Grouped aggregates across the matching connection (ignoring before/after/first/last/offset) */
+  groupedAggregates?: Maybe<Array<LbpPoolAggregates>>;
+  /** A list of `LbpPool` objects. */
+  nodes: Array<Maybe<LbpPool>>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `LbpPool` you could get from the connection. */
+  totalCount: Scalars['Int']['output'];
+};
+
+
+/** A connection to a list of `LbpPool` values. */
+export type LbpPoolsConnectionGroupedAggregatesArgs = {
+  groupBy: Array<LbpPoolGroupBy>;
+  having?: InputMaybe<LbpPoolHavingInput>;
+};
+
+/** A `LbpPool` edge in the connection. */
+export type LbpPoolsEdge = {
+  __typename?: 'LbpPoolsEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']['output']>;
+  /** The `LbpPool` at the end of the edge. */
+  node?: Maybe<LbpPool>;
+};
+
+/** Methods to use when ordering `LbpPool`. */
+export enum LbpPoolsOrderBy {
+  AssetAIdAsc = 'ASSET_A_ID_ASC',
+  AssetAIdDesc = 'ASSET_A_ID_DESC',
+  AssetBIdAsc = 'ASSET_B_ID_ASC',
+  AssetBIdDesc = 'ASSET_B_ID_DESC',
+  EndAsc = 'END_ASC',
+  EndDesc = 'END_DESC',
+  FeeAsc = 'FEE_ASC',
+  FeeCollectorAsc = 'FEE_COLLECTOR_ASC',
+  FeeCollectorDesc = 'FEE_COLLECTOR_DESC',
+  FeeDesc = 'FEE_DESC',
+  FinalWeightAsc = 'FINAL_WEIGHT_ASC',
+  FinalWeightDesc = 'FINAL_WEIGHT_DESC',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  InitialWeightAsc = 'INITIAL_WEIGHT_ASC',
+  InitialWeightDesc = 'INITIAL_WEIGHT_DESC',
+  LbpPoolAssetsDataByPoolIdAverageAssetIdAsc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_AVERAGE_ASSET_ID_ASC',
+  LbpPoolAssetsDataByPoolIdAverageAssetIdDesc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_AVERAGE_ASSET_ID_DESC',
+  LbpPoolAssetsDataByPoolIdAverageBalancesAsc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_AVERAGE_BALANCES_ASC',
+  LbpPoolAssetsDataByPoolIdAverageBalancesDesc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_AVERAGE_BALANCES_DESC',
+  LbpPoolAssetsDataByPoolIdAverageIdAsc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_AVERAGE_ID_ASC',
+  LbpPoolAssetsDataByPoolIdAverageIdDesc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_AVERAGE_ID_DESC',
+  LbpPoolAssetsDataByPoolIdAverageParaChainBlockHeightAsc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_AVERAGE_PARA_CHAIN_BLOCK_HEIGHT_ASC',
+  LbpPoolAssetsDataByPoolIdAverageParaChainBlockHeightDesc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_AVERAGE_PARA_CHAIN_BLOCK_HEIGHT_DESC',
+  LbpPoolAssetsDataByPoolIdAveragePoolIdAsc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_AVERAGE_POOL_ID_ASC',
+  LbpPoolAssetsDataByPoolIdAveragePoolIdDesc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_AVERAGE_POOL_ID_DESC',
+  LbpPoolAssetsDataByPoolIdCountAsc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_COUNT_ASC',
+  LbpPoolAssetsDataByPoolIdCountDesc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_COUNT_DESC',
+  LbpPoolAssetsDataByPoolIdDistinctCountAssetIdAsc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_DISTINCT_COUNT_ASSET_ID_ASC',
+  LbpPoolAssetsDataByPoolIdDistinctCountAssetIdDesc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_DISTINCT_COUNT_ASSET_ID_DESC',
+  LbpPoolAssetsDataByPoolIdDistinctCountBalancesAsc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_DISTINCT_COUNT_BALANCES_ASC',
+  LbpPoolAssetsDataByPoolIdDistinctCountBalancesDesc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_DISTINCT_COUNT_BALANCES_DESC',
+  LbpPoolAssetsDataByPoolIdDistinctCountIdAsc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_DISTINCT_COUNT_ID_ASC',
+  LbpPoolAssetsDataByPoolIdDistinctCountIdDesc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_DISTINCT_COUNT_ID_DESC',
+  LbpPoolAssetsDataByPoolIdDistinctCountParaChainBlockHeightAsc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_DISTINCT_COUNT_PARA_CHAIN_BLOCK_HEIGHT_ASC',
+  LbpPoolAssetsDataByPoolIdDistinctCountParaChainBlockHeightDesc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_DISTINCT_COUNT_PARA_CHAIN_BLOCK_HEIGHT_DESC',
+  LbpPoolAssetsDataByPoolIdDistinctCountPoolIdAsc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_DISTINCT_COUNT_POOL_ID_ASC',
+  LbpPoolAssetsDataByPoolIdDistinctCountPoolIdDesc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_DISTINCT_COUNT_POOL_ID_DESC',
+  LbpPoolAssetsDataByPoolIdMaxAssetIdAsc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_MAX_ASSET_ID_ASC',
+  LbpPoolAssetsDataByPoolIdMaxAssetIdDesc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_MAX_ASSET_ID_DESC',
+  LbpPoolAssetsDataByPoolIdMaxBalancesAsc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_MAX_BALANCES_ASC',
+  LbpPoolAssetsDataByPoolIdMaxBalancesDesc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_MAX_BALANCES_DESC',
+  LbpPoolAssetsDataByPoolIdMaxIdAsc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_MAX_ID_ASC',
+  LbpPoolAssetsDataByPoolIdMaxIdDesc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_MAX_ID_DESC',
+  LbpPoolAssetsDataByPoolIdMaxParaChainBlockHeightAsc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_MAX_PARA_CHAIN_BLOCK_HEIGHT_ASC',
+  LbpPoolAssetsDataByPoolIdMaxParaChainBlockHeightDesc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_MAX_PARA_CHAIN_BLOCK_HEIGHT_DESC',
+  LbpPoolAssetsDataByPoolIdMaxPoolIdAsc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_MAX_POOL_ID_ASC',
+  LbpPoolAssetsDataByPoolIdMaxPoolIdDesc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_MAX_POOL_ID_DESC',
+  LbpPoolAssetsDataByPoolIdMinAssetIdAsc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_MIN_ASSET_ID_ASC',
+  LbpPoolAssetsDataByPoolIdMinAssetIdDesc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_MIN_ASSET_ID_DESC',
+  LbpPoolAssetsDataByPoolIdMinBalancesAsc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_MIN_BALANCES_ASC',
+  LbpPoolAssetsDataByPoolIdMinBalancesDesc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_MIN_BALANCES_DESC',
+  LbpPoolAssetsDataByPoolIdMinIdAsc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_MIN_ID_ASC',
+  LbpPoolAssetsDataByPoolIdMinIdDesc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_MIN_ID_DESC',
+  LbpPoolAssetsDataByPoolIdMinParaChainBlockHeightAsc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_MIN_PARA_CHAIN_BLOCK_HEIGHT_ASC',
+  LbpPoolAssetsDataByPoolIdMinParaChainBlockHeightDesc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_MIN_PARA_CHAIN_BLOCK_HEIGHT_DESC',
+  LbpPoolAssetsDataByPoolIdMinPoolIdAsc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_MIN_POOL_ID_ASC',
+  LbpPoolAssetsDataByPoolIdMinPoolIdDesc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_MIN_POOL_ID_DESC',
+  LbpPoolAssetsDataByPoolIdStddevPopulationAssetIdAsc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_STDDEV_POPULATION_ASSET_ID_ASC',
+  LbpPoolAssetsDataByPoolIdStddevPopulationAssetIdDesc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_STDDEV_POPULATION_ASSET_ID_DESC',
+  LbpPoolAssetsDataByPoolIdStddevPopulationBalancesAsc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_STDDEV_POPULATION_BALANCES_ASC',
+  LbpPoolAssetsDataByPoolIdStddevPopulationBalancesDesc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_STDDEV_POPULATION_BALANCES_DESC',
+  LbpPoolAssetsDataByPoolIdStddevPopulationIdAsc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_STDDEV_POPULATION_ID_ASC',
+  LbpPoolAssetsDataByPoolIdStddevPopulationIdDesc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_STDDEV_POPULATION_ID_DESC',
+  LbpPoolAssetsDataByPoolIdStddevPopulationParaChainBlockHeightAsc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_STDDEV_POPULATION_PARA_CHAIN_BLOCK_HEIGHT_ASC',
+  LbpPoolAssetsDataByPoolIdStddevPopulationParaChainBlockHeightDesc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_STDDEV_POPULATION_PARA_CHAIN_BLOCK_HEIGHT_DESC',
+  LbpPoolAssetsDataByPoolIdStddevPopulationPoolIdAsc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_STDDEV_POPULATION_POOL_ID_ASC',
+  LbpPoolAssetsDataByPoolIdStddevPopulationPoolIdDesc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_STDDEV_POPULATION_POOL_ID_DESC',
+  LbpPoolAssetsDataByPoolIdStddevSampleAssetIdAsc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_STDDEV_SAMPLE_ASSET_ID_ASC',
+  LbpPoolAssetsDataByPoolIdStddevSampleAssetIdDesc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_STDDEV_SAMPLE_ASSET_ID_DESC',
+  LbpPoolAssetsDataByPoolIdStddevSampleBalancesAsc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_STDDEV_SAMPLE_BALANCES_ASC',
+  LbpPoolAssetsDataByPoolIdStddevSampleBalancesDesc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_STDDEV_SAMPLE_BALANCES_DESC',
+  LbpPoolAssetsDataByPoolIdStddevSampleIdAsc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_STDDEV_SAMPLE_ID_ASC',
+  LbpPoolAssetsDataByPoolIdStddevSampleIdDesc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_STDDEV_SAMPLE_ID_DESC',
+  LbpPoolAssetsDataByPoolIdStddevSampleParaChainBlockHeightAsc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_STDDEV_SAMPLE_PARA_CHAIN_BLOCK_HEIGHT_ASC',
+  LbpPoolAssetsDataByPoolIdStddevSampleParaChainBlockHeightDesc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_STDDEV_SAMPLE_PARA_CHAIN_BLOCK_HEIGHT_DESC',
+  LbpPoolAssetsDataByPoolIdStddevSamplePoolIdAsc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_STDDEV_SAMPLE_POOL_ID_ASC',
+  LbpPoolAssetsDataByPoolIdStddevSamplePoolIdDesc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_STDDEV_SAMPLE_POOL_ID_DESC',
+  LbpPoolAssetsDataByPoolIdSumAssetIdAsc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_SUM_ASSET_ID_ASC',
+  LbpPoolAssetsDataByPoolIdSumAssetIdDesc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_SUM_ASSET_ID_DESC',
+  LbpPoolAssetsDataByPoolIdSumBalancesAsc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_SUM_BALANCES_ASC',
+  LbpPoolAssetsDataByPoolIdSumBalancesDesc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_SUM_BALANCES_DESC',
+  LbpPoolAssetsDataByPoolIdSumIdAsc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_SUM_ID_ASC',
+  LbpPoolAssetsDataByPoolIdSumIdDesc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_SUM_ID_DESC',
+  LbpPoolAssetsDataByPoolIdSumParaChainBlockHeightAsc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_SUM_PARA_CHAIN_BLOCK_HEIGHT_ASC',
+  LbpPoolAssetsDataByPoolIdSumParaChainBlockHeightDesc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_SUM_PARA_CHAIN_BLOCK_HEIGHT_DESC',
+  LbpPoolAssetsDataByPoolIdSumPoolIdAsc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_SUM_POOL_ID_ASC',
+  LbpPoolAssetsDataByPoolIdSumPoolIdDesc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_SUM_POOL_ID_DESC',
+  LbpPoolAssetsDataByPoolIdVariancePopulationAssetIdAsc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_VARIANCE_POPULATION_ASSET_ID_ASC',
+  LbpPoolAssetsDataByPoolIdVariancePopulationAssetIdDesc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_VARIANCE_POPULATION_ASSET_ID_DESC',
+  LbpPoolAssetsDataByPoolIdVariancePopulationBalancesAsc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_VARIANCE_POPULATION_BALANCES_ASC',
+  LbpPoolAssetsDataByPoolIdVariancePopulationBalancesDesc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_VARIANCE_POPULATION_BALANCES_DESC',
+  LbpPoolAssetsDataByPoolIdVariancePopulationIdAsc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_VARIANCE_POPULATION_ID_ASC',
+  LbpPoolAssetsDataByPoolIdVariancePopulationIdDesc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_VARIANCE_POPULATION_ID_DESC',
+  LbpPoolAssetsDataByPoolIdVariancePopulationParaChainBlockHeightAsc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_VARIANCE_POPULATION_PARA_CHAIN_BLOCK_HEIGHT_ASC',
+  LbpPoolAssetsDataByPoolIdVariancePopulationParaChainBlockHeightDesc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_VARIANCE_POPULATION_PARA_CHAIN_BLOCK_HEIGHT_DESC',
+  LbpPoolAssetsDataByPoolIdVariancePopulationPoolIdAsc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_VARIANCE_POPULATION_POOL_ID_ASC',
+  LbpPoolAssetsDataByPoolIdVariancePopulationPoolIdDesc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_VARIANCE_POPULATION_POOL_ID_DESC',
+  LbpPoolAssetsDataByPoolIdVarianceSampleAssetIdAsc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_VARIANCE_SAMPLE_ASSET_ID_ASC',
+  LbpPoolAssetsDataByPoolIdVarianceSampleAssetIdDesc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_VARIANCE_SAMPLE_ASSET_ID_DESC',
+  LbpPoolAssetsDataByPoolIdVarianceSampleBalancesAsc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_VARIANCE_SAMPLE_BALANCES_ASC',
+  LbpPoolAssetsDataByPoolIdVarianceSampleBalancesDesc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_VARIANCE_SAMPLE_BALANCES_DESC',
+  LbpPoolAssetsDataByPoolIdVarianceSampleIdAsc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_VARIANCE_SAMPLE_ID_ASC',
+  LbpPoolAssetsDataByPoolIdVarianceSampleIdDesc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_VARIANCE_SAMPLE_ID_DESC',
+  LbpPoolAssetsDataByPoolIdVarianceSampleParaChainBlockHeightAsc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_VARIANCE_SAMPLE_PARA_CHAIN_BLOCK_HEIGHT_ASC',
+  LbpPoolAssetsDataByPoolIdVarianceSampleParaChainBlockHeightDesc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_VARIANCE_SAMPLE_PARA_CHAIN_BLOCK_HEIGHT_DESC',
+  LbpPoolAssetsDataByPoolIdVarianceSamplePoolIdAsc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_VARIANCE_SAMPLE_POOL_ID_ASC',
+  LbpPoolAssetsDataByPoolIdVarianceSamplePoolIdDesc = 'LBP_POOL_ASSETS_DATA_BY_POOL_ID_VARIANCE_SAMPLE_POOL_ID_DESC',
+  Natural = 'NATURAL',
+  OwnerAsc = 'OWNER_ASC',
+  OwnerDesc = 'OWNER_DESC',
+  ParaChainBlockHeightAsc = 'PARA_CHAIN_BLOCK_HEIGHT_ASC',
+  ParaChainBlockHeightDesc = 'PARA_CHAIN_BLOCK_HEIGHT_DESC',
+  PoolAddressAsc = 'POOL_ADDRESS_ASC',
+  PoolAddressDesc = 'POOL_ADDRESS_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  RepayTargetAsc = 'REPAY_TARGET_ASC',
+  RepayTargetDesc = 'REPAY_TARGET_DESC',
+  StartAsc = 'START_ASC',
+  StartDesc = 'START_DESC',
+  WeightCurveAsc = 'WEIGHT_CURVE_ASC',
+  WeightCurveDesc = 'WEIGHT_CURVE_DESC'
+}
 
 export type Migration = {
   __typename?: 'Migration';
@@ -689,6 +1639,12 @@ export type Query = {
   __typename?: 'Query';
   _apiSupport?: Maybe<ApiSupportResponse>;
   _squidStatus: Array<_ProcessorStatus>;
+  lbpPool?: Maybe<LbpPool>;
+  /** Reads and enables pagination through a set of `LbpPoolAssetsDatum`. */
+  lbpPoolAssetsData?: Maybe<LbpPoolAssetsDataConnection>;
+  lbpPoolAssetsDatum?: Maybe<LbpPoolAssetsDatum>;
+  /** Reads and enables pagination through a set of `LbpPool`. */
+  lbpPools?: Maybe<LbpPoolsConnection>;
   migration?: Maybe<Migration>;
   /** Reads and enables pagination through a set of `Migration`. */
   migrations?: Maybe<MigrationsConnection>;
@@ -715,6 +1671,44 @@ export type Query = {
   xykPoolAssetsDatum?: Maybe<XykPoolAssetsDatum>;
   /** Reads and enables pagination through a set of `XykPool`. */
   xykPools?: Maybe<XykPoolsConnection>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryLbpPoolArgs = {
+  id: Scalars['String']['input'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryLbpPoolAssetsDataArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  condition?: InputMaybe<LbpPoolAssetsDatumCondition>;
+  filter?: InputMaybe<LbpPoolAssetsDatumFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<LbpPoolAssetsDataOrderBy>>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryLbpPoolAssetsDatumArgs = {
+  id: Scalars['String']['input'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryLbpPoolsArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  condition?: InputMaybe<LbpPoolCondition>;
+  filter?: InputMaybe<LbpPoolFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<LbpPoolsOrderBy>>;
 };
 
 
@@ -2707,6 +3701,16 @@ export type GetOmnipoolBlocksStorageStateQueryVariables = Exact<{
 
 export type GetOmnipoolBlocksStorageStateQuery = { __typename?: 'Query', omnipoolAssetData?: { __typename?: 'OmnipoolAssetDataConnection', totalCount: number, nodes: Array<{ __typename?: 'OmnipoolAssetDatum', assetId: number, assetState: any, balances: any, id: string, paraChainBlockHeight: number, poolAddress: string } | null> } | null };
 
+export type GetLbpPoolBlocksStorageStateQueryVariables = Exact<{
+  filter?: InputMaybe<LbpPoolFilter>;
+  first: Scalars['Int']['input'];
+  offset: Scalars['Int']['input'];
+  orderBy?: InputMaybe<Array<LbpPoolsOrderBy> | LbpPoolsOrderBy>;
+}>;
+
+
+export type GetLbpPoolBlocksStorageStateQuery = { __typename?: 'Query', lbpPools?: { __typename?: 'LbpPoolsConnection', totalCount: number, nodes: Array<{ __typename?: 'LbpPool', id: string, poolAddress: string, assetAId: number, assetBId: number, owner: string, repayTarget: any, weightCurve: string, initialWeight: number, finalWeight: number, feeCollector?: string | null, fee: Array<number | null>, start?: number | null, end?: number | null, paraChainBlockHeight: number, lbpPoolAssetsDataByPoolId: { __typename?: 'LbpPoolAssetsDataConnection', nodes: Array<{ __typename?: 'LbpPoolAssetsDatum', id: string, assetId: number, poolId?: string | null, balances: any, paraChainBlockHeight: number } | null> } } | null> } | null };
+
 export type GetXykPoolBlocksStorageStateQueryVariables = Exact<{
   filter?: InputMaybe<XykPoolFilter>;
   first: Scalars['Int']['input'];
@@ -2748,6 +3752,38 @@ export const GetOmnipoolBlocksStorageState = gql`
   }
 }
     `;
+export const GetLbpPoolBlocksStorageState = gql`
+    query GetLbpPoolBlocksStorageState($filter: LbpPoolFilter, $first: Int!, $offset: Int!, $orderBy: [LbpPoolsOrderBy!]) {
+  lbpPools(filter: $filter, orderBy: $orderBy, first: $first, offset: $offset) {
+    nodes {
+      id
+      poolAddress
+      assetAId
+      assetBId
+      owner
+      repayTarget
+      weightCurve
+      initialWeight
+      finalWeight
+      feeCollector
+      fee
+      start
+      end
+      paraChainBlockHeight
+      lbpPoolAssetsDataByPoolId {
+        nodes {
+          id
+          assetId
+          poolId
+          balances
+          paraChainBlockHeight
+        }
+      }
+    }
+    totalCount
+  }
+}
+    `;
 export const GetXykPoolBlocksStorageState = gql`
     query GetXykPoolBlocksStorageState($filter: XykPoolFilter, $first: Int!, $offset: Int!, $orderBy: [XykPoolsOrderBy!]) {
   xykPools(filter: $filter, orderBy: $orderBy, first: $first, offset: $offset) {
@@ -2773,28 +3809,28 @@ export const GetXykPoolBlocksStorageState = gql`
     `;
 export const GetStablepoolBlocksStorageState = gql`
     query GetStablepoolBlocksStorageState($filter: StablepoolFilter, $first: Int!, $offset: Int!, $orderBy: [StablepoolsOrderBy!]) {
-      stablepools(filter: $filter, orderBy: $orderBy, first: $first, offset: $offset) {
+  stablepools(filter: $filter, orderBy: $orderBy, first: $first, offset: $offset) {
+    nodes {
+      fee
+      finalAmplification
+      finalBlock
+      id
+      initialAmplification
+      initialBlock
+      paraChainBlockHeight
+      poolAddress
+      poolId
+      stablepoolAssetDataByPoolId {
         nodes {
-          fee
-          finalAmplification
-          finalBlock
+          assetId
+          balances
           id
-          initialAmplification
-          initialBlock
           paraChainBlockHeight
-          poolAddress
           poolId
-          stablepoolAssetDataByPoolId {
-            nodes {
-              assetId
-              balances
-              id
-              paraChainBlockHeight
-              poolId
-            }
-          }
         }
-        totalCount
       }
     }
+    totalCount
+  }
+}
     `;

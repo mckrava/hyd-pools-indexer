@@ -42,7 +42,8 @@
     },
     "LBP": {
       "events": ["PoolUpdated", "PoolCreated", "SellExecuted", "BuyExecuted"],
-      "calls": ["create_pool"]
+      "calls": ["create_pool"],
+      "storage": ["PoolData"]
     },
     "System": {
       "storage": ["Account"]

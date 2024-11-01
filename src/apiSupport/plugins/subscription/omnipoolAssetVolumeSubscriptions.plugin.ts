@@ -2,7 +2,6 @@ import { gql, makeExtendSchemaPlugin, Plugin, embed } from 'postgraphile';
 import {
   OmnipoolAssetHistoricalVolumeGqlResponse,
   QueryResolverContext,
-  XykPoolHistoricalVolumeGqlResponse,
 } from '../../types';
 import { convertObjectPropsSnakeCaseToCamelCase } from '../../../utils/helpers';
 import { GraphQLResolveInfo } from 'graphql/type/definition';

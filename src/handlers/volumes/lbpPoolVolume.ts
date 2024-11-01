@@ -12,8 +12,8 @@ export function initLbpPoolVolume(
   const newVolume = new LbpPoolHistoricalVolume({
     id: swap.pool.id + '-' + swap.paraChainBlockHeight,
     pool: swap.pool,
-    assetAId: swap.pool.assetAId,
-    assetBId: swap.pool.assetBId,
+    assetAId: +swap.pool.assetA.id,
+    assetBId: +swap.pool.assetB.id,
     averagePrice: 0,
     assetAVolumeIn: currentVolume?.assetAVolumeIn || BigInt(0),
     assetAVolumeOut: currentVolume?.assetAVolumeOut || BigInt(0),

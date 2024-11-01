@@ -6,6 +6,7 @@ import { BlockHeader } from '@subsquid/substrate-processor';
 import {
   AccountData,
   GetPoolAssetInfoInput,
+  LbpGetPoolDataInput,
   OmnipoolGetAssetDataInput,
   StablepoolGetPoolDataInput,
   StablepoolInfo,
@@ -69,48 +70,134 @@ export class StorageResolver {
     try {
       switch (pallet) {
         case ProcessingPallets.STABLESWAP: {
-          if (method === 'getPoolData')
-            return (
-              (this.storageDictionaryManager.getStableswapPoolData(
-                args as unknown as StablepoolGetPoolDataInput // TOD fix types
-              ) as R) ?? (fallbackFn ? await fallbackFn(args) : null)
-            );
-          if (method === 'getPoolAssetInfo')
-            return (
-              (this.storageDictionaryManager.getStableswapPoolAssetInfo(
+          if (method === 'getPoolData') {
+            const resp = this.storageDictionaryManager.getStableswapPoolData(
+              args as unknown as StablepoolGetPoolDataInput // TOD fix types
+            ) as R;
+
+            if (resp) return resp;
+
+            return fallbackFn ? await fallbackFn(args) : null;
+            // return (
+            //   (this.storageDictionaryManager.getStableswapPoolData(
+            //     args as unknown as StablepoolGetPoolDataInput // TOD fix types
+            //   ) as R) ?? (fallbackFn ? await fallbackFn(args) : null)
+            // );
+          }
+          if (method === 'getPoolAssetInfo') {
+            const resp =
+              this.storageDictionaryManager.getStableswapPoolAssetInfo(
                 args as unknown as GetPoolAssetInfoInput // TOD fix types
-              ) as R) ?? (fallbackFn ? await fallbackFn(args) : null)
-            );
+              ) as R;
+
+            if (resp) return resp;
+
+            return fallbackFn ? await fallbackFn(args) : null;
+            // return (
+            //   (this.storageDictionaryManager.getStableswapPoolAssetInfo(
+            //     args as unknown as GetPoolAssetInfoInput // TOD fix types
+            //   ) as R) ?? (fallbackFn ? await fallbackFn(args) : null)
+            // );
+          }
           break;
         }
         case ProcessingPallets.OMNIPOOL: {
-          if (method === 'getAssetData')
-            return (
-              (this.storageDictionaryManager.getOmnipoolAssetState(
-                args as unknown as OmnipoolGetAssetDataInput // TOD fix types
-              ) as R) ?? (fallbackFn ? await fallbackFn(args) : null)
-            );
-          if (method === 'getPoolAssetInfo')
-            return (
-              (this.storageDictionaryManager.getOmnipoolAssetInfo(
-                args as unknown as GetPoolAssetInfoInput // TOD fix types
-              ) as R) ?? (fallbackFn ? await fallbackFn(args) : null)
-            );
+          if (method === 'getAssetData') {
+            const resp = this.storageDictionaryManager.getOmnipoolAssetState(
+              args as unknown as OmnipoolGetAssetDataInput // TOD fix types
+            ) as R;
+
+            if (resp) return resp;
+
+            return fallbackFn ? await fallbackFn(args) : null;
+            // return (
+            //   (this.storageDictionaryManager.getOmnipoolAssetState(
+            //     args as unknown as OmnipoolGetAssetDataInput // TOD fix types
+            //   ) as R) ?? (fallbackFn ? await fallbackFn(args) : null)
+            // );
+          }
+
+          if (method === 'getPoolAssetInfo') {
+            const resp = this.storageDictionaryManager.getOmnipoolAssetInfo(
+              args as unknown as GetPoolAssetInfoInput // TOD fix types
+            ) as R;
+
+            if (resp) return resp;
+
+            return fallbackFn ? await fallbackFn(args) : null;
+            // return (
+            //   (this.storageDictionaryManager.getOmnipoolAssetInfo(
+            //     args as unknown as GetPoolAssetInfoInput // TOD fix types
+            //   ) as R) ?? (fallbackFn ? await fallbackFn(args) : null)
+            // );
+          }
+
           break;
         }
         case ProcessingPallets.XYK: {
-          if (method === 'getPoolAssets')
-            return (
-              (this.storageDictionaryManager.getXykPoolAssets(
-                args as unknown as XykGetAssetsInput // TOD fix types
-              ) as R) ?? (fallbackFn ? await fallbackFn(args) : null)
-            );
-          if (method === 'getPoolAssetInfo')
-            return (
-              (this.storageDictionaryManager.getXykPoolAssetInfo(
-                args as unknown as GetPoolAssetInfoInput // TOD fix types
-              ) as R) ?? (fallbackFn ? await fallbackFn(args) : null)
-            );
+          if (method === 'getPoolAssets') {
+            const resp = this.storageDictionaryManager.getXykPoolAssets(
+              args as unknown as XykGetAssetsInput // TOD fix types
+            ) as R;
+
+            if (resp) return resp;
+
+            return fallbackFn ? await fallbackFn(args) : null;
+            // return (
+            //   (this.storageDictionaryManager.getXykPoolAssets(
+            //     args as unknown as XykGetAssetsInput // TOD fix types
+            //   ) as R) ?? (fallbackFn ? await fallbackFn(args) : null)
+            // );
+          }
+
+          if (method === 'getPoolAssetInfo') {
+            const resp = this.storageDictionaryManager.getXykPoolAssetInfo(
+              args as unknown as GetPoolAssetInfoInput // TOD fix types
+            ) as R;
+
+            if (resp) return resp;
+
+            return fallbackFn ? await fallbackFn(args) : null;
+            // return (
+            //   (this.storageDictionaryManager.getXykPoolAssetInfo(
+            //     args as unknown as GetPoolAssetInfoInput // TOD fix types
+            //   ) as R) ?? (fallbackFn ? await fallbackFn(args) : null)
+            // );
+          }
+
+          break;
+        }
+        case ProcessingPallets.LBP: {
+          if (method === 'getPoolData') {
+            const resp = this.storageDictionaryManager.getLbpPoolData(
+              args as unknown as LbpGetPoolDataInput // TOD fix types
+            ) as R;
+
+            if (resp) return resp;
+
+            return fallbackFn ? await fallbackFn(args) : null;
+            // return (
+            //   (this.storageDictionaryManager.getLbpPoolData(
+            //     args as unknown as LbpGetPoolDataInput // TOD fix types
+            //   ) as R) ?? (fallbackFn ? await fallbackFn(args) : null)
+            // );
+          }
+
+          if (method === 'getPoolAssetInfo') {
+            const resp = this.storageDictionaryManager.getLbpPoolAssetInfo(
+              args as unknown as GetPoolAssetInfoInput // TOD fix types
+            ) as R;
+
+            if (resp) return resp;
+
+            return fallbackFn ? await fallbackFn(args) : null;
+            // return (
+            //   (this.storageDictionaryManager.getLbpPoolAssetInfo(
+            //     args as unknown as GetPoolAssetInfoInput // TOD fix types
+            //   ) as R) ?? (fallbackFn ? await fallbackFn(args) : null)
+            // );
+          }
+
           break;
         }
         default:

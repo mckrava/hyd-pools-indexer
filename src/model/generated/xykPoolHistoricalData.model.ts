@@ -9,7 +9,7 @@ export class XykPoolHistoricalData {
     }
 
     /**
-     * OmnipoolId-assetId-paraChainBlockHeight
+     * poolAddress-assetId-paraChainBlockHeight
      */
     @PrimaryColumn_()
     id!: string

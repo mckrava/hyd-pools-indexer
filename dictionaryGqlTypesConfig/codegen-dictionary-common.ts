@@ -5,11 +5,11 @@ dotenv.config();
 
 const config: CodegenConfig = {
   overwrite: true,
-  schema: process.env.HYDRATION_STORAGE_DICTIONARY_OMNIPOOL_URL,
+  schema: process.env.HYDRATION_STORAGE_DICTIONARY_LBPPOOL_URL,
   // schema: 'http://localhost:8090/graphql',
-  documents: 'src/utils/storageResolver/dictionaryUtils/apiTypes/query.ts',
+  documents: 'src/parsers/storageResolver/dictionaryUtils/apiTypes/query.ts',
   generates: {
-    'src/utils/storageResolver/dictionaryUtils/apiTypes/types.ts': {
+    'src/parsers/storageResolver/dictionaryUtils/apiTypes/types.ts': {
       plugins: [
         'typescript',
         'typescript-operations',

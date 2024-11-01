@@ -23,7 +23,6 @@ export async function handleTokensTransfer(
     fee: eventMetadata.extrinsic?.fee || BigInt(0),
   });
 
-  // await ctx.store.save(transferEntity);
   const transfers = ctx.batchState.state.transfers;
   transfers.set(transferEntity.id, transferEntity);
   ctx.batchState.state = {

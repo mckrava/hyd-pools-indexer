@@ -62,6 +62,25 @@ export interface XykPoolWithAssets {
   assetBId: number;
 }
 
+export type LbpWeightCurveType = {
+  __kind: string;
+};
+
+export interface LbpPoolData {
+  poolAddress: string;
+  owner: string;
+  start?: number;
+  end?: number;
+  assetAId: number;
+  assetBId: number;
+  initialWeight: number;
+  finalWeight: number;
+  weightCurve: LbpWeightCurveType;
+  fee: number[];
+  feeCollector: string;
+  repayTarget: bigint;
+}
+
 /**
  * =============================================================================
  * =========================== I N P U T    T Y P E S===========================
@@ -90,3 +109,7 @@ export type XykGetAssetsInput = {
   block: BlockHeader;
 };
 
+export type LbpGetPoolDataInput = {
+  poolAddress: string;
+  block: BlockHeader;
+};

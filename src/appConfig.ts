@@ -69,6 +69,10 @@ export class AppConfig {
 
   @IsNotEmpty()
   @IsString()
+  readonly HYDRATION_STORAGE_DICTIONARY_LBPPOOL_URL!: string;
+
+  @IsNotEmpty()
+  @IsString()
   readonly HYDRATION_STORAGE_DICTIONARY_XYKPOOL_URL!: string;
 
   @IsNotEmpty()

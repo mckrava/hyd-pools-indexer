@@ -23,6 +23,10 @@ export class QueriesHelper {
         batchCtx.appConfig.HYDRATION_STORAGE_DICTIONARY_XYKPOOL_URL,
       ],
       [
+        ProcessingPallets.LBP,
+        batchCtx.appConfig.HYDRATION_STORAGE_DICTIONARY_LBPPOOL_URL,
+      ],
+      [
         ProcessingPallets.OMNIPOOL,
         batchCtx.appConfig.HYDRATION_STORAGE_DICTIONARY_OMNIPOOL_URL,
       ],
@@ -116,6 +120,6 @@ export class QueriesHelper {
         resp.toBlockNumber = blockNumber;
     });
 
-    return resp;
+    return { ...resp, ids: [...new Set(resp.ids).values()] };
   }
 }
