@@ -8,7 +8,7 @@ import { StableMath } from '@galacticcouncil/sdk';
 import { blake2AsHex, encodeAddress } from '@polkadot/util-crypto';
 import { isNotNullOrUndefined } from '../../utils/helpers';
 import { getAsset } from '../assets/assetRegistry';
-import { getAssetBalance } from '../assets/balances';
+import { getAssetFreeBalance } from '../assets/balances';
 
 export async function getStablepool(
   ctx: ProcessorContext<Store>,
@@ -55,7 +55,7 @@ export async function stablepoolCreated(
       new StablepoolAsset({
         id: `${newPool.id}-${assetId}`,
         pool: newPool,
-        amount: await getAssetBalance(
+        amount: await getAssetFreeBalance(
           eventMetadata.blockHeader,
           assetId,
           newPool.account.id

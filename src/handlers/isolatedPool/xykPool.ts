@@ -3,7 +3,7 @@ import { Store } from '@subsquid/typeorm-store';
 import { XykPool } from '../../model';
 import { getAccount } from '../accounts';
 import { XykPoolCreatedData } from '../../parsers/batchBlocksParser/types';
-import { getAssetBalance } from '../assets/balances';
+import { getAssetFreeBalance } from '../assets/balances';
 import { getAsset } from '../assets/assetRegistry';
 
 export async function getXykPool({
@@ -69,12 +69,12 @@ export async function xykPoolCreated(
     !newPoolsAssetBalances.assetABalance &&
     !newPoolsAssetBalances.assetBBalance
   ) {
-    newPoolsAssetBalances.assetABalance = await getAssetBalance(
+    newPoolsAssetBalances.assetABalance = await getAssetFreeBalance(
       eventMetadata.blockHeader,
       eventParams.assetA,
       eventParams.pool
     );
-    newPoolsAssetBalances.assetBBalance = await getAssetBalance(
+    newPoolsAssetBalances.assetBBalance = await getAssetFreeBalance(
       eventMetadata.blockHeader,
       eventParams.assetB,
       eventParams.pool

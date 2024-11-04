@@ -6,7 +6,7 @@ import {
   LbpPoolCreatedData,
   LbpPoolUpdatedData,
 } from '../../parsers/batchBlocksParser/types';
-import { getAssetBalance } from '../assets/balances';
+import { getAssetFreeBalance } from '../assets/balances';
 import { getAsset } from '../assets/assetRegistry';
 
 export async function getLbpPoolByAssets({
@@ -83,12 +83,12 @@ export async function lpbPoolCreated(
     !newPoolsAssetBalances.assetABalance &&
     !newPoolsAssetBalances.assetBBalance
   ) {
-    newPoolsAssetBalances.assetABalance = await getAssetBalance(
+    newPoolsAssetBalances.assetABalance = await getAssetFreeBalance(
       eventMetadata.blockHeader,
       eventParams.data.assets[0],
       eventParams.pool
     );
-    newPoolsAssetBalances.assetBBalance = await getAssetBalance(
+    newPoolsAssetBalances.assetBBalance = await getAssetFreeBalance(
       eventMetadata.blockHeader,
       eventParams.data.assets[1],
       eventParams.pool

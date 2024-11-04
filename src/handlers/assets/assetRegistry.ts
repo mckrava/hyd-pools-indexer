@@ -4,7 +4,7 @@ import {
   AssetRegistryRegisteredData,
   AssetRegistryUpdatedData,
 } from '../../parsers/batchBlocksParser/types';
-import { Asset } from '../../model';
+import { Asset, AssetType } from '../../model';
 import parsers from '../../parsers';
 
 export async function getAsset({
@@ -18,9 +18,9 @@ export async function getAsset({
   ensure?: boolean;
   blockHeader?: Block;
 }): Promise<Asset | null> {
-  const batchState = ctx.batchState.state;
+  const assetsAllBatch = ctx.batchState.state.assetsAllBatch;
 
-  let asset = batchState.assetsAllBatch.get(`${id}`);
+  let asset = assetsAllBatch.get(`${id}`);
   if (asset) return asset;
 
   asset = await ctx.store.findOne(Asset, { where: { id: `${id}` } });
@@ -56,6 +56,11 @@ export async function getAsset({
 
   await ctx.store.save(newAsset);
 
+  assetsAllBatch.set(newAsset.id, newAsset);
+  ctx.batchState.state = {
+    assetsAllBatch,
+  };
+
   return newAsset;
 }
 
@@ -67,6 +72,29 @@ export async function prefetchAllAssets(ctx: ProcessorContext<Store>) {
         asset,
       ])
     ),
+  };
+}
+
+export async function ensureNativeToken(ctx: ProcessorContext<Store>) {
+  let nativeToken = await getAsset({ ctx, id: 0 });
+  if (nativeToken) return;
+
+  nativeToken = new Asset({
+    id: '0',
+    name: 'Hydration',
+    assetType: AssetType.Token,
+    decimals: 12,
+    existentialDeposit: BigInt('1000000000000'),
+    symbol: 'HDX',
+    xcmRateLimit: null,
+    isSufficient: true,
+  });
+
+  await ctx.store.upsert(nativeToken);
+  const assetsAllBatch = ctx.batchState.state.assetsAllBatch;
+  assetsAllBatch.set(nativeToken.id, nativeToken);
+  ctx.batchState.state = {
+    assetsAllBatch,
   };
 }
 

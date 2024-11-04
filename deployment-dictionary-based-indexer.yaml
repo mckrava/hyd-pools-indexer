@@ -1,6 +1,6 @@
 manifestVersion: subsquid.io/v0.1
 name: hydration-pools
-slot: 303
+slot: 304
 description: Hydration Stablepools indexer
 build:
 deploy:

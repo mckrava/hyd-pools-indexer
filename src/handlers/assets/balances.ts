@@ -43,7 +43,7 @@ export async function getAccountBalances({
   }
 }
 
-export async function getAssetBalance(
+export async function getAssetFreeBalance(
   block: BlockHeader,
   assetId: number,
   account: string

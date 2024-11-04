@@ -17,7 +17,10 @@ import { handleStablepoolHistoricalData } from './handlers/stablepool/historical
 import { handleOmnipoolAssetHistoricalData } from './handlers/omnipool/historicalData';
 import { handleXykPoolHistoricalData } from './handlers/isolatedPool/xykPoolHistoricalData';
 import { handleLbpPoolHistoricalData } from './handlers/isolatedPool/lbpPoolHistoricalData';
-import { prefetchAllAssets } from './handlers/assets/assetRegistry';
+import {
+  ensureNativeToken,
+  prefetchAllAssets,
+} from './handlers/assets/assetRegistry';
 
 const timeMes = { start: Date.now(), end: Date.now() };
 
@@ -41,6 +44,8 @@ processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
   });
 
   await prefetchAllAssets(ctxWithBatchState as ProcessorContext<Store>);
+
+  await ensureNativeToken(ctxWithBatchState as ProcessorContext<Store>);
 
   await handleAssetRegistry(
     ctxWithBatchState as ProcessorContext<Store>,

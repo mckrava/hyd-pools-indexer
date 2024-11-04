@@ -2,7 +2,7 @@ import { LbpPoolHistoricalPrice } from '../../model';
 import { ProcessorContext } from '../../processor';
 import { Store } from '@subsquid/typeorm-store';
 import { isNotNullOrUndefined } from '../../utils/helpers';
-import { getAssetBalance } from '../assets/balances';
+import { getAssetFreeBalance } from '../assets/balances';
 
 export async function handleLbpPoolPrices(ctx: ProcessorContext<Store>) {
   const poolPricesRaw = [];
@@ -25,8 +25,8 @@ export async function handleLbpPoolPrices(ctx: ProcessorContext<Store>) {
             }
 
             Promise.all([
-              getAssetBalance(block.header, +p.assetA.id, p.id), // TODO must be optimized
-              getAssetBalance(block.header, +p.assetB.id, p.id), // TODO must be optimized
+              getAssetFreeBalance(block.header, +p.assetA.id, p.id), // TODO must be optimized
+              getAssetFreeBalance(block.header, +p.assetB.id, p.id), // TODO must be optimized
             ]).then(([assetABalance, assetBBalance]) => {
               resolve(
                 new LbpPoolHistoricalPrice({
