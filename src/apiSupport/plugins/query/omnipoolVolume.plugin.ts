@@ -81,7 +81,7 @@ export async function handleQueryOmnipoolAssetHistoricalVolumesByPeriod(
           BigInt(group[1].asset_total_volume_out) -
           BigInt(group[0].asset_total_volume_in) -
           BigInt(group[0].asset_total_volume_out) +
-          BigInt(group[0].asset_volume_in) -
+          BigInt(group[0].asset_volume_in) +
           BigInt(group[0].asset_volume_out);
 
         resp.assetFeeVolume =

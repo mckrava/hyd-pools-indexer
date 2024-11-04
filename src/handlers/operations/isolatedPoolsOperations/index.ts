@@ -52,7 +52,7 @@ export async function handleLbpPoolOperations(
       case EventName.LBP_BuyExecuted:
         await lpbBuyExecuted(ctx, eventData as LbpBuyExecutedData);
         break;
-      case EventName.XYK_SellExecuted:
+      case EventName.LBP_SellExecuted:
         await lpbSellExecuted(ctx, eventData as LbpSellExecutedData);
         break;
       default:

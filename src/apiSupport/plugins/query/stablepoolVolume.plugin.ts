@@ -140,8 +140,10 @@ export async function handleQueryStablepoolHistoricalVolumesByPeriod(
             swapVolume:
               BigInt(endEntityAssetVol.swap_total_volume_in) +
               BigInt(endEntityAssetVol.swap_total_volume_out) -
+
               BigInt(startEntityAssetVol.swap_total_volume_in) -
               BigInt(startEntityAssetVol.swap_total_volume_out) +
+
               BigInt(startEntityAssetVol.swap_volume_in) +
               BigInt(startEntityAssetVol.swap_volume_out),
             liqAddedVolume:
