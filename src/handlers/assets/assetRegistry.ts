@@ -59,6 +59,17 @@ export async function getAsset({
   return newAsset;
 }
 
+export async function prefetchAllAssets(ctx: ProcessorContext<Store>) {
+  ctx.batchState.state = {
+    assetsAllBatch: new Map(
+      (await ctx.store.find(Asset, { where: {} })).map((asset) => [
+        asset.id,
+        asset,
+      ])
+    ),
+  };
+}
+
 export async function assetRegistered(
   ctx: ProcessorContext<Store>,
   eventCallData: AssetRegistryRegisteredData

@@ -17,6 +17,7 @@ import { handleStablepoolHistoricalData } from './handlers/stablepool/historical
 import { handleOmnipoolAssetHistoricalData } from './handlers/omnipool/historicalData';
 import { handleXykPoolHistoricalData } from './handlers/isolatedPool/xykPoolHistoricalData';
 import { handleLbpPoolHistoricalData } from './handlers/isolatedPool/lbpPoolHistoricalData';
+import { prefetchAllAssets } from './handlers/assets/assetRegistry';
 
 const timeMes = { start: Date.now(), end: Date.now() };
 
@@ -38,6 +39,8 @@ processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
     blockNumberFrom: ctx.blocks[0].header.height,
     blockNumberTo: ctx.blocks[ctx.blocks.length - 1].header.height,
   });
+
+  await prefetchAllAssets(ctxWithBatchState as ProcessorContext<Store>);
 
   await handleAssetRegistry(
     ctxWithBatchState as ProcessorContext<Store>,

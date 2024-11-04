@@ -9,6 +9,7 @@ import { getAccount } from '../../accounts';
 import { handleLbpPoolVolumeUpdates } from '../../volumes';
 import { handleAssetVolumeUpdates } from '../../assets/volume';
 import { initLbpPoolOperation } from './common';
+import { getAsset } from '../../assets/assetRegistry';
 
 export async function lpbBuyExecuted(
   ctx: ProcessorContext<Store>,
@@ -33,24 +34,45 @@ export async function lpbBuyExecuted(
     return;
   }
 
+  const assetInEntity = await getAsset({
+    ctx,
+    id: eventParams.assetIn,
+    ensure: true,
+    blockHeader: eventMetadata.blockHeader,
+  });
+
+  const assetOutEntity = await getAsset({
+    ctx,
+    id: eventParams.assetOut,
+    ensure: true,
+    blockHeader: eventMetadata.blockHeader,
+  });
+
+  const assetFeeEntity = await getAsset({
+    ctx,
+    id: eventParams.feeAsset,
+    ensure: true,
+    blockHeader: eventMetadata.blockHeader,
+  });
+
+  if (!assetInEntity || !assetOutEntity || !assetFeeEntity) return;
+
   const operationInstance = initLbpPoolOperation({
     eventId: eventMetadata.id,
     hash: eventMetadata.extrinsic?.hash || '',
     indexInBlock: eventMetadata.indexInBlock,
     account: await getAccount(ctx, eventParams.who),
-    assetIn: eventParams.assetIn,
-    assetOut: eventParams.assetOut,
+    assetIn: assetInEntity,
+    assetOut: assetOutEntity,
     amountIn: eventParams.amount,
     amountOut: eventParams.buyPrice,
-    feeAsset: eventParams.feeAsset,
+    feeAsset: assetFeeEntity,
     feeAmount: eventParams.feeAmount,
     operationType: PoolOperationType.BUY,
     pool,
     relayChainBlockHeight: eventCallData.relayChainInfo.relaychainBlockNumber,
     paraChainBlockHeight: eventMetadata.blockHeader.height,
   });
-
-  // await ctx.store.save(operationInstance);
 
   ctx.batchState.state = {
     lbpPoolOperations: [
@@ -87,16 +109,39 @@ export async function lpbSellExecuted(
     return;
   }
 
+  const assetInEntity = await getAsset({
+    ctx,
+    id: eventParams.assetIn,
+    ensure: true,
+    blockHeader: eventMetadata.blockHeader,
+  });
+
+  const assetOutEntity = await getAsset({
+    ctx,
+    id: eventParams.assetOut,
+    ensure: true,
+    blockHeader: eventMetadata.blockHeader,
+  });
+
+  const assetFeeEntity = await getAsset({
+    ctx,
+    id: eventParams.feeAsset,
+    ensure: true,
+    blockHeader: eventMetadata.blockHeader,
+  });
+
+  if (!assetInEntity || !assetOutEntity || !assetFeeEntity) return;
+
   const operationInstance = initLbpPoolOperation({
     eventId: eventMetadata.id,
     hash: eventMetadata.extrinsic?.hash || '',
     indexInBlock: eventMetadata.indexInBlock,
     account: await getAccount(ctx, eventParams.who),
-    assetIn: eventParams.assetIn,
-    assetOut: eventParams.assetOut,
+    assetIn: assetInEntity,
+    assetOut: assetOutEntity,
     amountIn: eventParams.amount,
     amountOut: eventParams.salePrice,
-    feeAsset: eventParams.feeAsset,
+    feeAsset: assetFeeEntity,
     feeAmount: eventParams.feeAmount,
     operationType: PoolOperationType.SELL,
     pool,

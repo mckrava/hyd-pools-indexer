@@ -1,5 +1,6 @@
 import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, ManyToOne as ManyToOne_, Index as Index_, StringColumn as StringColumn_, IntColumn as IntColumn_, BigIntColumn as BigIntColumn_, FloatColumn as FloatColumn_} from "@subsquid/typeorm-store"
 import {Account} from "./account.model"
+import {Asset} from "./asset.model"
 import {XykPool} from "./xykPool.model"
 import {PoolOperationType} from "./_poolOperationType"
 
@@ -27,8 +28,9 @@ export class XykPoolOperation {
     @IntColumn_({nullable: false})
     indexInBlock!: number
 
-    @IntColumn_({nullable: false})
-    assetInId!: number
+    @Index_()
+    @ManyToOne_(() => Asset, {nullable: true})
+    assetIn!: Asset
 
     @BigIntColumn_({nullable: false})
     assetInAmount!: bigint
@@ -36,8 +38,9 @@ export class XykPoolOperation {
     @BigIntColumn_({nullable: false})
     assetInFee!: bigint
 
-    @IntColumn_({nullable: false})
-    assetOutId!: number
+    @Index_()
+    @ManyToOne_(() => Asset, {nullable: true})
+    assetOut!: Asset
 
     @BigIntColumn_({nullable: false})
     assetOutAmount!: bigint

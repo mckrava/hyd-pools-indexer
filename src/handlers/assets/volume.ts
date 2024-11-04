@@ -1,4 +1,4 @@
-import { HistoricalAssetVolume, LbpPoolOperation } from '../../model';
+import { Asset, HistoricalAssetVolume, LbpPoolOperation } from '../../model';
 import { ProcessorContext } from '../../processor';
 import { Store } from '@subsquid/typeorm-store';
 import { initAssetVolume } from './index';
@@ -8,8 +8,8 @@ export async function handleAssetVolumeUpdates(
   operationDetails: {
     paraChainBlockHeight: number;
     relayChainBlockHeight: number;
-    assetInId: number;
-    assetOutId: number;
+    assetIn: Asset;
+    assetOut: Asset;
     assetInAmount: bigint;
     assetOutAmount: bigint;
   }
@@ -18,20 +18,20 @@ export async function handleAssetVolumeUpdates(
 
   // Find current block volume
   const currentAssetInVolume = assetVolumesState.get(
-    operationDetails.assetInId + '-' + operationDetails.paraChainBlockHeight
+    operationDetails.assetIn.id + '-' + operationDetails.paraChainBlockHeight
   );
   const currentAssetOutVolume = assetVolumesState.get(
-    operationDetails.assetOutId + '-' + operationDetails.paraChainBlockHeight
+    operationDetails.assetOut.id + '-' + operationDetails.paraChainBlockHeight
   );
 
   // If not found find last volume in cache
   const cachedVolumeIn = getLastAssetVolumeFromCache(
     assetVolumesState,
-    operationDetails.assetInId
+    operationDetails.assetIn.id
   );
   const cachedVolumeOut = getLastAssetVolumeFromCache(
     assetVolumesState,
-    operationDetails.assetOutId
+    operationDetails.assetOut.id
   );
 
   // Last known volume for total volume
@@ -40,8 +40,9 @@ export async function handleAssetVolumeUpdates(
     cachedVolumeIn ||
     (await ctx.store.findOne(HistoricalAssetVolume, {
       where: {
-        assetId: operationDetails.assetInId,
+        asset: { id: operationDetails.assetIn.id },
       },
+      relations: { asset: true },
       order: {
         paraChainBlockHeight: 'DESC',
       },
@@ -53,8 +54,9 @@ export async function handleAssetVolumeUpdates(
     cachedVolumeOut ||
     (await ctx.store.findOne(HistoricalAssetVolume, {
       where: {
-        assetId: operationDetails.assetOutId,
+        asset: { id: operationDetails.assetOut.id },
       },
+      relations: { asset: true },
       order: {
         paraChainBlockHeight: 'DESC',
       },
@@ -62,7 +64,7 @@ export async function handleAssetVolumeUpdates(
 
   // Create new entry
   const assetInVolume = initAssetVolume(
-    operationDetails.assetInId,
+    operationDetails.assetIn,
     operationDetails.paraChainBlockHeight,
     operationDetails.relayChainBlockHeight,
     currentAssetInVolume?.volumeIn || BigInt(0),
@@ -72,7 +74,7 @@ export async function handleAssetVolumeUpdates(
   );
 
   const assetOutVolume = initAssetVolume(
-    operationDetails.assetOutId,
+    operationDetails.assetOut,
     operationDetails.paraChainBlockHeight,
     operationDetails.relayChainBlockHeight,
     BigInt(0),
@@ -95,7 +97,7 @@ export async function handleAssetVolumeUpdates(
 
 export function getLastAssetVolumeFromCache(
   volume: Map<string, HistoricalAssetVolume>,
-  assetId: number
+  assetId: string
 ) {
   return volume.get(
     Array.from(volume.keys())

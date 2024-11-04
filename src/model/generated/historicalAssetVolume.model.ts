@@ -1,4 +1,5 @@
-import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, IntColumn as IntColumn_, Index as Index_, BigIntColumn as BigIntColumn_} from "@subsquid/typeorm-store"
+import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, ManyToOne as ManyToOne_, Index as Index_, BigIntColumn as BigIntColumn_, IntColumn as IntColumn_} from "@subsquid/typeorm-store"
+import {Asset} from "./asset.model"
 
 @Entity_()
 export class HistoricalAssetVolume {
@@ -13,8 +14,8 @@ export class HistoricalAssetVolume {
     id!: string
 
     @Index_()
-    @IntColumn_({nullable: false})
-    assetId!: number
+    @ManyToOne_(() => Asset, {nullable: true})
+    asset!: Asset
 
     @BigIntColumn_({nullable: false})
     volumeIn!: bigint

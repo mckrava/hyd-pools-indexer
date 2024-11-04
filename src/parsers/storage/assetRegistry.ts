@@ -1,16 +1,16 @@
 import { BlockHeader } from '@subsquid/substrate-processor';
-import { AssetDetails, TokensAccountsAssetBalances } from '../types/storage';
+import { AssetDetails } from '../types/storage';
 import { UnknownVersionError } from '../../utils/errors';
 import { storage } from '../../typegenTypes/';
 import { AssetType } from '../../model';
-import { hexToString, isUtf8 } from '@polkadot/util';
 import { hexToStrWithNullCharCheck } from '../../utils/helpers';
-import { Bytes } from '../../typegenTypes/support';
 
 async function getAsset(
   assetId: string | number,
   block: BlockHeader
 ): Promise<AssetDetails | null> {
+  if (block.specVersion < 108) return null;
+
   if (storage.assetRegistry.assets.v108.is(block)) {
     const resp = await storage.assetRegistry.assets.v108.get(block, +assetId);
     return !resp

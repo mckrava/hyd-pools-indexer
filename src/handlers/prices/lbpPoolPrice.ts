@@ -31,8 +31,8 @@ export async function handleLbpPoolPrices(ctx: ProcessorContext<Store>) {
               resolve(
                 new LbpPoolHistoricalPrice({
                   id: p.id + '-' + block.header.height,
-                  assetAId: +p.assetA.id,
-                  assetBId: +p.assetB.id,
+                  assetA: p.assetA,
+                  assetB: p.assetB,
                   assetABalance: assetABalance,
                   assetBBalance: assetBBalance,
                   pool: p,

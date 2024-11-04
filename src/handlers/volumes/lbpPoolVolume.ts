@@ -12,8 +12,8 @@ export function initLbpPoolVolume(
   const newVolume = new LbpPoolHistoricalVolume({
     id: swap.pool.id + '-' + swap.paraChainBlockHeight,
     pool: swap.pool,
-    assetAId: +swap.pool.assetA.id,
-    assetBId: +swap.pool.assetB.id,
+    assetA: swap.pool.assetA,
+    assetB: swap.pool.assetB,
     averagePrice: 0,
     assetAVolumeIn: currentVolume?.assetAVolumeIn || BigInt(0),
     assetAVolumeOut: currentVolume?.assetAVolumeOut || BigInt(0),
@@ -46,17 +46,21 @@ export function initLbpPoolVolume(
   });
 
   const assetAVolumeIn =
-    swap.assetInId === newVolume.assetAId ? swap.assetInAmount : BigInt(0);
+    swap.assetIn.id === newVolume.assetA.id ? swap.assetInAmount : BigInt(0);
   const assetBVolumeIn =
-    swap.assetInId === newVolume.assetBId ? swap.assetInAmount : BigInt(0);
+    swap.assetIn.id === newVolume.assetB.id ? swap.assetInAmount : BigInt(0);
   const assetAVolumeOut =
-    swap.assetOutId === newVolume.assetAId ? swap.assetOutAmount : BigInt(0);
+    swap.assetOut.id === newVolume.assetA.id ? swap.assetOutAmount : BigInt(0);
   const assetBVolumeOut =
-    swap.assetOutId === newVolume.assetBId ? swap.assetOutAmount : BigInt(0);
+    swap.assetOut.id === newVolume.assetB.id ? swap.assetOutAmount : BigInt(0);
   const assetAFee =
-    swap.assetInId === newVolume.assetAId ? swap.assetInFee : swap.assetOutFee;
+    swap.assetIn.id === newVolume.assetA.id
+      ? swap.assetInFee
+      : swap.assetOutFee;
   const assetBFee =
-    swap.assetInId === newVolume.assetBId ? swap.assetInFee : swap.assetOutFee;
+    swap.assetIn.id === newVolume.assetB.id
+      ? swap.assetInFee
+      : swap.assetOutFee;
 
   newVolume.assetAVolumeIn += assetAVolumeIn;
   newVolume.assetAVolumeOut += assetAVolumeOut;

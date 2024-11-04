@@ -2,6 +2,7 @@ import { ProcessorContext } from '../../processor';
 import { Store } from '@subsquid/typeorm-store';
 import { Omnipool, OmnipoolAsset } from '../../model';
 import { getAccount } from '../accounts';
+import { getAsset } from '../assets/assetRegistry';
 
 export async function ensureOmnipool(ctx: ProcessorContext<Store>) {
   if (ctx.batchState.state.omnipoolEntity) return;
@@ -9,6 +10,7 @@ export async function ensureOmnipool(ctx: ProcessorContext<Store>) {
   let omnipoolEntity =
     (await ctx.store.findOne(Omnipool, {
       where: { id: ctx.appConfig.OMNIPOOL_ADDRESS },
+      relations: { assets: { asset: true }, account: true },
     })) ?? null;
 
   if (!!omnipoolEntity) {
@@ -17,6 +19,15 @@ export async function ensureOmnipool(ctx: ProcessorContext<Store>) {
     };
     return;
   }
+
+  const lrnaAssetEntity = await getAsset({
+    ctx,
+    id: 1,
+    ensure: true,
+    blockHeader: ctx.blocks[0].header,
+  });
+
+  if (!lrnaAssetEntity) return;
 
   omnipoolEntity = new Omnipool();
   omnipoolEntity.id = ctx.appConfig.OMNIPOOL_ADDRESS;
@@ -30,7 +41,7 @@ export async function ensureOmnipool(ctx: ProcessorContext<Store>) {
 
   const internalOmnipoolToken = new OmnipoolAsset({
     id: `${omnipoolEntity.id}-1`,
-    assetId: 1,
+    asset: lrnaAssetEntity,
     initialAmount: BigInt(0),
     initialPrice: BigInt(0),
     pool: omnipoolEntity,

@@ -19,7 +19,10 @@ export async function getStablepool(
   let pool = batchState.stablepoolAllBatchPools.get(`${poolId}`);
   if (pool) return pool;
 
-  pool = await ctx.store.findOne(Stablepool, { where: { id: `${poolId}` } });
+  pool = await ctx.store.findOne(Stablepool, {
+    where: { id: `${poolId}` },
+    relations: { assets: { asset: true }, account: true },
+  });
 
   return pool ?? null;
 }

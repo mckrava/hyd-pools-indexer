@@ -1,5 +1,6 @@
 import {
   Account,
+  Asset,
   LbpPool,
   LbpPoolOperation,
   PoolOperationType,
@@ -28,11 +29,11 @@ export function initLbpPoolOperation({
   hash: string;
   indexInBlock: number;
   account: Account;
-  assetIn: number;
-  assetOut: number;
+  assetIn: Asset;
+  assetOut: Asset;
   amountIn: bigint;
   amountOut: bigint;
-  feeAsset: number;
+  feeAsset: Asset;
   feeAmount: bigint;
   operationType: PoolOperationType;
   pool: LbpPool;
@@ -44,12 +45,12 @@ export function initLbpPoolOperation({
     account: account,
     extrinsicHash: hash,
     indexInBlock,
-    assetInId: assetIn,
+    assetIn,
     assetInAmount: amountIn,
-    assetInFee: feeAsset === assetIn ? feeAmount : BigInt(0),
-    assetOutId: assetOut,
+    assetInFee: feeAsset.id === assetIn.id ? feeAmount : BigInt(0),
+    assetOut,
     assetOutAmount: amountOut,
-    assetOutFee: feeAsset === assetOut ? feeAmount : BigInt(0),
+    assetOutFee: feeAsset.id === assetOut.id ? feeAmount : BigInt(0),
     swapPrice: new BigNumber(amountIn.toString())
       .div(amountOut.toString())
       .toNumber(),
@@ -80,11 +81,11 @@ export function initXykPoolOperation({
   hash: string;
   indexInBlock: number;
   account: Account;
-  assetIn: number;
-  assetOut: number;
+  assetIn: Asset;
+  assetOut: Asset;
   amountIn: bigint;
   amountOut: bigint;
-  feeAsset: number;
+  feeAsset: Asset;
   feeAmount: bigint;
   operationType: PoolOperationType;
   pool: XykPool;
@@ -96,12 +97,12 @@ export function initXykPoolOperation({
     account: account,
     extrinsicHash: hash,
     indexInBlock,
-    assetInId: assetIn,
+    assetIn,
     assetInAmount: amountIn,
-    assetInFee: feeAsset === assetIn ? feeAmount : BigInt(0),
-    assetOutId: assetOut,
+    assetInFee: feeAsset.id === assetIn.id ? feeAmount : BigInt(0),
+    assetOut,
     assetOutAmount: amountOut,
-    assetOutFee: feeAsset === assetOut ? feeAmount : BigInt(0),
+    assetOutFee: feeAsset.id === assetOut.id ? feeAmount : BigInt(0),
     swapPrice: new BigNumber(amountIn.toString())
       .div(amountOut.toString())
       .toNumber(),

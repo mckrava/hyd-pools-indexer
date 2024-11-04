@@ -4,6 +4,7 @@ import { XykPool } from '../../model';
 import { getAccount } from '../accounts';
 import { XykPoolCreatedData } from '../../parsers/batchBlocksParser/types';
 import { getAssetBalance } from '../assets/balances';
+import { getAsset } from '../assets/assetRegistry';
 
 export async function getXykPool({
   ctx,
@@ -21,7 +22,10 @@ export async function getXykPool({
   let pool = batchState.xykAllBatchPools.get(`${id}`);
   if (pool) return pool;
 
-  pool = await ctx.store.findOne(XykPool, { where: { id: `${id}` } });
+  pool = await ctx.store.findOne(XykPool, {
+    where: { id: `${id}` },
+    relations: { assetA: true, assetB: true, account: true },
+  });
 
   return pool ?? null;
 
@@ -46,6 +50,21 @@ export async function xykPoolCreated(
     assetBBalance: eventCallData.callData?.args?.amountB,
   };
 
+  const assetAEntity = await getAsset({
+    ctx,
+    id: eventParams.assetA,
+    ensure: true,
+    blockHeader: eventMetadata.blockHeader,
+  });
+  const assetBEntity = await getAsset({
+    ctx,
+    id: eventParams.assetB,
+    ensure: true,
+    blockHeader: eventMetadata.blockHeader,
+  });
+
+  if (!assetAEntity || !assetBEntity) return null;
+
   if (
     !newPoolsAssetBalances.assetABalance &&
     !newPoolsAssetBalances.assetBBalance
@@ -65,8 +84,8 @@ export async function xykPoolCreated(
   const newPool = new XykPool({
     id: eventParams.pool,
     account: await getAccount(ctx, eventParams.pool),
-    assetAId: eventParams.assetA,
-    assetBId: eventParams.assetB,
+    assetA: assetAEntity,
+    assetB: assetBEntity,
     shareTokenId: eventParams.shareToken,
     assetABalance: newPoolsAssetBalances.assetABalance,
     assetBBalance: newPoolsAssetBalances.assetBBalance,

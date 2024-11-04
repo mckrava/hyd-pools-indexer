@@ -53,7 +53,7 @@ export async function handleAssetRegistry(
 }
 
 export function initAssetVolume(
-  assetId: number,
+  asset: Asset,
   paraChainBlockHeight: number,
   relayChainBlockHeight: number,
   volumeIn: bigint,
@@ -62,8 +62,8 @@ export function initAssetVolume(
   totalVolumeOut: bigint
 ) {
   return new HistoricalAssetVolume({
-    id: assetId + '-' + paraChainBlockHeight,
-    assetId,
+    id: asset.id + '-' + paraChainBlockHeight,
+    asset,
     volumeIn,
     volumeOut,
     totalVolumeIn,

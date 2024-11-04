@@ -5,17 +5,19 @@ import {
   OmnipoolTokenAddedData,
   OmnipoolTokenRemovedData,
 } from '../../parsers/batchBlocksParser/types';
+import { getAsset } from '../assets/assetRegistry';
 
 export async function getOmnipoolAsset(
   ctx: ProcessorContext<Store>,
-  assetId: number
+  assetId: number | string
 ) {
   return (
     ctx.batchState.state.omnipoolAssets.get(
       `${ctx.appConfig.OMNIPOOL_ADDRESS}-${assetId}`
     ) ||
     (await ctx.store.findOne(OmnipoolAsset, {
-      where: { assetId },
+      where: { asset: { id: `${assetId}` } },
+      relations: { asset: true, pool: true },
     }))
   );
 }
@@ -28,19 +30,22 @@ export async function omnipoolTokenAdded(
     eventData: { params: eventParams, metadata: eventMetadata },
   } = eventCallData;
 
-  let assetEntity =
-    ctx.batchState.state.omnipoolAssets.get(
-      `${ctx.appConfig.OMNIPOOL_ADDRESS}-${eventParams.assetId}`
-    ) ||
-    (await ctx.store.findOne(OmnipoolAsset, {
-      where: { assetId: eventParams.assetId },
-    }));
+  let omnipoolAssetEntity = await getOmnipoolAsset(ctx, eventParams.assetId);
 
-  if (assetEntity) return;
+  if (omnipoolAssetEntity) return;
 
-  assetEntity = new OmnipoolAsset({
+  const assetEntity = await getAsset({
+    ctx,
+    id: eventParams.assetId,
+    ensure: true,
+    blockHeader: eventMetadata.blockHeader,
+  });
+
+  if (!assetEntity) return;
+
+  omnipoolAssetEntity = new OmnipoolAsset({
     id: `${ctx.batchState.state.omnipoolEntity!.id}-${eventParams.assetId}`,
-    assetId: eventParams.assetId,
+    asset: assetEntity,
     initialAmount: eventParams.initialAmount,
     initialPrice: eventParams.initialPrice,
     pool: ctx.batchState.state.omnipoolEntity!,
@@ -51,8 +56,8 @@ export async function omnipoolTokenAdded(
 
   const assetIdsToSave = ctx.batchState.state.omnipoolAssetIdsToSave;
   const allAssets = ctx.batchState.state.omnipoolAssets;
-  assetIdsToSave.add(assetEntity.id);
-  allAssets.set(assetEntity.id, assetEntity);
+  assetIdsToSave.add(omnipoolAssetEntity.id);
+  allAssets.set(omnipoolAssetEntity.id, omnipoolAssetEntity);
 
   ctx.batchState.state = { omnipoolAssetIdsToSave: assetIdsToSave };
   ctx.batchState.state = { omnipoolAssets: allAssets };
@@ -66,26 +71,20 @@ export async function omnipoolTokenRemoved(
     eventData: { params: eventParams, metadata: eventMetadata },
   } = eventCallData;
 
-  let assetEntity =
-    [...ctx.batchState.state.omnipoolAssets.values()].find(
-      (asset) => asset.assetId === eventParams.assetId
-    ) ||
-    (await ctx.store.findOne(OmnipoolAsset, {
-      where: { assetId: eventParams.assetId },
-    }));
+  let omnipoolAssetEntity = await getOmnipoolAsset(ctx, eventParams.assetId);
 
-  if (!assetEntity) return;
+  if (!omnipoolAssetEntity) return;
 
-  assetEntity.isRemoved = true;
-  assetEntity.removedAtParaBlock = eventMetadata.blockHeader.height;
-  assetEntity.removedAmount = eventParams.amount;
-  assetEntity.hubWithdrawn = eventParams.hubWithdrawn;
+  omnipoolAssetEntity.isRemoved = true;
+  omnipoolAssetEntity.removedAtParaBlock = eventMetadata.blockHeader.height;
+  omnipoolAssetEntity.removedAmount = eventParams.amount;
+  omnipoolAssetEntity.hubWithdrawn = eventParams.hubWithdrawn;
 
   const assetIdsToSave = ctx.batchState.state.omnipoolAssetIdsToSave;
   const allAssets = ctx.batchState.state.omnipoolAssets;
 
-  assetIdsToSave.add(assetEntity.id);
-  allAssets.set(assetEntity.id, assetEntity);
+  assetIdsToSave.add(omnipoolAssetEntity.id);
+  allAssets.set(omnipoolAssetEntity.id, omnipoolAssetEntity);
 
   ctx.batchState.state = { omnipoolAssetIdsToSave: assetIdsToSave };
   ctx.batchState.state = { omnipoolAssets: allAssets };

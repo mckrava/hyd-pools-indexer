@@ -1,5 +1,6 @@
 import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, ManyToOne as ManyToOne_, Index as Index_, IntColumn as IntColumn_, BigIntColumn as BigIntColumn_, DateTimeColumn as DateTimeColumn_, BooleanColumn as BooleanColumn_, OneToMany as OneToMany_} from "@subsquid/typeorm-store"
 import {Account} from "./account.model"
+import {Asset} from "./asset.model"
 import {XykPoolHistoricalPrice} from "./xykPoolHistoricalPrice.model"
 import {XykPoolHistoricalVolume} from "./xykPoolHistoricalVolume.model"
 import {XykPoolOperation} from "./xykPoolOperation.model"
@@ -19,12 +20,12 @@ export class XykPool {
     account!: Account
 
     @Index_()
-    @IntColumn_({nullable: false})
-    assetAId!: number
+    @ManyToOne_(() => Asset, {nullable: true})
+    assetA!: Asset
 
     @Index_()
-    @IntColumn_({nullable: false})
-    assetBId!: number
+    @ManyToOne_(() => Asset, {nullable: true})
+    assetB!: Asset
 
     @IntColumn_({nullable: false})
     shareTokenId!: number

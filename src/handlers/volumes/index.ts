@@ -21,6 +21,11 @@ export async function getOldLbpVolume(
     where: {
       pool: { id: poolId },
     },
+    relations: {
+      pool: true,
+      assetA: true,
+      assetB: true,
+    },
     order: {
       paraChainBlockHeight: 'DESC',
     },
@@ -35,6 +40,11 @@ export async function getOldXykVolume(
     where: {
       pool: { id: poolId },
     },
+    relations: {
+      pool: true,
+      assetA: true,
+      assetB: true,
+    },
     order: {
       paraChainBlockHeight: 'DESC',
     },
@@ -48,6 +58,10 @@ export async function getOldOmnipoolAssetVolume(
   return await ctx.store.findOne(OmnipoolAssetHistoricalVolume, {
     where: {
       omnipoolAsset: { id: omnipoolAssetId },
+    },
+    relations: {
+      omnipoolAsset: { asset: true },
+      assetFee: true,
     },
     order: {
       paraChainBlockHeight: 'DESC',
@@ -64,6 +78,10 @@ export async function getOldStablepoolAssetVolume(
     where: {
       asset: { id: `${assetId}` },
       volumesCollection: { pool: { id: poolId } },
+    },
+    relations: {
+      asset: true,
+      volumesCollection: true,
     },
     order: {
       paraChainBlockHeight: 'DESC',

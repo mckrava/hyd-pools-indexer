@@ -14,6 +14,7 @@ export async function getStablepoolAssetsAll(
   const persistentAssets = await ctx.store.find(StablepoolAsset, {
     where: { pool: { id: `${poolId}` } },
     relations: {
+      pool: true,
       asset: true,
     },
   });

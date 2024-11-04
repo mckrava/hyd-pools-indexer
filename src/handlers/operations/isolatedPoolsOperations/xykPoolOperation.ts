@@ -9,6 +9,7 @@ import { getAccount } from '../../accounts';
 import { handleXykPoolVolumeUpdates } from '../../volumes';
 import { handleAssetVolumeUpdates } from '../../assets/volume';
 import { initXykPoolOperation } from './common';
+import { getAsset } from '../../assets/assetRegistry';
 
 export async function xykBuyExecuted(
   ctx: ProcessorContext<Store>,
@@ -29,16 +30,39 @@ export async function xykBuyExecuted(
     return;
   }
 
+  const assetInEntity = await getAsset({
+    ctx,
+    id: eventParams.assetIn,
+    ensure: true,
+    blockHeader: eventMetadata.blockHeader,
+  });
+
+  const assetOutEntity = await getAsset({
+    ctx,
+    id: eventParams.assetOut,
+    ensure: true,
+    blockHeader: eventMetadata.blockHeader,
+  });
+
+  const assetFeeEntity = await getAsset({
+    ctx,
+    id: eventParams.feeAsset,
+    ensure: true,
+    blockHeader: eventMetadata.blockHeader,
+  });
+
+  if (!assetInEntity || !assetOutEntity || !assetFeeEntity) return;
+
   const operationInstance = initXykPoolOperation({
     eventId: eventMetadata.id,
     hash: eventMetadata.extrinsic?.hash || '',
     indexInBlock: eventMetadata.indexInBlock,
     account: await getAccount(ctx, eventParams.who),
-    assetIn: eventParams.assetIn,
-    assetOut: eventParams.assetOut,
+    assetIn: assetInEntity,
+    assetOut: assetOutEntity,
     amountIn: eventParams.buyPrice,
     amountOut: eventParams.amount,
-    feeAsset: eventParams.feeAsset,
+    feeAsset: assetFeeEntity,
     feeAmount: eventParams.feeAmount,
     operationType: PoolOperationType.BUY,
     pool,
@@ -77,16 +101,39 @@ export async function xykSellExecuted(
     return;
   }
 
+  const assetInEntity = await getAsset({
+    ctx,
+    id: eventParams.assetIn,
+    ensure: true,
+    blockHeader: eventMetadata.blockHeader,
+  });
+
+  const assetOutEntity = await getAsset({
+    ctx,
+    id: eventParams.assetOut,
+    ensure: true,
+    blockHeader: eventMetadata.blockHeader,
+  });
+
+  const assetFeeEntity = await getAsset({
+    ctx,
+    id: eventParams.feeAsset,
+    ensure: true,
+    blockHeader: eventMetadata.blockHeader,
+  });
+
+  if (!assetInEntity || !assetOutEntity || !assetFeeEntity) return;
+
   const operationInstance = initXykPoolOperation({
     eventId: eventMetadata.id,
     hash: eventMetadata.extrinsic?.hash || '',
     indexInBlock: eventMetadata.indexInBlock,
     account: await getAccount(ctx, eventParams.who),
-    assetIn: eventParams.assetIn,
-    assetOut: eventParams.assetOut,
+    assetIn: assetInEntity,
+    assetOut: assetOutEntity,
     amountIn: eventParams.amount,
     amountOut: eventParams.salePrice,
-    feeAsset: eventParams.feeAsset,
+    feeAsset: assetFeeEntity,
     feeAmount: eventParams.feeAmount,
     operationType: PoolOperationType.SELL,
     pool,

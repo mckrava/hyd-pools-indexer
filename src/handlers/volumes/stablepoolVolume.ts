@@ -280,7 +280,7 @@ export function isRoutedStablepoolLiquidityAction({
     (ompAssetOperation) =>
       ompAssetOperation.paraChainBlockHeight ===
         liquidityAction.paraChainBlockHeight &&
-      ompAssetOperation.assetOut.assetId === +liquidityAction.pool.id && // TODO fix types
+      ompAssetOperation.assetOut.asset.id === liquidityAction.pool.id &&
       ompAssetOperation.assetOutAmount === liquidityAction.sharesAmount
   );
 }

@@ -56,7 +56,12 @@ export async function handleXykPools(
 ) {
   ctx.batchState.state = {
     xykAllBatchPools: new Map(
-      (await ctx.store.find(XykPool)).map((p) => [p.id, p])
+      (
+        await ctx.store.find(XykPool, {
+          where: {},
+          relations: { assetA: true, assetB: true, account: true },
+        })
+      ).map((p) => [p.id, p])
     ),
   };
 
