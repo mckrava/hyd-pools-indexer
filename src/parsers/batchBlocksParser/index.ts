@@ -9,7 +9,7 @@ import { EventName, RelayChainInfo } from '../types/events';
 import { Block, Event, Extrinsic, ProcessorContext } from '../../processor';
 import { Store } from '@subsquid/typeorm-store';
 import parsers from '../';
-import { calls, events } from '../../typegenTypes';
+import { calls, events } from '../chains/hydration/typegenTypes'; // TODO fix for different CHAIN env value
 import { BlockHeader } from '@subsquid/substrate-processor';
 
 export class BatchBlocksParsedDataManager {

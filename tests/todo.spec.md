@@ -2,36 +2,38 @@ Query
 
 ```graphql
 query MyQuery($poolIds: [String!]!, $startBlockNumber: Int!, $endBlockNumber: Int!) {
-  xykPoolHistoricalVolumes(
-    last: 1000
-    filter: {paraChainBlockHeight: {greaterThanOrEqualTo: 4839800}, and: {paraChainBlockHeight: {lessThanOrEqualTo: 4839900}}}
-    orderBy: PARA_CHAIN_BLOCK_HEIGHT_DESC
-  ) {
-    nodes {
-      poolId
-      paraChainBlockHeight
-      assetATotalVolumeIn
-      assetATotalVolumeOut
-      assetBTotalVolumeIn
-      assetBTotalVolumeOut
-      assetAVolumeIn
-      assetAVolumeOut
-      assetBVolumeIn
-      assetBVolumeOut
+    xykPoolHistoricalVolumes(
+        last: 1000
+        filter: {paraChainBlockHeight: {greaterThanOrEqualTo: 4839800}, and: {paraChainBlockHeight: {lessThanOrEqualTo: 4839900}}}
+        orderBy: PARA_CHAIN_BLOCK_HEIGHT_DESC
+    ) {
+        nodes {
+            poolId
+            paraChainBlockHeight
+            assetATotalVolumeIn
+            assetATotalVolumeOut
+            assetBTotalVolumeIn
+            assetBTotalVolumeOut
+            assetAVolumeIn
+            assetAVolumeOut
+            assetBVolumeIn
+            assetBVolumeOut
+        }
     }
-  }
-  xykPoolHistoricalVolumesByPeriod(
-    filter: {poolIds: $poolIds, startBlockNumber: $startBlockNumber, endBlockNumber: $endBlockNumber}
-  ) {
-    totalCount
-    nodes {
-      poolId
-      totalVolume
-      assetAVolume
-      assetBVolume
+    xykPoolHistoricalVolumesByPeriod(
+        filter: {poolIds: $poolIds, startBlockNumber: $startBlockNumber, endBlockNumber: $endBlockNumber}
+    ) {
+        totalCount
+        nodes {
+            poolId
+            assetAId
+            assetAVolume
+            assetBId
+            assetBVolume
+        }
     }
-  }
 }
+
 ```
 
 Variables:

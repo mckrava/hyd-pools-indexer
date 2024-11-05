@@ -25,20 +25,21 @@ export async function handleAssetRegistry(
       .values(),
   ];
 
-  if (updatedAssetsList.length > 0)
+  if (updatedAssetsList.length > 0) {
+    const assetsAllBatch = ctx.batchState.state.assetsAllBatch;
+    const existingAssets = await ctx.store.find(Asset, {
+      where: {
+        id: In(
+          updatedAssetsList.map((asset) => asset.eventData.params.assetId)
+        ),
+      },
+    });
+
+    existingAssets.forEach((asset) => assetsAllBatch.set(asset.id, asset));
     ctx.batchState.state = {
-      assetsAllBatch: new Map(
-        (
-          await ctx.store.find(Asset, {
-            where: {
-              id: In(
-                updatedAssetsList.map((asset) => asset.eventData.params.assetId)
-              ),
-            },
-          })
-        ).map((e) => [e.id, e])
-      ),
-    };
+      assetsAllBatch
+    }
+  }
 
   for (const eventData of getOrderedListByBlockNumber(updatedAssetsList)) {
     await assetUpdated(ctx, eventData);

@@ -10,6 +10,7 @@
     "postbuild": "cpx 'src/**/*.sql' lib",
     "deploy-main": "sqd deploy --org galacticcouncil . -m deployment-xyk-pools-indexer.yaml",
     "ingester-codegen:all": ". ./scripts/ingester-codegen.sh",
+    "multi-typegen": ". ./scripts/typegen.sh",
     "dictionary-api-codegen": "graphql-codegen --require dotenv/config --config dictionaryGqlTypesConfig/codegen-dictionary-common.ts"
   },
   "dependencies": {

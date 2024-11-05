@@ -4,16 +4,36 @@ import { Transform } from 'class-transformer';
 import { IsNotEmpty, IsString, ValidationError } from 'class-validator';
 import dotenv from 'dotenv';
 
-import { events, calls } from './typegenTypes';
-import { NodeEnv } from './utils/types';
+import {
+  calls as hydrationCalls,
+  events as hydrationEvents,
+} from './parsers/chains/hydration/typegenTypes';
+import {
+  calls as hydrationPaseoCalls,
+  events as hydrationPaseoEvents,
+} from './parsers/chains/hydration-paseo/typegenTypes';
+import { ChainName, NodeEnv } from './utils/types';
 
-dotenv.config();
+// dotenv.config();
+
+dotenv.config({
+  path: (() => {
+    let envFileName = '.env';
+    if (process.env.CHAIN === 'hydration') envFileName = '.env.hydration';
+    if (process.env.CHAIN === 'hydration_paseo')
+      envFileName = '.env.hydration-paseo';
+    return `${__dirname}/../${envFileName}`;
+  })(),
+});
 
 export class AppConfig {
   private static instance: AppConfig;
 
   @IsNotEmpty()
   readonly NODE_ENV!: NodeEnv;
+
+  @IsNotEmpty()
+  readonly CHAIN!: ChainName;
 
   @Transform(({ value }: { value: string }) => +value)
   @IsNotEmpty()
@@ -40,8 +60,13 @@ export class AppConfig {
   @IsNotEmpty()
   readonly RPC_HYDRATION_URL!: string;
 
-  @IsNotEmpty()
-  readonly GATEWAY_HYDRATION_HTTPS!: string;
+  readonly GATEWAY_HYDRATION_HTTPS: string | null = null;
+
+  @Transform(({ value }: { value: string }) => +value)
+  readonly INDEX_FROM_BLOCK: number = 0;
+
+  @Transform(({ value }: { value: string }) => +value)
+  readonly INDEX_TO_BLOCK: number | null = null;
 
   @Transform(({ value }: { value: string }) => value === 'true')
   @IsNotEmpty()
@@ -105,6 +130,18 @@ export class AppConfig {
   }
 
   getEventsToListen() {
+    let events = null;
+    switch (this.CHAIN) {
+      case ChainName.hydration:
+        events = hydrationEvents;
+        break;
+      case ChainName.hydration_paseo:
+        events = hydrationPaseoEvents;
+        break;
+      default:
+        return [];
+    }
+
     const eventsToListen = [
       events.balances.transfer.name,
       events.tokens.transfer.name,
@@ -157,6 +194,18 @@ export class AppConfig {
   }
 
   getCallsToListen() {
+    let calls = null;
+    switch (this.CHAIN) {
+      case ChainName.hydration:
+        calls = hydrationCalls;
+        break;
+      case ChainName.hydration_paseo:
+        calls = hydrationPaseoCalls;
+        break;
+      default:
+        return [];
+    }
+
     const callsToListen = [calls.parachainSystem.setValidationData.name];
 
     if (this.PROCESS_LBP_POOLS) {

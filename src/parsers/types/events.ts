@@ -1,13 +1,5 @@
 import { PoolData } from './common';
-import { events } from '../../typegenTypes';
-import { sts } from '../../typegenTypes/support';
-import * as v183 from '../../typegenTypes/v183';
-import * as v222 from '../../typegenTypes/v222';
 import { AssetType } from '../../model';
-
-export const EventNameConst = {
-  [events.lbp.poolCreated.name]: events.lbp.poolCreated.name,
-};
 
 export enum EventName {
   'Balances_Transfer' = 'Balances.Transfer',
@@ -207,7 +199,6 @@ export type StableswapSellExecutedEventParams = {
   amountOut: bigint;
   fee: bigint;
 };
-
 
 export type AssetRegistryRegisteredEventParams = {
   assetId: number;

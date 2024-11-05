@@ -24,6 +24,8 @@ import {
 
 const timeMes = { start: Date.now(), end: Date.now() };
 
+console.log('Indexer is staring for CHAIN - ', process.env.CHAIN);
+
 processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
   const ctxWithBatchState: Omit<
     ProcessorContext<Store>,

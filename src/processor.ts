@@ -13,15 +13,7 @@ import { BatchState } from './utils/batchState';
 import { AppConfig } from './appConfig';
 const appConfig = AppConfig.getInstance();
 
-export const processor = new SubstrateBatchProcessor()
-  // Lookup archive by the network name in Subsquid registry
-  // See https://docs.subsquid.io/substrate-indexing/supported-networks/
-  .setGateway(
-    assertNotNull(
-      appConfig.GATEWAY_HYDRATION_HTTPS,
-      'No gateway endpoint supplied'
-    )
-  )
+let processor = new SubstrateBatchProcessor()
   .setRpcEndpoint({
     // Set via .env for local runs or via secrets when deploying to Subsquid Cloud
     // https://docs.subsquid.io/deploy-squid/env-variables/
@@ -61,6 +53,26 @@ export const processor = new SubstrateBatchProcessor()
       error: true,
     },
   });
+
+if (appConfig.GATEWAY_HYDRATION_HTTPS)
+  // Lookup archive by the network name in Subsquid registry
+  // See https://docs.subsquid.io/substrate-indexing/supported-networks/
+  processor = processor.setGateway(
+    assertNotNull(
+      appConfig.GATEWAY_HYDRATION_HTTPS,
+      'No gateway endpoint supplied'
+    )
+  );
+
+if (appConfig.INDEX_FROM_BLOCK && appConfig.INDEX_FROM_BLOCK > 0)
+  processor = processor.setBlockRange({
+    from: appConfig.INDEX_FROM_BLOCK,
+    ...(appConfig.INDEX_TO_BLOCK && appConfig.INDEX_TO_BLOCK > 0
+      ? { to: appConfig.INDEX_TO_BLOCK }
+      : {}),
+  });
+
+export { processor };
 
 export type Fields = SubstrateBatchProcessorFields<typeof processor>;
 export type Block = BlockHeader<Fields>;

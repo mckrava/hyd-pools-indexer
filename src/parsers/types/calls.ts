@@ -1,5 +1,3 @@
-import { sts } from '../../typegenTypes/support';
-
 export type LbpCreatePoolCallArgs = {
   poolOwner: string;
   assetA: number;

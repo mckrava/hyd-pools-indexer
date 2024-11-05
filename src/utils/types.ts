@@ -58,3 +58,8 @@ export enum NodeEnv {
   DEV = 'development',
   PROD = 'production',
 }
+
+export enum ChainName {
+  hydration = 'hydration',
+  hydration_paseo = 'hydration_paseo',
+}

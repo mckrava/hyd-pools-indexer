@@ -44,9 +44,20 @@
       "description": "Generate TypeORM entities from the schema file",
       "cmd": ["squid-typeorm-codegen"]
     },
-    "typegen": {
+    "metadatagen-paseo": {
       "description": "Generate data access classes for an substrate metadata",
-      "cmd": ["squid-substrate-typegen", "./typegen.json"]
+      "cmd": [
+        "npx",
+        "substrate-metadata-explorer",
+        "--rpc",
+        "wss://paseo-rpc.play.hydration.cloud",
+        "--out",
+        "./typegenConfig/paseo-metadata.jsonl"
+      ]
+    },
+    "typegen": {
+      "description": "Generate data access classes for an substrate metadata for multiple chains",
+      "cmd": ["yarn", "multi-typegen"]
     },
     "process": {
       "description": "Load .env and start the squid processor",
