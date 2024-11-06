@@ -69,6 +69,14 @@ type HistoricalAssetVolume @entity {
   paraChainBlockHeight: Int! @index
 }
 
+type ProcessorStatus @entity {
+  "1"
+  id: ID!
+  assetsActualisedAtBlock: Int!
+  initialIndexingStartedAtTime: DateTime!
+  initialIndexingFinishedAtTime: DateTime
+}
+
 # ======================================================================================================================
 # *** LBP Pool ***
 # ======================================================================================================================

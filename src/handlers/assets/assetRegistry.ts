@@ -6,6 +6,7 @@ import {
 } from '../../parsers/batchBlocksParser/types';
 import { Asset, AssetType } from '../../model';
 import parsers from '../../parsers';
+import { ProcessorStatusManager } from '../../utils/processorStatusManager';
 
 export async function getAsset({
   ctx,
@@ -182,4 +183,61 @@ export async function assetUpdated(
     assetsAllBatch: state.assetsAllBatch,
     assetIdsToSave: state.assetIdsToSave,
   };
+}
+
+export async function actualiseAssets(ctx: ProcessorContext<Store>) {
+  if (!ctx.isHead) return;
+
+  const latestActualisationPoint = (
+    await ProcessorStatusManager.getInstance(ctx).getStatus()
+  ).assetsActualisedAtBlock;
+
+  if (ctx.blocks[0].header.height < latestActualisationPoint + 3000) return;
+
+  const allExistingAssets = new Map(
+    (await ctx.store.find(Asset)).map((asset) => [asset.id, asset])
+  );
+
+  if (allExistingAssets.size === 0) return;
+
+  const storageData = await parsers.storage.assetRegistry.getAssetMany(
+    [...allExistingAssets.keys()],
+    ctx.blocks[0].header
+  );
+  const assetsToUpdate: Asset[] = [];
+
+  for (const assetStorageData of storageData) {
+    if (!assetStorageData.data) continue;
+    const assetEntity = allExistingAssets.get(`${assetStorageData.assetId}`);
+    if (!assetEntity) continue;
+    const {
+      name,
+      assetType,
+      existentialDeposit,
+      symbol,
+      decimals,
+      xcmRateLimit,
+      isSufficient,
+    } = assetStorageData.data;
+
+    if (name) assetEntity.name = name;
+    if (assetType) assetEntity.assetType = assetType;
+    if (existentialDeposit) assetEntity.existentialDeposit = existentialDeposit;
+    if (symbol) assetEntity.symbol = symbol;
+    if (decimals) assetEntity.decimals = decimals;
+    if (xcmRateLimit) assetEntity.xcmRateLimit = xcmRateLimit;
+    if (isSufficient) assetEntity.isSufficient = isSufficient;
+    assetsToUpdate.push(assetEntity);
+    allExistingAssets.set(assetEntity.id, assetEntity);
+  }
+
+  await ctx.store.upsert(assetsToUpdate);
+
+  ctx.batchState.state = {
+    assetsAllBatch: allExistingAssets,
+  };
+
+  await ProcessorStatusManager.getInstance(ctx).updateProcessorStatus({
+    assetsActualisedAtBlock: ctx.blocks[0].header.height,
+  });
 }

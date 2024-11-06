@@ -31,6 +31,7 @@ import { BlockHeader } from '@subsquid/substrate-processor';
 import {
   AccountData,
   AssetDetails,
+  AssetDetailsWithId,
   GetPoolAssetInfoInput,
   LbpGetPoolDataInput,
   LbpPoolData,
@@ -133,6 +134,10 @@ export type StorageParserMethods = {
       assetId: string | number,
       block: BlockHeader
     ) => Promise<AssetDetails | null>;
+    getAssetMany: (
+      assetIds: Array<string | number>,
+      block: BlockHeader
+    ) => Promise<Array<AssetDetailsWithId>>;
   };
   parachainSystem: {
     getLastRelayChainBlockNumber: (

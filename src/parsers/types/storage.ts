@@ -56,6 +56,11 @@ export interface AssetDetails {
   xcmRateLimit?: bigint;
 }
 
+export type AssetDetailsWithId = {
+  assetId: number;
+  data: AssetDetails | null;
+};
+
 export interface XykPoolWithAssets {
   poolAddress: string;
   assetAId: number;
